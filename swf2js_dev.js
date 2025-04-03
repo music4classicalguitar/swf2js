@@ -186,7 +186,10 @@ if (!("swf2js" in window)) {
 			showProgress("Total in " + Math.ceil(progressSteps[progressStep][2] - progressSteps[0][1]) / 1000 + " secs [" + Math.ceil(progressSteps[0][1]) + "," + Math.ceil(progressSteps[progressStep][2]) + "]");
 		};
 
-		var debug = window.sessionStorage["debug"] ? window.sessionStorage["debug"] : 0; // true; //
+		var debug = 0;
+		var debug_lines=[];
+		var tags_total = 0;
+		var tags_offset = -1;
 		// exclude off		
 
 		var _document = window.document;
@@ -2043,7 +2046,7 @@ if (!("swf2js" in window)) {
 
 		AudioInstance.prototype.getPlayState = function() {
 			var _this = this;
-			if (this.id) console.log(Math.floor(getTimeStamp())+" AudioInstance.prototype.getPlayState "+_this.id+" "+_this.type+" ["+this.audioHasLoops+"?"+this.audioLoopCount+":"+this.audioLoopStart+" - "+this.audioLoopEnd+"] "+this.currentTime+" "+this.seek());
+			//if (this.id) console.log(Math.floor(getTimeStamp())+" AudioInstance.prototype.getPlayState "+_this.id+" "+_this.type+" ["+this.audioHasLoops+"?"+this.audioLoopCount+":"+this.audioLoopStart+" - "+this.audioLoopEnd+"] "+this.currentTime+" "+this.seek());
 			if (this.audioStopFlag) {
 				if (this.isPlaying) this.stop();
 				else {
@@ -3921,7 +3924,8 @@ if (!("swf2js" in window)) {
 		SwfTag.prototype.parse = function(mc) {
 			var _this = this;
 			var length = _this.bitio.data.length;
-			return _this.parseTags(length, mc.characterId);
+			tags_offset = _this.bitio.byte_offset;
+			return _this.parseTags(length, mc.characterId, 0);
 		};
 
 		/**
@@ -4578,13 +4582,99 @@ if (!("swf2js" in window)) {
 			};
 		};
 
+		var TagTypes = [
+			[ 0, "End"],
+			[ 1, "ShowFrame"],
+			[ 2, "DefineShape"],
+			[ 3, "FreeCharacter"],
+			[ 4, "PlaceObject"],
+			[ 5, "RemoveObject"],
+			[ 6, "DefineBits"],
+			[ 7, "DefineButton"],
+			[ 8, "JPEGTables"],
+			[ 9, "SetBackgroundColor"],
+			[ 10, "DefineFont"],
+			[ 11, "DefineText"],
+			[ 12, "DoAction"],
+			[ 13, "DefineFontInfo"],
+			[ 14, "DefineSound"],
+			[ 15, "StartSound"],
+			[ 16, "StopSound"],
+			[ 17, "DefineButtonSound"],
+			[ 18, "SoundStreamHead"],
+			[ 19, "SoundStreamBlock"],
+			[ 20, "DefineBitsLossless"],
+			[ 21, "DefineBitsJPEG2"],
+			[ 22, "DefineShape2"],
+			[ 23, "DefineButtonCxform"],
+			[ 24, "Protect"],
+			[ 25, "PathsArePostScript"],
+			[ 26, "PlaceObject2"],
+			[ 28, "RemoveObject2"],
+			[ 29, "SyncFrame"],
+			[ 31, "FreeAll"],
+			[ 32, "DefineShape3"],
+			[ 33, "DefineText2"],
+			[ 34, "DefineButton2"],
+			[ 35, "DefineBitsJPEG3"],
+			[ 36, "DefineBitsLossless2"],
+			[ 37, "DefineEditText"],
+			[ 38, "DefineVideoe"],
+			[ 39, "DefineSprite"],
+			[ 40, 'NameCharacter'],
+			[ 41, 'ProductInfo'],
+			[ 42, 'DefineTextFormat'],
+			[ 43, "FrameLabel"],
+			[ 44, "DefineBehavior"],
+			[ 45, "SoundStreamHead2"],
+			[ 46, "DefineMorphShape"],
+			[ 47, "FrameTag"],
+			[ 48, "DefineFont2"],
+			[ 49, "GeProSet"],
+			[ 52, "FontRef"],
+			[ 54, "PlaceFunction"],
+			[ 55, "GenTagObject"],
+			[ 56, "ExportAssets"],
+			[ 57, "ImportAssets"],
+			[ 58, "EnableDebugger"],
+			[ 59, "DoInitAction"],
+			[ 60, "DefineVideoStream"],
+			[ 61, "VideoFrame"],
+			[ 62, "DefineFontInfo2"],
+			[ 63, "DebugID"],
+			[ 64, "EnableDebugger2"],
+			[ 65, "ScriptLimits"],
+			[ 66, "SetTabIndex"],
+			[ 69, "FileAttributes"],
+			[ 70, "PlaceObject3"],
+			[ 71, "ImportAssets2"],
+			[ 72, "DoABC"],
+			[ 73, "DefineFontAlignZones"],
+			[ 74, "CSMTextSettings"],
+			[ 75, "DefineFont3"],
+			[ 76, "SymbolClass"],
+			[ 77, "Metadata"],
+			[ 78, "DefineScalingGrid"],
+			[ 82, "DoABC2"],
+			[ 83, "DefineShape4"],
+			[ 84, "DefineMorphShape2"],
+			[ 86, "DefineSceneAndFrameLabelData"],
+			[ 87, "DefineBinaryData"],
+			[ 88, "DefineFontName"],
+			[ 89, "StartSound2"],
+			[ 90, "DefineBitsJPEG4"],
+			[ 91, "DefineFont4"],
+			[ 93, "EnableTelemetry"]
+		];
+
 		/**
 		 * @param dataLength
 		 * @param characterId
 		 * @returns {Array}
 		 */
-		SwfTag.prototype.parseTags = function(dataLength, characterId) {
+		SwfTag.prototype.parseTags = function(dataLength, characterId, tag_level) {
 			var _this = this;
+			//_this.tag_level = tag_level;
 			var _parseTag = _this.parseTag;
 			var _addTag = _this.addTag;
 			var _generateDefaultTagObj = _this.generateDefaultTagObj;
@@ -4604,6 +4694,7 @@ if (!("swf2js" in window)) {
 					break;
 				}
 
+				var pos = [bitio.byte_offset,bitio.bit_offset];
 				var tagLength = bitio.getUI16();
 				tagType = tagLength >> 6;
 
@@ -4635,7 +4726,19 @@ if (!("swf2js" in window)) {
 					}
 				}
 
-				var tag = _parseTag.call(_this, tagType, length);
+			const l = (tagType == 39)?4:length;
+			tags_total+=l;
+			if (debug) {
+				const spaces = '    ' ;
+				const t = TagTypes.filter(element => element[0] == tagType);
+				const tt = t.length==0?'Unknown tag '+tagType.toString():t[0][1];
+				debug_lines.push('['+tagType.toString(16).padStart(3,'0')+'] '+
+					l.toString().padStart(9,' ')+' '+
+					(tags_total).toString().padStart(9,' ')+' '+spaces.repeat(tag_level)+
+					tt);
+			}
+
+				var tag = _parseTag.call(_this, tagType, length, tag_level);
 
 				var o = bitio.byte_offset - tagDataStartOffset;
 				if (o !== length) {
@@ -4662,7 +4765,7 @@ if (!("swf2js" in window)) {
 		 * @param length
 		 * @returns {*}
 		 */
-		SwfTag.prototype.parseTag = function(tagType, length) {
+		SwfTag.prototype.parseTag = function(tagType, length, tag_level) {
 			var _this = this;
 			var obj = null;
 			var bitio = _this.bitio;
@@ -4716,7 +4819,7 @@ if (!("swf2js" in window)) {
 					_this.parseDefineEditText(tagType);
 					break;
 				case 39: // DefineSprite
-					_this.parseDefineSprite(bitio.byte_offset + length);
+					_this.parseDefineSprite(bitio.byte_offset + length,tag_level);
 					break;
 				case 12: // DoAction
 					obj = _this.parseDoAction(length);
@@ -5624,6 +5727,27 @@ if (!("swf2js" in window)) {
 		 * @param length
 		 * @param jpegTables
 		 */
+		SwfTag.prototype.getImageMimeType = function(data) {
+			if (data.length>4 && (data[0] & 0xff) == 0xff && (data[1] & 0xff) == 0xd9
+                    && (data[2] & 0xff) == 0xff && (data[3] & 0xff) == 0xd8) return "image/jpeg";
+			else if (data.length>2 && ((data[0] & 0xff) == 0xff) && ((data[1] & 0xff) == 0xd8)) return "image/jpeg";
+			else if (data.length > 6 && ((data[0] & 0xff) == 0x47) && ((data[1] & 0xff) == 0x49) && ((data[2] & 0xff) == 0x46) &&
+				((data[3] & 0xff) == 0x38) && ((data[4] & 0xff) == 0x39) && ((data[5] & 0xff) == 0x61)) return "image/gif";
+			else if (data.length > 8 && ((data[0] & 0xff) == 0x89) && ((data[1] & 0xff) == 0x50) &&
+				((data[2] & 0xff) == 0x4e) && ((data[3] & 0xff) == 0x47) && ((data[4] & 0xff) == 0x0d) &&
+				((data[5] & 0xff) == 0x0a) && ((data[6] & 0xff) == 0x1a) &&
+				((data[7] & 0xff) == 0x0a)) return "image/png";
+			else {
+				window.alert('Unknown image format');
+				return null;
+			}
+		};
+
+		/**
+		 * @param tagType
+		 * @param length
+		 * @param jpegTables
+		 */
 		SwfTag.prototype.parseDefineBits = function(tagType, length, jpegTables) {
 			var _this = this;
 			var bitio = _this.bitio;
@@ -5642,6 +5766,7 @@ if (!("swf2js" in window)) {
 			}
 
 			var JPEGData = bitio.getData(ImageDataLen);
+			var imageMimeType = _this.getImageMimeType(JPEGData);
 			var BitmapAlphaData = false;
 			if (tagType === 35 || tagType === 90) {
 				BitmapAlphaData =
@@ -5695,7 +5820,7 @@ if (!("swf2js" in window)) {
 				JPEGData = margeData;
 			}
 
-			image.src = "data:image/jpeg;base64," +
+			image.src = "data:"+imageMimeType+";base64," +
 				_this.base64encode(_this.parseJpegData(JPEGData));
 
 			// for android bug
@@ -5801,6 +5926,7 @@ if (!("swf2js" in window)) {
 		/**
 		 * @param JPEGData
 		 * @returns {string}
+		 * conversion to javascript from jexs compiler :
 		 */
 		SwfTag.prototype.parseJpegData = function(JPEGData) {
 			var _this = this;
@@ -7533,13 +7659,13 @@ if (!("swf2js" in window)) {
 		/**
 		 * @param dataLength
 		 */
-		SwfTag.prototype.parseDefineSprite = function(dataLength) {
+		SwfTag.prototype.parseDefineSprite = function(dataLength,tag_level) {
 			var _this = this;
 			var bitio = _this.bitio;
 			var characterId = bitio.getUI16();
 			var frameCount = bitio.getUI16();
 			var stage = _this.stage;
-			stage.setCharacter(characterId, _this.parseTags(dataLength, characterId));
+			stage.setCharacter(characterId, _this.parseTags(dataLength, characterId,tag_level+1));
 			if (spriteHasSoundStream) soundStreams[currentSoundStream].SoundStreamId = characterId;
 			isSprite = false;
 			spriteHasSoundStream = false;
@@ -8566,10 +8692,10 @@ if (!("swf2js" in window)) {
 				mimeType = "wave";
 				obj.bytes = nellyMoserDecoder.convertNellyMoserToWave();
 				obj.base64 = "data:audio/" + mimeType + ";base64," + _this.base64encode(nellyMoserDecoder.convertNellyMoserToWave());
-			} else {
+			} else if (obj.SoundFormat == 2) {
 				obj.bytes = data;
-				obj.base64 = "data:audio/" + mimeType + ";base64," + _this.base64encode(data);
-			}
+				obj.base64 = "data:audio/" + mimeType + ";base64," + _this.base64encode(data.slice(2,data.length-2));
+			} else window.alert('Sound: '+obj.SoundFormat+' '+mimeType+' not supported');
 
 			obj.Loaded = false;
 			// no longer needed
@@ -8894,6 +9020,7 @@ if (!("swf2js" in window)) {
 			obj.Reserved2 = bitio.getUIBits(3);
 			obj.UseNetwork = bitio.getUIBit();
 			obj.Reserved3 = bitio.getUIBits(24);
+			if (obj.ActionScript3) console.warn('Actionscript3 might not work');
 		};
 
 		/**
@@ -14218,7 +14345,6 @@ if (!("swf2js" in window)) {
 		 * @param stack
 		 */
 		ActionScript.prototype.ActionImplementsOp = function(stack) {
-			window.console.log('ActionScript.prototype.ActionImplementsOp');
 			var func = stack.pop();
 			var count = stack.pop();
 			var params = [];
@@ -14227,7 +14353,6 @@ if (!("swf2js" in window)) {
 					params[params.length] = stack.pop();
 				}
 			}
-			window.console.log('ActionScript.prototype.ActionImplementsOp func ' + func + ' params ' + params);
 			stack[stack.length] = null;
 		};
 
@@ -23369,7 +23494,9 @@ if (!("swf2js" in window)) {
 		 * play
 		 */
 		MovieClip.prototype.play = function() {
+			var _this = this;
 			this.stopFlag = false;
+			_this.startStopSoundStreams(_this.stopFlag, _this._currentframe, _this.characterId);
 		};
 
 		/**
@@ -24230,8 +24357,11 @@ if (!("swf2js" in window)) {
 						if ((s.frameRanges[r].startFrame <= frame) && (frame < s.frameRanges[r].endFrame)) {
 							inFrameRange = true;
 							s.frameRange = r;
+							var t = s.Audio.seek();
 							if (frame != previousframe + 1) {
-								var t = s.Audio.seek();
+								var tn = s.frameRanges[r].startAudio + (frame - s.frameRanges[r].startFrame) * _this.getStage().getFrameRate() / 1000;
+								s.Audio.seek(s.frameRanges[r].startAudio + (frame - s.frameRanges[r].startFrame) * _this.getStage().getFrameRate() / 1000);
+							} else if (t<s.frameRanges[r].startAudio || t>s.frameRanges[r].endAudio) {
 								var tn = s.frameRanges[r].startAudio + (frame - s.frameRanges[r].startFrame) * _this.getStage().getFrameRate() / 1000;
 								s.Audio.seek(s.frameRanges[r].startAudio + (frame - s.frameRanges[r].startFrame) * _this.getStage().getFrameRate() / 1000);
 							}
@@ -27089,6 +27219,7 @@ if (!("swf2js" in window)) {
 				_this.quality = options.quality || _this.quality;
 				_this.audioType = options.audioType || _this.audioType;
 				_this.bgcolor = options.bgcolor || _this.bgcolor;
+				debug = options.debug || debug;
 				if (options.autoStart !== null) _this.autoStart = options.autoStart;
 				if (_this.audioType!="default") {
 					switch(_this.audioType) {
@@ -27109,7 +27240,7 @@ if (!("swf2js" in window)) {
 							soundStreamsUseType=_this.audioType;
 							break;
 						default:
-							window.alert("Audiotype '"+_this.audioType+"' not supported, fallback to default sounds: "+soundsUseType+" soundStreams: "+soundStreamsUseType);
+							showWarning("Audiotype '"+_this.audioType+"' not supported, fallback to default sounds: "+soundsUseType+" soundStreams: "+soundStreamsUseType);
 							break;
 					}
 				}
@@ -27372,6 +27503,26 @@ if (!("swf2js" in window)) {
 		}
 
 		/**
+		 * Show debug
+		 */
+		Stage.prototype.showDebug = function() {
+			var _this = this;
+			var div = _document.getElementById(_this.getName());
+			var parent = _document.getElementsByTagName('body')[0];
+			var div_debug = _document.createElement('div');
+			var s = "";
+			debug_lines.forEach((element) => s+=element+"\n");
+			div_debug.innerHTML ='<pre style="opacity:1">'+s+'</pre>';
+			var button = _document.createElement('button');
+			button.innerHTML = 'Close';
+			button.setAttribute('onclick', 'var s=document.getElementById("showDebug"); s.parentElement.removeChild(s);');
+			div_debug.style = 'position: absolute; top: 20px; left: 20px; background-color: #FFFFFF;';
+			div_debug.id = 'showDebug';
+			div_debug.prepend(button);
+			parent.appendChild(div_debug);
+		}
+
+		/**
 		 * Show info
 		 */
 		Stage.prototype.showInfo = function() {
@@ -27403,20 +27554,18 @@ if (!("swf2js" in window)) {
 				'<tr><td>AutoPlay</td><td>'+ autoPlayAllowed + '</td</tr>\n' +
 				'<tr><td>Tag id</td><td>'+ _this.tagId + '</td</tr>\n' +
 				'<tr><td>Quality</td><td>'+ _this.quality + '</td</tr>\n' +
-				'<tr><td>Background color</td><td>'+ _this.autoStart + '</td</tr>\n' +
-				'<tr><td>Width</td><td>'+ _this.audioType + '</td</tr>\n' +
-				'<tr><td>Height</td><td>'+ _this.autoStart + '</td</tr>\n' +
 				'<tr><td>Background color</td><td>'+ _this.bgcolor + '</td</tr>\n' +
 				'<tr><td>Flashvars</td><td>'+ JSON.stringify(_this.FlashVars) + '</td</tr>\n' +
 				'<tr><td>AutoStart</td><td>'+ _this.autoStart + '</td</tr>\n' +
 				'<tr><td>Load time</td><td>'+ (Math.ceil(progressSteps[progressStep][2] - progressSteps[0][1]) / 1000) + ' sec</td</tr>\n' +
+				'<tr><td>Options</td><td style="white-space: pre-line;">'+JSON.stringify(_this.options,null,'  ')+ '</td</tr>\n' +
 				'</table>';
 			div_info.style = 'position: absolute; top: 20px; left: 20px;';
 			div_info.id = 'showInfo';
 			var button = _document.createElement('button');
 			button.innerHTML = 'Close';
 			button.setAttribute('onclick', 'var s=document.getElementById("showInfo"); s.parentElement.removeChild(s);');
-			div_info.appendChild(button);
+			div_info.prepend(button);
 			parent.appendChild(div_info);
 		}
 
@@ -27485,6 +27634,7 @@ if (!("swf2js" in window)) {
 						"images " + imageCount + "\n" +
 						"autoplay video " + autoPlayVideoAllowed + "\n" +
 						"videos " + videoCount + "\nquality " + quality + "\ngetTimeStamp " + getTimeStamp.name + "requestAnimationFrame " + requestAnimationFrame.name + "\nua " + ua);
+					showResult('Options: '+JSON.stringify(_this.options,null,'  '));
 					if (autoPlayAllowed) _this.play();
 					break;
 			}
@@ -27573,14 +27723,17 @@ if (!("swf2js" in window)) {
 			// signature
 			var signature = bitio.getHeaderSignature();
 			_this.setSignature(signature);
+			if (debug) debug_lines.push('[HEADER]        File signature: '+signature);
 
 			// version
 			var version = bitio.getVersion();
 			_this.setVersion(version);
+			if (debug) debug_lines.push('[HEADER]        File version: '+version);
 
 			// file size
 			var fileLength = bitio.getUI32();
 			_this.fileLength = fileLength;
+			if (debug) debug_lines.push('[HEADER]        File size: '+fileLength);
 
 			switch (signature) {
 				case "FWS": // No ZIP
@@ -27588,22 +27741,49 @@ if (!("swf2js" in window)) {
 				case "CWS": // ZLIB
 					bitio.deCompress(fileLength, "ZLIB");
 					break;
-				case "ZWS": // TODO LZMA
+				case "ZWS": // TODO
 					window.alert("LZMA compression not supported");
-					//bitio.deCompress(fileLength, "LZMA");
+					return false;
+				case "ZWS": // TODO
+					window.alert("LZMA compression Flash not supported");
+					return false;
+				case "GFX": // TODO
+					window.alert("Uncompressed ScaleForm GFx not supported");
+					return false;
+				case "CFX": // TODO
+					window.alert("Compressed ScaleForm GFx not supported");
+					return false;
+				case "ABC": // TODO
+					window.alert("Non-standard LZMA compression Flash not supported");
+					return false;
+				case "fWS": // TODO
+					window.alert("Harman encrypted uncompressed Flash not supported");
+					return false;
+				case "cWS": // TODO
+					window.alert("HHarman encrypted ZLib compressed Flash not supported");
+					return false;
+				case "zWS": // TODO
+					window.alert("Harman encrypted LZMA compressed Flash not supported");
+					return false;
+				default:
+					window.alert("Signature "+signature+" not supported");
 					return false;
 			}
 			// frameSize RECT
 			var bounds = swftag.rect();
 			_this.bounds = bounds;
 			var frameRate = bitio.getUI16() / 0x100;
+			if (debug) debug_lines.push('[HEADER]        Frame rate: '+frameRate);
 			var frameCount = bitio.getUI16(); // frameCount
+			if (debug) debug_lines.push('[HEADER]        Frame count: '+frameCount);
 			currentSoundStream = 0;
 
 			this.setFrameCount(frameCount);
 
 			_this.setBaseWidth(_ceil((bounds.xMax - bounds.xMin) / 20));
 			_this.setBaseHeight(_ceil((bounds.yMax - bounds.yMin) / 20));
+			if (debug) debug_lines.push('[HEADER]        Movie width: '+_this.getBaseWidth());
+			if (debug) debug_lines.push('[HEADER]        Movie height: '+_this.getBaseHeight());
 			_this.setFrameRate(frameRate);
 
 			_this.loadStatus++;
@@ -29358,6 +29538,9 @@ if (!("swf2js" in window)) {
 			soundsStarted = [];
 			soundsNotStarted = [];
 			soundEnvelopes = [];
+
+			progressSteps = [],
+			progressStep = -1;
 
 			if (url) {
 				// exclude on
