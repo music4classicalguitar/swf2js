@@ -1,5 +1,5 @@
 /**
- * swf2js 1.2.4
+ * swf2js 1.2.5
  * Based on : swf2js from Toshiyuki Ienaga (version 0.7.24 from https://github.com/ienaga/swf2js)
  * Develop: https://github.com/music4classicalguitar/swf2js
  * Info and demo : https://music4classicalguitar.github.io/swf2js/
@@ -5972,11 +5972,7 @@ if (!("swf2js" in window)) {
 			stage.imgUnLoadCount++;
 			imageCount++;
 			var image = _document.createElement("img");
-			image.addEventListener("error", function(message, source, lineno, colno, error)
-			{
-				console.log("Error in image, Message : " + message + "\nSource : " + source + "\nLine : " + lineno + "\nCol : " + colno + "\nError : " + error + " " + JSON.stringify(error));
-				stage.imgUnLoadCount--;
-			});
+
 			image.addEventListener("load", function()
 			{
 				var width = this.width;
@@ -6003,7 +5999,7 @@ if (!("swf2js" in window)) {
 				stage.setCharacter(CharacterId, imageContext);
 				stage.imgUnLoadCount--;
 			});
-/*
+
 			if (jpegTables !== null && jpegTables.length > 4) {
 				var margeData = [];
 				var len = jpegTables.length - 2;
@@ -6018,7 +6014,7 @@ if (!("swf2js" in window)) {
 
 				JPEGData = margeData;
 			}
-*/
+
 			image.src = "data:"+imageMimeType+";base64," +
 				_this.base64encode(_this.parseJpegData(JPEGData));
 
