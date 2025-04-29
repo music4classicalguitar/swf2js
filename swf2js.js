@@ -25289,7 +25289,7 @@ if (!("swf2js" in window)) {
 				if (stage.soundStreams[i].SoundStreamId != soundStreamId) continue;
 
 				var s = stage.soundStreams[i];
-				console.log('stream '+soundStreamId+' s '+i+' id '+stage.soundStreams[i].SoundStreamId+' playing '+s.Audio.isPlaying+' f '+_this._previousframe+' '+frame+' ['+s.startFrame+'-'+s.endFrame+']');
+				//console.log('stream '+soundStreamId+' s '+i+' id '+stage.soundStreams[i].SoundStreamId+' playing '+s.Audio.isPlaying+' f '+_this._previousframe+' '+frame+' ['+s.startFrame+'-'+s.endFrame+']');
 				if (stopFlag || frame == previousframe) {
 					if (s.Audio.isPlaying) {
 						var ct = s.Audio.seek();
