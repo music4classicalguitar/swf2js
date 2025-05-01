@@ -2243,7 +2243,7 @@ if (!("swf2js" in window)) {
 
 		AudioInstance.prototype.play = function() {
 			var _this = this;
-			console.log('AudioInstance.prototype.play '+this.id);
+			// console.log('AudioInstance.prototype.play '+this.id);
 			if (this.isPlaying) {
 				try {
 					this.stop();
@@ -2307,7 +2307,7 @@ if (!("swf2js" in window)) {
 		};
 
 		AudioInstance.prototype.pause = function() {
-			console.log('Audio pause '+this.id +' '+this.isPlaying);
+			// console.log('Audio pause '+this.id +' '+this.isPlaying);
 			if (!this.isPlaying) return;
 			switch (this.type) {
 				case "webaudio":
