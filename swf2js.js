@@ -9230,7 +9230,7 @@ if (!("swf2js" in window)) {
 						// console.log('SoundStream found '+stage.soundStreams[stage.currentSoundStream].SoundStreamId+' '+stage.soundStreams[stage.currentSoundStream].tagLevel+' ? '+_this.tagLevel);
 						// overrule info SoundStreamHead and use mp3
 						if (stage.soundStreams[stage.currentSoundStream].tagLevel>0 && _this.tagLevel==0) {
-							console.log('SoundStream '+stage.soundStreams[stage.currentSoundStream].SoundStreamId+' -> mp3');
+							// console.log('SoundStream '+stage.soundStreams[stage.currentSoundStream].SoundStreamId+' -> mp3');
 							stage.soundStreams[stage.currentSoundStream].SoundStreamCompression = 2;
 						}
 					} 
@@ -19644,7 +19644,7 @@ if (!("swf2js" in window)) {
 						}
 
 						if (version < 7) {
-							console.log('DisplayObject.prototype.getDisplayObject '+tagName+' ? '+name+' '+typeof(tagName)+' ? '+typeof(name));
+							// console.log('DisplayObject.prototype.getDisplayObject '+tagName+' ? '+name+' '+typeof(tagName)+' ? '+typeof(name));
 							if (tagName.toString().toLowerCase() === name.toString().toLowerCase()) {
 								mc = tag;
 								setTarget = true;
