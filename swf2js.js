@@ -1,5 +1,5 @@
 /**
- * swf2js 1.2.9
+ * swf2js 1.2.10
  * Based on : swf2js from Toshiyuki Ienaga (version 0.7.24 from https://github.com/ienaga/swf2js)
  * Develop: https://github.com/music4classicalguitar/swf2js
  * Info and demo : https://music4classicalguitar.github.io/swf2js/
@@ -8920,7 +8920,7 @@ if (!("swf2js" in window)) {
 			var s = stage.soundStreams[stage.currentSoundStream];
 			var fr = s.FrameRanges[stage.currentFrameRange];
 
-			if (fr && fr.endFrame != -1 && stage.currentFrame - fr.endFrame > MIN_NUM_FRAMES_NO_SOUND) {
+			if (fr && fr.endFrame != -1 && stage.currentFrame - fr.lastFrame > MIN_NUM_FRAMES_NO_SOUND) {
 				stage.currentFrameRange++;
 				s.FrameRanges[stage.currentFrameRange] = {
 					"Loaded": false,
@@ -8964,6 +8964,7 @@ if (!("swf2js" in window)) {
 				fr.endFrame = stage.currentFrame;
 				fr.Data.push(obj.compressed);
 			}
+			fr.lastFrame = stage.currentFrame;
 			/*
 			console.log('Soundstream > '+this.tagLevel+' f '+stage.currentFrame+' id '+s.SoundStreamId+' c '+stage.currentSoundStream+
 				' fr '+stage.currentFrameRange+' ['+fr.startFrame+'-'+fr.endFrame+'], ['+fr.startAudio+'-'+fr.endAudio+'] '+
