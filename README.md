@@ -3,7 +3,7 @@
 swf2js.js is a JavaScript FlashPlayer emulator that analyzes SWF files
 of Adobe Animate (Flash) in real time and converts them to HTML.
 
-The current version is 1.2.8.
+The current version is 1.2.9.
 Added support for sounds and (multiple) soundstreams and synchronisation of sound and animation.
     Sounds : mp3, raw (wave), ADPCM, NellyMoser.
     Soundstreams : mp3, raw (wave), ADPCM.

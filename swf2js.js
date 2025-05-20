@@ -1,5 +1,5 @@
 /**
- * swf2js 1.2.8
+ * swf2js 1.2.9
  * Based on : swf2js from Toshiyuki Ienaga (version 0.7.24 from https://github.com/ienaga/swf2js)
  * Develop: https://github.com/music4classicalguitar/swf2js
  * Info and demo : https://music4classicalguitar.github.io/swf2js/
@@ -7,7 +7,6 @@
  * Licensed under the MIT License.
 */
 /*jshint esversion: 6*/
-
 window.onerror = function(message, source, lineno, colno, error) {
 	if (lineno>0)
 	window.alert("Message : " + message + "\nSource : " + source + "\nLine : " + lineno + "\nCol : " + colno + "\nError : " + error + " " + JSON.stringify(error));
@@ -17,18 +16,15 @@ var getTimeStamp;
 
 /* use performance if available to get better timing/precision */
 if (window.performance.now) {
-	// console.log("Using high performance timer");
 	getTimeStamp = function() {
 		return window.performance.now();
 	};
 } else {
 	if (window.performance.webkitNow) {
-		// console.log("Using webkit high performance timer");
 		getTimeStamp = function() {
 			return window.performance.webkitNow();
 		};
 	} else {
-		// console.log("Using low performance timer");
 		getTimeStamp = function() {
 			return new Date().getTime();
 		};
@@ -39,62 +35,35 @@ if (window.performance.now) {
 "use strict";
 /*jshint expr:false*/
 
-function showProperties(obj) {
-	var key;
-	var a = [];
-	for (key in obj) {
-		if (obj.hasOwnProperty(key)) a.push(key);
-	}
-	a.sort();
-	console.log("showProperties " + (typeof obj));
-	for (key = 0; key < a.length; key++) {
-		console.log("Name " + a[key] + ":" + (typeof obj[a[key]]) + "=" + obj[a[key]]);
-	}
-	/*
-	for (var name in obj) {
-		if (obj.hasOwnProperty(name)) console.log("Name "+name+":"+(typeof obj[name]));
-		}
-		*/
-}
-
-autoPlayAudioAllowed = true;
+var autoPlayAudioAllowed = true;
 var audio = document.createElement("audio");
 audio.src = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
 
 var promiseAudio = audio.play();
 if (promiseAudio instanceof Promise) {
 	promiseAudio.catch(function(error) {
-		// console.log(error.message);
 		// Check if it is the right error
 		if (error.name === 'NotAllowedError') {
 			autoPlayAudioAllowed = false;
-			// console.log('promiseAudio : Autoplay is not allowed');
 		} else {
 			console.log(JSON.stringify(error,null,'  '));
 			// Don't throw the error so that we get to the then
 			// or throw it but set the autoPlayAudioAllowed to true in here
-			// console.log('promiseAudio : Error, '+error.name);
 		}
 	}).then(function() {
 		if (autoPlayAudioAllowed) {
 			// Autoplay is allowed - continue with initialization
-			// console.log('promiseAudio : Autoplay allowed');
 		} else {
 			// Autoplay is not allowed - wait for the user to trigger the play button manually
-			// console.log('promiseAudio : Autoplay is not allowed');
 		}
 	});
 } else {
 	// Unknown if allowed
 	// Note: you could fallback to simple event listeners in this case
-	// console.log('promiseAudio : Autoplay unknown');
 }
 
-autoPlayVideoAllowed = true;
+var autoPlayVideoAllowed = true;
 var video = document.createElement("video");
-//var swfTag = new SwfTag();
-//var data = swfTag.base64encode([0, 0, 0, 28, 102, 116, 121, 112, 105, 115, 111, 109, 0, 0, 2, 0, 105, 115, 111, 109, 105, 115, 111, 50, 109, 112, 52, 49, 0, 0, 0, 8, 102, 114, 101, 101, 0, 0, 2, 239, 109, 100, 97, 116, 33, 16, 5, 32, 164, 27, 255, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 55, 167, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 112, 33, 16, 5, 32, 164, 27, 255, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 55, 167, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 112, 0, 0, 2, 194, 109, 111, 111, 118, 0, 0, 0, 108, 109, 118, 104, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 232, 0, 0, 0, 47, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 236, 116, 114, 97, 107, 0, 0, 0, 92, 116, 107, 104, 100, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 47, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 101, 100, 116, 115, 0, 0, 0, 28, 101, 108, 115, 116, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 47, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 100, 109, 100, 105, 97, 0, 0, 0, 32, 109, 100, 104, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 172, 68, 0, 0, 8, 0, 85, 196, 0, 0, 0, 0, 0, 45, 104, 100, 108, 114, 0, 0, 0, 0, 0, 0, 0, 0, 115, 111, 117, 110, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 83, 111, 117, 110, 100, 72, 97, 110, 100, 108, 101, 114, 0, 0, 0, 1, 15, 109, 105, 110, 102, 0, 0, 0, 16, 115, 109, 104, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 100, 105, 110, 102, 0, 0, 0, 28, 100, 114, 101, 102, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 12, 117, 114, 108, 32, 0, 0, 0, 1, 0, 0, 0, 211, 115, 116, 98, 108, 0, 0, 0, 103, 115, 116, 115, 100, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 87, 109, 112, 52, 97, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 16, 0, 0, 0, 0, 172, 68, 0, 0, 0, 0, 0, 51, 101, 115, 100, 115, 0, 0, 0, 0, 3, 128, 128, 128, 34, 0, 2, 0, 4, 128, 128, 128, 20, 64, 21, 0, 0, 0, 0, 1, 244, 0, 0, 1, 243, 249, 5, 128, 128, 128, 2, 18, 16, 6, 128, 128, 128, 1, 2, 0, 0, 0, 24, 115, 116, 116, 115, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 4, 0, 0, 0, 0, 28, 115, 116, 115, 99, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0, 28, 115, 116, 115, 122, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1, 115, 0, 0, 1, 116, 0, 0, 0, 20, 115, 116, 99, 111, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 44, 0, 0, 0, 98, 117, 100, 116, 97, 0, 0, 0, 90, 109, 101, 116, 97, 0, 0, 0, 0, 0, 0, 0, 33, 104, 100, 108, 114, 0, 0, 0, 0, 0, 0, 0, 0, 109, 100, 105, 114, 97, 112, 112, 108, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 45, 105, 108, 115, 116, 0, 0, 0, 37, 169, 116, 111, 111, 0, 0, 0, 29, 100, 97, 116, 97, 0, 0, 0, 1, 0, 0, 0, 0, 76, 97, 118, 102, 53, 54, 46, 52, 48, 46, 49, 48, 49]);
-//video.src = "data:video/mpeg;base64,"+ data;
 video.src = URL.createObjectURL(new Blob([new Uint8Array([0, 0, 0, 28, 102, 116, 121, 112, 105, 115, 111, 109, 0, 0, 2, 0, 105, 115, 111, 109, 105, 115, 111, 50, 109, 112, 52, 49, 0, 0, 0, 8, 102, 114, 101, 101, 0, 0, 2, 239, 109, 100, 97, 116, 33, 16, 5, 32, 164, 27, 255, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 55, 167, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 112, 33, 16, 5, 32, 164, 27, 255, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 55, 167, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 112, 0, 0, 2, 194, 109, 111, 111, 118, 0, 0, 0, 108, 109, 118, 104, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 232, 0, 0, 0, 47, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 236, 116, 114, 97, 107, 0, 0, 0, 92, 116, 107, 104, 100, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 47, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 101, 100, 116, 115, 0, 0, 0, 28, 101, 108, 115, 116, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 47, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 100, 109, 100, 105, 97, 0, 0, 0, 32, 109, 100, 104, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 172, 68, 0, 0, 8, 0, 85, 196, 0, 0, 0, 0, 0, 45, 104, 100, 108, 114, 0, 0, 0, 0, 0, 0, 0, 0, 115, 111, 117, 110, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 83, 111, 117, 110, 100, 72, 97, 110, 100, 108, 101, 114, 0, 0, 0, 1, 15, 109, 105, 110, 102, 0, 0, 0, 16, 115, 109, 104, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 100, 105, 110, 102, 0, 0, 0, 28, 100, 114, 101, 102, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 12, 117, 114, 108, 32, 0, 0, 0, 1, 0, 0, 0, 211, 115, 116, 98, 108, 0, 0, 0, 103, 115, 116, 115, 100, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 87, 109, 112, 52, 97, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 16, 0, 0, 0, 0, 172, 68, 0, 0, 0, 0, 0, 51, 101, 115, 100, 115, 0, 0, 0, 0, 3, 128, 128, 128, 34, 0, 2, 0, 4, 128, 128, 128, 20, 64, 21, 0, 0, 0, 0, 1, 244, 0, 0, 1, 243, 249, 5, 128, 128, 128, 2, 18, 16, 6, 128, 128, 128, 1, 2, 0, 0, 0, 24, 115, 116, 116, 115, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 4, 0, 0, 0, 0, 28, 115, 116, 115, 99, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0, 28, 115, 116, 115, 122, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1, 115, 0, 0, 1, 116, 0, 0, 0, 20, 115, 116, 99, 111, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 44, 0, 0, 0, 98, 117, 100, 116, 97, 0, 0, 0, 90, 109, 101, 116, 97, 0, 0, 0, 0, 0, 0, 0, 33, 104, 100, 108, 114, 0, 0, 0, 0, 0, 0, 0, 0, 109, 100, 105, 114, 97, 112, 112, 108, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 45, 105, 108, 115, 116, 0, 0, 0, 37, 169, 116, 111, 111, 0, 0, 0, 29, 100, 97, 116, 97, 0, 0, 0, 1, 0, 0, 0, 0, 76, 97, 118, 102, 53, 54, 46, 52, 48, 46, 49, 48, 49])], {
 	type: 'video/mp4'
 }));
@@ -102,16 +71,13 @@ video.src = URL.createObjectURL(new Blob([new Uint8Array([0, 0, 0, 28, 102, 116,
 var promiseVideo = video.play();
 if (promiseVideo instanceof Promise) {
 	promiseVideo.catch(function(error) {
-		// console.log(error.message);
 		// Check if it is the right error
 		if (error.name === 'NotAllowedError') {
 			autoPlayVideoAllowed = false;
-			// console.log('promiseVideo : Autoplay is not allowed');
 		} else {
 			console.log(JSON.stringify(error,null,'  '));
 			// Don't throw the error so that we get to the then
 			// or throw it but set the autoPlayVideoAllowed to true in here
-			// console.log('promiseVideo : Error, '+error.name);
 		}
 	}).then(function() {
 		if (autoPlayVideoAllowed) {
@@ -119,15 +85,12 @@ if (promiseVideo instanceof Promise) {
 			// console.log('autoplay allowed')
 		} else {
 			// Autoplay is not allowed - wait for the user to trigger the play button manually
-			// console.log('promiseVideo : Autoplay is not allowed');
 		}
 	});
 } else {
 	// Unknown if allowed
 	// Note: you could fallback to simple event listeners in this case
-	// console.log('promiseVideo : Autoplay unknown');
 }
-
 if (!("swf2js" in window)) {
 	(function(window) {
 
@@ -154,8 +117,6 @@ if (!("swf2js" in window)) {
 		var _fromCharCode = String.fromCharCode;
 		var _isNaN = isNaN;
 		var Func = Function;
-		var alert = window.alert;
-		//var isBtoa = ("btoa" in window);
 		var isWebGL = (window.WebGLRenderingContext &&
 			_document.createElement("canvas").getContext("webgl")) ? true : false;
 		isWebGL = false; // TODO
@@ -177,7 +138,6 @@ if (!("swf2js" in window)) {
 		var isAndroid = (ua.indexOf("Android") > 0);
 		var isAndroid4x = (ua.indexOf("Android 4.") > 0);
 		var isChrome = (ua.indexOf("Chrome") > 0);
-		var isSafariOnMacOs = ua.indexOf("Mac OS X") > 0 && ua.indexOf("Intel") > 0 && ua.indexOf("Safari")  > 0;
 		
 		var isTouch = false;
 		if ("maxTouchPoints" in navigator) {
@@ -272,7 +232,6 @@ if (!("swf2js" in window)) {
 
 		// shift-jis
 		var JCT11280 = new Func('var a="zKV33~jZ4zN=~ji36XazM93y!{~k2y!o~k0ZlW6zN?3Wz3W?{EKzK[33[`y|;-~j^YOTz$!~kNy|L1$353~jV3zKk3~k-4P4zK_2+~jY4y!xYHR~jlz$_~jk4z$e3X5He<0y!wy|X3[:~l|VU[F3VZ056Hy!nz/m1XD61+1XY1E1=1y|bzKiz!H034zKj~mEz#c5ZA3-3X$1~mBz$$3~lyz#,4YN5~mEz#{ZKZ3V%7Y}!J3X-YEX_J(3~mAz =V;kE0/y|F3y!}~m>z/U~mI~j_2+~mA~jp2;~m@~k32;~m>V}2u~mEX#2x~mBy+x2242(~mBy,;2242(~may->2&XkG2;~mIy-_2&NXd2;~mGz,{4<6:.:B*B:XC4>6:.>B*BBXSA+A:X]E&E<~r#z+625z s2+zN=`HXI@YMXIAXZYUM8X4K/:Q!Z&33 3YWX[~mB`{zKt4z (zV/z 3zRw2%Wd39]S11z$PAXH5Xb;ZQWU1ZgWP%3~o@{Dgl#gd}T){Uo{y5_d{e@}C(} WU9|cB{w}bzvV|)[} H|zT}d||0~{]Q|(l{|x{iv{dw}(5}[Z|kuZ }cq{{y|ij}.I{idbof%cu^d}Rj^y|-M{ESYGYfYsZslS`?ZdYO__gLYRZ&fvb4oKfhSf^d<Yeasc1f&a=hnYG{QY{D`Bsa|u,}Dl|_Q{C%xK|Aq}C>|c#ryW=}eY{L+`)][YF_Ub^h4}[X|?r|u_ex}TL@YR]j{SrXgo*|Gv|rK}B#mu{R1}hs|dP{C7|^Qt3|@P{YVV |8&}#D}ef{e/{Rl|>Hni}R1{Z#{D[}CQlQ||E}[s{SG_+i8eplY[=[|ec[$YXn#`hcm}YR|{Ci(_[ql|?8p3]-}^t{wy}4la&pc|3e{Rp{LqiJ],] `kc(]@chYnrM`O^,ZLYhZB]ywyfGY~aex!_Qww{a!|)*lHrM{N+n&YYj~Z b c#e_[hZSon|rOt`}hBXa^i{lh|<0||r{KJ{kni)|x,|0auY{D!^Sce{w;|@S|cA}Xn{C1h${E]Z-XgZ*XPbp]^_qbH^e[`YM|a||+=]!Lc}]vdBc=j-YSZD]YmyYLYKZ9Z>Xcczc2{Yh}9Fc#Z.l{}(D{G{{mRhC|L3b#|xK[Bepj#ut`H[,{E9Yr}1b{[e]{ZFk7[ZYbZ0XL]}Ye[(`d}c!|*y`Dg=b;gR]Hm=hJho}R-[n}9;{N![7k_{UbmN]rf#pTe[x8}!Qcs_rs[m`|>N}^V})7{^r|/E}),}HH{OYe2{Skx)e<_.cj.cjoMhc^d}0uYZd!^J_@g,[[[?{i@][|3S}Yl3|!1|eZ|5IYw|1D}e7|Cv{OHbnx-`wvb[6[4} =g+k:{C:}ed{S]|2M]-}WZ|/q{LF|dYu^}Gs^c{Z=}h>|/i|{W]:|ip{N:|zt|S<{DH[p_tvD{N<[8Axo{X4a.^o^X>Yfa59`#ZBYgY~_t^9`jZHZn`>G[oajZ;X,i)Z.^~YJe ZiZF^{][[#Zt^|]Fjx]&_5dddW]P0C[-]}]d|y {C_jUql] |OpaA[Z{lp|rz}:Mu#]_Yf6{Ep?f5`$[6^D][^u[$[6^.Z8]]ePc2U/=]K^_+^M{q*|9tYuZ,s(dS{i=|bNbB{uG}0jZOa:[-]dYtu3]:]<{DJ_SZIqr_`l=Yt`gkTnXb3d@kiq0a`Z{|!B|}e}Ww{Sp,^Z|0>_Z}36|]A|-t}lt{R6pi|v8hPu#{C>YOZHYmg/Z4nicK[}hF_Bg|YRZ7c|crkzYZY}_iXcZ.|)U|L5{R~qi^Uga@Y[xb}&qdbd6h5|Btw[}c<{Ds53[Y7]?Z<|e0{L[ZK]mXKZ#Z2^tavf0`PE[OSOaP`4gi`qjdYMgys/?[nc,}EEb,eL]g[n{E_b/vcvgb.{kcwi`~v%|0:|iK{Jh_vf5lb}KL|(oi=LrzhhY_^@`zgf[~g)[J_0fk_V{T)}I_{D&_/d9W/|MU[)f$xW}?$xr4<{Lb{y4}&u{XJ|cm{Iu{jQ}CMkD{CX|7A}G~{kt)nB|d5|<-}WJ}@||d@|Iy}Ts|iL|/^|no|0;}L6{Pm]7}$zf:|r2}?C_k{R(}-w|`G{Gy[g]bVje=_0|PT{^Y^yjtT[[[l!Ye_`ZN]@[n_)j3nEgMa]YtYpZy].d-Y_cjb~Y~[nc~sCi3|zg}B0}do{O^{|$`_|D{}U&|0+{J3|8*]iayx{a{xJ_9|,c{Ee]QXlYb]$[%YMc*]w[aafe]aVYi[fZEii[xq2YQZHg]Y~h#|Y:thre^@^|_F^CbTbG_1^qf7{L-`VFx Zr|@EZ;gkZ@slgko`[e}T:{Cu^pddZ_`yav^Ea+[#ZBbSbO`elQfLui}.F|txYcbQ`XehcGe~fc^RlV{D_0ZAej[l&jShxG[ipB_=u:eU}3e8[=j|{D(}dO{Do[BYUZ0/]AYE]ALYhZcYlYP/^-^{Yt_1_-;YT`P4BZG=IOZ&]H[e]YYd[9^F[1YdZxZ?Z{Z<]Ba2[5Yb[0Z4l?]d_;_)a?YGEYiYv`_XmZs4ZjY^Zb]6gqGaX^9Y}dXZr[g|]Y}K aFZp^k^F]M`^{O1Ys]ZCgCv4|E>}8eb7}l`{L5[Z_faQ|c2}Fj}hw^#|Ng|B||w2|Sh{v+[G}aB|MY}A{|8o}X~{E8paZ:]i^Njq]new)`-Z>haounWhN}c#{DfZ|fK]KqGZ=:u|fqoqcv}2ssm}.r{]{nIfV{JW)[K|,Z{Uxc|]l_KdCb%]cfobya3`p}G^|LZiSC]U|(X|kBlVg[kNo({O:g:|-N|qT}9?{MBiL}Sq{`P|3a|u.{Uaq:{_o|^S}jX{Fob0`;|#y_@[V[K|cw[<_ }KU|0F}d3|et{Q7{LuZttsmf^kYZ`Af`}$x}U`|Ww}d]| >}K,r&|XI|*e{C/a-bmr1fId4[;b>tQ_:]hk{b-pMge]gfpo.|(w[jgV{EC1Z,YhaY^q,_G[c_g[J0YX]`[h^hYK^_Yib,` {i6vf@YM^hdOKZZn(jgZ>bzSDc^Z%[[o9[2=/YHZ(_/Gu_`*|8z{DUZxYt^vuvZjhi^lc&gUd4|<UiA`z]$b/Z?l}YI^jaHxe|;F}l${sQ}5g}hA|e4}?o{ih}Uz{C)jPe4]H^J[Eg[|AMZMlc}:,{iz}#*|gc{Iq|/:|zK{l&}#u|myd{{M&v~nV};L|(g|I]ogddb0xsd7^V})$uQ{HzazsgxtsO^l}F>ZB]r|{7{j@cU^{{CbiYoHlng]f+nQ[bkTn/}<-d9q {KXadZYo+n|l[|lc}V2{[a{S4Zam~Za^`{HH{xx_SvF|ak=c^[v^7_rYT`ld@]:_ub%[$[m](Shu}G2{E.ZU_L_R{tz`vj(f?^}hswz}GdZ}{S:h`aD|?W|`dgG|if{a8|J1{N,}-Ao3{H#{mfsP|[ bzn+}_Q{MT{u4kHcj_q`eZj[8o0jy{p7}C|[}l){MuYY{|Ff!Ykn3{rT|m,^R|,R}$~Ykgx{P!]>iXh6[l[/}Jgcg{JYZ.^qYfYIZl[gZ#Xj[Pc7YyZD^+Yt;4;`e8YyZVbQ7YzZxXja.7SYl[s]2^/Ha$[6ZGYrb%XiYdf2]H]kZkZ*ZQ[ZYS^HZXcCc%Z|[(bVZ]]:OJQ_DZCg<[,]%Zaa [g{C00HY[c%[ChyZ,Z_`PbXa+eh`^&jPi0a[ggvhlekL]w{Yp^v}[e{~;k%a&k^|nR_z_Qng}[E}*Wq:{k^{FJZpXRhmh3^p>de^=_7`|ZbaAZtdhZ?n4ZL]u`9ZNc3g%[6b=e.ZVfC[ZZ^^^hD{E(9c(kyZ=bb|Sq{k`|vmr>izlH[u|e`}49}Y%}FT{[z{Rk}Bz{TCc/lMiAqkf(m$hDc;qooi[}^o:c^|Qm}a_{mrZ(pA`,}<2sY| adf_%|}`}Y5U;}/4|D>|$X{jw{C<|F.hK|*A{MRZ8Zsm?imZm_?brYWZrYx`yVZc3a@f?aK^ojEd {bN}/3ZH]/$YZhm^&j 9|(S|b]mF}UI{q&aM]LcrZ5^.|[j`T_V_Gak}9J[ ZCZD|^h{N9{~&[6Zd{}B}2O|cv]K}3s}Uy|l,fihW{EG`j_QOp~Z$F^zexS`dcISfhZBXP|.vn|_HYQ|)9|cr]<`&Z6]m_(ZhPcSg>`Z]5`~1`0Xcb4k1{O!bz|CN_T{LR|a/gFcD|j<{Z._[f)mPc:1`WtIaT1cgYkZOaVZOYFrEe[}T$}Ch}mk{K-^@]fH{Hdi`c*Z&|Kt{if[C{Q;{xYB`dYIX:ZB[}]*[{{p9|4GYRh2ao{DS|V+[zd$`F[ZXKadb*A] Ys]Maif~a/Z2bmclb8{Jro_rz|x9cHojbZ{GzZx_)]:{wAayeDlx}<=`g{H1{l#}9i|)=|lP{Qq}.({La|!Y{i2EZfp=c*}Cc{EDvVB|;g}2t{W4av^Bn=]ri,|y?|3+}T*ckZ*{Ffr5e%|sB{lx^0]eZb]9[SgAjS_D|uHZx]dive[c.YPkcq/}db{EQh&hQ|eg}G!ljil|BO]X{Qr_GkGl~YiYWu=c3eb}29v3|D|}4i||.{Mv})V{SP1{FX}CZW6{cm|vO{pS|e#}A~|1i}81|Mw}es|5[}3w{C`h9aL]o{}p[G`>i%a1Z@`Ln2bD[$_h`}ZOjhdTrH{[j_:k~kv[Sdu]CtL}41{I |[[{]Zp$]XjxjHt_eThoa#h>sSt8|gK|TVi[Y{t=}Bs|b7Zpr%{gt|Yo{CS[/{iteva|cf^hgn}($_c^wmb^Wm+|55jrbF|{9^ q6{C&c+ZKdJkq_xOYqZYSYXYl`8]-cxZAq/b%b*_Vsa[/Ybjac/OaGZ4fza|a)gY{P?| I|Y |,pi1n7}9bm9ad|=d{aV|2@[(}B`d&|Uz}B}{`q|/H|!JkM{FU|CB|.{}Az}#P|lk}K{|2rk7{^8^?`/|k>|Ka{Sq}Gz}io{DxZh[yK_#}9<{TRdgc]`~Z>JYmYJ]|`!ZKZ]gUcx|^E[rZCd`f9oQ[NcD_$ZlZ;Zr}mX|=!|$6ZPZYtIo%fj}CpcN|B,{VDw~gb}@hZg`Q{LcmA[(bo`<|@$|o1|Ss}9Z_}tC|G`{F/|9nd}i=}V-{L8aaeST]daRbujh^xlpq8|}zs4bj[S`J|]?G{P#{rD{]I`OlH{Hm]VYuSYUbRc*6[j`8]pZ[bt_/^Jc*[<Z?YE|Xb|?_Z^Vcas]h{t9|Uwd)_(=0^6Zb{Nc} E[qZAeX[a]P^|_J>e8`W^j_Y}R{{Jp__]Ee#e:iWb9q_wKbujrbR}CY`,{mJ}gz{Q^{t~N|? gSga`V_||:#mi}3t|/I`X{N*|ct|2g{km}gi|{={jC}F;|E}{ZZjYf*frmu}8Tdroi{T[|+~}HG{cJ}DM{Lp{Ctd&}$hi3|FZ| m}Kr|38}^c|m_|Tr{Qv|36}?Up>|;S{DV{k_as}BK{P}}9p|t`jR{sAm4{D=b4pWa[}Xi{EjwEkI}3S|E?u=X0{jf} S|NM|JC{qo^3cm]-|JUx/{Cj{s>{Crt[UXuv|D~|j|d{YXZR}Aq}0r}(_{pJfi_z}0b|-vi)Z mFe,{f4|q`b{}^Z{HM{rbeHZ|^x_o|XM|L%|uFXm}@C_{{Hhp%a7|0p[Xp+^K}9U{bP}: tT}B|}+$|b2|[^|~h{FAby[`{}xgygrt~h1[li`c4vz|,7p~b(|mviN}^pg[{N/|g3|^0c,gE|f%|7N{q[|tc|TKA{LU}I@|AZp(}G-sz{F |qZ{}F|f-}RGn6{Z]_5})B}UJ{FFb2]4ZI@v=k,]t_Dg5Bj]Z-]L]vrpdvdGlk|gF}G]|IW}Y0[G| /bo|Te^,_B}#n^^{QHYI[?hxg{[`]D^IYRYTb&kJ[cri[g_9]Ud~^_]<p@_e_XdNm-^/|5)|h_{J;{kacVopf!q;asqd}n)|.m|bf{QW|U)}b+{tL|w``N|to{t ZO|T]jF}CB|0Q{e5Zw|k |We}5:{HO{tPwf_uajjBfX}-V_C_{{r~gg|Ude;s+}KNXH}! `K}eW{Upwbk%ogaW}9EYN}YY|&v|SL{C3[5s.]Y]I]u{M6{pYZ`^,`ZbCYR[1mNg>rsk0Ym[jrE]RYiZTr*YJ{Ge|%-lf|y(`=[t}E6{k!|3)}Zk} ][G{E~cF{u3U.rJ|a9p#o#ZE|?|{sYc#vv{E=|LC}cu{N8`/`3`9rt[4|He{cq|iSYxY`}V |(Q|t4{C?]k_Vlvk)BZ^r<{CL}#h}R+[<|i=}X|{KAo]|W<`K{NW|Zx}#;|fe{IMr<|K~tJ_x}AyLZ?{GvbLnRgN}X&{H7|x~}Jm{]-| GpNu0}.ok>|c4{PYisrDZ|fwh9|hfo@{H~XSbO]Odv]%`N]b1Y]]|eIZ}_-ZA]aj,>eFn+j[aQ_+]h[J_m_g]%_wf.`%k1e#Z?{CvYu_B^|gk`Xfh^M3`afGZ-Z|[m{L}|k3cp[it ^>YUi~d>{T*}YJ{Q5{Jxa$hg|%4`}|LAgvb }G}{P=|<;Ux{_skR{cV|-*|s-{Mp|XP|$G|_J}c6cM{_=_D|*9^$ec{V;|4S{qO|w_|.7}d0|/D}e}|0G{Dq]Kdp{}dfDi>}B%{Gd|nl}lf{C-{y}|ANZr}#={T~|-(}c&{pI|ft{lsVP}){|@u}!W|bcmB{d?|iW|:dxj{PSkO|Hl]Li:}VYk@|2={fnWt{M3`cZ6|)}|Xj}BYa?vo{e4|L7|B7{L7|1W|lvYO}W8nJ|$Vih|{T{d*_1|:-n2dblk``fT{Ky|-%}m!|Xy|-a{Pz}[l{kFjz|iH}9N{WE{x,|jz}R {P|{D)c=nX|Kq|si}Ge{sh|[X{RF{t`|jsr*fYf,rK|/9}$}}Nf{y!1|<Std}4Wez{W${Fd_/^O[ooqaw_z[L`Nbv[;l7V[ii3_PeM}.h^viqYjZ*j1}+3{bt{DR[;UG}3Og,rS{JO{qw{d<_zbAh<R[1_r`iZTbv^^a}c{iEgQZ<exZFg.^Rb+`Uj{a+{z<[~r!]`[[|rZYR|?F|qppp]L|-d|}K}YZUM|=Y|ktm*}F]{D;g{uI|7kg^}%?Z%ca{N[_<q4xC]i|PqZC]n}.bDrnh0Wq{tr|OMn6tM|!6|T`{O`|>!]ji+]_bTeU}Tq|ds}n|{Gm{z,f)}&s{DPYJ`%{CGd5v4tvb*hUh~bf]z`jajiFqAii]bfy^U{Or|m+{I)cS|.9k:e3`^|xN}@Dnlis`B|Qo{`W|>||kA}Y}{ERYuYx`%[exd`]|OyiHtb}HofUYbFo![5|+]gD{NIZR|Go}.T{rh^4]S|C9_}xO^i`vfQ}C)bK{TL}cQ|79iu}9a];sj{P.o!f[Y]pM``Jda^Wc9ZarteBZClxtM{LW}l9|a.mU}KX}4@{I+f1}37|8u}9c|v${xGlz}jP{Dd1}e:}31}%3X$|22i<v+r@~mf{sN{C67G97855F4YL5}8f{DT|xy{sO{DXB334@55J1)4.G9A#JDYtXTYM4, YQD9;XbXm9SX]IB^4UN=Xn<5(;(F3YW@XkH-X_VM[DYM:5XP!T&Y`6|,^{IS-*D.H>:LXjYQ0I3XhAF:9:(==.F*3F1189K/7163D,:@|e2{LS36D4hq{Lw/84443@4.933:0307::6D7}&l{Mx657;89;,K5678H&93D(H<&<>0B90X^I;}Ag1{P%3A+>><975}[S{PZE453?4|T2{Q+5187;>447:81{C=hL6{Me^:=7ii{R=.=F<81;48?|h8}Uh{SE|,VxL{ST,7?9Y_5Xk3A#:$%YSYdXeKXOD8+TXh7(@>(YdXYHXl9J6X_5IXaL0N?3YK7Xh!1?XgYz9YEXhXaYPXhC3X`-YLY_XfVf[EGXZ5L8BXL9YHX]SYTXjLXdJ: YcXbQXg1PX]Yx4|Jr{Ys4.8YU+XIY`0N,<H%-H;:0@,74/:8546I=9177154870UC]d<C3HXl7ALYzXFXWP<<?E!88E5@03YYXJ?YJ@6YxX-YdXhYG|9o{`iXjY_>YVXe>AYFX[/(I@0841?):-B=14337:8=|14{c&93788|di{cW-0>0<097/A;N{FqYpugAFT%X/Yo3Yn,#=XlCYHYNX[Xk3YN:YRT4?)-YH%A5XlYF3C1=NWyY}>:74-C673<69545v {iT85YED=64=.F4..9878/D4378?48B3:7:7/1VX[f4{D,{l<5E75{dAbRB-8-@+;DBF/$ZfW8S<4YhXA.(5@*11YV8./S95C/0R-A4AXQYI7?68167B95HA1*<M3?1/@;/=54XbYP36}lc{qzSS38:19?,/39193574/66878Yw1X-87E6=;964X`T734:>86>1/=0;(I-1::7ALYGXhF+Xk[@W%TYbX7)KXdYEXi,H-XhYMRXfYK?XgXj.9HX_SX]YL1XmYJ>Y}WwIXiI-3-GXcYyXUYJ$X`Vs[7;XnYEZ;XF! 3;%8;PXX(N3Y[)Xi1YE&/ :;74YQ6X`33C;-(>Xm0(TYF/!YGXg8 9L5P01YPXO-5%C|qd{{/K/E6,=0144:361:955;6443@?B7*7:F89&F35YaX-CYf,XiFYRXE_e{}sF 0*7XRYPYfXa5YXXY8Xf8Y~XmA[9VjYj*#YMXIYOXk,HHX40YxYMXU8OXe;YFXLYuPXP?EB[QV0CXfY{:9XV[FWE0D6X^YVP*$4%OXiYQ(|xp|%c3{}V`1>Y`XH00:8/M6XhQ1:;3414|TE|&o@1*=81G8<3}6<|(f6>>>5-5:8;093B^3U*+*^*UT30XgYU&7*O1953)5@E78--F7YF*B&0:%P68W9Zn5974J9::3}Vk|-,C)=)1AJ4+<3YGXfY[XQXmT1M-XcYTYZXCYZXEYXXMYN,17>XIG*SaS|/eYJXbI?XdNZ+WRYP<F:R PXf;0Xg`$|1GX9YdXjLYxWX!ZIXGYaXNYm6X9YMX?9EXmZ&XZ#XQ>YeXRXfAY[4 ;0X!Zz0XdN$XhYL XIY^XGNXUYS/1YFXhYk.TXn4DXjB{jg|4DEX]:XcZMW=A.+QYL<LKXc[vV$+&PX*Z3XMYIXUQ:ZvW< YSXFZ,XBYeXMM)?Xa XiZ4/EXcP3%}&-|6~:1(-+YT$@XIYRBC<}&,|7aJ6}bp|8)K1|Xg|8C}[T|8Q.89;-964I38361<=/;883651467<7:>?1:.}le|:Z=39;1Y^)?:J=?XfLXbXi=Q0YVYOXaXiLXmJXO5?.SFXiCYW}-;|=u&D-X`N0X^,YzYRXO(QX_YW9`I|>hZ:N&X)DQXP@YH#XmNXi$YWX^=!G6YbYdX>XjY|XlX^XdYkX>YnXUXPYF)FXT[EVTMYmYJXmYSXmNXi#GXmT3X8HOX[ZiXN]IU2>8YdX1YbX<YfWuZ8XSXcZU%0;1XnXkZ_WTG,XZYX5YSX Yp 05G?XcYW(IXg6K/XlYP4XnI @XnO1W4Zp-9C@%QDYX+OYeX9>--YSXkD.YR%Q/Yo YUX].Xi<HYEZ2WdCE6YMXa7F)=,D>-@9/8@5=?7164;35387?N<618=6>7D+C50<6B03J0{Hj|N9$D,9I-,.KB3}m |NzE0::/81YqXjMXl7YG; [.W=Z0X4XQY]:MXiR,XgM?9$9>:?E;YE77VS[Y564760391?14941:0=:8B:;/1DXjFA-564=0B3XlH1+D85:0Q!B#:-6&N/:9<-R3/7Xn<*3J4.H:+334B.=>30H.;3833/76464665755:/83H6633:=;.>5645}&E|Y)?1/YG-,93&N3AE@5 <L1-G/8A0D858/30>8<549=@B8] V0[uVQYlXeD(P#ID&7T&7;Xi0;7T-$YE)E=1:E1GR):--0YI7=E<}n9|aT6783A>D7&4YG7=391W;Zx<5+>F#J39}o/|cc;6=A050EQXg8A1-}D-|d^5548083563695D?-.YOXd37I$@LYLWeYlX<Yd+YR A$;3-4YQ-9XmA0!9/XLY_YT(=5XdDI>YJ5XP1ZAW{9>X_6R(XhYO65&J%DA)C-!B:97#A9;@?F;&;(9=11/=657/H,<8}bz|j^5446>.L+&Y^8Xb6?(CYOXb*YF(8X`FYR(XPYVXmPQ%&DD(XmZXW??YOXZXfCYJ79,O)XnYF7K0!QXmXi4IYFRXS,6<%-:YO(+:-3Q!1E1:W,Zo}Am|n~;3580534*?3Zc4=9334361693:30C<6/717:<1/;>59&:4}6!|rS36=1?75<8}[B|s809983579I.A.>84758=108564741H*9E{L{|u%YQ<%6XfH.YUXe4YL@,>N}Tv|ve*G0X)Z;/)3@A74(4P&A1X:YVH97;,754*A66:1 D739E3553545558E4?-?K17/770843XAYf838A7K%N!YW4.$T19Z`WJ*0XdYJXTYOXNZ 1XaN1A+I&Xi.Xk3Z3GB&5%WhZ1+5#Y[X<4YMXhQYoQXVXbYQ8XSYUX4YXBXWDMG0WxZA[8V+Z8X;D],Va$%YeX?FXfX[XeYf<X:Z[WsYz8X_Y]%XmQ(!7BXIZFX]&YE3F$(1XgYgYE& +[+W!<YMYFXc;+PXCYI9YrWxGXY9DY[!GXiI7::)OC;*$.>N*HA@{C|}&k=:<TB83X`3YL+G4XiK]i}(fYK<=5$.FYE%4*5*H*6XkCYL=*6Xi6!Yi1KXR4YHXbC8Xj,B9ZbWx/XbYON#5B}Ue}+QKXnF1&YV5XmYQ0!*3IXBYb71?1B75XmF;0B976;H/RXU:YZX;BG-NXj;XjI>A#D3B636N;,*%<D:0;YRXY973H5)-4FXOYf0:0;/7759774;7;:/855:543L43<?6=E,.A4:C=L)%4YV!1(YE/4YF+ F3%;S;&JC:%/?YEXJ4GXf/YS-EXEYW,9;E}X$}547EXiK=51-?71C%?57;5>463553Zg90;6447?<>4:9.7538XgN{|!}9K/E&3-:D+YE1)YE/3;37/:05}n<}:UX8Yj4Yt864@JYK..G=.(A Q3%6K>3(P3#AYE$-6H/456*C=.XHY[#S.<780191;057C)=6HXj?955B:K1 E>-B/9,;5.!L?:0>/.@//:;7833YZ56<4:YE=/:7Z_WGC%3I6>XkC*&NA16X=Yz2$X:Y^&J48<99k8}CyB-61<18K946YO4{|N}E)YIB9K0L>4=46<1K0+R;6-=1883:478;4,S+3YJX`GJXh.Yp+Xm6MXcYpX(>7Yo,/:X=Z;Xi0YTYHXjYmXiXj;*;I-8S6N#XgY}.3XfYGO3C/$XjL$*NYX,1 6;YH&<XkK9C#I74.>}Hd`A748X[T450[n75<4439:18A107>|ET}Rf<1;14876/Yb983E<5.YNXd4149>,S=/4E/<306443G/06}0&}UkYSXFYF=44=-5095=88;63844,9E6644{PL}WA8:>)7+>763>>0/B3A545CCnT}Xm|dv}Xq1L/YNXk/H8;;.R63351YY747@15YE4J8;46;.38.>4A369.=-83,;Ye3?:3@YE.4-+N353;/;@(X[YYD>@/05-I*@.:551741Yf5>6A443<3535;.58/86=D4753442$635D1>0359NQ @73:3:>><Xn?;43C14 ?Y|X611YG1&<+,4<*,YLXl<1/AIXjF*N89A4Z576K1XbJ5YF.ZOWN.YGXO/YQ01:4G38Xl1;KI0YFXB=R<7;D/,/4>;$I,YGXm94@O35Yz66695385.>:6A#5}W7n^4336:4157597434433<3|XA}m`>=D>:4A.337370?-6Q96{`E|4A}C`|Qs{Mk|J+~r>|o,wHv>Vw}!c{H!|Gb|*Ca5}J||,U{t+{CN[!M65YXOY_*B,Y[Z9XaX[QYJYLXPYuZ%XcZ8LY[SYPYKZM<LMYG9OYqSQYM~[e{UJXmQYyZM_)>YjN1~[f3{aXFY|Yk:48YdH^NZ0|T){jVFYTZNFY^YTYN~[h{nPYMYn3I]`EYUYsYIZEYJ7Yw)YnXPQYH+Z.ZAZY]^Z1Y`YSZFZyGYHXLYG 8Yd#4~[i|+)YH9D?Y^F~Y7|-eYxZ^WHYdYfZQ~[j|3>~[k|3oYmYqY^XYYO=Z*4[]Z/OYLXhZ1YLZIXgYIHYEYK,<Y`YEXIGZI[3YOYcB4SZ!YHZ*&Y{Xi3~[l|JSY`Zz?Z,~[m|O=Yi>??XnYWXmYS617YVYIHZ(Z4[~L4/=~[n|Yu{P)|];YOHHZ}~[o33|a>~[r|aE]DH~[s|e$Zz~[t|kZFY~XhYXZB[`Y}~[u|{SZ&OYkYQYuZ2Zf8D~[v}% ~[w3},Q[X]+YGYeYPIS~[y}4aZ!YN^!6PZ*~[z}?E~[{3}CnZ=~[}}EdDZz/9A3(3S<,YR8.D=*XgYPYcXN3Z5 4)~[~}JW=$Yu.XX~] }KDX`PXdZ4XfYpTJLY[F5]X~[2Yp}U+DZJ::<446[m@~]#3}]1~]%}^LZwZQ5Z`/OT<Yh^ -~]&}jx[ ~m<z!%2+~ly4VY-~o>}p62yz!%2+Xf2+~ly4VY-zQ`z (=] 2z~o2",C={" ":0,"!":1},c=34,i=2,p,s="",u=String.fromCharCode,t=u(12539);for(;++c<127;)C[u(c)]=c^39&&c^92?i++:0;i=0;for(;0<=(c=C[a.charAt(i++)]);)if(16===c)if((c=C[a.charAt(i++)])<87){if(86===c)c=1879;for(;c--;)s+=u(++p)}else s+=s.substr(8272,360);else if(c<86)s+=u(p+=c<51?c-16:(c-55)*92+C[a.charAt(i++)]);else if((c=((c-86)*92+C[a.charAt(i++)])*92+C[a.charAt(i++)])<49152)s+=u(p=c<40960?c:c|57344);else{c&=511;for(;c--;)s+=t;p=12539}return s')();
-
 		var soundFormats = [
 			"Uncompressed native-endian", "ADPCM", "MP3", "Uncompressed little-endian",
 			"NellyMoser 16 kHz", "NellyMoser 8 kHz", "NellyMoser 22.050 kHz", "?",
@@ -309,7 +268,7 @@ if (!("swf2js" in window)) {
 			this.offset = 0;
 		};
 
-		AdpcmInput.prototype.readUB = function(nBits, field) {
+		AdpcmInput.prototype.readUB = function(nBits) {
 			if (nBits == 0) {
 				return 0;
 			}
@@ -317,7 +276,7 @@ if (!("swf2js" in window)) {
 			return ret;
 		};
 
-		AdpcmInput.prototype.readSB = function(nBits, field) {
+		AdpcmInput.prototype.readSB = function(nBits) {
 			if (nBits == 0) {
 				return 0;
 			}
@@ -557,16 +516,15 @@ if (!("swf2js" in window)) {
 			// SWF SoundRate The sampling rate of the sound data: 0 = 5.5 kHz; 1 = 11 kHz; 2 = 22 kHz; 3 = 44 kHz
 			try {
 				var sis = new AdpcmInput(input);
-				var sos = new AdpcmOutput();
 				var pcmOutput = new PcmOutput(soundType, soundSize, soundRate, []);
-				var adpcm_code_size = sis.readUB(2, "adpcm_code_size");
+				var adpcm_code_size = sis.readUB(2);
 				var bits_per_code = adpcm_code_size + 2;
 				do {
 					if (soundType == 1) { // stereo
-						var initialSampleLeft = sis.readSB(16, "initialSampleLeft");
-						var initialIndexLeft = sis.readUB(6, "initialIndexLeft");
-						var initialSampleRight = sis.readSB(16, "initialSampleRight");
-						var initialIndexRight = sis.readUB(6, "initialIndexRight");
+						var initialSampleLeft = sis.readSB(16);
+						var initialIndexLeft = sis.readUB(6);
+						var initialSampleRight = sis.readSB(16);
+						var initialIndexRight = sis.readUB(6);
 						var stateLeft = new AdpcmState();
 						stateLeft.index = initialIndexLeft;
 						stateLeft.sample = initialSampleLeft;
@@ -575,8 +533,8 @@ if (!("swf2js" in window)) {
 						stateRight.sample = initialSampleRight;
 						for (var i = 1;
 							(i <= 4095) && (sis.availableBits() >= bits_per_code * 2); i++) {
-							var codeLeft = sis.readUB(bits_per_code, "codeLeft");
-							var codeRight = sis.readUB(bits_per_code, "codeRight");
+							var codeLeft = sis.readUB(bits_per_code);
+							var codeRight = sis.readUB(bits_per_code);
 							var valLeft = 0;
 							var valRight = 0;
 							switch (bits_per_code) {
@@ -601,14 +559,14 @@ if (!("swf2js" in window)) {
 							pcmOutput.writeSI16(valRight);
 						}
 					} else {
-						var initialSample = sis.readSB(16, "initialSample");
-						var initialIndex = sis.readUB(6, "initialIndex");
+						var initialSample = sis.readSB(16);
+						var initialIndex = sis.readUB(6);
 						var state = new AdpcmState();
 						state.index = initialIndex;
 						state.sample = initialSample;
 						for (var p = 1;
 							(p <= 4095) && (sis.availableBits() >= bits_per_code); p++) {
-							var code = sis.readUB(bits_per_code, "code");
+							var code = sis.readUB(bits_per_code);
 							var val = 0;
 							switch (bits_per_code) {
 								case 2:
@@ -645,7 +603,7 @@ if (!("swf2js" in window)) {
 			} else {
 				data = sos.decode(soundType, soundSize, soundRate, input);
 			}
-			pcmOutput = new PcmOutput(soundType, soundSize, soundRate, data);
+			var pcmOutput = new PcmOutput(soundType, soundSize, soundRate, data);
 			return pcmOutput.createWave();
 
 		};
@@ -686,90 +644,12 @@ if (!("swf2js" in window)) {
 		};
 
 		PcmOutput.prototype.convert2LE = function(value, size) {
-			/**
 			var bytes = [];
 			for (var i = 0; i < size; i++) {
 				bytes[i] = value & 0xff;
 				value >>= 8;
 			}
 			return bytes;
-			*/
-			var bytes = [];
-			do {
-				bytes[--size] = value & (255);
-				value = value >> 8;
-			} while (size)
-			return bytes.reverse();
-		};
-
-		PcmOutput.prototype.resample = function(decodedData) {
-			if (this.soundRate == 4) return decodedData;
-
-			const resamplingFromStereo = true;
-			this.soundType = 2;
-
-			output = [];
-			for (var i = 0; i < decodedData.length; i += (resamplingFromStereo ? 4 : 2)) {
-				if (i + 1 >= decodedData.length) {
-					break;
-				}
-				var left = ((decodedData[i] & 0xff) + ((decodedData[i + 1] & 0xff) << 8)) << 16 >> 16;
-				var right = left;
-				if (resamplingFromStereo) {
-					if (i + 3 >= decodedData.length) {
-						break;
-					}
-					right = ((decodedData[i + 2] & 0xff) + ((decodedData[i + 3] & 0xff) << 8)) << 16 >> 16;
-				}
-
-				var nextLeft = left;
-				var nextRight = right;
-				var nextI = i + (resamplingFromStereo ? 4 : 2);
-				if (nextI < decodedData.length) {
-					nextLeft = ((decodedData[nextI] & 0xff) + ((decodedData[nextI + 1] & 0xff) << 8)) << 16 >> 16;
-					nextRight = nextLeft;
-					if (resamplingFromStereo) {
-						if (nextI + 3 >= decodedData.length) {
-							//ignore
-						} else {
-							nextRight = ((decodedData[nextI + 2] & 0xff) + ((decodedData[nextI + 3] & 0xff) << 8)) << 16 >> 16;
-						}
-					}
-				}
-
-				output = output.concat(this.convert2LE(left, 2));
-				output = output.concat(this.convert2LE(right, 2));
-				if (this.soundRate == 0) { // 5512
-					output = output.concat(this.convert2LE(left + (nextLeft - left) / 8, 2));
-					output = output.concat(this.convert2LE(right + (nextRight - right) / 8, 2));
-					output = output.concat(this.convert2LE(left + (nextLeft - left) * 2 / 8, 2));
-					output = output.concat(this.convert2LE(right + (nextRight - right) * 2 / 8, 2));
-					output = output.concat(this.convert2LE(left + (nextLeft - left) * 3 / 8, 2));
-					output = output.concat(this.convert2LE(right + (nextRight - right) * 3 / 8, 2));
-					output = output.concat(this.convert2LE(left + (nextLeft - left) * 4 / 8, 2));
-					output = output.concat(this.convert2LE(right + (nextRight - right) * 4 / 8, 2));
-					output = output.concat(this.convert2LE(left + (nextLeft - left) * 5 / 8, 2));
-					output = output.concat(this.convert2LE(right + (nextRight - right) * 5 / 8, 2));
-					output = output.concat(this.convert2LE(left + (nextLeft - left) * 6 / 8, 2));
-					output = output.concat(this.convert2LE(right + (nextRight - right) * 6 / 8, 2));
-					output = output.concat(this.convert2LE(left + (nextLeft - left) * 7 / 8, 2));
-					output = output.concat(this.convert2LE(right + (nextRight - right) * 7 / 8, 2));
-				}
-				if (this.soundRate == 1) { // 11025
-					output = output.concat(this.convert2LE(left + (nextLeft - left) / 4, 2));
-					output = output.concat(this.convert2LE(right + (nextRight - right) / 4, 2));
-					output = output.concat(this.convert2LE(left + (nextLeft - left) * 2 / 4, 2));
-					output = output.concat(this.convert2LE(right + (nextRight - right) * 2 / 4, 2));
-					output = output.concat(this.convert2LE(left + (nextLeft - left) * 3 / 4, 2));
-					output = output.concat(this.convert2LE(right + (nextRight - right) * 3 / 4, 2));
-				}
-				if (this.soundRate == 2) { // 22050
-					output = output.concat(this.convert2LE((left + nextLeft) / 2, 2));
-					output = output.concat(this.convert2LE((right + nextRight) / 2, 2));
-				}
-			}
-			console.log('resample '+decodedData.length+' -> '+output.length);
-			return output;
 		};
 
 		PcmOutput.prototype.createWave = function() {
@@ -795,34 +675,19 @@ if (!("swf2js" in window)) {
 			chunks = chunks.concat(this.convert2LE(subChunk1Data.length, 4));
 			chunks = chunks.concat(subChunk1Data);
 			chunks = chunks.concat(this.convertString("data"));
-			//chunks = chunks.concat(this.convert2LE(this.data.length, 4));
-			//if (this.data.constructor === Uint8Array) {chunks = chunks.concat(Array.from(this.data));
-			//else chunks = chunks.concat(this.data);
+			var data;
 			if (this.data.constructor === Uint8Array) {
 				data = Array.from(this.data);
 			} else data = this.data;
 			chunks = chunks.concat(this.convert2LE(data.length, 4));
 			chunks = chunks.concat(data);
-			/*
-			console.log('Wave channels '+numChannels+' sampleRate '+sampleRate+' byteRate '+byteRate+
-				' blockAlign '+blockAlign+' bitsPerSample '+bitsPerSample+
-				' subchunk lenght '+subChunk1Data.length+' data length '+data.length);
-				*/
+
 			var result = [];
 			result = this.convertString("RIFF");
 			result = result.concat(this.convert2LE(4 + chunks.length, 4));
 			result = result.concat(this.convertString("WAVE"));
 			result = result.concat(chunks);
 			return result;
-		};
-
-		PcmOutput.prototype.createWaveFromPcmData = function() {
-			console.log('resample '+this.data.length+' t '+this.soundType+' s '+this.soundSize+' r '+this.soundRate);
-			var output = this.resample(this.data);
-			this.data = output;
-			this.soundType = 1;
-			this.soundRate = 3;
-			return this.createWave();
 		};
 
 		/**
@@ -1135,7 +1000,7 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-/*jshint expr:true*/
+/* xxx jshint expr:true*/
 		var NellyMoserNormalizedInt32 = function(val) {
 			this.value;
 			this.scale;
@@ -1224,7 +1089,7 @@ if (!("swf2js" in window)) {
 
 			this.value = tmp;
 		};
-/*jshint expr:true*/
+/*  xxx jshint expr:true*/
 
 		var NellyMoser = function() {};
 
@@ -1497,8 +1362,7 @@ if (!("swf2js" in window)) {
 
 			var max_input_scale = 0;
 			{
-				var normalized = new NellyMoserNormalizedInt32();
-				normalized.normalize(Math.floor(max_input));
+				var normalized = new NellyMoserNormalizedInt32(Math.floor(max_input));
 				max_input_scale = normalized.scale - 16;
 			}
 
@@ -1514,8 +1378,7 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var factor = new NellyMoserFactor();
-			factor.factor(len); 
+			var factor = new NellyMoserFactor(len);
 
 			for (var i = 0; i < len; ++i) {
 				scaled_input[i] = ((Math.floor(scaled_input[i]) * 3) >> 2); // *= 0.75
@@ -1530,8 +1393,7 @@ if (!("swf2js" in window)) {
 			scaled_input_sum -= total_bits << max_input_scale;
 			var scaled_input_base = 0; {
 				var val = scaled_input_sum - (total_bits << max_input_scale);
-				var normalized = new NellyMoserNormalizedInt32();
-				normalized.normalize(Math.floor(val));
+				var normalized = new NellyMoserNormalizedInt32(Math.floor(val));
 				scaled_input_base = ((val >> 16) * factor.value) >> 15;
 
 				var shift = 31 - factor.shift - normalized.scale;
@@ -1673,7 +1535,6 @@ if (!("swf2js" in window)) {
 
 		// jpexs decompiler SWFInputStream.java
 		var NellyMoserReader = function(data) {
-			console.log('NellyMoserReader '+JSON.stringify(data)+' l '+data.length);
 			this.data = data;
 			this.length = this.data.length;
 			this.bitpos = 0;
@@ -1711,6 +1572,7 @@ if (!("swf2js" in window)) {
 		const NELLY_SAMPLES = 2 * NELLY_BUF_LEN;
 
 		var NellyMoserDecoder = function(soundType, soundSize, soundRate, data) {
+			console.log('NellyMoserDecoder '+soundType+' '+soundSize+' '+soundRate+' '+data.length);
 			this.soundType = soundType;
 			this.soundSize = soundSize;
 			this.soundRate = soundRate;
@@ -1718,9 +1580,8 @@ if (!("swf2js" in window)) {
 			this.result = [];
 		};
 
-		NellyMoserDecoder.prototype.toWave = function(data) {
-			console.log('NellyMoserReader '+JSON.stringify(data)+' l '+data.length);
-			var sis = new NellyMoserReader(data);
+		NellyMoserDecoder.prototype.toWave = function() {
+			var sis = new NellyMoserReader(this.data);
 			var nellyMoser = new NellyMoser();
 			var audioD = new Array(NELLY_SAMPLES);
 			var state = new Array(64);
@@ -1780,40 +1641,38 @@ if (!("swf2js" in window)) {
 			this.audioLoopStart = 0;
 			this.audioLoopEnd = 0;
 			this.audioPlayStart = 0;
+			this.audioPlayOffset = 0;
 			this.audioPlayTime = 0;
 			this.audioStopFlag = false;
 			this.outputLatency = 0;
 			this.id = "unknown";
 
 			this.type = "webaudio";
-
-			if (!obj.src || obj.src.length === 0) {
-				console.warn("Audio : No url specified.");
+			if (!obj.data || obj.data.length === 0) {
+				console.warn("Audio : No data specified.");
 				return;
 			}
-
-			if (typeof obj.id !== 'undefined') this.id = obj.id;
-
+			this.id = obj.id;
 			if (obj.type) this.type = obj.type;
-			this.loadURL(obj.src, this.type);
+			this.load(obj.mimeType, obj.data);
 		};
 
-		AudioInstance.prototype.loadURL = function(url, type) {
+		AudioInstance.prototype.load = function(mimeType, data) {
 			switch (this.type) {
 				case "webaudio":
-					this.loadWebBufferAudio(url);
+					this.loadWebBufferAudio(mimeType, data);
 					break;
 				case "webmedia":
-					this.loadWebMediaElementAudio(url);
+					this.loadWebMediaElementAudio(mimeType, data);
 					break;
 				case "html5":
-					this.loadHtml5Audio(url);
+					this.loadHtml5Audio(mimeType, data);
 					break;
 				case "audio":
-					this.loadAudio(url);
+					this.loadAudio(mimeType, data);
 					break;
 				default:
-					console.error("Unsupported type '" + type + "'");
+					console.error("Unsupported type '" + this.type + "'");
 					return;
 			}
 		};
@@ -1829,126 +1688,57 @@ if (!("swf2js" in window)) {
 			return r;
 		};
 
-		AudioInstance.prototype.loadWebBufferAudio = function(url) {
+		AudioInstance.prototype.loadWebBufferAudio = function(mimeType, data) {
 			var _this = this;
 			if (typeof AudioContext !== 'undefined') {
 				_this.audioCtx = audioCtx;
 			} else {
 				console.warn("Warning : webaudio not supported");
-				_this.loadHtml5Audio(url);
+				_this.loadHtml5Audio(mimeType, data);
 				return;
 			}
-			/*
-			if (data) {
-				var dataView = new Uint8Array(data.length);
-				for (var i = 0; i < data.length; ++i) {
-					dataView[i] = data.charCodeAt(i);
-				}
-				_this.audioCtx.decodeAudioData(dataView.buffer,
-					function(buffer) {
-						_this.audioBuffer = buffer;
-						_this.audio = _this.audioCtx.createBufferSource();
-						_this.audio.buffer = _this.audioBuffer;
-						_this.gainNode = _this.audioCtx.createGain();
-						_this.audio.connect(_this.gainNode);
-						_this.gainNode.connect(_this.audioCtx.destination);
-						_this.audioDuration = _this.audio.buffer.duration;
-						_this.gainNode.gain.value = _this.currentVolume;
-						_this.loadState = "loaded";
-					},
-					function(err) {
-						console.warn("AudioContext.decodeAudioData() data " + url.toString().split(';')[0] + " " + err);
-						console.warn("Fallback to html5 audio");
-						_this.loadHtml5Audio(url);
-						return;
-					}
-				);				
-			} else 
-			*/
-			if (/^data:[^;]+;base64,/.test(url)) {
-				//var data = _this.decodeBase64(url.toString().split(',')[1]);
-				//console.log('url: '+url+' base64: '+url.toString().split(',')[1]);
-				var data = window.atob(url.toString().split(',')[1]);
-				var dataView = new Uint8Array(data.length);
-				for (var i = 0; i < data.length; ++i) {
-					dataView[i] = data.charCodeAt(i);
-				}
-				_this.audioCtx.decodeAudioData(dataView.buffer,
-					function(buffer) {
-						_this.audioBuffer = buffer;
-						_this.audio = _this.audioCtx.createBufferSource();
-						_this.audio.buffer = _this.audioBuffer;
-						_this.gainNode = _this.audioCtx.createGain();
-						_this.audio.connect(_this.gainNode);
-						_this.gainNode.connect(_this.audioCtx.destination);
-						_this.audioDuration = _this.audio.buffer.duration;
-						_this.gainNode.gain.value = _this.currentVolume;
-						_this.loadState = "loaded";
-					},
-					function(err) {
-						console.warn("AudioContext.decodeAudioData() " + url.toString().split(';')[0] + " " + err);
-						console.warn("Fallback to html5 audio");
-						_this.loadHtml5Audio(url);
-						return;
-					}
-				);
-			} else {
-				var request = new XMLHttpRequest();
-				request.open('GET', url, true);
-				request.responseType = 'arraybuffer';
-				request.onload = function() {
-					_this.audioCtx.decodeAudioData(request.response,
-						function(buffer) {
-							_this.audioBuffer = buffer;
-							_this.audio = _this.audioCtx.createBufferSource();
-							_this.audio.buffer = _this.audioBuffer;
-							_this.gainNode = _this.audioCtx.createGain();
-							_this.audio.connect(_this.gainNode);
-							_this.audioDuration = _this.audio.buffer.duration;
-							_this.gainNode.gain.value = _this.currentVolume;
-							if (typeof StereoPannerNode !== 'undefined') {
-								_this.panNode = this.audioCtx.createStereoPanner();
-								_this.gainNode.connect(_this.panNode);
-								_this.panNode.connect(_this.audioCtx.destination);
-							} else {
-								_this.gainNode.connect(_this.audioCtx.destination);
-							}
-
-							_this.loadState = "loaded";
-						},
-						function(err) {
-							console.warn(err);
-							console.warn("Fallback to html5 audio");
-							_this.loadHtml5Audio(url);
-							return;
-						}
-					);
-				};
-				request.send();
+			var dataView = new Uint8Array(data.length);
+			for (var i = 0; i < data.length; ++i) {
+				dataView[i] = data[i]; //.charCodeAt(i);
 			}
-			this.type = "webaudio";
+			_this.audioCtx.decodeAudioData(dataView.buffer,
+				function(buffer) {
+					_this.audioBuffer = buffer;
+					_this.audio = _this.audioCtx.createBufferSource();
+					_this.audio.buffer = _this.audioBuffer;
+					_this.gainNode = _this.audioCtx.createGain();
+					_this.audio.connect(_this.gainNode);
+					_this.gainNode.connect(_this.audioCtx.destination);
+					_this.audioDuration = _this.audio.buffer.duration;
+					_this.gainNode.gain.value = _this.currentVolume;
+					_this.loadState = "loaded";
+				},
+				function(err) {
+					console.warn("AudioContext.decodeAudioData() " + err);
+					console.warn("Fallback to html5 audio");
+					_this.loadHtml5Audio(mimeType, data);
+					return;
+				}
+			);
 		};
 
 		// Warning gives garbage sound with Safari 11 on Mac Os X 10.11
-		AudioInstance.prototype.loadWebMediaElementAudio = function(url) {
-			if (isSafariOnMacOs) {
-				console.warn("Warning : webmedia gives garbage with Safari on Mac OS X");
-				this.loadHtml5Audio(url);
-				return;
-			}
+		AudioInstance.prototype.loadWebMediaElementAudio = function(mimeType, data) {
 			if (typeof AudioContext !== 'undefined') {
 				this.audioCtx = audioCtx;
 			} else {
 				console.warn("Warning : webmedia not supported");
-				this.loadHtml5Audio(url);
+				this.loadHtml5Audio(mimeType, data);
 				return;
 			}
+			var url = "data:audio/" + mimeType + ";base64," +this.base64encode(data);
+			console.log()
 			this.audio = new Audio(url);
 			this.audioMediaElement = this.audioCtx.createMediaElementSource(this.audio);
 			if (typeof this.audioMediaElement == 'undefined' || this.audioMediaElement == null) {
 				this.audio = null;
 				console.warn("Warning : webmedia not supported");
-				this.loadHtml5Audio(url);
+				this.loadHtml5Audio(mimeType, data);
 				return;
 			}
 			this.gainNode = this.audioCtx.createGain();
@@ -1975,7 +1765,6 @@ if (!("swf2js" in window)) {
 						_this.audioDuration = _this.audio.duration;
 						_this.outputLatency = _this.audioCtx.outputLatency ? _this.audioCtx.outputLatency : 0;
 						_this.loadState = "loaded";
-						if (_this.loadRaf) cancelAnimationFrame(_this.loadRaf);
 					} else {
 						_this.loadRaf = requestAnimationFrame(function(timeStamp) {
 							_this.getLoadState();
@@ -1998,21 +1787,26 @@ if (!("swf2js" in window)) {
 			}
 		};
 
-		AudioInstance.prototype.loadHtml5Audio = function(url) {
+		AudioInstance.prototype.getUrl = function(mimeType, data) {
+			var swfTag = new SwfTag();
+			return "data:audio/" + mimeType + ";base64," + swfTag.base64encode(data);
+		};
+
+		AudioInstance.prototype.loadHtml5Audio = function(mimeType, data) {
 			if (typeof Audio == 'undefined') {
 				console.warn("Audio() not defined");
 				console.warn("Fallback to <audio>");
-				this.loadAudio(url);
+				this.loadAudio(mimeType, data);
 				return;
 			}
-			this.audio = new Audio(url);
+			this.audio = new Audio(this.getUrl(mimeType, data));
 			this.type = "html5";
 			this.getLoadState(this);
 		};
 
-		AudioInstance.prototype.loadAudio = function(url) {
+		AudioInstance.prototype.loadAudio = function(mimeType, data) {
 			this.audio = window.document.createElement("audio");
-			this.audio.src = url;
+			this.audio.src = this.getUrl(mimeType, data);
 			this.type = "audio";
 			this.getLoadState(this);
 		};
@@ -2033,7 +1827,7 @@ if (!("swf2js" in window)) {
 					case "webaudio":
 					case "webmedia":
 						// zero does not seem to work
-						if (this.playing()) this.gainNode.gain.value = (vol <= 0.001 ? 0.001 : vol);
+						if (this.isPlaying) this.gainNode.gain.value = (vol <= 0.001 ? 0.001 : vol);
 						break;
 					default:
 						this.audio.volume = vol;
@@ -2060,9 +1854,120 @@ if (!("swf2js" in window)) {
 			}
 		};
 
+		AudioInstance.prototype.seek = function(pos) {
+			if (pos) {
+				if (this.isPlaying) {
+					this.pause();
+					if (pos > this.audioDuration) console.warn("Warning : id "+this.id+" AudioInstance.prototype.seek " + pos + " > " + this.audioDuration);
+					this.currentTime = pos;
+					this.restart();
+				} else this.currentTime = pos;
+			} else {
+				if (this.isPlaying) switch (this.type) {
+					case "webaudio":
+						// getOutputTimestamp not supported on Safari, Firefox/Android, Internet Explorer
+						var t = this.audioCtx.getOutputTimestamp ? this.audioCtx.getOutputTimestamp().contextTime : this.audioCtx.currentTime;
+						var ts = this.audioPlayOffset+t-this.audioPlayStart;
+						if (ts > this.audioDuration) ts = this.audioDuration;
+						return ts;
+					default:
+						return this.audio.currentTime;
+				} else return this.currentTime;
+			}
+		};
+
+		AudioInstance.prototype.setLoop = function(audioLoopCount, audioLoopStart, audioLoopEnd) {
+			this.audioHasLoops = true;
+			this.audioLoopCount = audioLoopCount;
+			this.audioLoopCurrent = audioLoopCount;
+			this.audioLoopStart = audioLoopStart ? audioLoopStart : 0;
+			this.audioLoopEnd = audioLoopEnd ? audioLoopEnd : this.audioDuration;
+			this.currentTime = audioLoopStart;
+			this.audioPlayTime = 0;
+		};
+
+		AudioInstance.prototype.getPlayState = function() {
+			var _this = this;
+			if (this.audioStopFlag || !this.isPlaying) return;
+			if (this.soundEnvelopes) {
+				var cpos = this.seek();
+				var ppos = -1,
+					npos = -1,
+					pvol = -1,
+					nvol = -1,
+					pstereo = -1,
+					nstereo = -1;
+				for (var i = 0; i < this.soundEnvelopes.length; i++) {
+					if (this.soundEnvelopes[i].Position>=cpos) {
+						npos = this.soundEnvelopes[i].Position;
+						nvol = (this.soundEnvelopes[i].LeftLevel + this.soundEnvelopes[i].RightLevel)/2;
+						nstereo = (this.soundEnvelopes[i].RightLevel - this.soundEnvelopes[i].LeftLevel);
+						this.volume(pvol + (cpos - ppos) / (npos - ppos) * (nvol - pvol));
+						this.stereo(pstereo + (cpos - ppos) / (npos - ppos) * (nstereo - pstereo));
+						break;
+					}
+					ppos = this.soundEnvelopes[i].Position;
+					pvol = (this.soundEnvelopes[i].LeftLevel + this.soundEnvelopes[i].RightLevel)/2;
+					pstereo = (this.soundEnvelopes[i].RightLevel - this.soundEnvelopes[i].LeftLevel);
+				}
+			}
+			switch (this.type) {
+				case "webaudio":
+					// getOutputTimestamp not supported on Safari, Firefox/Android, Internet Explorer
+					this.currentTime = this.audioCtx.getOutputTimestamp ? this.audioCtx.getOutputTimestamp().contextTime - this.audioPlayStart + this.audioLoopStart : this.audioCtx.currentTime - this.audioPlayStart + this.audioLoopStart;
+					if (this.audioHasLoops) {
+						if (this.currentTime >= this.audioLoopEnd) {
+							if (this.audioLoopCurrent) {
+								this.audioLoopCurrent--;
+								this.currentTime = this.audioLoopStart;
+								this.restart();
+								//this.seek(this.audioLoopStart);
+							} else {
+								this.pause();
+							}
+						} else {
+							this.playRaf = requestAnimationFrame(function(timeStamp) {
+								_this.getPlayState();
+							});
+						}
+					} else if (this.audioDuration - this.currentTime <= 0) {
+						this.pause();
+					} else {
+						this.playRaf = requestAnimationFrame(function(timeStamp) {
+							_this.getPlayState();
+						});
+					}
+					break;
+				default:
+					this.currentTime = this.audio.currentTime;
+					if (this.audioHasLoops) {
+						if (this.audioLoopEnd - this.currentTime < 0.01) {
+							if (this.audioLoopCurrent) {
+								this.audioLoopCurrent--;
+								this.currentTime = this.audioLoopStart;
+								this.restart();
+							} else {
+								this.pause();
+							}
+						} else {
+							this.playRaf = requestAnimationFrame(function(timeStamp) {
+								_this.getPlayState();
+							});
+						}
+					} else if (this.audioDuration - this.audio.currentTime <= 0 || this.audio.ended) {
+						this.pause();
+					} else {
+						this.playRaf = requestAnimationFrame(function(timeStamp) {
+							_this.getPlayState();
+						});
+					}
+					break;
+			}
+		};
+
 		AudioInstance.prototype.setSoundInfo = function(soundInfo) {
 			var inPoint = soundInfo.HasInPoint ? soundInfo.InPoint / soundRates[3] : 0;
-			var outPoint = soundInfo.HasOutPoint ? soundInfo.OutPoint / soundRates[3] : this.Duration;
+			var outPoint = soundInfo.HasOutPoint ? soundInfo.OutPoint / soundRates[3] : this.audioDuration;
 			var loopCount = soundInfo.HasLoops ? soundInfo.LoopCount : 1;
 			if (soundInfo.HasEnvelope) {
 				this.soundEnvelopes = [];
@@ -2092,164 +1997,8 @@ if (!("swf2js" in window)) {
 			}
 		};
 
-		AudioInstance.prototype.seek = function(pos) {
-			if (pos) {
-				var p = this.playing();
-				if (p) this.stop();
-				if (pos > this.audioDuration) console.warn("Warning : id "+this.id+" AudioInstance.prototype.seek " + pos + " > " + this.audioDuration);
-				this.currentTime = pos;
-				if (p) this.play();
-			} else {
-				if (this.isPlaying) switch (this.type) {
-					case "webaudio":
-						// getOutputTimestamp not supported on Safari, Firefox/Android, Internet Explorer
-						var ts = this.audioCtx.getOutputTimestamp ? this.audioCtx.getOutputTimestamp().contextTime - this.audioPlayStart + this.audioPlayOffset : this.audioCtx.currentTime - this.audioPlayStart + this.audioPlayOffset;
-						if (ts > this.audioDuration) ts = this.audioDuration;
-						return ts;
-					default:
-						return this.audio.currentTime;
-				} else return this.currentTime;
-			}
-		};
-
-		AudioInstance.prototype.getPlayTime = function() {
-			if (this.isPlaying) return this.audioPlayTime + getTimeStamp() - this.audioPlayStart;
-			else return this.audioPlayTime;
-		};
-
-		AudioInstance.prototype.setLoop = function(audioLoopCount, audioLoopStart, audioLoopEnd) {
-			this.audioHasLoops = true;
-			this.audioLoopCount = audioLoopCount;
-			this.audioLoopCurrent = audioLoopCount;
-			this.audioLoopStart = audioLoopStart ? audioLoopStart : 0;
-			this.audioLoopEnd = audioLoopEnd ? audioLoopEnd : this.audioDuration;
-			this.currentTime = audioLoopStart;
-			this.audioPlayTime = 0;
-		};
-
-		AudioInstance.prototype.playing = function() {
-			return this.isPlaying;
-		};
-
-		AudioInstance.prototype.getPlayState = function() {
-			var _this = this;
-			//if (this.id) 
-			//console.log(Math.floor(getTimeStamp())+" AudioInstance.prototype.getPlayState "+_this.id+" "+_this.type+" ["+this.audioHasLoops+"?"+this.audioLoopCount+":"+this.audioLoopStart+" - "+this.audioLoopEnd+"] "+this.currentTime+" "+this.seek());
-			if (this.audioStopFlag) {
-				if (this.isPlaying) this.stop();
-				else {
-					if (this.playRaf) cancelAnimationFrame(_this.playRaf);
-					this.audioStopFlag = false;
-					return;
-				}
-				this.playRaf = requestAnimationFrame(function(timeStamp) {
-					_this.getPlayState();
-				});
-				return;
-			}
-			if (this.soundEnvelopes) {
-				var cpos = this.getPlayTime() / 1000;
-				var ppos = -1,
-					npos = -1,
-					pvol = -1,
-					nvol = -1,
-					pstereo = -1,
-					nstereo = -1;
-				for (var i = 0; i < this.soundEnvelopes.length; i++) {
-					if (this.soundEnvelopes[i].Position > cpos) {
-						npos = this.soundEnvelopes[i].Position;
-						nvol = (this.soundEnvelopes[i].LeftLevel + this.soundEnvelopes[i].RightLevel) / 2;
-						nstereo = (this.soundEnvelopes[i].RightLevel - this.soundEnvelopes[i].LeftLevel) / 2;
-						this.volume(pvol + (cpos - ppos) / (npos - ppos) * (nvol - pvol));
-						this.stereo(pstereo + (cpos - ppos) / (npos - ppos) * (nstereo - pstereo));
-						break;
-					}
-					ppos = this.soundEnvelopes[i].Position;
-					pvol = (this.soundEnvelopes[i].LeftLevel + this.soundEnvelopes[i].RightLevel) / 2;
-					pstereo = (this.soundEnvelopes[i].RightLevel - this.soundEnvelopes[i].LeftLevel) / 2;
-				}
-			}
-			switch (this.type) {
-				case "webaudio":
-					// getOutputTimestamp not supported on Safari, Firefox/Android, Internet Explorer
-					this.currentTime = this.audioCtx.getOutputTimestamp ? this.audioCtx.getOutputTimestamp().contextTime - this.audioPlayStart + this.audioLoopStart : this.audioCtx.currentTime - this.audioPlayStart + this.audioLoopStart;
-					if (this.audioHasLoops) {
-						if (this.currentTime >= this.audioLoopEnd) {
-							if (this.audioLoopCurrent) {
-								this.audioLoopCurrent--;
-								console.log('audioloop : id '+this.id+' l '+this.audioLoopCurrent+'/'+this.audioLoopCount);
-								this.stop();
-								this.audioPlayStart = this.audioCtx.getOutputTimestamp ? this.audioCtx.getOutputTimestamp().contextTime : this.audioCtx.currentTime;
-								this.audioPlayOffset = this.audioLoopStart;
-								this.seek(this.audioLoopStart);
-								this.play();
-								this.playRaf = requestAnimationFrame(function(timeStamp) {
-									_this.getPlayState();
-								});
-							} else {
-								this.stop();
-								this.isPlaying = false;
-								if (this.playRaf) cancelAnimationFrame(_this.playRaf);
-							}
-						} else {
-							this.playRaf = requestAnimationFrame(function(timeStamp) {
-								_this.getPlayState();
-							});
-						}
-					} else if (this.audioDuration - this.currentTime <= 0) {
-						this.stop();
-						this.isPlaying = false;
-						if (this.playRaf) cancelAnimationFrame(_this.playRaf);
-					} else {
-						this.playRaf = requestAnimationFrame(function(timeStamp) {
-							_this.getPlayState();
-						});
-					}
-					break;
-				default:
-					this.currentTime = this.audio.currentTime;
-					if (this.audioHasLoops) {
-						if (this.audioLoopEnd - this.currentTime < 0.01) {
-							if (this.audioLoopCurrent) {
-								console.log('audioloop : id '+this.id+' l '+this.audioLoopCount);
-								this.audioLoopCurrent--;
-								this.seek(this.audioLoopStart);
-								this.play();
-								this.playRaf = requestAnimationFrame(function(timeStamp) {
-									_this.getPlayState(this);
-								});
-							} else {
-								this.stop();
-								this.isPlaying = false;
-								if (this.playRaf) cancelAnimationFrame(this.playRaf);
-							}
-						} else {
-							this.playRaf = requestAnimationFrame(function(timeStamp) {
-								_this.getPlayState(this);
-							});
-						}
-					} else if (this.audioDuration - this.audio.currentTime <= 0 || this.audio.ended) {
-						this.stop();
-						this.isPlaying = false;
-						if (this.playRaf) cancelAnimationFrame(this.playRaf);
-					} else {
-						this.playRaf = requestAnimationFrame(function(timeStamp) {
-							_this.getPlayState();
-						});
-					}
-					break;
-			}
-		};
-
 		AudioInstance.prototype.play = function() {
 			var _this = this;
-			// console.log('AudioInstance.prototype.play '+this.id);
-			if (this.isPlaying) {
-				try {
-					this.stop();
-				} catch (exc) {}
-				if (_this.playRaf) cancelAnimationFrame(_this.playRaf);
-			}
 			switch (_this.type) {
 				case "webaudio":
 					this.audio = this.audioCtx.createBufferSource();
@@ -2269,21 +2018,40 @@ if (!("swf2js" in window)) {
 					this.audioPlayStart = getTimeStamp();
 					break;
 			}
-			//if (this.audioHasLoops) this.audioLoopCurrent = this.audioLoopCount-1;
 			this.isPlaying = true;
+			this.audioStopFlag = false;
 			this.getPlayState();
 		};
 
-		AudioInstance.prototype.restart = function() {
-			var _this = this;
-			if (this.isPlaying) {
-				try {
-					this.stop();
-				} catch (exc) {}
+		AudioInstance.prototype.pause = function() {
+			this.audioStopFlag = true;
+			switch (this.type) {
+				case "webaudio":
+					//var t = this.audioCtx.getOutputTimestamp ? this.audioCtx.getOutputTimestamp().contextTime : this.audioCtx.currentTime;
+					//var ts = this.audioPlayOffset+t-this.audioPlayStart;
+					//if (ts > this.audioDuration) ts = this.audioDuration;
+					//this.currentTime = ts;
+					this.currentTime = this.seek();
+					try {
+						this.audio.stop();
+					} catch (exc) {
+						console.error(exc);
+					}
+					break;
+				default:
+					this.currentTime = this.seek();
+					this.audioPlayTime += getTimeStamp() - this.audioPlayStart;
+					this.audio.pause();
+					break;
 			}
+			this.isPlaying = false;
+		};
+
+		AudioInstance.prototype.restart = function() {
 			switch (this.type) {
 				case "webaudio":
 					try {
+						if (this.isPlaying) this.audio.stop();
 						this.audio = this.audioCtx.createBufferSource();
 						this.audio.buffer = this.audioBuffer;
 						this.gainNode = this.audioCtx.createGain();
@@ -2297,61 +2065,16 @@ if (!("swf2js" in window)) {
 					this.audioPlayStart = this.audioCtx.getOutputTimestamp ? this.audioCtx.getOutputTimestamp().contextTime : this.audioCtx.currentTime;
 					break;
 				default:
+					if (this.isPlaying) this.audio.pause();
 					this.audio.currentTime = this.currentTime;
 					this.audio.play();
 					this.audioPlayStart = getTimeStamp();
 					break;
 			}
 			this.isPlaying = true;
-			_this.getPlayState();
+			this.audioStopFlag = false;
+			this.getPlayState();
 		};
-
-		AudioInstance.prototype.pause = function() {
-			// console.log('Audio pause '+this.id +' '+this.isPlaying);
-			if (!this.isPlaying) return;
-			switch (this.type) {
-				case "webaudio":
-					this.currentTime = this.audioCtx.getOutputTimestamp ? this.audioCtx.getOutputTimestamp().contextTime - this.audioPlayStart : this.audioCtx.currentTime - this.audioPlayStart;
-					//this.currentTime = this.audioCtx.getOutputTimestamp ? this.audioCtx.getOutputTimestamp().contextTime:this.audioCtx.currentTime;
-					this.audioPlayTime += getTimeStamp() - this.audioPlayStart;
-					try {
-						this.audio.stop();
-					} catch (exc) {}
-					break;
-				default:
-					this.currentTime = this.audio.currentTime;
-					this.audioPlayTime += getTimeStamp() - this.audioPlayStart;
-					this.audio.pause();
-					break;
-			}
-			this.audioPlayTime += getTimeStamp() - this.audioPlayStart;
-			if (this.playRaf) cancelAnimationFrame(this.playRaf);
-			this.isPlaying = false;
-		};
-
-		AudioInstance.prototype.stop = function() {
-			if (!this.isPlaying && !this.audioStopFlag) {
-				this.audioStopFlag = true;
-				return;
-			}
-			switch (this.type) {
-				case "webaudio":
-					try {
-						this.audio.stop();
-					} catch (error) {
-						console.log(error);
-					}
-					break;
-				default:
-					this.audio.pause();
-					break;
-			}
-			this.audioPlayTime += getTimeStamp() - this.audioPlayStart;
-			if (this.playRaf) cancelAnimationFrame(this.playRaf);
-			this.isPlaying = false;
-			this.currentTime = 0;
-		};
-
 		/**
 		 * resize
 		 */
@@ -4802,7 +4525,6 @@ if (!("swf2js" in window)) {
 				sounds: []
 			};
 		};
-
 		var TagTypes = [
 			[ 0, "End"],
 			[ 1, "ShowFrame"],
@@ -4887,9 +4609,6 @@ if (!("swf2js" in window)) {
 			[ 91, "DefineFont4"],
 			[ 93, "EnableTelemetry"]
 		];
-
-		const MIN_NUM_FRAMES_NO_SOUND = 2;
-
 		/**
 		 * @param dataLength
 		 * @param characterId
@@ -4905,7 +4624,7 @@ if (!("swf2js" in window)) {
 			var frame = 1;
 			var stage = _this.stage;
 			_this.lastFrame = -1;
-			_this.currentFrame = frame;
+			stage.currentFrame = frame;
 			var tags = [];
 			var tagType = 0;
 			var bitio = _this.bitio;
@@ -4919,7 +4638,6 @@ if (!("swf2js" in window)) {
 					break;
 				}
 
-				//var pos = [bitio.byte_offset,bitio.bit_offset];
 				var tagLength = bitio.getUI16();
 				tagType = tagLength >> 6;
 
@@ -4934,37 +4652,19 @@ if (!("swf2js" in window)) {
 					length = bitio.getUI32();
 				}
 
-				// DefineSprite
-				if (tagType == 39) {
-					stage.isSprite = true;
-				}
-
 				var tagDataStartOffset = bitio.byte_offset;
 				// ShowFrame
 				if (tagType === 1) {
 					frame++;
+					stage.currentFrame = frame;
 
-					if (stage.frameHasSoundStream) stage.numFramesNoSoundStream = 0;
-					else stage.numFramesNoSoundStream++;
-					if (stage.numFramesNoSoundStream >= MIN_NUM_FRAMES_NO_SOUND) {
-						if (stage.currentSoundStream>=0) {
-							if (stage.soundStreams[stage.currentSoundStream].Data.length>0) {
-								_this.removeCharacterId(stage.soundStreams[stage.currentSoundStream].SoundStreamId);
-								stage.currentSoundStream = -1;
-							}
-						}
-					}
-					stage.frameHasSoundStream = false;
-
-					_this.currentFrame = frame;
 					if (dataLength > tagDataStartOffset + 2) {
 						tags[frame] = _generateDefaultTagObj.call(_this, frame, characterId);
 					}
 				}
-
-				const l = (tagType == 39)?4:length;
-				_this.tags_total+=l;
 				if (stage.debug) {
+					const l = (tagType == 39)?4:length;
+					_this.tags_total+=l;
 					const spaces = '    ' ;
 					const t = TagTypes.filter(element => element[0] == tagType);
 					const tt = t.length==0?'Unknown tag '+tagType.toString():t[0][1];
@@ -4973,9 +4673,8 @@ if (!("swf2js" in window)) {
 						(_this.tags_total).toString().padStart(9,' ')+' '+spaces.repeat(_this.tagLevel)+
 						tt);
 				}
-
 				var tag = _parseTag.call(_this, tagType, length, this.tagLevel);
-				//if (tag === null) window.alert('_parseTag tag null');
+				// if (tag === null) window.alert('_parseTag tag null, type '+tagType+' '+TagTypes[tagType]);
 
 				var o = bitio.byte_offset - tagDataStartOffset;
 				if (o !== length) {
@@ -5061,7 +4760,7 @@ if (!("swf2js" in window)) {
 					break;
 				case 12: // DoAction
 					// DoAction should be ignored if SWF-version>= 9 and ActionScript3
-					if (parseInt(stage.version)>=9 && SWF_HAS_AS3)
+					if (parseInt(stage.version)>=9 && stage.SWF_HAS_AS3)
 						console.warn('DoAction should be ignored for SWF '+stage.version+' (>=9) with Actionscript 3.');
 					obj = _this.parseDoAction(length);
 					break;
@@ -5975,7 +5674,6 @@ if (!("swf2js" in window)) {
 		{
 			return this.bitio.getData(length);
 		};
-
 		/**
 		 * @param tagType
 		 * @param length
@@ -5997,7 +5695,6 @@ if (!("swf2js" in window)) {
 				return null;
 			}
 		};
-
 		/**
 		 * @param tagType
 		 * @param length
@@ -6083,7 +5780,6 @@ if (!("swf2js" in window)) {
 			// for android bug
 			setTimeout(function() {}, 0);
 		};
-
 		/**
 		 * @param marker
 		 * @returns {hex}
@@ -6180,7 +5876,6 @@ if (!("swf2js" in window)) {
 				marker != RST6 &&
 				marker != RST7;
 		};
-
 		/**
 		 * @param JPEGData
 		 * @returns {string}
@@ -6882,14 +6577,8 @@ if (!("swf2js" in window)) {
 			obj.EndEdges = _this.shapeWithStyle(tagType);
 
 			// fill1 control
-			var startPosition = {
-				x: 0,
-				y: 0
-			};
-			var endPosition = {
-				x: 0,
-				y: 0
-			};
+			var startPosition = {x: 0, y: 0};
+			var endPosition = {x: 0, y: 0};
 			var StartRecords = obj.StartEdges.ShapeRecords;
 			var EndRecords = obj.EndEdges.ShapeRecords;
 			var StartRecordLength = StartRecords.length;
@@ -7006,7 +6695,6 @@ if (!("swf2js" in window)) {
 
 				FillType = (FillType) ? 0 : 1;
 			}
-
 			stage.setCharacter(obj.CharacterId, obj);
 		};
 
@@ -7244,16 +6932,6 @@ if (!("swf2js" in window)) {
 		};
 
 		/**
-		 * @param characterId
-		 */
-		SwfTag.prototype.removeCharacterId = function(characterId)
-		{
-			var stage = this.stage;
-			const index = stage.spritesWithSoundStream.indexOf(characterId);
-			if (index > -1) stage.spritesWithSoundStream.splice(index, 1);
-		}
-
-		/**
 		 * @param tagType
 		 * @returns {*}
 		 */
@@ -7265,7 +6943,6 @@ if (!("swf2js" in window)) {
 				obj.CharacterId = bitio.getUI16();
 				obj.Depth = bitio.getUI16();
 				console.log("RemoveObject");
-				_this.remove
 				return {
 					CharacterId: obj.CharacterId,
 					Depth: obj.Depth
@@ -7409,18 +7086,6 @@ if (!("swf2js" in window)) {
 		};
 
 		/**
-		 * @param characterId
-		 */
-		SwfTag.prototype.addCharacterId = function(characterId)
-		{
-			var stage = this.stage;
-			stage.soundStreams.forEach(function(soundStream, index) {
-				if (soundStream.SoundStreamId == characterId)
-					stage.spritesWithSoundStream.push({characterId});
-			});
-		}
-
-		/**
 		 * @param tagType
 		 * @param length
 		 * @returns {{}}
@@ -7436,7 +7101,6 @@ if (!("swf2js" in window)) {
 
 			if (tagType === 4) {
 				obj.CharacterId = bitio.getUI16();
-				_this.addCharacterId(obj.CharacterId);
 				obj.Depth = bitio.getUI16();
 				obj.Matrix = _this.matrix();
 				obj.PlaceFlagHasMatrix = 1;
@@ -7480,7 +7144,6 @@ if (!("swf2js" in window)) {
 				}
 				if (obj.PlaceFlagHasCharacter) {
 					obj.CharacterId = bitio.getUI16();
-					_this.addCharacterId(obj.CharacterId);
 				}
 				if (obj.PlaceFlagHasMatrix) {
 					obj.Matrix = _this.matrix();
@@ -7982,10 +7645,13 @@ if (!("swf2js" in window)) {
 			var frameCount = bitio.getUI16();
 			var stage = _this.stage;
 			_this.tagLevel = tagLevel;
-			stage.spriteCharacterId = characterId;
+			//stage.soundStreamLevels[_this.tagLevel].currentSoundStream = stage.currentSoundStream;
+			stage.soundStreamLevels[stage.soundStreamLevels.length-1].currentFrame = stage.currentFrame;
+			stage.soundStreamLevels.push({"CharacterId":characterId, "SoundStreamFirstBlock":true});
 			stage.setCharacter(characterId, _this.parseTags(dataLength, characterId,tagLevel+1));
+			stage.soundStreamLevels.pop();
 			_this.tagLevel--;
-			stage.isSprite = false;
+			stage.currentFrame = stage.soundStreamLevels[stage.soundStreamLevels.length-1].currentFrame;
 		};
 
 		/**
@@ -8101,31 +7767,17 @@ if (!("swf2js" in window)) {
 			}
 			obj.SoundStreamOffsetCurrentTime = obj.LatencySeek / soundRates[obj.SoundStreamRate];
 
-			if (stage.isSprite) {
-				obj.SoundStreamId = stage.spriteCharacterId;
-				stage.spritesWithSoundStream.push(stage.spriteCharacterId);
-			} else obj.SoundStreamId = 0;
-			obj.Data = [];
-			obj.Loaded = false;
-			obj.TotalSoundStreamSampleCount = 0;
-			obj.isSoundStreamFirstBlock = true;
-			obj.startFrame = 0;
-			obj.endFrame = 0;
-			obj.startAudio = 0;
-			obj.endAudio = 0;
-			obj.Audio = false;
+			obj.SoundStreamId = stage.soundStreamLevels[this.tagLevel].CharacterId;
+			obj.FrameRanges = [];
 			obj.soundStreamOutputLatency = 0;
-			obj.soundStreamParts = [];
 			obj.soundStreamFirstBlock = true;
 			obj.tagLevel = this.tagLevel;
 			stage.soundStreams[stage.soundStreams.length] = obj;
 			stage.soundStreamCount++;
-			stage.sndStreamUnloadCount++;
-			var s = stage.soundStreams[stage.soundStreams.length-1];
-			// overrule info soundstream mp3
-			obj.SoundStreamCompression = 2;
+			//stage.sndStreamUnloadCount++;
 
 			/*
+			var s = stage.soundStreams[stage.soundStreams.length-1];
 			console.log('SoundStream '+(stage.soundStreams.length-1)+' id '+obj.SoundStreamId+' '+
 				soundFormats[obj.SoundStreamCompression]+' '+soundSizes[obj.SoundStreamSize]+' '+soundTypes[obj.SoundStreamType]+' '+
 				soundRates[obj.SoundStreamRate]+' Hz '+this.tagLevel);
@@ -9024,35 +8676,31 @@ if (!("swf2js" in window)) {
 					mimeType = "x-aiff";
 					break;
 			}
-			// console.log('Sound id '+obj.SoundId+' '+soundFormats[obj.SoundFormat]+' '+soundSizes[obj.SoundSize]+' '+soundTypes[obj.SoundType]+' '+soundRates[obj.SoundRate]+' Hz ');
 			if (obj.SoundFormat == 0 || obj.SoundFormat == 3) {
 				var pcmOutput = new PcmOutput(obj.SoundType, obj.SoundSize, obj.SoundRate, data);
 				obj.bytes = pcmOutput.createWave();
-				obj.base64 = "data:audio/" + mimeType + ";base64," + _this.base64encode(obj.bytes);
+				mimeType = "wave";
 			} else if (obj.SoundFormat == 1) {
 				var adpcmOutput = new AdpcmOutput();
 				obj.bytes = adpcmOutput.convertADPCMtoWave(false, obj.SoundType, obj.SoundSize, obj.SoundRate, data);
 				mimeType = "wave";
-				obj.base64 = "data:audio/" + mimeType + ";base64," + _this.base64encode(obj.bytes);
 			} else if (obj.SoundFormat == 4 || obj.SoundFormat == 5 || obj.SoundFormat == 6) {
-				var nellyMoserDecoder = new NellyMoserDecoder(obj.SoundType, obj.SoundSize, obj.SoundFormat, obj.bytes);
+				console.log('Sound id '+obj.SoundId+' '+soundFormats[obj.SoundFormat]+' '+soundSizes[obj.SoundSize]+' '+soundTypes[obj.SoundType]+' '+soundRates[obj.SoundRate]+' Hz l '+data.length);
+				var nellyMoserDecoder = new NellyMoserDecoder(obj.SoundType, obj.SoundSize, obj.SoundRate, data);
+				obj.bytes = nellyMoserDecoder.toWave();
 				mimeType = "wave";
-				obj.base64 = "data:audio/" + mimeType + ";base64," + _this.base64encode(nellyMoserDecoder.toWave());
 			} else if (obj.SoundFormat == 2) {
-				obj.bytes = data;
-				obj.base64 = "data:audio/" + mimeType + ";base64," + _this.base64encode(data.slice(2,data.length-2));
+				obj.bytes = data.slice(2,data.length-2);
 			} else window.alert('Sound: '+obj.SoundFormat+' '+mimeType+' not supported');
 
 			obj.Loaded = false;
 			obj.Audio = new AudioInstance({
-				"src": obj.base64,
+				"mimeType": mimeType,
 				"data": obj.bytes,
-				"type": stage.soundUseType,
 				"id": obj.SoundId
 			});
 			stage.sndUnloadCount++;
 			stage.sounds[obj.SoundId] = obj;
-			//console.log(obj.base64);
 		};
 
 		/**
@@ -9209,6 +8857,8 @@ if (!("swf2js" in window)) {
 			bitio.getUI8(); // Reserved
 		};
 
+		const MIN_NUM_FRAMES_NO_SOUND = 2;
+
 		/**
 		 * @param tagType
 		 * @param length
@@ -9222,34 +8872,68 @@ if (!("swf2js" in window)) {
 			var sampleCount = 0;
 			var seekSamples = 0;
 			var stage = _this.stage;
-			if (!stage.frameHasSoundStream) {
-				stage.currentSoundStream = -1;
-				stage.soundStreams.forEach(function(item, index) {
-					if (stage.spritesWithSoundStream.includes(item.SoundStreamId)) {
-						stage.currentSoundStream = index;
-						// console.log('SoundStream found '+stage.soundStreams[stage.currentSoundStream].SoundStreamId+' '+stage.soundStreams[stage.currentSoundStream].tagLevel+' ? '+_this.tagLevel);
-						// overrule info SoundStreamHead and use mp3
-						if (stage.soundStreams[stage.currentSoundStream].tagLevel>0 && _this.tagLevel==0) {
-							// console.log('SoundStream '+stage.soundStreams[stage.currentSoundStream].SoundStreamId+' -> mp3');
-							stage.soundStreams[stage.currentSoundStream].SoundStreamCompression = 2;
+			var soundStreamFirstBlock = false;
+			var i, cid;
+			if (stage.soundStreamLevels[this.tagLevel].SoundStreamFirstBlock) {
+				cid = stage.soundStreamLevels[this.tagLevel].CharacterId;
+				for (i=0; i<stage.soundStreams.length; i++) {
+					if (stage.soundStreams[i].SoundStreamId == cid) {
+						stage.currentSoundStream = i;
+						stage.currentFrameRange = stage.soundStreams[i].FrameRanges.length;
+						stage.soundStreams[i].FrameRanges[stage.currentFrameRange] = {
+							"Loaded": false,
+							"startFrame": -1,
+							"startAudio": 0,
+							"endFrame": -1,
+							"endAudio":0,
+							"totalSampleCount": 0,
+							"Data": []
+						};
+						stage.soundStreamLevels[this.tagLevel].SoundStreamFirstBlock = false;
+						soundStreamFirstBlock = true;
+						break;
+					}
+				}
+			} else if (stage.currentSoundStream != -1) {
+				if (stage.soundStreams[stage.currentSoundStream].tagLevel != this.tagLevel) {
+					cid = stage.soundStreamLevels[this.tagLevel].CharacterId;
+					for (i=0; i<stage.soundStreams.length; i++) {
+						if (stage.soundStreams[i].SoundStreamId == cid) {
+							stage.currentSoundStream = i;
+							stage.currentFrameRange = stage.soundStreams[i].FrameRanges.length;
+							stage.soundStreams[i].FrameRanges[stage.currentFrameRange] = {
+								"Loaded": false,
+								"startFrame": -1,
+								"startAudio": 0,
+								"endFrame": -1,
+								"endAudio":0,
+								"totalSampleCount": 0,
+								"Data": []
+							};
+							soundStreamFirstBlock = true;
+							break;
 						}
-					} 
-				});
-				if (stage.currentSoundStream == -1) {
-					stage.soundStreams.forEach(function(item, index) {
-						if (item.SoundStreamId == 0) stage.currentSoundStream = index;
-					});
+					}
 				}
 			}
-
+			if (stage.currentSoundStream == -1) console.log('Error SoundStreamBlock, not found corresponding SoundStreamHead');
 			var s = stage.soundStreams[stage.currentSoundStream];
-			/*
-			if (s.soundStreamFirstBlock) {
-				console.log('SoundStream '+stage.currentSoundStream+' id '+s.SoundStreamId+' '+
-				soundFormats[s.SoundStreamCompression]+' '+soundSizes[s.SoundStreamSize]+' '+soundTypes[s.SoundStreamType]+' '+
-				soundRates[s.SoundStreamRate]+' Hz '+s.tagLevel+' ? '+this.tagLevel);
+			var fr = s.FrameRanges[stage.currentFrameRange];
+
+			if (fr && fr.endFrame != -1 && stage.currentFrame - fr.endFrame > MIN_NUM_FRAMES_NO_SOUND) {
+				stage.currentFrameRange++;
+				s.FrameRanges[stage.currentFrameRange] = {
+					"Loaded": false,
+					"startFrame": -1,
+					"startAudio": 0,
+					"endFrame": -1,
+					"endAudio":0,
+					"totalSampleCount": 0,
+					"Data": []
+				};
+				fr = s.FrameRanges[stage.currentFrameRange];
+				soundStreamFirstBlock = true;
 			}
-			*/
 			if (s.SoundStreamCompression == 2) { // MP3
 				if (length > 4) {
 /*jshint bitwise:false*/
@@ -9257,25 +8941,34 @@ if (!("swf2js" in window)) {
 					seekSamples = obj.compressed[2] + (obj.compressed[3] << 8); // UI16
 /*jshint bitwise:false*/
 					seekSamples = seekSamples > 32768 ? seekSamples - 65536 : seekSamples; // SI16
-					if (s.soundStreamFirstBlock) {
-						s.startAudio = seekSamples / soundRates[s.SoundStreamRate];
-						s.startFrame = _this.currentFrame;
+					if (soundStreamFirstBlock) {
+						fr.Loaded = false;
+						fr.startAudio = seekSamples / soundRates[s.SoundStreamRate];
+						fr.startFrame = stage.currentFrame;
+						fr.totalSampleCount = 0;
 					}
-					s.TotalSoundStreamSampleCount += sampleCount;
-					s.endAudio = s.TotalSoundStreamSampleCount / soundRates[s.SoundStreamRate];
-					s.endFrame = _this.currentFrame;
-					s.Data.push(obj.compressed.slice(4, obj.compressed.length + 1));
+					fr.totalSampleCount += sampleCount;
+					fr.endAudio = fr.totalSampleCount/soundRates[s.SoundStreamRate];
+					fr.endFrame = stage.currentFrame;
+					fr.Data.push(obj.compressed.slice(4, obj.compressed.length + 1));
 				}
 			} else { // converted to wave
-				if (s.soundStreamFirstBlock) {
-					s.startAudio = 0;
-					s.startFrame = _this.currentFrame;
+				if (soundStreamFirstBlock) {
+					fr.Loaded = false;
+					fr.startAudio = 0;
+					fr.startFrame = stage.currentFrame;
+					fr.totalSampleCount = 0;
 				}
-				s.endFrame = _this.currentFrame;
-				s.Data.push(obj.compressed);
+				fr.totalSampleCount += s.SoundStreamSampleCount;
+				fr.endAudio = fr.totalSampleCount/soundRates[s.SoundStreamRate];
+				fr.endFrame = stage.currentFrame;
+				fr.Data.push(obj.compressed);
 			}
-			s.soundStreamFirstBlock = false;
-			stage.frameHasSoundStream = true;
+			/*
+			console.log('Soundstream > '+this.tagLevel+' f '+stage.currentFrame+' id '+s.SoundStreamId+' c '+stage.currentSoundStream+
+				' fr '+stage.currentFrameRange+' ['+fr.startFrame+'-'+fr.endFrame+'], ['+fr.startAudio+'-'+fr.endAudio+'] '+
+				((1+stage.currentFrame-fr.startFrame)*stage.getFrameRate()/1000)+' l '+fr.Data.length);
+			*/
 		};
 
 		/**
@@ -9355,6 +9048,7 @@ if (!("swf2js" in window)) {
 			var _this = this;
 			var bitio = _this.bitio;
 			var obj = {};
+			var stage = this.stage;
 			bitio.getUIBit(); // Reserved
 			obj.UseDirectBlit = bitio.getUIBit();
 			obj.UseGPU = bitio.getUIBit();
@@ -9363,7 +9057,7 @@ if (!("swf2js" in window)) {
 			obj.Reserved2 = bitio.getUIBits(3);
 			obj.UseNetwork = bitio.getUIBit();
 			obj.Reserved3 = bitio.getUIBits(24);
-			SWF_HAS_AS3 = (obj.ActionScript3=1);
+			stage.SWF_HAS_AS3 = (obj.ActionScript3==1);
 		};
 
 		/**
@@ -10382,7 +10076,6 @@ if (!("swf2js" in window)) {
 			var prop = values.pop();
 			var ns = values.pop();
 			if (ns) {
-				// console.log(ns, obj, prop);
 			}
 
 			var func = obj[prop];
@@ -12057,7 +11750,6 @@ if (!("swf2js" in window)) {
 			stack[stack.length] = value2 >> value1;
 /*jshint bitwise:true*/
 		};
-
 		var ActionCodes = [
 			[  45, "ActionFSCommand2" ], // 0x2D
 			[ 137, "ActionStrictMode" ], // 0x89
@@ -12181,7 +11873,6 @@ if (!("swf2js" in window)) {
 			[ 143, "ActionTry" ], // 0x8F
 			[  42, "ActionThrow" ], // 0x2A
 		];
-
 		/**
 		 * @param data
 		 * @param constantPool
@@ -13354,6 +13045,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionGetURL = function(mc, url, target)
 		{
+			console.log('ActionScript.prototype.ActionGetURL '+url+' '+target);
 			if (mc instanceof MovieClip) {
 				mc.getURL(url, target);
 			}
@@ -13745,6 +13437,7 @@ if (!("swf2js" in window)) {
 						url = value;
 					}
 
+					console.log('ActionScript.prototype.ActionGetURL2 '+url);
 					// local variables
 					if (SendVarsMethod) {
 						var variables = mc.variables;
@@ -17899,13 +17592,15 @@ if (!("swf2js" in window)) {
 				get: function() {
 					return this.getYMouse();
 				},
-				set: function() {}
+				set: function() {
+				}
 			},
 			mouseY: {
 				get: function() {
 					return this.getYMouse();
 				},
-				set: function() {}
+				set: function() {
+				}
 			},
 			mask: {
 				get: function() {
@@ -19636,7 +19331,7 @@ if (!("swf2js" in window)) {
 						tag = loadStage.getInstance(instanceId);
 						if (!tag || tag.removeFlag) {
 							continue;
-						}
+						}	
 
 						var tagName = tag.getName();
 						if (!tagName) {
@@ -19644,8 +19339,7 @@ if (!("swf2js" in window)) {
 						}
 
 						if (version < 7) {
-							// console.log('DisplayObject.prototype.getDisplayObject '+tagName+' ? '+name+' '+typeof(tagName)+' ? '+typeof(name));
-							if (tagName.toString().toLowerCase() === name.toString().toLowerCase()) {
+							if (tagName.toLowerCase() === name.toLowerCase()) {
 								mc = tag;
 								setTarget = true;
 								break;
@@ -20410,13 +20104,15 @@ if (!("swf2js" in window)) {
 				get: function() {
 					return this.getTextSnapshot();
 				},
-				set: function() {}
+				set: function() {
+				}
 			},
 			numChildren: {
 				get: function() {
 					return this.getNumChildren();
 				},
-				set: function() {}
+				set: function() {
+				}
 			},
 			tabChildren: {
 				get: function() {
@@ -24106,7 +23802,8 @@ if (!("swf2js" in window)) {
 		/**
 		 * @param status
 		 */
-		SimpleButton.prototype.buttonReset = function(status) {
+		SimpleButton.prototype.buttonReset = function(status)
+		{
 			var _this = this;
 			var sprite = _this.getSprite();
 			var container = sprite.getContainer();
@@ -24380,10 +24077,7 @@ if (!("swf2js" in window)) {
 		 * Dummy
 		 * @returns {undefined}
 		 */
-		SimpleButton.prototype.getTags = function()
-		{
-			return undefined;
-		};
+		SimpleButton.prototype.getTags = function() { return undefined; };
 		SimpleButton.prototype.initFrame = function() {};
 
 		/**
@@ -24542,6 +24236,7 @@ if (!("swf2js" in window)) {
 		MovieClip.prototype.gotoAndPlay = function(frame)
 		{
 			var _this = this;
+			var stage = _this.getStage();
 			if (!_isNaN(frame)) {
 				frame = +frame;
 			} else if (typeof frame === "string") {
@@ -24550,9 +24245,12 @@ if (!("swf2js" in window)) {
 
 			if (typeof frame === "number" && frame > 0) {
 				// reset all sounds
-				_this.sounds.forEach(function(item, index) {
-					item.Paused = null;
-				});
+				for (var i=0; i<_this.sounds.length; i++) {
+					if (_this.sounds[i]) {
+						var sound = stage.sounds[_this.sounds[i].SoundId];
+						if (sound && sound.Audio.isPlaying) sound.Audio.pause();
+					}
+				}
 				_this.setPreviousFrame(_this.getCurrentFrame());
 				_this.setNextFrame(frame);
 				_this.play();
@@ -24586,9 +24284,12 @@ if (!("swf2js" in window)) {
 		MovieClip.prototype.stopAllSounds = function()
 		{
 			var _this = this;
-			_this.sounds.forEach(function(sound, soundId) {
-				if (sound.Audio) sound.Audio.pause();
-			});
+			var stage = _this.getStage();
+			for (var i=0; i<stage.sounds.length; i++) {
+				if (stage.sounds[i]) {
+					if (stage.sounds[i].Audio.isPlaying) stage.sounds[i].Audio.pause();
+				}
+			}
 		};
 
 		/**
@@ -24603,6 +24304,7 @@ if (!("swf2js" in window)) {
 			var stage = _this.getStage();
 			var targetMc = null;
 
+			console.log('MovieClip.prototype.loadMovie '+url+' '+target);
 			if (!target) {
 				target = _this.getName();
 				targetMc = _this;
@@ -24642,6 +24344,7 @@ if (!("swf2js" in window)) {
 					xmlHttpRequest.open("POST", targetUrl, true);
 					xmlHttpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 				} else {
+					console.log('MovieClip.prototype.loadMovie '+targetUrl);
 					xmlHttpRequest.open("GET", targetUrl, true);
 				}
 
@@ -24745,6 +24448,7 @@ if (!("swf2js" in window)) {
 		MovieClip.prototype.getURL = function(url, target, method)
 		{
 			var _this = this;
+			console.log('MovieClip.prototype.getURL '+url+' '+target);
 			if (typeof url === "string") {
 				var cmd = url.substr(0, 9);
 				if (cmd === "FSCommand") {
@@ -24826,6 +24530,7 @@ if (!("swf2js" in window)) {
 		MovieClip.prototype.loadVariables = function(url, target, method)
 		{
 			var _this = this;
+			console.log('MovieClip.prototype.loadVariables '+url+' '+target);
 			var targetMc = _this;
 			if (target) {
 				targetMc = _this.getDisplayObject(target);
@@ -24842,10 +24547,12 @@ if (!("swf2js" in window)) {
 					xmlHttpRequest.open(method, urls[0], true);
 					xmlHttpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 				} else {
+					console.log('MovieClip.prototype.loadVariable '+url);
 					xmlHttpRequest.open("GET", url, true);
 				}
 
-				xmlHttpRequest.onreadystatechange = function() {
+				xmlHttpRequest.onreadystatechange = function()
+				{
 					var readyState = xmlHttpRequest.readyState;
 					if (readyState === 4) {
 						var status = xmlHttpRequest.status;
@@ -25132,7 +24839,7 @@ if (!("swf2js" in window)) {
 			var _this = this;
 			var stage = _this.getStage();
 			var bitio = stage.bitio;
-			return (!bitio) ? stage.fileLength : bitio.byte_offset;
+			return (!bitio) ? stage.fileSize : bitio.byte_offset;
 		};
 
 		/**
@@ -25142,7 +24849,7 @@ if (!("swf2js" in window)) {
 		{
 			var _this = this;
 			var stage = _this.getStage();
-			return stage.fileLength;
+			return stage.fileSize;
 		};
 
 		/**
@@ -25339,80 +25046,87 @@ if (!("swf2js" in window)) {
 				initAction.apply(_this);
 			}
 		};
-
 		/**
 		 * @param stopFlag
 		 * @param frame
 		 * @param soundStreamId
 		 */
 		MovieClip.prototype.startStopSoundStreams = function(stopFlag, frame, soundStreamId) {
-			var _this = this;
-			var stage = _this.getStage();
-			var previousframe = _this._previousframe;
-			// Note soundstream is in main line
-			// console.log('startStopSoundStreams '+stopFlag+' '+frame+' '+soundStreamId);
-			if (soundStreamId) return ;
-			for (var i = 0; i < stage.soundStreams.length; i++) {
-				if (!stage.soundStreams[i]) continue;
+			var stage = this.getStage();
+			var previousframe = this._previousframe;
+			if (soundStreamId == 0) {
+				previousframe = stage.getParent()._previousframe;
+			}
+
+			for (var i=0; i<stage.soundStreams.length; i++) {
+				if (stage.soundStreams[i].SoundStreamId != soundStreamId) continue;
 
 				var s = stage.soundStreams[i];
-				//console.log('stream '+soundStreamId+' s '+i+' id '+stage.soundStreams[i].SoundStreamId+' playing '+s.Audio.isPlaying+' f '+_this._previousframe+' '+frame+' ['+s.startFrame+'-'+s.endFrame+']');
-				if (stopFlag || frame == previousframe) {
-					if (s.Audio.isPlaying) {
-						var ct = s.Audio.seek();
-						var wt = s.startAudio + (frame - s.startFrame + 1) * _this.getStage().getFrameRate() / 1000 - ct;
-						if (wt > 0) {
-							setTimeout(function() {
-								if (s.Audio.isPlaying) {
-									s.Audio.pause();
-								}
+				for (var f=0; f<s.FrameRanges.length; f++) {
+					var frameRange = s.FrameRanges[f];
+					if (stopFlag || frame == previousframe) {
+						if (frameRange.Audio.isPlaying) {
+							var ct = frameRange.Audio.seek();
+							var wt = frameRange.startAudio+(frame-frameRange.startFrame+1) * this.getStage().getFrameRate()/1000-ct;
+							if (wt > 0) {
+								setTimeout(function() {
+									if (frameRange.Audio.isPlaying) {
+										frameRange.Audio.pause();
+									}
+									if (soundStreamId == 0) {
+										stage.soundStreamIsPlaying = false;
+										stage.soundStreamPlaying = -1;
+										stage.soundStreamFrameRange = -1;
+									}
+								}, wt * 1000);
+							} else {
+								frameRange.Audio.pause();
 								if (soundStreamId == 0) {
 									stage.soundStreamIsPlaying = false;
 									stage.soundStreamPlaying = -1;
+									stage.soundStreamFrameRange = -1;
 								}
-							}, wt * 1000);
-						} else {
-							s.Audio.pause();
+							}
+						}
+					} else if ((frameRange.startFrame <= frame) && (frame <= frameRange.endFrame)) {
+						if (!frameRange.Audio.isPlaying) {
+							var audioStart = frameRange.startAudio + (frame - frameRange.startFrame) * this.getStage().getFrameRate()/1000;
+							frameRange.Audio.seek(audioStart);
+							frameRange.Audio.play();
+							stage.lastAudioCurrentTime = 0;
+							if (soundStreamId == 0) {
+								stage.soundStreamIsPlaying = true;
+								stage.soundStreamPlaying = i;
+								stage.soundStreamFrameRange = f;
+							}
+						} else if (frame == previousframe) {
+							if (frameRange.Audio.isPlaying) {
+								frameRange.Audio.pause();
+								if (soundStreamId == 0) {
+									stage.soundStreamIsPlaying = false;
+									stage.soundStreamPlaying = -1;
+									stage.soundStreamFrameRange = -1;
+								}
+							}
+						} else if (frame != previousframe + 1) {
+							if (frameRange.Audio.isPlaying) {
+								var tn = frameRange.startAudio + (frame - frameRange.startFrame) * this.getStage().getFrameRate()/1000;
+								frameRange.Audio.seek(tn);
+							}
+						}
+					} else {
+						if (frameRange.Audio.isPlaying) {
+							frameRange.Audio.pause();
 							if (soundStreamId == 0) {
 								stage.soundStreamIsPlaying = false;
 								stage.soundStreamPlaying = -1;
+								stage.soundStreamFrameRange = -1;
 							}
 						}
 					}
-				} else if (!s.Audio.isPlaying) {
-					if ((s.startFrame <= frame) && (frame < s.endFrame)) {
-						var audioStart = s.startAudio + (frame - s.startFrame) * _this.getStage().getFrameRate() / 1000;
-						var audioEnd = s.endAudio;
-						//s.Audio.setLoop(1, audioStart, audioEnd);
-						s.Audio.seek(audioStart);
-						s.soundStreamOutputLatency = s.Audio.outputLatency;
-						s.Audio.play();
-						stage.lastAudioCurrentTime = 0;
-						if (soundStreamId == 0) {
-							stage.soundStreamIsPlaying = true;
-							stage.soundStreamPlaying = i;
-						}
-						break;
-					}
-				} else {
-					if ((s.startFrame <= frame) && (frame < s.endFrame)) {
-						var t = s.Audio.seek();
-						if (frame != previousframe + 1) {
-							var tn = s.startAudio + (frame - s.startFrame) * _this.getStage().getFrameRate() / 1000;
-							s.Audio.seek(s.startAudio + (frame - s.startFrame) * _this.getStage().getFrameRate() / 1000);
-						} else if (t<s.startAudio || t>s.endAudio) {
-							var tn = s.startAudio + (frame - s.startFrame) * _this.getStage().getFrameRate() / 1000;
-							s.Audio.seek(s.startAudio + (frame - s.startFrame) * _this.getStage().getFrameRate() / 1000);
-						}
-					} else {
-						s.Audio.pause();
-						stage.soundStreamIsPlaying = false;
-						stage.soundStreamPlaying = -1;
-					}
 				}
 			}
-		}
-
+		};
 		/**
 		 * @param stage
 		 * @param clipEvent
@@ -25957,22 +25671,13 @@ if (!("swf2js" in window)) {
 				var as = events[name];
 				switch (name) {
 					case "mouseDown":
-						downEventHits[downEventHits.length] = {
-							as: as,
-							mc: _this
-						};
+						downEventHits[downEventHits.length] = { as: as, mc: _this};
 						break;
 					case "mouseMove":
-						moveEventHits[moveEventHits.length] = {
-							as: as,
-							mc: _this
-						};
+						moveEventHits[moveEventHits.length] = { as: as, mc: _this};
 						break;
 					case "mouseUp":
-						upEventHits[upEventHits.length] = {
-							as: as,
-							mc: _this
-						};
+						upEventHits[upEventHits.length] = { as: as, mc: _this};
 						break;
 					case "keyDown":
 						if (_isTouchEvent) {
@@ -25988,10 +25693,7 @@ if (!("swf2js" in window)) {
 						}
 						break;
 					case "keyUp":
-						upEventHits[upEventHits.length] = {
-							as: as,
-							mc: _this
-						};
+						upEventHits[upEventHits.length] = { as: as, mc: _this};
 						break;
 				}
 			}
@@ -25999,21 +25701,15 @@ if (!("swf2js" in window)) {
 			var variables = _this.variables;
 			var onMouseDown = variables.onMouseDown;
 			if (onMouseDown) {
-				downEventHits[downEventHits.length] = {
-					mc: _this
-				};
+				downEventHits[downEventHits.length] = {mc: _this};
 			}
 			var onMouseMove = variables.onMouseMove;
 			if (onMouseMove) {
-				moveEventHits[moveEventHits.length] = {
-					mc: _this
-				};
+				moveEventHits[moveEventHits.length] = {mc: _this};
 			}
 			var onMouseUp = variables.onMouseUp;
 			if (onMouseUp) {
-				upEventHits[upEventHits.length] = {
-					mc: _this
-				};
+				upEventHits[upEventHits.length] = {mc: _this};
 			}
 		};
 
@@ -26023,7 +25719,8 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.createActionScript = function(script)
 		{
-			return (function(clip, origin) {
+			return (function(clip, origin)
+			{
 				var as = new ActionScript([], origin.constantPool, origin.register, origin.initAction);
 				as.cache = origin.cache;
 				as.scope = clip;
@@ -26041,8 +25738,10 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.createActionScript2 = function(script, parent)
 		{
-			return (function(clip, origin, chain) {
-				return function() {
+			return (function(clip, origin, chain)
+			{
+				return function()
+				{
 					var as = new ActionScript([], origin.constantPool, origin.register, origin.initAction);
 					as.parentId = origin.id; // todo
 					as.cache = origin.cache;
@@ -26366,6 +26065,7 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClipLoader.prototype.loadClip = function(url, target)
 		{
+			console.log('MovieClipLoader.prototype.loadClip '+url+' '+target);
 			if (!url || !target) {
 				return false;
 			}
@@ -26405,7 +26105,8 @@ if (!("swf2js" in window)) {
 				};
 			}
 
-			xmlHttpRequest.onreadystatechange = function() {
+			xmlHttpRequest.onreadystatechange = function()
+			{
 				var readyState = xmlHttpRequest.readyState;
 				if (readyState === 4) {
 					var status = xmlHttpRequest.status;
@@ -26415,7 +26116,8 @@ if (!("swf2js" in window)) {
 						onLoadStart = _this.onLoadStart;
 					}
 					if (typeof onLoadStart === "function") {
-						xmlHttpRequest.onloadstart = function() {
+						xmlHttpRequest.onloadstart = function()
+						{
 							onLoadStart.apply(_this, [target]);
 						};
 					}
@@ -26591,6 +26293,7 @@ if (!("swf2js" in window)) {
 		{
 			var _this = this;
 			var xmlHttpRequest = _this.xmlHttpRequest;
+			console.log('LoadVars.prototype.load '+url);
 			xmlHttpRequest.open("GET", url, true);
 			xmlHttpRequest.onreadystatechange = function() {
 				var readyState = xmlHttpRequest.readyState;
@@ -26635,6 +26338,7 @@ if (!("swf2js" in window)) {
 			var _this = this;
 			var xmlHttpRequest = _this.xmlHttpRequest;
 			var sendMethod = method ? method.toUpperCase() : "GET";
+			console.log('LoadVars.prototype.send '+url+' '+target);
 			xmlHttpRequest.open(sendMethod, url, true);
 			if (sendMethod === "POST") {
 				xmlHttpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -26655,6 +26359,7 @@ if (!("swf2js" in window)) {
 		LoadVars.prototype.sendAndLoad = function(url, target, method)
 		{
 			var _this = this;
+			console.log('LoadVars.prototype.sendAndLoad '+url+' '+target);
 			_this.send(url, target, method);
 			return _this.load(url);
 		};
@@ -26788,6 +26493,7 @@ if (!("swf2js" in window)) {
 			var _this = this;
 			url = "" + url;
 			var xmlHttpRequest = new XMLHttpRequest();
+			console.log('Xml.prototype.load '+url);
 			xmlHttpRequest.open("GET", url, true);
 			xmlHttpRequest.onreadystatechange = function() {
 				var readyState = xmlHttpRequest.readyState;
@@ -26827,6 +26533,7 @@ if (!("swf2js" in window)) {
 		 */
 		Xml.prototype.send = function(url, target, method)
 		{
+			console.log('Xml.prototype.send '+url+' '+target);
 			var sendMethod = method ? method.toUpperCase() : "GET";
 			if (target) {
 				console.log(target);
@@ -26844,6 +26551,7 @@ if (!("swf2js" in window)) {
 		Xml.prototype.sendAndLoad = function(url, resultXML)
 		{
 			var _this = this;
+			console.log('Xml.prototype.sendAndLoad '+url);
 			_this.send(url);
 			return _this.load(resultXML);
 		};
@@ -26913,9 +26621,61 @@ if (!("swf2js" in window)) {
 		Sound.prototype.start = function(currentTime, loopCount)
 		{
 			var _this = this;
-			var sounds = _this.sounds;
-			console.log('Sound.prototype.start '+loopCount);
+			var movieClip = _this.movieClip;
+			var stage = movieClip.getStage();
+			var sounds = stage.sounds;
 
+			for (var id in sounds) {
+				if (!sounds.hasOwnProperty(id)) {
+					continue;
+				}
+				var soundId,soundInfo, audio;
+				var sound = stage.sounds[id];
+				soundId = sound.SoundId;
+				audio = sound.Audio;
+				if (loopCount && currentTime) {
+					soundInfo = {
+						"HasLoops": true,
+						"LoopCount": loopCount,
+						"HasInPoint": true,
+						"Inpoint": currentTime
+					};
+				} else if (loopCount) {
+					soundInfo = {
+						"HasLoops": true,
+						"LoopCount": loopCount,
+					};
+				} else if (currentTime) {
+					soundInfo = {
+						"HasInPoint": true,
+						"Inpoint": currentTime
+					};
+				}
+				if (!stage.autoPlayAudioUnlocked) {
+					if (soundInfo && soundInfo.SyncStop) {
+						stage.soundsStopped.push({
+							"SoundId": soundId,
+							"SoundInfo": soundInfo
+						});
+					} else {
+						stage.soundsNotStarted.push({
+							"SoundId": soundId,
+							"SoundInfo": soundInfo
+						});
+					}
+				} else {
+					stage.soundsStarted.push({
+						"SoundId": soundId,
+						"SoundInfo": soundInfo
+					});					
+					if (soundInfo) audio.setSoundInfo(soundInfo);
+					else {
+						audio.currentTime = 0.0;
+						audio.play();
+					}
+				}
+			}
+			/*
 			var init = function(audio, time) {
 				return function() {
 					audio.currentTime = time;
@@ -26957,6 +26717,7 @@ if (!("swf2js" in window)) {
 
 				audio.play();
 			}
+			*/
 		};
 
 		/**
@@ -26986,17 +26747,18 @@ if (!("swf2js" in window)) {
 		 * @param url
 		 * @param bool
 		 */
-		/*
-		Sound.prototype.loadSound = function(url, bool) {
+		Sound.prototype.loadSound = function(url, bool)
+		{
 			var _this = this;
 			_this.isStreamin = bool;
-
+			console.log('Sound.prototype.loadSound '+url+' '+bool);
 			var sounds = _this.sounds;
 			var audio = _document.createElement("audio");
 			audio.src = url;
 			sounds[0] = audio;
 
-			var onLoad = (function(audio, sound) {
+			var onLoad = (function(audio, sound)
+			{
 				return function() {
 					audio.load();
 					audio.preload = "auto";
@@ -27010,7 +26772,8 @@ if (!("swf2js" in window)) {
 			})(audio, _this);
 			audio.addEventListener("canplaythrough", onLoad);
 
-			var onError = (function(audio, sound) {
+			var onError = (function(audio, sound)
+			{
 				return function() {
 					var onLoad = sound.onLoad;
 					if (typeof onLoad === "function") {
@@ -27020,7 +26783,6 @@ if (!("swf2js" in window)) {
 			})(audio, _this);
 			audio.addEventListener("error", onError);
 		};
-		*/
 
 		/**
 		 * @param id
@@ -27036,6 +26798,7 @@ if (!("swf2js" in window)) {
 				var characterId = exportAssets[id];
 				var tag = stage.sounds[characterId];
 				if (tag) {
+					/*
 					var audio = _document.createElement("audio");
 					audio.onload = function ()
 					{
@@ -27046,6 +26809,8 @@ if (!("swf2js" in window)) {
 					};
 					audio.src = tag.base64;
 					sounds[id] = audio;
+					*/
+					sounds[id] = stage.sounds[characterId].Audio;
 				}
 			}
 
@@ -27245,7 +27010,7 @@ if (!("swf2js" in window)) {
 		};
 
 		/**
-		 * @returns object with arrays or properties
+		 * @returns {*[]|*}
 		 */
 		Color.prototype.getTransform = function()
 		{
@@ -27398,6 +27163,7 @@ if (!("swf2js" in window)) {
 		Key.prototype.SPACE = 32;
 		Key.prototype.TAB = 9;
 		Key.prototype.UP = 38;
+		Key.prototype.codes = [];
 
 		/**
 		 * @param name
@@ -27443,7 +27209,8 @@ if (!("swf2js" in window)) {
 		Key.prototype.isDown = function(code)
 		{
 			var _this = this;
-			for (var idx = 0; idx < _this.codes.length; ++idx) {
+			var codes = keyClass.codes;
+			for (var idx = 0; idx < codes.length; ++idx) {
 				if (_this.codes[idx] !== code) {
 					continue;
 				}
@@ -27731,7 +27498,8 @@ if (!("swf2js" in window)) {
 					"Sound": Sound
 				},
 				"system": {
-					"fscommand": function() {
+					"fscommand": function ()
+					{
 						var command = arguments[0];
 						var args = arguments[1];
 						if (args === undefined) {
@@ -27777,7 +27545,7 @@ if (!("swf2js" in window)) {
 			_this.intervalId = 0;
 
 			_this.frameRate = 0;
-			_this.fileLength = 0;
+			_this.fileSize = 0;
 			_this.stopFlag = true;
 			_this.stepFlag = false;
 
@@ -27826,6 +27594,7 @@ if (!("swf2js" in window)) {
 			_this.soundStreamCount = 0;
 			_this.soundStream = false;
 			_this.soundStreamPlaying = -1;
+			_this.soundStreamFrameRange = -1;
 			_this.soundStreamIsPlaying = false;
 			_this.autoPlayAudioUnlocked = false;
 			_this.lastAudioCurrentTime = -1;
@@ -27871,13 +27640,11 @@ if (!("swf2js" in window)) {
 			_this.abc = new packages(_this);
 			_this.symbols = [];
 			_this.abcFlag = false;
-
 			_this.progressSteps = [],
 			_this.progressStep = -1;
 
 			_this.debug = 0;
 			_this.debug_lines=[];
-
 			// render
 			_this.doneTags = [];
 			_this.newTags = [];
@@ -27886,25 +27653,20 @@ if (!("swf2js" in window)) {
 			var mc = new MovieClip();
 			mc.setStage(_this);
 			_this.setParent(mc);
-
 			// used during parsing
 			_this.tags_total = 0;
 			_this.tags_offset = -1;
 
-			_this.progressSteps = [];
-			_this.progressStep = -1;
-
-			_this.isSprite = false;
-			_this.frameHasSoundStream = false;
-			_this.numFramesNoSoundStream = 0;
-			_this.spritesWithSoundStream = [];
+			_this.soundStreamLevels = [{"CharacterId":0, "SoundStreamFirstBlock":true}];
 			_this.currentSoundStream = -1;
+			_this.currentFrameRange = -1;
 
 			_this.imgUnloadCount = 0;
 			_this.sndUnloadCount = 0;
 			_this.sndStreamUnloadCount = 0;
+			_this.lastAudioCurrentTime = -1;
+			_this.SWF_HAS_AS3 = 0;
 		};
-
 		Stage.prototype.addProgressStep = function(step) {
 			this.progressSteps.push([step, getTimeStamp()]);
 			this.progressStep++;
@@ -27934,7 +27696,6 @@ if (!("swf2js" in window)) {
 			console.log("Total in " + Math.ceil(this.progressSteps[this.progressStep][2] - this.progressSteps[0][1]) / 1000 +
 				" secs [" + Math.ceil(this.progressSteps[0][1]) + "," + Math.ceil(this.progressSteps[this.progressStep][2]) + "]");
 		};
-
 		/**
 		 * @returns {number|*}
 		 */
@@ -27968,6 +27729,21 @@ if (!("swf2js" in window)) {
 		};
 
 		/**
+		 * @returns {number|*}
+		 */
+		Stage.prototype.getVersion = function()
+		{
+			return this.version;
+		};
+
+		/**
+		 * @param version
+		 */
+		Stage.prototype.setVersion = function(version)
+		{
+			this.version = version;
+		};
+		/**
 		 * @returns [FCZ]WS
 		 */
 		Stage.prototype.getSignature = function()
@@ -27986,14 +27762,6 @@ if (!("swf2js" in window)) {
 		/**
 		 * @returns {number|*}
 		 */
-		Stage.prototype.getVersion = function()
-		{
-			return this.version;
-		};
-
-		/**
-		 * @returns {number|*}
-		 */
 		Stage.prototype.getFrameCount = function()
 		{
 			return this.frameCount;
@@ -28006,15 +27774,6 @@ if (!("swf2js" in window)) {
 		{
 			this.frameCount = frameCount;
 		};
-
-		/**
-		 * @param version
-		 */
-		Stage.prototype.setVersion = function(version)
-		{
-			this.version = version;
-		};
-
 		/**
 		 *
 		 * @returns {string}
@@ -28041,8 +27800,6 @@ if (!("swf2js" in window)) {
 		{
 			return this._global;
 		};
-		// cmp off
-
 		Stage.prototype.prepareStartStopAnimation = function()
 		{
 			var _this = this;
@@ -28084,9 +27841,7 @@ if (!("swf2js" in window)) {
 				} else if ((e || window.event).code === "ArrowUp") {
 					if (!_this.autoPlayAudioUnlocked) _this.unlockSounds();
 					_this.stopFlag = false;
-					console.log('arrow up restartSounds');
 					_this.restartSounds();
-					_this.adaptSounds();
 					_this.nextFrame();
 					_this.stopFlag = true;
 					_this.stopSounds();
@@ -28104,7 +27859,6 @@ if (!("swf2js" in window)) {
 			var sound = _this.sounds[soundId];
 			var audio = sound.Audio;
 			
-			console.log('Stage.prototype.startSound '+soundId);
 			if (!this.autoPlayAudioUnlocked) {
 				if (soundInfo && soundInfo.SyncStop) {
 					this.soundsStopped.push({
@@ -28118,104 +27872,116 @@ if (!("swf2js" in window)) {
 					});
 				}
 			} else {
+				this.soundsStarted.push({
+					"SoundId": soundId,
+					"SoundInfo": soundInfo
+				});					
 				if (soundInfo) audio.setSoundInfo(soundInfo);
 				else audio.play();
 			}
-		}
+		};
 
 		/**
 		 * @param SoundStreams
 		 */
 		Stage.prototype.prepareSoundStreams = function()
 		{
-			var _this = this;
-			var swftag = new SwfTag();
-			var i,s,soundStreamIndex;
-			if (_this.soundStreams.length == 0) return;
+			if (this.soundStreams.length == 0) return;
 
-			// ignore soundstreams without data
-			for (soundStreamIndex = 0; soundStreamIndex < _this.soundStreams.length; soundStreamIndex++) {
-				//console.log('Soundstream empty ? '+soundStreamIndex);
-				if (!_this.soundStreams[soundStreamIndex].Data.length) {
-					 _this.soundStreams[soundStreamIndex] = null;
-					 _this.sndStreamUnloadCount--;
+			var i, f , b;
+			// clean up empty soundstreams
+			for (i=0; i<this.soundStreams.length; i++) {
+				for ( f=0; f<this.soundStreams[i].FrameRanges.length; f++) {
+					// console.log('Soundstream '+i+' '+this.soundStreams[i].SoundStreamId+' fr '+f+
+					//	' ['+this.soundStreams[i].FrameRanges[f].startFrame+'-'+this.soundStreams[i].FrameRanges[f].endFrame+']');
+					if (!this.soundStreams[i].FrameRanges[f].Data.length) this.soundStreams[i].FrameRanges[f] = null;
 				}
+				this.soundStreams[i].FrameRanges = this.soundStreams[i].FrameRanges.filter(Boolean);
+				if (!this.soundStreams[i].FrameRanges.length) this.soundStreams[i] = null;
 			}
+			this.soundStreams = this.soundStreams.filter(Boolean);
 
 			// build up SoundStream and convert if necessary
-			for (soundStreamIndex = 0; soundStreamIndex < _this.soundStreams.length; soundStreamIndex++) {
-				if (!_this.soundStreams[soundStreamIndex]) continue;
-				s = _this.soundStreams[soundStreamIndex];
+			for (i=0; i<this.soundStreams.length; i++) {
+				var s = this.soundStreams[i];
+				for (f=0; f<s.FrameRanges.length; f++) {
+					var frameRange = s.FrameRanges[f];
 
-				var totalLength = 0;
-				for (var i = 0; i < s.Data.length; i++) {
-					totalLength += s.Data[i].length;
-				}
-				var result = new Uint8Array(totalLength);
-				var offset = 0;
-				for (var i = 0; i < s.Data.length; i++) {
-					result.set(s.Data[i], offset);
-					offset += s.Data[i].length;
-				}
-				var mimeType = "";
-				switch (s.SoundStreamCompression) {
-					case 0: // Uncompressed native-endian
-					case 3: // Uncompressed little-endian
+					var totalLength = 0;					
+					for (b=0; b<frameRange.Data.length; b++) {
+						totalLength += frameRange.Data[b].length;
+					}
+					var result = new Uint8Array(totalLength);
+					var offset = 0;
+					for (b = 0; b < frameRange.Data.length; b++) {
+						result.set(frameRange.Data[b], offset);
+						offset += frameRange.Data[b].length;
+					}
+
+					//result = Array.from(this.data);
+					var mimeType = "";
+					switch (s.SoundStreamCompression) {
+						case 0: // Uncompressed native-endian
+						case 3: // Uncompressed little-endian
+							mimeType = "wave";
+							break;
+						case 1: // ADPCM
+							mimeType = "wave";
+							break;
+						case 2: // MP3
+							mimeType = "mpeg";
+							break;
+						case 4: // NellyMoser 16  kHz
+						case 5: // NellyMoser 8  kHz
+						case 6: // NellyMoser 22.050 kHz
+							mimeType = "nellymoser";
+							break;
+						case 11: // Speex
+							mimeType = "speex";
+							break;
+						case 15:
+							mimeType = "x-aiff";
+							break;
+					}
+					var data;
+					frameRange.endAudio = (frameRange.endFrame+1-frameRange.startFrame)*this.getFrameRate()/1000;
+					// SoundStreamHead StreamSoundSize The sample size of the streaming sound data. Always 1 (16 bit).
+
+					if (s.SoundStreamCompression == 0 || s.SoundStreamCompression == 3) {
+						var pcmOutput = new PcmOutput(s.SoundStreamType, s.SoundStreamSize, s.SoundStreamRate, result);
+						data = pcmOutput.createWave();
+					} else if (s.SoundStreamCompression == 1) {
+						var adpcmOutput = new AdpcmOutput();
+						data = adpcmOutput.convertADPCMtoWave(true, s.SoundStreamType, s.SoundStreamSize, s.SoundStreamRate, frameRange.Data);
+					} else if (s.SoundStreamCompression == 4 || s.SoundStreamCompression == 5 || s.SoundStreamCompression == 6) {
+						console.log('SoundStream '+i+' id '+s.SoundStreamId+' '+soundFormats[s.SoundStreamCompression]+' '+
+						soundSizes[s.SoundStreamSize]+' '+soundTypes[s.SoundStreamType]+' '+soundRates[s.SoundStreamRate]+' Hz l '+frameRange.Data.length);
+						//soundStreamNellyMoser
+						var nellyMoserDecoder = new NellyMoserDecoder(s.SoundStreamType, s.SoundStreamSize, s.SoundStreamRate, frameRange.Data);
+						data = nellyMoserDecoder.toWave();
+						//var nellyMoser = new NellyMoser(result);
+						//data = nellyMoser.decode();
 						mimeType = "wave";
-						break;
-					case 1: // ADPCM
-						mimeType = "wave";
-						break;
-					case 2: // MP3
-						mimeType = "mpeg";
-						break;
-					case 4: // NellyMoser 16  kHz
-					case 5: // NellyMoser 8  kHz
-					case 6: // NellyMoser 22.050 kHz
-						mimeType = "nellymoser";
-						break;
-					case 11: // Speex
-						mimeType = "speex";
-						break;
-					case 15:
-						mimeType = "x-aiff";
-						break;
-				}
-				var data, audioBase64;
-				s.endAudio = (s.endFrame+1-s.startFrame)*_this.getFrameRate()/1000;
-				// SoundStreamHead StreamSoundSize The sample size of the streaming sound data. Always 1 (16 bit).
-				// console.log('SoundStream '+soundStreamIndex+' id '+s.SoundStreamId+' '+soundFormats[s.SoundStreamCompression]+' '+soundSizes[s.SoundStreamSize]+' '+soundTypes[s.SoundStreamType]+' '+soundRates[s.SoundStreamRate]+' Hz l '+result.length);
+					} else if (s.SoundStreamCompression == 2) {
+						data = result;
+					} else {
+						console.log('Soundstream compression '+s.SoundStreamCompression+' ('+soundFormats[s.SoundStreamCompression]+') not supported');
+					}
 
-				if (s.SoundStreamCompression == 0 || s.SoundStreamCompression == 3) {
-					var pcmOutput = new PcmOutput(s.SoundStreamType, s.SoundStreamSize, s.SoundStreamRate, result);
-					data = pcmOutput.createWave();
-					audioBase64 = "data:audio/" + mimeType + ";base64," + swftag.base64encode(data);
-				} else if (s.SoundStreamCompression == 1) {
-					var adpcmOutput = new AdpcmOutput();
-					data = adpcmOutput.convertADPCMtoWave(true, s.SoundStreamType, s.SoundStreamSize, s.SoundStreamRate, s.Data);
-					audioBase64 = "data:audio/" + mimeType + ";base64," + swftag.base64encode(data);				} else if (s.SoundStreamCompression == 4 || s.SoundStreamCompression == 5 || s.SoundStreamCompression == 6) {
-					//soundStreamNellyMoser
-					var nellyMoserDecoder = new NellyMoserDecoder(result);
-					mimeType = "wave";
-					audioBase64 = "data:audio/" + mimeType + ";base64," + swftag.base64encode(nellyMoserDecoder.decode());
-				} else if (s.SoundStreamCompression == 2) {
-					audioBase64 = "data:audio/" + mimeType + ";base64," + swftag.base64encode(result);
-					s.endAudio = (s.TotalSoundStreamSampleCount) / soundRates[s.SoundStreamRate];
-				} else {
-					console.log('Soundstream compression '+s.SoundStreamCompression+' ('+soundFormats[s.SoundStreamCompression]+') not supported');
+					var audio = new AudioInstance({
+						"mimeType": mimeType,
+						"data": data,
+						"id": s.SoundStreamId
+					});
+					frameRange.Audio = audio;
+					frameRange.Duration = frameRange.endAudio;
+					this.sndStreamUnloadCount++;
+					console.log('SoundStream '+i+' id '+s.SoundStreamId+' '+soundFormats[s.SoundStreamCompression]+' '+
+						soundSizes[s.SoundStreamSize]+' '+soundTypes[s.SoundStreamType]+' '+soundRates[s.SoundStreamRate]+' Hz l '+
+						result.length+' ['+frameRange.startFrame+'-'+frameRange.endFrame+'] '+mimeType);
 				}
-
-				var audio = new AudioInstance({
-					"src": [audioBase64],
-					"type": _this.soundUseType,
-					"id": s.SoundStreamId
-				});
-				s.Audio = audio;
-				s.Duration = s.endAudio;
-				_this.sndStreamUnloadCount++;
-				//console.log(s.SoundStreamId+' '+mimeType);
-				//console.log(audioBase64);
 			}
+			console.log('Soundstreams '+this.soundStreams.length+' unload '+this.sndStreamUnloadCount);
 		};
 
 		/**
@@ -28223,38 +27989,39 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.unlockSounds = function()
 		{
-			var _this = this;
-			var i, a;
-			var oldVolume;
-			if (!_this.autoPlayAllowed) {
-				if (_this.firstSound) {
-					if (_this.soundStreams.length > 0) {
-						for (i = 0; i < _this.soundStreams.length; i++) {
-							if (!_this.soundStreams[i]) continue;
-							a = _this.soundStreams[i].Audio;
+			var i, a, oldVolume;
+			if (!this.autoPlayAllowed) {
+				if (this.firstSound) {
+					if (this.soundStreams.length > 0) {
+						for (i=0; i<this.soundStreams.length; i++) {
+							if (!this.soundStreams[i]) continue;
+							for (var f=0 ; f<this.soundStreams[i].FrameRanges.length; f++) {
+								var frameRange = this.soundStreams[i].FrameRanges[f];
+								a = frameRange.Audio;
+								oldVolume = a.volume();
+								a.volume(0);
+								a.play();
+								a.pause();
+								a.seek(0);
+								a.volume(oldVolume);
+							}
+						}
+					}
+					for (i=0; i<this.sounds.length; i++) {
+						if (this.sounds[i]) {
+							a = this.sounds[i].Audio;
 							oldVolume = a.volume();
 							a.volume(0);
 							a.play();
-							a.stop();
+							a.pause();
 							a.seek(0);
 							a.volume(oldVolume);
 						}
-						_this.firstSound = false;
 					}
-					_this.sounds.forEach(function(sound, soundId) {
-						a = sound.Audio;
-						oldVolume = a.volume();
-						a.volume(0);
-						a.play();
-						a.stop();
-						a.seek(0);
-						a.volume(oldVolume);
-						console.log*('unlockSounds '+soundId+' '+oldVolume);
-					});
 				}
 			}
-			_this.firstSound = false;
-			_this.autoPlayAudioUnlocked = true;
+			this.firstSound = false;
+			this.autoPlayAudioUnlocked = true;
 		};
 
 		/**
@@ -28262,57 +28029,63 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.restartSounds = function()
 		{
-			var _this = this;
+			var i, sound;
 			// if autoPlay not allowed and not autoPlayUnlocked
-			_this.soundsNotStarted.forEach(function(item, index) {
-				_this.startSound(item.SoundId, item.SoundInfo);
-				_this.soundsStarted.push({
-					"SoundId": item.SoundId,
-					"SoundInfo": item.SoundInfo
-				});
-			});
-			_this.soundsNotStarted = [];
-
-			_this.soundsStopped.forEach(function(item, index) {
-				var sound = _this.sounds[item.SoundId];
+			for (i=0; i<this.soundsNotStarted.length; i++) {
+				sound = this.sounds[this.soundsNotStarted[i].SoundId];
 				sound.Audio.restart();
-				_this.soundsStarted.push({
-					"SoundId": item.SoundId,
-					"SoundInfo": item.SoundInfo
+				//this.startSound(this.soundsNotStarted[i].SoundId, this.soundsNotStarted[i].SoundInfo);
+				this.soundsStarted.push({
+					"SoundId": this.soundsNotStarted[i].SoundId,
+					"SoundInfo": this.soundsNotStarted[i].SoundInfo
 				});
-			});
-			_this.soundsStopped = [];
+			}
+			this.soundsNotStarted = [];
+
+			for (i=0; i<this.soundsStopped.length; i++) {
+				sound = this.sounds[this.soundsStopped[i].SoundId];
+				sound.Audio.restart();
+				this.soundsStarted.push({
+					"SoundId": this.soundsStopped[i].SoundId,
+					"SoundInfo": this.soundsStopped[i].SoundInfo
+				});
+			}
+			this.soundsStopped = [];
 		};
 
 		/**
 		 * stopSounds
 		 */
-		Stage.prototype.stopSounds = function()
+		Stage.prototype.stopSounds = function(nowait)
 		{
 			var _this = this;
-			var wt;
-			_this.soundsStarted.forEach(function(item, index) {
-				var sound = _this.sounds[item.SoundId];
-				if (sound.Audio.playing()) {
-					wt = _this.nextTime - getTimeStamp();
-					setTimeout(function() {
+			var i;
+			if (nowait) {
+				for (i=0; i<this.soundsStarted.length; i++) {
+					var sound = this.sounds[this.soundsStarted[i].SoundId];
+					if (sound.Audio.isPlaying) {
 						sound.Audio.pause();
-					}, wt);
-					_this.soundsStopped.push({
-						"SoundId": item.SoundId,
-						"SoundInfo": item.SoundInfo
-					});
+						this.soundsStopped.push({
+							"SoundId": this.soundsStarted[i].SoundId,
+							"SoundInfo": this.soundsStarted[i].SoundInfo
+						});
+					}
 				}
-			});
-			_this.soundsStarted = [];
-			_this.soundStreams.forEach(function(soundStream, index) {
-				if (soundStream && soundStream.Audio.playing()) {
-					wt = _this.nextTime - getTimeStamp();
-					setTimeout(function() {
-						soundStream.Audio.pause();
-					}, wt);
+				this.soundsStarted = [];
+				for (i=0; i<this.soundStreams.length; i++) {
+					for (var f=0; f<this.soundStreams[i].FrameRanges.length; f++) {
+						var frameRange = this.soundStreams[i].FrameRanges[f];
+						if (this.soundStreams[i].FrameRanges[f].Audio.isPlaying) {
+							frameRange.Audio.pause();
+						}
+					}
 				}
-			});
+			} else {
+				var wt = this.nextTime - getTimeStamp();
+				setTimeout(function() {
+					_this.stopSounds(true);
+				}, wt);
+			}
 		};
 
 		/**
@@ -28320,69 +28093,42 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.syncWithSoundStream = function()
 		{
-			var _this = this;
-			if (_this.soundStreamIsPlaying) {
-				var s = _this.soundStreams[_this.soundStreamPlaying];
-				var f = _this.getParent().getCurrentFrame();
-				var cat = s.Audio.seek();
-				var fn = s.startFrame+Math.ceil((cat+s.soundStreamOutputLatency)/_this.getFrameRate())-1;
-				if ((s.startFrame <= f) && (f < s.endFrame) && (cat > _this.lastAudioCurrentTime)) {
-					_this.nextTime = getTimeStamp() + (s.startAudio + (f - s.startFrame + 1) * _this.getFrameRate() / 1000 - s.soundStreamOutputLatency - cat) * 1000;
-					_this.lastAudioCurrentTime = cat;
-				}
-				if (fn>f) {
-					_this.nextTime = getTimeStamp() + (s.startAudio + (fn - s.startFrame + 1) * _this.getFrameRate() / 1000 - s.soundStreamOutputLatency - cat) * 1000;
-					_this.lastAudioCurrentTime = cat;
+			if (this.soundStreamIsPlaying) {
+				var fr = this.soundStreams[this.soundStreamPlaying].FrameRanges[this.soundStreamFrameRange];
+				var f = this.getParent()._currentframe;
+				var cat = fr.Audio.seek();
+				// var fn = fr.startFrame+Math.ceil((cat-fr.startAudio+this.soundStreams[this.soundStreamPlaying].soundStreamOutputLatency)/this.getFrameRate()*1000)-1;
+				// var ot = this.nextTime;
+				if ((fr.startFrame <= f) && (f <= fr.endFrame) && (cat > this.lastAudioCurrentTime)) {
+					//this.nextTime = getTimeStamp() + (fr.startAudio + (f - fr.startFrame + 1) * this.getFrameRate() / 1000 - fr.soundStreamOutputLatency - cat) * 1000;
+					this.nextTime = getTimeStamp() + (fr.startAudio + (f - fr.startFrame + 1) * this.getFrameRate() / 1000 - this.soundStreams[this.soundStreamPlaying].soundStreamOutputLatency - cat) * 1000;
+					this.lastAudioCurrentTime = cat;
 				}
 			}
 		};
-		// cmp on
-//var waitTime, nextTime;
+
 		/**
 		 * animation
 		 */
 		Stage.prototype.animate = function() {
 			var _this = this;
 
-			if (_this.soundStreamIsPlaying == 0) _this.syncWithSoundStream();
+			if (this.soundStreamIsPlaying) this.syncWithSoundStream(_this);
 
-			_this.waitTime = _this.nextTime - getTimeStamp();
-			if (_this.waitTime <= 0) {
-				_this.nextTime = _this.nextTime + _this.getFrameRate();
-				if (_this.isLoad && !_this.stopFlag) {
-			//console.log('animate '+_this.getParent()._currentframe+' '+_this.nextTime+' '+_this.waitTime);
-					_this.nextFrame();
+			this.waitTime = this.nextTime - getTimeStamp();
+			if (this.waitTime <= 0) {
+				this.nextTime = this.nextTime + _this.getFrameRate();
+				if (this.isLoad && !this.stopFlag) {
+					this.nextFrame();
 				}
 			}
 
-			if (_this.isLoad && !_this.stopFlag && !_this.stepFlag) {
-				requestAnimationFrameId = requestAnimationFrame(function(timeStamp) {
+			if (this.isLoad && !this.stopFlag && !this.stepFlag) {
+				this.requestAnimationFrameId = requestAnimationFrame(function(timeStamp) {
 					_this.animate();
 				});
 			}
 		};
-/*
-		Stage.prototype.animate = function(stage)
-		{
-			var _this = this;
-			if (_this.soundStreamIsPlaying) _this.syncWithSoundStream();
-			_this.adaptSounds();
-
-			_this.waitTime = _this.nextTime - getTimeStamp();
-			if (_this.waitTime <= 0) {
-				_this.nextTime = _this.nextTime + _this.getFrameRate();
-				if (stage.isLoad && !stage.stopFlag) {
-					stage.nextFrame();
-				}
-			}
-
-			if (stage.isLoad && !_this.stopFlag && !_this.stepFlag) {
-				_this.requestAnimationFrameId = requestAnimationFrame(function(timeStamp) {
-					_this.animate(stage);
-				});
-			}
-		};
-*/
 		/**
 		 * play
 		 */
@@ -28404,7 +28150,6 @@ if (!("swf2js" in window)) {
 			_this.animate(_this);
 
 		};
-
 		/**
 		 * advance one frame
 		 */
@@ -28441,7 +28186,6 @@ if (!("swf2js" in window)) {
 				this.stop();
 			}
 		};
-
 		/**
 		 * stop
 		 */
@@ -28737,67 +28481,65 @@ if (!("swf2js" in window)) {
 		{
 			this.frameRate = (1000 / fps) | 0;
 		};
-
 		/**
 		 * loadStatus CountUp
 		 */
 		Stage.prototype.checkLoadSounds = function() {
 			var _this = this;
-			if (_this.sndUnloadCount > 0) {
-				_this.sounds.forEach(function(sound, index) {
+			if (this.sndUnloadCount > 0) {
+				for (var i=0; i<this.sounds.length; i++ ) {
+					var sound = this.sounds[i];
+					if (!sound) continue;
 					if (!sound.Loaded) {
 						if (sound.Audio.loadState == "loaded") {
 							sound.Loaded = true;
-							soundsUsedType = sound.Audio.type;
-							_this.sndUnloadCount--;
+							this.sndUnloadCount--;
 						}
 					}
-				});
+				}
 			}
-			if (_this.sndUnloadCount > 0) {
-				_this.sndUnLoadRaf = requestAnimationFrame(function(timeStamp) {
+			if (this.sndUnloadCount > 0) {
+				this.sndUnLoadRaf = requestAnimationFrame(function(timeStamp) {
 					_this.checkLoadSounds();
 				});
-			} else {
-				if (_this.sndUnLoadRaf) cancelAnimationFrame(_this.sndUnLoadRaf);
 			}
-		}
+		};
 
 		/**
 		 * loadStatus CountUp
 		 */
 		Stage.prototype.checkLoadSoundStreams = function() {
 			var _this = this;
-			if (_this.sndStreamUnloadCount > 0) {
-				_this.soundStreams.forEach(function(soundStream, index) {
-					if (!soundStream) {
-						_this.sndStreamUnloadCount--;
-					} else if (soundStream.Audio.loadState == "loaded") {
-						soundStream.Loaded = true;
-						_this.sndStreamUnloadCount--;
+			if (this.sndStreamUnloadCount > 0) {
+				for (var i=0; i<this.soundStreams.length; i++) {
+					for (var f=0; f<this.soundStreams[i].FrameRanges.length; f++) {
+						if (this.soundStreams[i].FrameRanges[f].Audio.loadState == "loaded") {
+							this.soundStreams[i].FrameRanges[f].Loaded = true;
+							this.sndStreamUnloadCount--;
+						}
 					}
-				});
+				}
 			}
-			if (_this.sndStreamUnloadCount > 0) {
-				_this.sndStreamUnLoadRaf = requestAnimationFrame(function(timeStamp) {
+			if (this.sndStreamUnloadCount > 0) {
+				this.sndStreamUnLoadRaf = requestAnimationFrame(function(timeStamp) {
 					_this.checkLoadSoundStreams();
 				});
-			} else {
-				if (_this.sndStreamUnLoadRaf) cancelAnimationFrame(_this.sndStreamUnLoadRaf);
 			}
-		}
+		};
 
 		/**
 		 * Show debug
 		 */
 		Stage.prototype.showDebug = function()
 		{
-			var div = _document.getElementById(this.getName());
 			var parent = _document.getElementsByTagName("body")[0];
 			var div_debug = _document.createElement("div");
 			var s = "";
-			if (this.debug) this.debug_lines.forEach((element) => s+=element+"\n");
-			else s="No debug info, reload with option debug: true";
+			if (this.debug) {
+				for (var i=0; i<this.debug_lines.length; i++) {
+					s+=this.debug_lines[i]+"\n";
+				}
+			} else s="No debug info, reload with option debug: true";
 			div_debug.innerHTML ='<pre style="opacity:1">'+s+'</pre>';
 			var button = _document.createElement("button");
 			button.innerHTML = 'Close';
@@ -28813,60 +28555,58 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.showInfo = function()
 		{
-			var _this = this;
-			var div = _document.getElementById(_this.getName());
+			var div = _document.getElementById(this.getName());
 			var parent = _document.getElementsByTagName('body')[0];
 			var div_info = _document.createElement("div");
 			div_info.innerHTML = '<table style="background: #FFFFFF;">\n' +
-				'<tr><td>SWF-file</td><td>'+ _this.url + '</td</tr>\n' +
-				'<tr><td>Signature</td><td>'+ _this.signature + '</td</tr>\n' +
-				'<tr><td>Version</td><td>'+ _this.version + '</td</tr>\n' +
-				'<tr><td>Length</td><td>'+ _this.fileLength + '</td</tr>\n' +
-				'<tr><td>Framesize twips(x,y)</td><td>[' + _this.bounds.xMin + '-' + _this.bounds.xMax + ',' + _this.bounds.yMin + '-' + _this.bounds.yMax + ']</td</tr>\n' +
-				'<tr><td>Framesize </td><td>[' + Math.ceil((_this.bounds.xMax - _this.bounds.xMin)/20) + '-' + Math.ceil((_this.bounds.yMax - _this.bounds.yMin)/20) + ']</td</tr>\n' +
+				'<tr><td>SWF-file</td><td>'+ this.url + '</td</tr>\n' +
+				'<tr><td>Signature</td><td>'+ this.signature + '</td</tr>\n' +
+				'<tr><td>Version</td><td>'+ this.version + '</td</tr>\n' +
+				'<tr><td>Length</td><td>'+ this.fileSize + '</td</tr>\n' +
+				'<tr><td>Framesize twips(x,y)</td><td>[' + this.bounds.xMin + '-' + this.bounds.xMax + ',' + this.bounds.yMin + '-' + this.bounds.yMax + ']</td</tr>\n' +
+				'<tr><td>Framesize </td><td>[' + Math.ceil((this.bounds.xMax - this.bounds.xMin)/20) + '-' + Math.ceil((this.bounds.yMax - this.bounds.yMin)/20) + ']</td</tr>\n' +
 				'<tr><td>div</td><td>['+  div.clientWidth + '-' + div.clientHeight  + ']</td</tr>\n' +
-				'<tr><td>canvas</td><td>['+  _this.canvas.width + '-' + _this.canvas.height  + ']</td</tr>\n' +
-				'<tr><td>Scale</td><td>'+ _this.scale + '</td</tr>\n' +
-				'<tr><td>Quality</td><td>'+ _this.quality + '</td</tr>\n' +
-				'<tr><td>Frames</td><td>'+ _this.frameCount + '</td</tr>\n' +
-				'<tr><td>FrameRate</td><td>'+ _this.getFrameRate() + '</td</tr>\n' +
-				'<tr><td>FramesPerSecond</td><td>'+ (1000 / _this.getFrameRate()) + '</td</tr>\n' +
-				'<tr><td>Duration</td><td>'+ (_this.frameCount * _this.getFrameRate() / 1000) + '</td</tr>\n' +
-				'<tr><td>Images</td><td>'+ _this.imageCount + '</td</tr>\n' +
+				'<tr><td>canvas</td><td>['+  this.canvas.width + '-' + this.canvas.height  + ']</td</tr>\n' +
+				'<tr><td>Scale</td><td>'+ this.scale + '</td</tr>\n' +
+				'<tr><td>Quality</td><td>'+ this.quality + '</td</tr>\n' +
+				'<tr><td>Frames</td><td>'+ this.frameCount + '</td</tr>\n' +
+				'<tr><td>FrameRate</td><td>'+ this.getFrameRate() + '</td</tr>\n' +
+				'<tr><td>FramesPerSecond</td><td>'+ (1000 / this.getFrameRate()) + '</td</tr>\n' +
+				'<tr><td>Duration</td><td>'+ (this.frameCount * this.getFrameRate() / 1000) + '</td</tr>\n' +
+				'<tr><td>Images</td><td>'+ this.imageCount + '</td</tr>\n' +
 				'<tr><td>Autoplay audio</td><td>'+ autoPlayAudioAllowed + '</td</tr>\n' +
-				'<tr><td>SoundType</td><td>'+ _this.soundUseType + '</td</tr>\n' +
-				'<tr><td>Sounds</td><td>'+ _this.soundCount + '</td</tr>\n' +
-				'<tr><td>Soundstreams</td><td>'+ _this.soundStreamCount + '</td</tr>\n' +
+				'<tr><td>SoundType</td><td>'+ this.soundUseType + '</td</tr>\n' +
+				'<tr><td>Sounds</td><td>'+ this.soundCount + '</td</tr>\n' +
+				'<tr><td>Soundstreams</td><td>'+ this.soundStreamCount + '</td</tr>\n' +
 				'<tr><td>Autoplay video</td><td>'+ autoPlayVideoAllowed + '</td</tr>\n' +
-				'<tr><td>Videos</td><td>'+ _this.videoCount + '</td</tr>\n' +
-				'<tr><td>AutoPlay</td><td>'+ _this.autoPlayAllowed + '</td</tr>\n' +
-				'<tr><td>Tag id</td><td>'+ _this.tagId + '</td</tr>\n' +
-				'<tr><td>Quality</td><td>'+ _this.quality + '</td</tr>\n' +
-				'<tr><td>Background color</td><td>'+ _this.bgcolor + '</td</tr>\n' +
-				'<tr><td>Flashvars</td><td>'+ JSON.stringify(_this.FlashVars) + '</td</tr>\n' +
-				'<tr><td>AutoStart</td><td>'+ _this.autoStart + '</td</tr>\n' +
-				'<tr><td>Load time</td><td>'+ (Math.ceil(_this.progressSteps[_this.progressStep][2] - _this.progressSteps[0][1]) / 1000) + ' sec</td</tr>\n' +
-				'<tr><td>Options</td><td style="white-space: pre-line;">'+JSON.stringify(_this.options,null,'  ')+ '</td</tr>\n';
-				if (_this.ProductInfo) {
+				'<tr><td>Videos</td><td>'+ this.videoCount + '</td</tr>\n' +
+				'<tr><td>AutoPlay</td><td>'+ this.autoPlayAllowed + '</td</tr>\n' +
+				'<tr><td>Tag id</td><td>'+ this.tagId + '</td</tr>\n' +
+				'<tr><td>Quality</td><td>'+ this.quality + '</td</tr>\n' +
+				'<tr><td>Background color</td><td>'+ this.bgcolor + '</td</tr>\n' +
+				'<tr><td>Flashvars</td><td>'+ JSON.stringify(this.FlashVars) + '</td</tr>\n' +
+				'<tr><td>AutoStart</td><td>'+ this.autoStart + '</td</tr>\n' +
+				'<tr><td>Load time</td><td>'+ (Math.ceil(this.progressSteps[this.progressStep][2] - this.progressSteps[0][1]) / 1000) + ' sec</td</tr>\n' +
+				'<tr><td>Options</td><td style="white-space: pre-line;">'+JSON.stringify(this.options,null,'  ')+ '</td</tr>\n';
+				if (this.ProductInfo) {
 					div_info.innerHTML +=
-					'<tr><td>ProductId</td><td>'+ _this.ProductInfo.ProductId + '</td</tr>\n' +
-					'<tr><td>Edition</td><td>'+ _this.ProductInfo.Edition + '</td</tr>\n' +
-					'<tr><td>MajorVersion</td><td>'+ _this.ProductInfo.MajorVersion + '</td</tr>\n' +
-					'<tr><td>MinorVersion</td><td>'+ _this.ProductInfo.MinorVersion + '</td</tr>\n' +
-					'<tr><td>BuildLow</td><td>'+ _this.ProductInfo.BuildLow + '</td</tr>\n' +
-					'<tr><td>BuildHigh</td><td>'+ _this.ProductInfo.BuildHigh + '</td</tr>\n' +
-					'<tr><td>CompilationDate</td><td>'+ _this.ProductInfo.CompilationDate + '</td</tr>\n';
+					'<tr><td>ProductId</td><td>'+ this.ProductInfo.ProductId + '</td</tr>\n' +
+					'<tr><td>Edition</td><td>'+ this.ProductInfo.Edition + '</td</tr>\n' +
+					'<tr><td>MajorVersion</td><td>'+ this.ProductInfo.MajorVersion + '</td</tr>\n' +
+					'<tr><td>MinorVersion</td><td>'+ this.ProductInfo.MinorVersion + '</td</tr>\n' +
+					'<tr><td>BuildLow</td><td>'+ this.ProductInfo.BuildLow + '</td</tr>\n' +
+					'<tr><td>BuildHigh</td><td>'+ this.ProductInfo.BuildHigh + '</td</tr>\n' +
+					'<tr><td>CompilationDate</td><td>'+ this.ProductInfo.CompilationDate + '</td</tr>\n';
 				}
 				div_info.innerHTML += '</table>';
 			div_info.style = 'position: absolute; top: 20px; left: 20px;';
-			div_info.id = 'showInfo_'+_this.id;
+			div_info.id = 'showInfo_'+this.id;
 			var button = _document.createElement("button");
 			button.innerHTML = 'Close';
-			button.setAttribute('onclick', 'var s=document.getElementById("showInfo_"+'+_this.id+'); s.parentElement.removeChild(s);');
+			button.setAttribute('onclick', 'var s=document.getElementById("showInfo_"+'+this.id+'); s.parentElement.removeChild(s);');
 			div_info.prepend(button);
 			parent.appendChild(div_info);
 		};
-
 		/**
 		 * loadStatus CountUp
 		 */
@@ -28875,82 +28615,80 @@ if (!("swf2js" in window)) {
 			var _this = this;
 			switch (_this.loadStatus) {
 				case 2:
-					_this.resize();
-					_this.addProgressStep("Prepare soundstreams");
-					_this.prepareSoundStreams();
-					_this.progressStepEnd(true);
-					if (((_this.soundCount == 0 && _this.soundStreamCount == 0) || autoPlayAudioAllowed) && (_this.videoCount == 0 || autoPlayVideoAllowed)) {
-						_this.autoPlayAllowed = true;
-						_this.autoPlayUnlocked = true;
+					this.resize();
+					this.addProgressStep("Prepare soundstreams");
+					this.prepareSoundStreams();
+					this.progressStepEnd(true);
+					if (((this.soundCount == 0 && this.soundStreamCount == 0) || autoPlayAudioAllowed) && (this.videoCount == 0 || autoPlayVideoAllowed)) {
+						this.autoPlayAllowed = true;
+						this.autoPlayUnlocked = true;
 					}
-					//_this.addProgressStep("Prepare images and audio");
-					_this.waitfor = "";
-					if (_this.soundCount) _this.waitfor+=_this.soundCount+" sounds"
-					if (_this.soundStreamCount) {
-						if (_this.waitfor=="") _this.waitfor+=_this.soundCount+" soundstreams";
-						else _this.waitfor+=", "+_this.soundStreamCount+" soundtreams";
+					//this.addProgressStep("Prepare images and audio");
+					this.waitfor = "";
+					if (this.soundCount) this.waitfor+=this.soundCount+" sounds";
+					if (this.soundStreamCount) {
+						if (this.waitfor=="") this.waitfor+=this.soundCount+" soundstreams";
+						else this.waitfor+=", "+this.soundStreamCount+" soundtreams";
 					}
-					if (_this.imageCount) {
-						if (_this.waitfor=="") _this.waitfor+=_this.imageCount+" images";
-						else _this.waitfor+=", "+_this.imageCount+" images";
+					if (this.imageCount) {
+						if (this.waitfor=="") this.waitfor+=this.imageCount+" images";
+						else this.waitfor+=", "+this.imageCount+" images";
 					}
-					if (_this.videoCount) {
-						if (_this.waitfor=="") _this.waitfor+=_this.videoCount+" videos";
-						else _this.waitfor+=", "+_this.videoCount+" videos";
+					if (this.videoCount) {
+						if (this.waitfor=="") this.waitfor+=this.videoCount+" videos";
+						else this.waitfor+=", "+this.videoCount+" videos";
 					}
-					if (_this.waitfor!="") _this.addProgressStep("Waiting for load of "+_this.waitfor);
-					if (_this.sndUnloadCount > 0) _this.checkLoadSounds();
-					if (_this.sndStreamUnloadCount > 0) _this.checkLoadSoundStreams();
-					_this.loadStatus++;
+					if (this.waitfor!="") this.addProgressStep("Waiting for load of "+this.waitfor);
+					if (this.sndUnloadCount > 0) this.checkLoadSounds();
+					if (this.sndStreamUnloadCount > 0) this.checkLoadSoundStreams();
+					this.loadStatus++;
 					break;
 				case 3:
-					if (!_this.isLoad || !_this.stopFlag || _this.imgUnloadCount > 0 || _this.sndUnloadCount > 0 || _this.sndStreamUnloadCount > 0) {
+					if (!this.isLoad || !this.stopFlag || this.imgUnloadCount > 0 || this.sndUnloadCount > 0 || this.sndStreamUnloadCount > 0) {
 						break;
 					}
-					if (_this.waitfor!="") _this.progressStepEnd(true);
-					_this.loadStatus++;
-					_this.addProgressStep("Load stage");
-					_this.loaded();
-					_this.progressStepEnd(true);
-					_this.addProgressStep("Prepare StartStopAnimation");
-					_this.prepareStartStopAnimation();
-					_this.progressStepEnd(true);
-					_this.showProgressTotalTime();
-					var div = _document.getElementById(_this.getName());
-					console.log("SWF-file '" + _this.url + "\n" +
-						"Signature " + _this.signature + "\n" +
-						 "Version " + _this.version + "\n" +
-						"fileLength " + _this.fileLength + "\n" +
-						"frameSize twips(x,y) [" + _this.bounds.xMin + "-" + _this.bounds.xMax + "," +
-						_this.bounds.yMin + "-" + _this.bounds.yMax + "] " + "\n" +
-						"framesPerSecond " + (1000 / _this.getFrameRate()) + " frameTime " + _this.getFrameRate() + "\n" +
+					if (this.waitfor!="") this.progressStepEnd(true);
+					this.loadStatus++;
+					this.addProgressStep("Load stage");
+					this.loaded();
+					this.progressStepEnd(true);
+					this.addProgressStep("Prepare StartStopAnimation");
+					this.prepareStartStopAnimation();
+					this.progressStepEnd(true);
+					this.showProgressTotalTime();
+					var div = _document.getElementById(this.getName());
+					console.log("SWF-file '" + this.url + "\n" +
+						"Signature " + this.signature + "\n" +
+						 "Version " + this.version + "\n" +
+						"fileLength " + this.fileSize + "\n" +
+						"frameSize twips(x,y) [" + this.bounds.xMin + "-" + this.bounds.xMax + "," +
+						this.bounds.yMin + "-" + this.bounds.yMax + "] " + "\n" +
+						"framesPerSecond " + (1000 / this.getFrameRate()) + " frameTime " + this.getFrameRate() + "\n" +
 						"frameCount " + this.frameCount + "\n" +
-						"duration " + _this.frameCount * _this.getFrameRate() / 1000 + "\n" +
-						"SWF [" + (this.bounds.xMax-_this.bounds.xMin)/20 + "-" + (_this.bounds.yMax-_this.bounds.yMin)/20 + "]" + "\n" +
+						"duration " + this.frameCount * this.getFrameRate() / 1000 + "\n" +
+						"SWF [" + (this.bounds.xMax-this.bounds.xMin)/20 + "-" + (this.bounds.yMax-this.bounds.yMin)/20 + "]" + "\n" +
 						"div [" + div.clientWidth + "-" + div.clientHeight + "]" + "\n" +
-						"canvas [" + _this.canvas.width + "-" + _this.canvas.height + "]" + "\n" +
-						"scale " + _this.scale + "\n" +
-						"quality " + _this.quality + " " + quality + "\n" +
+						"canvas [" + this.canvas.width + "-" + this.canvas.height + "]" + "\n" +
+						"scale " + this.scale + "\n" +
+						"quality " + this.quality + " " + quality + "\n" +
 						"devicePixelRatio " + devicePixelRatio + "\n" +
-						"images " + _this.imageCount + "\n" +
+						"images " + this.imageCount + "\n" +
 						"autoplay video " + autoPlayVideoAllowed + "\n" +
-						"videos " + _this.videoCount + "\n" +
+						"videos " + this.videoCount + "\n" +
 						"autoplay audio " + autoPlayAudioAllowed + "\n" +
-						"soundtype " + _this.soundUseType + "\n" +
-						"sounds " + _this.soundCount + "\n" +
-						"soundstreams " + _this.soundStreamCount
+						"soundtype " + this.soundUseType + "\n" +
+						"sounds " + this.soundCount + "\n" +
+						"soundstreams " + this.soundStreamCount
 					);
-
-					if (_this.options) console.log('Options: '+JSON.stringify(_this.options,null,'  '));
+					if (this.options) console.log('Options: '+JSON.stringify(this.options,null,'  '));
 					else console.log('Options: none');
-					// console.log('imgUnloadCount '+_this.imgUnloadCount+' sndUnloadCount '+_this.sndUnloadCount+' sndStreamUnloadCount '+_this.sndStreamUnloadCount);
-					if (_this.autoPlayAllowed) {
-						_this.autoPlayAudioUnlocked = true;
-						_this.play();
+					if (this.autoPlayAllowed) {
+						this.autoPlayAudioUnlocked = true;
+						this.play();
 					}
 					break;
 			}
-			if (_this.loadStatus !== 4) {
+			if (this.loadStatus !== 4) {
 				setTimeout(function() {
 					_this.loadEvent();
 				}, 0);
@@ -29046,7 +28784,7 @@ if (!("swf2js" in window)) {
 
 			// file size
 			var fileLength = bitio.getUI32();
-			_this.fileLength = fileLength;
+			_this.fileSize = fileLength;
 			if (_this.debug) _this.debug_lines.push('[HEADER]        File size: '+fileLength);
 
 			switch (signature) {
@@ -29306,7 +29044,6 @@ if (!("swf2js" in window)) {
 				_this.setMatrix(mc.cloneArray([mScale, 0, 0, mScale, 0, 0]));
 			}
 		};
-
 		/**
 		 * clear eventhandlers, canvas and div
 		 */
@@ -29366,7 +29103,6 @@ if (!("swf2js" in window)) {
 			_this = null;
 
 		};
-
 		/**
 		 * loaded
 		 */
@@ -29485,24 +29221,15 @@ if (!("swf2js" in window)) {
 			var mouseEvents = mouse.events;
 			var onMouseDown = mouseEvents.onMouseDown;
 			if (onMouseDown) {
-				_this.downEventHits[_this.downEventHits.length] = {
-					as: onMouseDown,
-					mc: parent
-				};
+				_this.downEventHits[_this.downEventHits.length] = {as: onMouseDown, mc: parent};
 			}
 			var onMouseMove = mouseEvents.onMouseMove;
 			if (onMouseMove) {
-				_this.moveEventHits[_this.moveEventHits.length] = {
-					as: onMouseMove,
-					mc: parent
-				};
+				_this.moveEventHits[_this.moveEventHits.length] = {as: onMouseMove, mc: parent};
 			}
 			var onMouseUp = mouseEvents.onMouseUp;
 			if (onMouseUp) {
-				_this.upEventHits[_this.upEventHits.length] = {
-					as: onMouseUp,
-					mc: parent
-				};
+				_this.upEventHits[_this.upEventHits.length] = {as: onMouseUp, mc: parent};
 			}
 
 			_this.putFrame();
@@ -29685,9 +29412,9 @@ if (!("swf2js" in window)) {
 			_this.soundStreamPlaying = -1;
 			_this.lastAudioCurrentTime = -1;
 
-			_this.sounds.forEach(function(item, index) {
-				item.Paused = null;
-			});
+			for (var i=0; i<_this.sounds.lenght; i++) {
+				if (_this.sounds[i]) _this.sounds[i].Paused = null;
+			}
 		};
 
 		/**
@@ -29702,7 +29429,8 @@ if (!("swf2js" in window)) {
 			if (_this.getId() in stages) {
 				if (tagId) {
 					if (_document.readyState === "loading") {
-						var reTry = function() {
+						var reTry = function ()
+						{
 							window.removeEventListener("DOMContentLoaded", reTry);
 							_this.init();
 						};
@@ -29796,14 +29524,16 @@ if (!("swf2js" in window)) {
 			style.transform = "scale(" + 1 / _devicePixelRatio + ")";
 
 			if (isAndroid) {
-				canvas.addEventListener("touchcancel", function() {
+				canvas.addEventListener("touchcancel", function ()
+				{
 					_this.touchEnd(_event);
 				});
 			}
 
 			window.addEventListener("keydown", keyDownAction);
 			window.addEventListener("keyup", keyUpAction);
-			window.addEventListener("keyup", function(event) {
+			window.addEventListener("keyup", function (event)
+			{
 				_keyEvent = event;
 				_this.touchEnd(event);
 			});
@@ -29975,6 +29705,10 @@ if (!("swf2js" in window)) {
 			}
 
 			var div = _document.getElementById(_this.getName());
+			if (!div) {
+				console.log('div '+_this.getName()+' not found.');
+				return;
+			}
 			var bounds = div.getBoundingClientRect();
 			var x = window.pageXOffset + bounds.left;
 			var y = window.pageYOffset + bounds.top;
@@ -30927,6 +30661,7 @@ if (!("swf2js" in window)) {
 				});
 
 				var xmlHttpRequest = new XMLHttpRequest();
+				console.log('Swf2js.prototype.load '+url);
 				xmlHttpRequest.open("GET", url, true);
 				if (isXHR2) {
 					xmlHttpRequest.responseType = "arraybuffer";
@@ -30972,6 +30707,7 @@ if (!("swf2js" in window)) {
 		Swf2js.prototype.getFileSize = function(url, callback)
 		{
 			var xhr = new XMLHttpRequest();
+			console.log('Swf2js.prototype.getFileSize '+url);
 			xhr.open("HEAD", url, true);
 			xhr.onreadystatechange = function() {
 				if (this.readyState == this.DONE) {
@@ -30988,6 +30724,7 @@ if (!("swf2js" in window)) {
 		 */
 		Swf2js.prototype.reload = function(url, options)
 		{
+			console.log('Swf2js.prototype.reload '+url);
 			if (!stageId) {
 				return this.load(url, options);
 			}
