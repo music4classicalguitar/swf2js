@@ -1,5 +1,5 @@
 /**
- * swf2js 1.2.10
+ * swf2js 1.2.11
  * Based on : swf2js from Toshiyuki Ienaga (version 0.7.24 from https://github.com/ienaga/swf2js)
  * Develop: https://github.com/music4classicalguitar/swf2js
  * Info and demo : https://music4classicalguitar.github.io/swf2js/
@@ -93,7 +93,6 @@ if (promiseVideo instanceof Promise) {
 }
 if (!("swf2js" in window)) {
 	(function(window) {
-
 		var _document = window.document;
 		var _Math = Math;
 		var _min = _Math.min;
@@ -117,9 +116,6 @@ if (!("swf2js" in window)) {
 		var _fromCharCode = String.fromCharCode;
 		var _isNaN = isNaN;
 		var Func = Function;
-		var isWebGL = (window.WebGLRenderingContext &&
-			_document.createElement("canvas").getContext("webgl")) ? true : false;
-		isWebGL = false; // TODO
 		var requestAnimationFrame =
 			window.requestAnimationFrame ||
 			window.webkitRequestAnimationFrame ||
@@ -138,7 +134,7 @@ if (!("swf2js" in window)) {
 		var isAndroid = (ua.indexOf("Android") > 0);
 		var isAndroid4x = (ua.indexOf("Android 4.") > 0);
 		var isChrome = (ua.indexOf("Chrome") > 0);
-		
+
 		var isTouch = false;
 		if ("maxTouchPoints" in navigator) {
 			isTouch = navigator.maxTouchPoints > 0;
@@ -158,7 +154,7 @@ if (!("swf2js" in window)) {
 					/\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
 				);
 			}
-		}	
+		}
 
 		var xmlHttpRequest = new XMLHttpRequest();
 		var isXHR2 = (typeof xmlHttpRequest.responseType !== "undefined");
@@ -232,6 +228,7 @@ if (!("swf2js" in window)) {
 
 		// shift-jis
 		var JCT11280 = new Func('var a="zKV33~jZ4zN=~ji36XazM93y!{~k2y!o~k0ZlW6zN?3Wz3W?{EKzK[33[`y|;-~j^YOTz$!~kNy|L1$353~jV3zKk3~k-4P4zK_2+~jY4y!xYHR~jlz$_~jk4z$e3X5He<0y!wy|X3[:~l|VU[F3VZ056Hy!nz/m1XD61+1XY1E1=1y|bzKiz!H034zKj~mEz#c5ZA3-3X$1~mBz$$3~lyz#,4YN5~mEz#{ZKZ3V%7Y}!J3X-YEX_J(3~mAz =V;kE0/y|F3y!}~m>z/U~mI~j_2+~mA~jp2;~m@~k32;~m>V}2u~mEX#2x~mBy+x2242(~mBy,;2242(~may->2&XkG2;~mIy-_2&NXd2;~mGz,{4<6:.:B*B:XC4>6:.>B*BBXSA+A:X]E&E<~r#z+625z s2+zN=`HXI@YMXIAXZYUM8X4K/:Q!Z&33 3YWX[~mB`{zKt4z (zV/z 3zRw2%Wd39]S11z$PAXH5Xb;ZQWU1ZgWP%3~o@{Dgl#gd}T){Uo{y5_d{e@}C(} WU9|cB{w}bzvV|)[} H|zT}d||0~{]Q|(l{|x{iv{dw}(5}[Z|kuZ }cq{{y|ij}.I{idbof%cu^d}Rj^y|-M{ESYGYfYsZslS`?ZdYO__gLYRZ&fvb4oKfhSf^d<Yeasc1f&a=hnYG{QY{D`Bsa|u,}Dl|_Q{C%xK|Aq}C>|c#ryW=}eY{L+`)][YF_Ub^h4}[X|?r|u_ex}TL@YR]j{SrXgo*|Gv|rK}B#mu{R1}hs|dP{C7|^Qt3|@P{YVV |8&}#D}ef{e/{Rl|>Hni}R1{Z#{D[}CQlQ||E}[s{SG_+i8eplY[=[|ec[$YXn#`hcm}YR|{Ci(_[ql|?8p3]-}^t{wy}4la&pc|3e{Rp{LqiJ],] `kc(]@chYnrM`O^,ZLYhZB]ywyfGY~aex!_Qww{a!|)*lHrM{N+n&YYj~Z b c#e_[hZSon|rOt`}hBXa^i{lh|<0||r{KJ{kni)|x,|0auY{D!^Sce{w;|@S|cA}Xn{C1h${E]Z-XgZ*XPbp]^_qbH^e[`YM|a||+=]!Lc}]vdBc=j-YSZD]YmyYLYKZ9Z>Xcczc2{Yh}9Fc#Z.l{}(D{G{{mRhC|L3b#|xK[Bepj#ut`H[,{E9Yr}1b{[e]{ZFk7[ZYbZ0XL]}Ye[(`d}c!|*y`Dg=b;gR]Hm=hJho}R-[n}9;{N![7k_{UbmN]rf#pTe[x8}!Qcs_rs[m`|>N}^V})7{^r|/E}),}HH{OYe2{Skx)e<_.cj.cjoMhc^d}0uYZd!^J_@g,[[[?{i@][|3S}Yl3|!1|eZ|5IYw|1D}e7|Cv{OHbnx-`wvb[6[4} =g+k:{C:}ed{S]|2M]-}WZ|/q{LF|dYu^}Gs^c{Z=}h>|/i|{W]:|ip{N:|zt|S<{DH[p_tvD{N<[8Axo{X4a.^o^X>Yfa59`#ZBYgY~_t^9`jZHZn`>G[oajZ;X,i)Z.^~YJe ZiZF^{][[#Zt^|]Fjx]&_5dddW]P0C[-]}]d|y {C_jUql] |OpaA[Z{lp|rz}:Mu#]_Yf6{Ep?f5`$[6^D][^u[$[6^.Z8]]ePc2U/=]K^_+^M{q*|9tYuZ,s(dS{i=|bNbB{uG}0jZOa:[-]dYtu3]:]<{DJ_SZIqr_`l=Yt`gkTnXb3d@kiq0a`Z{|!B|}e}Ww{Sp,^Z|0>_Z}36|]A|-t}lt{R6pi|v8hPu#{C>YOZHYmg/Z4nicK[}hF_Bg|YRZ7c|crkzYZY}_iXcZ.|)U|L5{R~qi^Uga@Y[xb}&qdbd6h5|Btw[}c<{Ds53[Y7]?Z<|e0{L[ZK]mXKZ#Z2^tavf0`PE[OSOaP`4gi`qjdYMgys/?[nc,}EEb,eL]g[n{E_b/vcvgb.{kcwi`~v%|0:|iK{Jh_vf5lb}KL|(oi=LrzhhY_^@`zgf[~g)[J_0fk_V{T)}I_{D&_/d9W/|MU[)f$xW}?$xr4<{Lb{y4}&u{XJ|cm{Iu{jQ}CMkD{CX|7A}G~{kt)nB|d5|<-}WJ}@||d@|Iy}Ts|iL|/^|no|0;}L6{Pm]7}$zf:|r2}?C_k{R(}-w|`G{Gy[g]bVje=_0|PT{^Y^yjtT[[[l!Ye_`ZN]@[n_)j3nEgMa]YtYpZy].d-Y_cjb~Y~[nc~sCi3|zg}B0}do{O^{|$`_|D{}U&|0+{J3|8*]iayx{a{xJ_9|,c{Ee]QXlYb]$[%YMc*]w[aafe]aVYi[fZEii[xq2YQZHg]Y~h#|Y:thre^@^|_F^CbTbG_1^qf7{L-`VFx Zr|@EZ;gkZ@slgko`[e}T:{Cu^pddZ_`yav^Ea+[#ZBbSbO`elQfLui}.F|txYcbQ`XehcGe~fc^RlV{D_0ZAej[l&jShxG[ipB_=u:eU}3e8[=j|{D(}dO{Do[BYUZ0/]AYE]ALYhZcYlYP/^-^{Yt_1_-;YT`P4BZG=IOZ&]H[e]YYd[9^F[1YdZxZ?Z{Z<]Ba2[5Yb[0Z4l?]d_;_)a?YGEYiYv`_XmZs4ZjY^Zb]6gqGaX^9Y}dXZr[g|]Y}K aFZp^k^F]M`^{O1Ys]ZCgCv4|E>}8eb7}l`{L5[Z_faQ|c2}Fj}hw^#|Ng|B||w2|Sh{v+[G}aB|MY}A{|8o}X~{E8paZ:]i^Njq]new)`-Z>haounWhN}c#{DfZ|fK]KqGZ=:u|fqoqcv}2ssm}.r{]{nIfV{JW)[K|,Z{Uxc|]l_KdCb%]cfobya3`p}G^|LZiSC]U|(X|kBlVg[kNo({O:g:|-N|qT}9?{MBiL}Sq{`P|3a|u.{Uaq:{_o|^S}jX{Fob0`;|#y_@[V[K|cw[<_ }KU|0F}d3|et{Q7{LuZttsmf^kYZ`Af`}$x}U`|Ww}d]| >}K,r&|XI|*e{C/a-bmr1fId4[;b>tQ_:]hk{b-pMge]gfpo.|(w[jgV{EC1Z,YhaY^q,_G[c_g[J0YX]`[h^hYK^_Yib,` {i6vf@YM^hdOKZZn(jgZ>bzSDc^Z%[[o9[2=/YHZ(_/Gu_`*|8z{DUZxYt^vuvZjhi^lc&gUd4|<UiA`z]$b/Z?l}YI^jaHxe|;F}l${sQ}5g}hA|e4}?o{ih}Uz{C)jPe4]H^J[Eg[|AMZMlc}:,{iz}#*|gc{Iq|/:|zK{l&}#u|myd{{M&v~nV};L|(g|I]ogddb0xsd7^V})$uQ{HzazsgxtsO^l}F>ZB]r|{7{j@cU^{{CbiYoHlng]f+nQ[bkTn/}<-d9q {KXadZYo+n|l[|lc}V2{[a{S4Zam~Za^`{HH{xx_SvF|ak=c^[v^7_rYT`ld@]:_ub%[$[m](Shu}G2{E.ZU_L_R{tz`vj(f?^}hswz}GdZ}{S:h`aD|?W|`dgG|if{a8|J1{N,}-Ao3{H#{mfsP|[ bzn+}_Q{MT{u4kHcj_q`eZj[8o0jy{p7}C|[}l){MuYY{|Ff!Ykn3{rT|m,^R|,R}$~Ykgx{P!]>iXh6[l[/}Jgcg{JYZ.^qYfYIZl[gZ#Xj[Pc7YyZD^+Yt;4;`e8YyZVbQ7YzZxXja.7SYl[s]2^/Ha$[6ZGYrb%XiYdf2]H]kZkZ*ZQ[ZYS^HZXcCc%Z|[(bVZ]]:OJQ_DZCg<[,]%Zaa [g{C00HY[c%[ChyZ,Z_`PbXa+eh`^&jPi0a[ggvhlekL]w{Yp^v}[e{~;k%a&k^|nR_z_Qng}[E}*Wq:{k^{FJZpXRhmh3^p>de^=_7`|ZbaAZtdhZ?n4ZL]u`9ZNc3g%[6b=e.ZVfC[ZZ^^^hD{E(9c(kyZ=bb|Sq{k`|vmr>izlH[u|e`}49}Y%}FT{[z{Rk}Bz{TCc/lMiAqkf(m$hDc;qooi[}^o:c^|Qm}a_{mrZ(pA`,}<2sY| adf_%|}`}Y5U;}/4|D>|$X{jw{C<|F.hK|*A{MRZ8Zsm?imZm_?brYWZrYx`yVZc3a@f?aK^ojEd {bN}/3ZH]/$YZhm^&j 9|(S|b]mF}UI{q&aM]LcrZ5^.|[j`T_V_Gak}9J[ ZCZD|^h{N9{~&[6Zd{}B}2O|cv]K}3s}Uy|l,fihW{EG`j_QOp~Z$F^zexS`dcISfhZBXP|.vn|_HYQ|)9|cr]<`&Z6]m_(ZhPcSg>`Z]5`~1`0Xcb4k1{O!bz|CN_T{LR|a/gFcD|j<{Z._[f)mPc:1`WtIaT1cgYkZOaVZOYFrEe[}T$}Ch}mk{K-^@]fH{Hdi`c*Z&|Kt{if[C{Q;{xYB`dYIX:ZB[}]*[{{p9|4GYRh2ao{DS|V+[zd$`F[ZXKadb*A] Ys]Maif~a/Z2bmclb8{Jro_rz|x9cHojbZ{GzZx_)]:{wAayeDlx}<=`g{H1{l#}9i|)=|lP{Qq}.({La|!Y{i2EZfp=c*}Cc{EDvVB|;g}2t{W4av^Bn=]ri,|y?|3+}T*ckZ*{Ffr5e%|sB{lx^0]eZb]9[SgAjS_D|uHZx]dive[c.YPkcq/}db{EQh&hQ|eg}G!ljil|BO]X{Qr_GkGl~YiYWu=c3eb}29v3|D|}4i||.{Mv})V{SP1{FX}CZW6{cm|vO{pS|e#}A~|1i}81|Mw}es|5[}3w{C`h9aL]o{}p[G`>i%a1Z@`Ln2bD[$_h`}ZOjhdTrH{[j_:k~kv[Sdu]CtL}41{I |[[{]Zp$]XjxjHt_eThoa#h>sSt8|gK|TVi[Y{t=}Bs|b7Zpr%{gt|Yo{CS[/{iteva|cf^hgn}($_c^wmb^Wm+|55jrbF|{9^ q6{C&c+ZKdJkq_xOYqZYSYXYl`8]-cxZAq/b%b*_Vsa[/Ybjac/OaGZ4fza|a)gY{P?| I|Y |,pi1n7}9bm9ad|=d{aV|2@[(}B`d&|Uz}B}{`q|/H|!JkM{FU|CB|.{}Az}#P|lk}K{|2rk7{^8^?`/|k>|Ka{Sq}Gz}io{DxZh[yK_#}9<{TRdgc]`~Z>JYmYJ]|`!ZKZ]gUcx|^E[rZCd`f9oQ[NcD_$ZlZ;Zr}mX|=!|$6ZPZYtIo%fj}CpcN|B,{VDw~gb}@hZg`Q{LcmA[(bo`<|@$|o1|Ss}9Z_}tC|G`{F/|9nd}i=}V-{L8aaeST]daRbujh^xlpq8|}zs4bj[S`J|]?G{P#{rD{]I`OlH{Hm]VYuSYUbRc*6[j`8]pZ[bt_/^Jc*[<Z?YE|Xb|?_Z^Vcas]h{t9|Uwd)_(=0^6Zb{Nc} E[qZAeX[a]P^|_J>e8`W^j_Y}R{{Jp__]Ee#e:iWb9q_wKbujrbR}CY`,{mJ}gz{Q^{t~N|? gSga`V_||:#mi}3t|/I`X{N*|ct|2g{km}gi|{={jC}F;|E}{ZZjYf*frmu}8Tdroi{T[|+~}HG{cJ}DM{Lp{Ctd&}$hi3|FZ| m}Kr|38}^c|m_|Tr{Qv|36}?Up>|;S{DV{k_as}BK{P}}9p|t`jR{sAm4{D=b4pWa[}Xi{EjwEkI}3S|E?u=X0{jf} S|NM|JC{qo^3cm]-|JUx/{Cj{s>{Crt[UXuv|D~|j|d{YXZR}Aq}0r}(_{pJfi_z}0b|-vi)Z mFe,{f4|q`b{}^Z{HM{rbeHZ|^x_o|XM|L%|uFXm}@C_{{Hhp%a7|0p[Xp+^K}9U{bP}: tT}B|}+$|b2|[^|~h{FAby[`{}xgygrt~h1[li`c4vz|,7p~b(|mviN}^pg[{N/|g3|^0c,gE|f%|7N{q[|tc|TKA{LU}I@|AZp(}G-sz{F |qZ{}F|f-}RGn6{Z]_5})B}UJ{FFb2]4ZI@v=k,]t_Dg5Bj]Z-]L]vrpdvdGlk|gF}G]|IW}Y0[G| /bo|Te^,_B}#n^^{QHYI[?hxg{[`]D^IYRYTb&kJ[cri[g_9]Ud~^_]<p@_e_XdNm-^/|5)|h_{J;{kacVopf!q;asqd}n)|.m|bf{QW|U)}b+{tL|w``N|to{t ZO|T]jF}CB|0Q{e5Zw|k |We}5:{HO{tPwf_uajjBfX}-V_C_{{r~gg|Ude;s+}KNXH}! `K}eW{Upwbk%ogaW}9EYN}YY|&v|SL{C3[5s.]Y]I]u{M6{pYZ`^,`ZbCYR[1mNg>rsk0Ym[jrE]RYiZTr*YJ{Ge|%-lf|y(`=[t}E6{k!|3)}Zk} ][G{E~cF{u3U.rJ|a9p#o#ZE|?|{sYc#vv{E=|LC}cu{N8`/`3`9rt[4|He{cq|iSYxY`}V |(Q|t4{C?]k_Vlvk)BZ^r<{CL}#h}R+[<|i=}X|{KAo]|W<`K{NW|Zx}#;|fe{IMr<|K~tJ_x}AyLZ?{GvbLnRgN}X&{H7|x~}Jm{]-| GpNu0}.ok>|c4{PYisrDZ|fwh9|hfo@{H~XSbO]Odv]%`N]b1Y]]|eIZ}_-ZA]aj,>eFn+j[aQ_+]h[J_m_g]%_wf.`%k1e#Z?{CvYu_B^|gk`Xfh^M3`afGZ-Z|[m{L}|k3cp[it ^>YUi~d>{T*}YJ{Q5{Jxa$hg|%4`}|LAgvb }G}{P=|<;Ux{_skR{cV|-*|s-{Mp|XP|$G|_J}c6cM{_=_D|*9^$ec{V;|4S{qO|w_|.7}d0|/D}e}|0G{Dq]Kdp{}dfDi>}B%{Gd|nl}lf{C-{y}|ANZr}#={T~|-(}c&{pI|ft{lsVP}){|@u}!W|bcmB{d?|iW|:dxj{PSkO|Hl]Li:}VYk@|2={fnWt{M3`cZ6|)}|Xj}BYa?vo{e4|L7|B7{L7|1W|lvYO}W8nJ|$Vih|{T{d*_1|:-n2dblk``fT{Ky|-%}m!|Xy|-a{Pz}[l{kFjz|iH}9N{WE{x,|jz}R {P|{D)c=nX|Kq|si}Ge{sh|[X{RF{t`|jsr*fYf,rK|/9}$}}Nf{y!1|<Std}4Wez{W${Fd_/^O[ooqaw_z[L`Nbv[;l7V[ii3_PeM}.h^viqYjZ*j1}+3{bt{DR[;UG}3Og,rS{JO{qw{d<_zbAh<R[1_r`iZTbv^^a}c{iEgQZ<exZFg.^Rb+`Uj{a+{z<[~r!]`[[|rZYR|?F|qppp]L|-d|}K}YZUM|=Y|ktm*}F]{D;g{uI|7kg^}%?Z%ca{N[_<q4xC]i|PqZC]n}.bDrnh0Wq{tr|OMn6tM|!6|T`{O`|>!]ji+]_bTeU}Tq|ds}n|{Gm{z,f)}&s{DPYJ`%{CGd5v4tvb*hUh~bf]z`jajiFqAii]bfy^U{Or|m+{I)cS|.9k:e3`^|xN}@Dnlis`B|Qo{`W|>||kA}Y}{ERYuYx`%[exd`]|OyiHtb}HofUYbFo![5|+]gD{NIZR|Go}.T{rh^4]S|C9_}xO^i`vfQ}C)bK{TL}cQ|79iu}9a];sj{P.o!f[Y]pM``Jda^Wc9ZarteBZClxtM{LW}l9|a.mU}KX}4@{I+f1}37|8u}9c|v${xGlz}jP{Dd1}e:}31}%3X$|22i<v+r@~mf{sN{C67G97855F4YL5}8f{DT|xy{sO{DXB334@55J1)4.G9A#JDYtXTYM4, YQD9;XbXm9SX]IB^4UN=Xn<5(;(F3YW@XkH-X_VM[DYM:5XP!T&Y`6|,^{IS-*D.H>:LXjYQ0I3XhAF:9:(==.F*3F1189K/7163D,:@|e2{LS36D4hq{Lw/84443@4.933:0307::6D7}&l{Mx657;89;,K5678H&93D(H<&<>0B90X^I;}Ag1{P%3A+>><975}[S{PZE453?4|T2{Q+5187;>447:81{C=hL6{Me^:=7ii{R=.=F<81;48?|h8}Uh{SE|,VxL{ST,7?9Y_5Xk3A#:$%YSYdXeKXOD8+TXh7(@>(YdXYHXl9J6X_5IXaL0N?3YK7Xh!1?XgYz9YEXhXaYPXhC3X`-YLY_XfVf[EGXZ5L8BXL9YHX]SYTXjLXdJ: YcXbQXg1PX]Yx4|Jr{Ys4.8YU+XIY`0N,<H%-H;:0@,74/:8546I=9177154870UC]d<C3HXl7ALYzXFXWP<<?E!88E5@03YYXJ?YJ@6YxX-YdXhYG|9o{`iXjY_>YVXe>AYFX[/(I@0841?):-B=14337:8=|14{c&93788|di{cW-0>0<097/A;N{FqYpugAFT%X/Yo3Yn,#=XlCYHYNX[Xk3YN:YRT4?)-YH%A5XlYF3C1=NWyY}>:74-C673<69545v {iT85YED=64=.F4..9878/D4378?48B3:7:7/1VX[f4{D,{l<5E75{dAbRB-8-@+;DBF/$ZfW8S<4YhXA.(5@*11YV8./S95C/0R-A4AXQYI7?68167B95HA1*<M3?1/@;/=54XbYP36}lc{qzSS38:19?,/39193574/66878Yw1X-87E6=;964X`T734:>86>1/=0;(I-1::7ALYGXhF+Xk[@W%TYbX7)KXdYEXi,H-XhYMRXfYK?XgXj.9HX_SX]YL1XmYJ>Y}WwIXiI-3-GXcYyXUYJ$X`Vs[7;XnYEZ;XF! 3;%8;PXX(N3Y[)Xi1YE&/ :;74YQ6X`33C;-(>Xm0(TYF/!YGXg8 9L5P01YPXO-5%C|qd{{/K/E6,=0144:361:955;6443@?B7*7:F89&F35YaX-CYf,XiFYRXE_e{}sF 0*7XRYPYfXa5YXXY8Xf8Y~XmA[9VjYj*#YMXIYOXk,HHX40YxYMXU8OXe;YFXLYuPXP?EB[QV0CXfY{:9XV[FWE0D6X^YVP*$4%OXiYQ(|xp|%c3{}V`1>Y`XH00:8/M6XhQ1:;3414|TE|&o@1*=81G8<3}6<|(f6>>>5-5:8;093B^3U*+*^*UT30XgYU&7*O1953)5@E78--F7YF*B&0:%P68W9Zn5974J9::3}Vk|-,C)=)1AJ4+<3YGXfY[XQXmT1M-XcYTYZXCYZXEYXXMYN,17>XIG*SaS|/eYJXbI?XdNZ+WRYP<F:R PXf;0Xg`$|1GX9YdXjLYxWX!ZIXGYaXNYm6X9YMX?9EXmZ&XZ#XQ>YeXRXfAY[4 ;0X!Zz0XdN$XhYL XIY^XGNXUYS/1YFXhYk.TXn4DXjB{jg|4DEX]:XcZMW=A.+QYL<LKXc[vV$+&PX*Z3XMYIXUQ:ZvW< YSXFZ,XBYeXMM)?Xa XiZ4/EXcP3%}&-|6~:1(-+YT$@XIYRBC<}&,|7aJ6}bp|8)K1|Xg|8C}[T|8Q.89;-964I38361<=/;883651467<7:>?1:.}le|:Z=39;1Y^)?:J=?XfLXbXi=Q0YVYOXaXiLXmJXO5?.SFXiCYW}-;|=u&D-X`N0X^,YzYRXO(QX_YW9`I|>hZ:N&X)DQXP@YH#XmNXi$YWX^=!G6YbYdX>XjY|XlX^XdYkX>YnXUXPYF)FXT[EVTMYmYJXmYSXmNXi#GXmT3X8HOX[ZiXN]IU2>8YdX1YbX<YfWuZ8XSXcZU%0;1XnXkZ_WTG,XZYX5YSX Yp 05G?XcYW(IXg6K/XlYP4XnI @XnO1W4Zp-9C@%QDYX+OYeX9>--YSXkD.YR%Q/Yo YUX].Xi<HYEZ2WdCE6YMXa7F)=,D>-@9/8@5=?7164;35387?N<618=6>7D+C50<6B03J0{Hj|N9$D,9I-,.KB3}m |NzE0::/81YqXjMXl7YG; [.W=Z0X4XQY]:MXiR,XgM?9$9>:?E;YE77VS[Y564760391?14941:0=:8B:;/1DXjFA-564=0B3XlH1+D85:0Q!B#:-6&N/:9<-R3/7Xn<*3J4.H:+334B.=>30H.;3833/76464665755:/83H6633:=;.>5645}&E|Y)?1/YG-,93&N3AE@5 <L1-G/8A0D858/30>8<549=@B8] V0[uVQYlXeD(P#ID&7T&7;Xi0;7T-$YE)E=1:E1GR):--0YI7=E<}n9|aT6783A>D7&4YG7=391W;Zx<5+>F#J39}o/|cc;6=A050EQXg8A1-}D-|d^5548083563695D?-.YOXd37I$@LYLWeYlX<Yd+YR A$;3-4YQ-9XmA0!9/XLY_YT(=5XdDI>YJ5XP1ZAW{9>X_6R(XhYO65&J%DA)C-!B:97#A9;@?F;&;(9=11/=657/H,<8}bz|j^5446>.L+&Y^8Xb6?(CYOXb*YF(8X`FYR(XPYVXmPQ%&DD(XmZXW??YOXZXfCYJ79,O)XnYF7K0!QXmXi4IYFRXS,6<%-:YO(+:-3Q!1E1:W,Zo}Am|n~;3580534*?3Zc4=9334361693:30C<6/717:<1/;>59&:4}6!|rS36=1?75<8}[B|s809983579I.A.>84758=108564741H*9E{L{|u%YQ<%6XfH.YUXe4YL@,>N}Tv|ve*G0X)Z;/)3@A74(4P&A1X:YVH97;,754*A66:1 D739E3553545558E4?-?K17/770843XAYf838A7K%N!YW4.$T19Z`WJ*0XdYJXTYOXNZ 1XaN1A+I&Xi.Xk3Z3GB&5%WhZ1+5#Y[X<4YMXhQYoQXVXbYQ8XSYUX4YXBXWDMG0WxZA[8V+Z8X;D],Va$%YeX?FXfX[XeYf<X:Z[WsYz8X_Y]%XmQ(!7BXIZFX]&YE3F$(1XgYgYE& +[+W!<YMYFXc;+PXCYI9YrWxGXY9DY[!GXiI7::)OC;*$.>N*HA@{C|}&k=:<TB83X`3YL+G4XiK]i}(fYK<=5$.FYE%4*5*H*6XkCYL=*6Xi6!Yi1KXR4YHXbC8Xj,B9ZbWx/XbYON#5B}Ue}+QKXnF1&YV5XmYQ0!*3IXBYb71?1B75XmF;0B976;H/RXU:YZX;BG-NXj;XjI>A#D3B636N;,*%<D:0;YRXY973H5)-4FXOYf0:0;/7759774;7;:/855:543L43<?6=E,.A4:C=L)%4YV!1(YE/4YF+ F3%;S;&JC:%/?YEXJ4GXf/YS-EXEYW,9;E}X$}547EXiK=51-?71C%?57;5>463553Zg90;6447?<>4:9.7538XgN{|!}9K/E&3-:D+YE1)YE/3;37/:05}n<}:UX8Yj4Yt864@JYK..G=.(A Q3%6K>3(P3#AYE$-6H/456*C=.XHY[#S.<780191;057C)=6HXj?955B:K1 E>-B/9,;5.!L?:0>/.@//:;7833YZ56<4:YE=/:7Z_WGC%3I6>XkC*&NA16X=Yz2$X:Y^&J48<99k8}CyB-61<18K946YO4{|N}E)YIB9K0L>4=46<1K0+R;6-=1883:478;4,S+3YJX`GJXh.Yp+Xm6MXcYpX(>7Yo,/:X=Z;Xi0YTYHXjYmXiXj;*;I-8S6N#XgY}.3XfYGO3C/$XjL$*NYX,1 6;YH&<XkK9C#I74.>}Hd`A748X[T450[n75<4439:18A107>|ET}Rf<1;14876/Yb983E<5.YNXd4149>,S=/4E/<306443G/06}0&}UkYSXFYF=44=-5095=88;63844,9E6644{PL}WA8:>)7+>763>>0/B3A545CCnT}Xm|dv}Xq1L/YNXk/H8;;.R63351YY747@15YE4J8;46;.38.>4A369.=-83,;Ye3?:3@YE.4-+N353;/;@(X[YYD>@/05-I*@.:551741Yf5>6A443<3535;.58/86=D4753442$635D1>0359NQ @73:3:>><Xn?;43C14 ?Y|X611YG1&<+,4<*,YLXl<1/AIXjF*N89A4Z576K1XbJ5YF.ZOWN.YGXO/YQ01:4G38Xl1;KI0YFXB=R<7;D/,/4>;$I,YGXm94@O35Yz66695385.>:6A#5}W7n^4336:4157597434433<3|XA}m`>=D>:4A.337370?-6Q96{`E|4A}C`|Qs{Mk|J+~r>|o,wHv>Vw}!c{H!|Gb|*Ca5}J||,U{t+{CN[!M65YXOY_*B,Y[Z9XaX[QYJYLXPYuZ%XcZ8LY[SYPYKZM<LMYG9OYqSQYM~[e{UJXmQYyZM_)>YjN1~[f3{aXFY|Yk:48YdH^NZ0|T){jVFYTZNFY^YTYN~[h{nPYMYn3I]`EYUYsYIZEYJ7Yw)YnXPQYH+Z.ZAZY]^Z1Y`YSZFZyGYHXLYG 8Yd#4~[i|+)YH9D?Y^F~Y7|-eYxZ^WHYdYfZQ~[j|3>~[k|3oYmYqY^XYYO=Z*4[]Z/OYLXhZ1YLZIXgYIHYEYK,<Y`YEXIGZI[3YOYcB4SZ!YHZ*&Y{Xi3~[l|JSY`Zz?Z,~[m|O=Yi>??XnYWXmYS617YVYIHZ(Z4[~L4/=~[n|Yu{P)|];YOHHZ}~[o33|a>~[r|aE]DH~[s|e$Zz~[t|kZFY~XhYXZB[`Y}~[u|{SZ&OYkYQYuZ2Zf8D~[v}% ~[w3},Q[X]+YGYeYPIS~[y}4aZ!YN^!6PZ*~[z}?E~[{3}CnZ=~[}}EdDZz/9A3(3S<,YR8.D=*XgYPYcXN3Z5 4)~[~}JW=$Yu.XX~] }KDX`PXdZ4XfYpTJLY[F5]X~[2Yp}U+DZJ::<446[m@~]#3}]1~]%}^LZwZQ5Z`/OT<Yh^ -~]&}jx[ ~m<z!%2+~ly4VY-~o>}p62yz!%2+Xf2+~ly4VY-zQ`z (=] 2z~o2",C={" ":0,"!":1},c=34,i=2,p,s="",u=String.fromCharCode,t=u(12539);for(;++c<127;)C[u(c)]=c^39&&c^92?i++:0;i=0;for(;0<=(c=C[a.charAt(i++)]);)if(16===c)if((c=C[a.charAt(i++)])<87){if(86===c)c=1879;for(;c--;)s+=u(++p)}else s+=s.substr(8272,360);else if(c<86)s+=u(p+=c<51?c-16:(c-55)*92+C[a.charAt(i++)]);else if((c=((c-86)*92+C[a.charAt(i++)])*92+C[a.charAt(i++)])<49152)s+=u(p=c<40960?c:c|57344);else{c&=511;for(;c--;)s+=t;p=12539}return s')();
+
 		var soundFormats = [
 			"Uncompressed native-endian", "ADPCM", "MP3", "Uncompressed little-endian",
 			"NellyMoser 16 kHz", "NellyMoser 8 kHz", "NellyMoser 22.050 kHz", "?",
@@ -322,7 +319,7 @@ if (!("swf2js" in window)) {
 				this.offset++;
 			} else r = -1;
 			if (r == -1) {
-				console.log('EndOfStreamException'); // 
+				console.log('EndOfStreamException');
 				throw new Error('EndOfStreamException');
 			}
 			return r;
@@ -1176,7 +1173,7 @@ if (!("swf2js" in window)) {
 			i-->	  <--j
 			----------------------------
 						  x-->	  <--y
-			
+
 			i, j, x, y are indexes into table7.
 			table7 is defined as follows:
 			for (int i = 0; i < 128; ++i) {
@@ -1572,7 +1569,6 @@ if (!("swf2js" in window)) {
 		const NELLY_SAMPLES = 2 * NELLY_BUF_LEN;
 
 		var NellyMoserDecoder = function(soundType, soundSize, soundRate, data) {
-			console.log('NellyMoserDecoder '+soundType+' '+soundSize+' '+soundRate+' '+data.length);
 			this.soundType = soundType;
 			this.soundSize = soundSize;
 			this.soundRate = soundRate;
@@ -1732,7 +1728,6 @@ if (!("swf2js" in window)) {
 				return;
 			}
 			var url = "data:audio/" + mimeType + ";base64," +this.base64encode(data);
-			console.log()
 			this.audio = new Audio(url);
 			this.audioMediaElement = this.audioCtx.createMediaElementSource(this.audio);
 			if (typeof this.audioMediaElement == 'undefined' || this.audioMediaElement == null) {
@@ -1879,7 +1874,7 @@ if (!("swf2js" in window)) {
 		AudioInstance.prototype.setLoop = function(audioLoopCount, audioLoopStart, audioLoopEnd) {
 			this.audioHasLoops = true;
 			this.audioLoopCount = audioLoopCount;
-			this.audioLoopCurrent = audioLoopCount;
+			this.audioLoopCurrent = audioLoopCount-1;
 			this.audioLoopStart = audioLoopStart ? audioLoopStart : 0;
 			this.audioLoopEnd = audioLoopEnd ? audioLoopEnd : this.audioDuration;
 			this.currentTime = audioLoopStart;
@@ -1921,7 +1916,6 @@ if (!("swf2js" in window)) {
 								this.audioLoopCurrent--;
 								this.currentTime = this.audioLoopStart;
 								this.restart();
-								//this.seek(this.audioLoopStart);
 							} else {
 								this.pause();
 							}
@@ -1966,18 +1960,37 @@ if (!("swf2js" in window)) {
 		};
 
 		AudioInstance.prototype.setSoundInfo = function(soundInfo) {
+			if (soundInfo.SyncStop) {
+				this.stop();
+				return;
+			} else if (soundInfo.SyncNoMultiple) {
+				if (this.isPlaying) return;
+			}
+			this.currentTime = 0;
+			this.currentVolume = 1;
+			this.pan = 0;
+			this.audioHasLoops = false;
+			this.audioLoopCount = 0;
+			this.audioLoopCurrent = 0;
+			this.audioLoopStart = 0;
+			this.audioLoopEnd = 0;
+			this.audioPlayStart = 0;
+			this.audioPlayOffset = 0;
+			this.audioPlayTime = 0;
+			this.audioStopFlag = false;
+			this.outputLatency = 0;
+			this.soundEnvelopes = [];
 			var inPoint = soundInfo.HasInPoint ? soundInfo.InPoint / soundRates[3] : 0;
 			var outPoint = soundInfo.HasOutPoint ? soundInfo.OutPoint / soundRates[3] : this.audioDuration;
 			var loopCount = soundInfo.HasLoops ? soundInfo.LoopCount : 1;
+			this.currentTime = 0;
 			if (soundInfo.HasEnvelope) {
 				this.soundEnvelopes = [];
 				for (var i = 0; i < soundInfo.EnvPoints; i++) {
-					var position = soundInfo.EnvelopeRecords[i].Pos44 / 44100;
-					var loop = Math.ceil(position / (outPoint - inPoint));
+					var position = soundInfo.EnvelopeRecords[i].Pos44 / 44100+inPoint;
 					var leftLevel = soundInfo.EnvelopeRecords[i].LeftLevel / 32768;
 					var rightLevel = soundInfo.EnvelopeRecords[i].RightLevel / 32768;
 					this.soundEnvelopes.push({
-						"Loop": loop,
 						"Position": position,
 						"LeftLevel": leftLevel,
 						"RightLevel": rightLevel
@@ -1985,9 +1998,7 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			if (soundInfo.SyncStop) {
-				this.pause();
-			} else if (soundInfo.HasLoops) {
+			if (soundInfo.HasLoops) {
 				this.setLoop(loopCount, inPoint, outPoint);
 				this.play();
 			} else {
@@ -2027,13 +2038,9 @@ if (!("swf2js" in window)) {
 			this.audioStopFlag = true;
 			switch (this.type) {
 				case "webaudio":
-					//var t = this.audioCtx.getOutputTimestamp ? this.audioCtx.getOutputTimestamp().contextTime : this.audioCtx.currentTime;
-					//var ts = this.audioPlayOffset+t-this.audioPlayStart;
-					//if (ts > this.audioDuration) ts = this.audioDuration;
-					//this.currentTime = ts;
 					this.currentTime = this.seek();
 					try {
-						this.audio.stop();
+						if (this.isPlaying) this.audio.stop();
 					} catch (exc) {
 						console.error(exc);
 					}
@@ -2041,6 +2048,23 @@ if (!("swf2js" in window)) {
 				default:
 					this.currentTime = this.seek();
 					this.audioPlayTime += getTimeStamp() - this.audioPlayStart;
+					this.audio.pause();
+					break;
+			}
+			this.isPlaying = false;
+		};
+
+		AudioInstance.prototype.stop = function() {
+			this.audioStopFlag = true;
+			switch (this.type) {
+				case "webaudio":
+					try {
+						this.audio.stop();
+					} catch (exc) {
+						console.error(exc);
+					}
+					break;
+				default:
 					this.audio.pause();
 					break;
 			}
@@ -2518,11 +2542,7 @@ if (!("swf2js" in window)) {
 		VectorToCanvas.prototype.buildCommand = function(cache)
 		{
 			var _this = this;
-			if (isWebGL) {
-				return _this.toCanvas2D(cache); // TODO toWebGL
-			} else {
-				return _this.toCanvas2D(cache);
-			}
+			return _this.toCanvas2D(cache);
 		};
 
 		/**
@@ -2596,66 +2616,6 @@ if (!("swf2js" in window)) {
 			return new this.FUNCTION("ctx", "ct", "isClip", str);
 		};
 
-	/**
-	 * @param cache
-	 * @returns {*}
-	 */
-	VectorToCanvas.prototype.toWebGL = function (cache)
-	{
-		var length = cache.length;
-		var polygons = [];
-		var curves = [];
-		var polygon = [];
-		var position = -1;
-		var lastPosition = {x:0, y:0};
-		var str = "";
-		for (var i = 0; i < length; i++) {
-			var a = cache[i];
-			switch (a[0]) {
-				case 0: // moveTo
-					if (position > 0) {
-						polygons[position] = polygon;
-					}
-
-					position++;
-					polygons[position + 1] = [];
-					polygon = [];
-					polygon[polygon.length] = a[1];
-					polygon[polygon.length] = a[2];
-					lastPosition.x = a[1];
-					lastPosition.y = a[2];
-					break;
-				case 1: // quadraticCurveTo
-					curves[curves.length] = lastPosition.x;
-					curves[curves.length] = lastPosition.y;
-					curves[curves.length] = a[1];
-					curves[curves.length] = a[2];
-					curves[curves.length] = a[3];
-					curves[curves.length] = a[4];
-
-					polygon[polygon.length] = a[3];
-					polygon[polygon.length] = a[4];
-					lastPosition.x = a[3];
-					lastPosition.y = a[4];
-					break;
-				case 2: // lineTo
-					polygon[polygon.length] = a[1];
-					polygon[polygon.length] = a[2];
-					lastPosition.x = a[1];
-					lastPosition.y = a[2];
-					break;
-				case 3: // bezierCurveTo
-					// TODO bezierCurveTo
-					break;
-				case 4: // arc
-					// TODO arc
-					break;
-			}
-		}
-
-		return new this.FUNCTION("ctx", str);
-	};
-
 		var vtc = new VectorToCanvas();
 
 		/**
@@ -2696,11 +2656,7 @@ if (!("swf2js" in window)) {
 		{
 			var pool = this.pool;
 			var canvas = ctx.canvas;
-			if (isWebGL) {
-				ctx.clear(ctx.STENCIL_BUFFER_BIT | ctx.COLOR_BUFFER_BIT);
-			} else {
-				ctx.clearRect(0, 0, canvas.width + 1, canvas.height + 1);
-			}
+			ctx.clearRect(0, 0, canvas.width + 1, canvas.height + 1);
 			canvas.width = canvas.height = 1;
 			pool[pool.length] = canvas;
 		};
@@ -3342,6 +3298,26 @@ if (!("swf2js" in window)) {
 		};
 
 		/**
+		 * Reads one FIXED (Fixed point 16.16) signed value from the stream.
+		 * @returns {*}
+		 */
+		BitIO.prototype.getFixed = function()
+		{
+			var float = this.getSI32();
+			return float / (1 << 16);
+		};
+
+		/**
+		 * Reads one FIXED8 (Fixed point 8.8) signed value from the stream.
+		 * @returns {*}
+		 */
+		BitIO.prototype.getFixed8 = function()
+		{
+			var float = this.getSI16();
+			return float / (1 << 8);
+		};
+
+		/**
 		 * @returns {*}
 		 */
 		BitIO.prototype.getFloat32 = function()
@@ -3480,6 +3456,19 @@ if (!("swf2js" in window)) {
 			var value = _this.getUI24();
 			if (value >> 23) { // nBits = 24;
 				value -= 16777216; // Math.pow(2, 24)
+			}
+			return value;
+		};
+
+		/**
+		 * @returns {*}
+		 */
+		BitIO.prototype.getSI32 = function()
+		{
+			var _this = this;
+			var value = _this.getUI32();
+			if (value >= 0x80000000) {
+				value = -(((~value) & 0xffffffff) + 1);
 			}
 			return value;
 		};
@@ -3926,14 +3915,14 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			// add sounds
-			var sounds = obj.sounds;
-			if (sounds.length) {
-				for (i in sounds) {
-					if (!sounds.hasOwnProperty(i)) {
+			// add startSounds
+			var startSounds = obj.startSounds;
+			if (startSounds.length) {
+				for (i in startSounds) {
+					if (!startSounds.hasOwnProperty(i)) {
 						continue;
 					}
-					mc.addSound(frame, sounds[i]);
+					mc.addSound(frame, startSounds[i]);
 				}
 			}
 
@@ -4397,6 +4386,72 @@ if (!("swf2js" in window)) {
 			return staticText;
 		};
 
+		SwfTag.prototype.gradientSpreadMode = function(gradient)
+		{
+			var SpreadMode = gradient.SpreadMode;
+			var GradientRecords = gradient.GradientRecords;
+			var NumGradients = GradientRecords.length;
+			if (SpreadMode == 1) { // reflect mode
+				var ReflectGradientRecords = [];
+				var t = 0.0, r = 0, step = 1/NumGradients*0.5; ///2.0;
+				while (t<1.0) {
+					// Add the colors forward.
+					for (var i=0; i<NumGradients; i++) {
+						ReflectGradientRecords[r] = {
+							Ratio: t+GradientRecords[i].Ratio*step,
+							Color: GradientRecords[i].Color
+						};
+						r++;
+					}
+					t += step;
+					// Add the colors backward.
+					for (var i=NumGradients-1; i>=0; i--) {
+						ReflectGradientRecords[r] = {
+							Ratio: t+(1-GradientRecords[i].Ratio)*step,
+							Color: GradientRecords[i].Color
+						};
+						r++;
+					}
+					t += step;
+				}
+				gradient.GradientRecords = ReflectGradientRecords;
+				gradient.Adapted = true;
+
+			} else if (SpreadMode == 2) { // repeat mode
+				var RepeatGradientRecords = [];
+				var NumRepeats = 4;
+				var t = 0.0, r=0, step = 1/NumRepeats, last = NumGradients-1;
+				while (t<1.0) {
+					// Duplicate the start/end stops to ensure we don't blend between the seams.
+					/*
+					RepeatGradientRecords[r] = {
+						Ratio: t*step,
+						Color: GradientRecords[0].Color
+					}
+					r++;
+					*/
+					for (var i=0; i<NumGradients; i++) {
+						RepeatGradientRecords[r] = {
+							Ratio: t+GradientRecords[i].Ratio*step,
+							Color: GradientRecords[i].Color
+						};
+						r++;
+					}
+					/*
+					RepeatGradientRecords[r] = {
+						Ratio: t+step,
+						Color: GradientRecords[last].Color
+					}
+					r++;
+					*/
+					t += step;
+				}
+				gradient.GradientRecords = RepeatGradientRecords;
+				gradient.Adapted = true;
+			}
+			return gradient;
+		};
+
 		/**
 		 * @param tag
 		 * @param character
@@ -4404,9 +4459,11 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.buildShape = function(tag, character)
 		{
+			var _this = this;
 			var shape = new Shape();
 			shape.setTagType(character.tagType);
 			shape.setBounds(character.bounds);
+			if (character.data.gradient && character.data.gradient.SpreadMode) character.data = _this.spreadMode(character.data);
 			shape.setData(character.data);
 			return shape;
 		};
@@ -4522,7 +4579,7 @@ if (!("swf2js" in window)) {
 				removeTags: [],
 				actionScript: [],
 				labels: [],
-				sounds: []
+				startSounds: []
 			};
 		};
 		var TagTypes = [
@@ -4638,6 +4695,7 @@ if (!("swf2js" in window)) {
 					break;
 				}
 
+				var pos = { byte: bitio.byte_offset, bit: bitio.bit_offset, value: bitio.data[bitio.byte_offset]};
 				var tagLength = bitio.getUI16();
 				tagType = tagLength >> 6;
 
@@ -4664,25 +4722,39 @@ if (!("swf2js" in window)) {
 				}
 				if (stage.debug) {
 					const l = (tagType == 39)?4:length;
-					_this.tags_total+=l;
+					stage.tags_total+=l;
 					const spaces = '    ' ;
 					const t = TagTypes.filter(element => element[0] == tagType);
 					const tt = t.length==0?'Unknown tag '+tagType.toString():t[0][1];
-					stage.debug_lines.push('['+tagType.toString(16).padStart(3,'0')+'] '+
+					// const h = tagType===1?' frame '+frame.toString():' cid'+characterId.toString();
+					stage.debug_lines.push(pos.byte.toString().padStart(6, ' ')+'/'+pos.bit+' '+pos.value.toString(2).padStart(8, '0')+' ['+tagType.toString(16).padStart(3,'0')+'] '+
 					l.toString().padStart(9,' ')+' '+
-						(_this.tags_total).toString().padStart(9,' ')+' '+spaces.repeat(_this.tagLevel)+
+						(stage.tags_total).toString().padStart(9,' ')+' '+spaces.repeat(stage.tagLevel)+
 						tt);
 				}
-				var tag = _parseTag.call(_this, tagType, length, this.tagLevel);
+				var tag = _parseTag.call(_this, tagType, length, _this.tagLevel);
 				// if (tag === null) window.alert('_parseTag tag null, type '+tagType+' '+TagTypes[tagType]);
 
 				var o = bitio.byte_offset - tagDataStartOffset;
 				if (o !== length) {
 					if (o < length) {
+						var b = bitio.bit_offset>0?1:0;
+						if (o+b<length) {
+							const t = TagTypes.filter(element => element[0] == tagType);
+							const tt = t.length==0?' Unknown tag '+tagType.toString():' '+t[0][1];
+							var cid = tag?(tag.CharacterId?' CharacterId: '+tag.CharacterId:''):'';
+							console.log('Bitio: offset: '+pos.byte+' length: '+length+' read: '+o+'  tagType: '+tagType+tt+' '+cid);
+							console.log(JSON.stringify(tag,null,' '));
+						}
 						var eat = (length - o);
 						if (eat > 0) {
 							bitio.byte_offset += eat;
 						}
+					} else {
+						const t = TagTypes.filter(element => element[0] == tagType);
+						const tt = t.length==0?' Unknown tag '+tagType.toString():' '+t[0][1];
+						var cid = tag?(tag.CharacterId?' CharacterId: '+tag.CharacterId:''):'';
+						console.log('Error bitio: offset: '+pos.byte+' length: '+length+' read: '+o+'  tagType: '+tagType+' '+TagTypes[tagType]+tt+' '+cid);
 					}
 				}
 
@@ -4692,7 +4764,6 @@ if (!("swf2js" in window)) {
 
 				bitio.bit_offset = 0;
 			}
-
 			return tags;
 		};
 
@@ -4803,6 +4874,7 @@ if (!("swf2js" in window)) {
 					_this.parseDefineMorphShape(tagType);
 					break;
 				case 40: // NameCharacter
+					bitio.getUI16(); // CharacterId
 					bitio.getDataUntil("\0"); // NameCharacter
 					break;
 				case 24: // Protect
@@ -4861,7 +4933,6 @@ if (!("swf2js" in window)) {
 					_this.parseSoundStreamBlock(tagType, length);
 					break;
 				case 60: // DefineVideoStream
-					stage.videoCount++;
 					_this.parseDefineVideoStream(tagType);
 					break;
 				case 61: // VideoFrame
@@ -4957,8 +5028,8 @@ if (!("swf2js" in window)) {
 					break;
 				case 15: // StartSound
 				case 89: // StartSound2
-					var sounds = tagsArray.sounds;
-					tagsArray.sounds[sounds.length] = tag;
+					var startSounds = tagsArray.startSounds;
+					tagsArray.startSounds[startSounds.length] = tag;
 					break;
 			}
 
@@ -4994,15 +5065,16 @@ if (!("swf2js" in window)) {
 		SwfTag.prototype.rect = function()
 		{
 			var bitio = this.bitio;
-			bitio.byteAlign();
 
 			var nBits = bitio.getUIBits(5);
-			return {
+			var ret = {
 				xMin: bitio.getSIBits(nBits),
 				xMax: bitio.getSIBits(nBits),
 				yMin: bitio.getSIBits(nBits),
 				yMax: bitio.getSIBits(nBits)
 			};
+			bitio.byteAlign();
+			return ret;
 		};
 
 		/**
@@ -5077,7 +5149,7 @@ if (!("swf2js" in window)) {
 			var bitType = bitio.getUI8();
 			obj.fillStyleType = bitType;
 			switch (bitType) {
-				case 0x00:
+				case 0x00: // solid fill
 					if (tagType === 32 || tagType === 83) {
 						obj.Color = _this.rgba();
 					} else if (tagType === 46 || tagType === 84) {
@@ -5087,8 +5159,8 @@ if (!("swf2js" in window)) {
 						obj.Color = _this.rgb();
 					}
 					break;
-				case 0x10:
-				case 0x12:
+				case 0x10: // linear gradient fill
+				case 0x12: // radial gradient fill
 					if (tagType === 46 || tagType === 84) {
 						obj.startGradientMatrix = _this.matrix();
 						obj.endGradientMatrix = _this.matrix();
@@ -5096,16 +5168,24 @@ if (!("swf2js" in window)) {
 					} else {
 						obj.gradientMatrix = _this.matrix();
 						obj.gradient = _this.gradient(tagType);
+						if (obj.gradient.SpreadMode) obj.gradient = _this.gradientSpreadMode(obj.gradient);
 					}
 					break;
-				case 0x13:
-					obj.gradientMatrix = _this.matrix();
-					obj.gradient = _this.focalGradient(tagType);
+				case 0x13: // focal radial gradient fill (SWF 8 file format and later only)
+					if (tagType === 46 || tagType === 84) {
+						obj.startGradientMatrix = _this.matrix();
+						obj.endGradientMatrix = _this.matrix();
+						obj.gradient = _this.focalGradient(tagType);
+					} else {
+						obj.gradientMatrix = _this.matrix();
+						obj.gradient = _this.focalGradient(tagType);
+						if (obj.gradient.SpreadMode) obj.gradient = _this.gradientSpreadMode(obj.gradient);
+					}
 					break;
-				case 0x40:
-				case 0x41:
-				case 0x42:
-				case 0x43:
+				case 0x40: // repeating bitmap fill
+				case 0x41: // clipped bitmap fill
+				case 0x42: // non-smoothed repeating bitmap
+				case 0x43: // non-smoothed clipped bitmap
 					obj.bitmapId = bitio.getUI16();
 					if (tagType === 46 || tagType === 84) {
 						obj.startBitmapMatrix = _this.matrix();
@@ -5152,7 +5232,6 @@ if (!("swf2js" in window)) {
 		SwfTag.prototype.matrix = function()
 		{
 			var bitio = this.bitio;
-			bitio.byteAlign();
 
 			var result = [1, 0, 0, 1, 0, 0];
 			if (bitio.getUIBit()) {
@@ -5170,6 +5249,8 @@ if (!("swf2js" in window)) {
 			var nTranslateBits = bitio.getUIBits(5);
 			result[4] = bitio.getSIBits(nTranslateBits);
 			result[5] = bitio.getSIBits(nTranslateBits);
+
+			bitio.byteAlign();
 
 			return result;
 		};
@@ -5190,7 +5271,11 @@ if (!("swf2js" in window)) {
 			bitio.byteAlign();
 
 			if (tagType === 46 || tagType === 84) {
-				NumGradients = bitio.getUI8();
+				// Despite of documentation (UI8 1-8), there are two fields
+				// spreadMode and interpolationMode which are same as in GRADIENT
+				SpreadMode = bitio.getUIBits(2);
+				InterpolationMode = bitio.getUIBits(2);
+				NumGradients = bitio.getUIBits(4);
 			} else {
 				SpreadMode = bitio.getUIBits(2);
 				InterpolationMode = bitio.getUIBits(2);
@@ -5233,7 +5318,7 @@ if (!("swf2js" in window)) {
 
 		/**
 		 * @param tagType
-		 * @returns {{SpreadMode: number, InterpolationMode: number, GradientRecords: Array, FocalPoint: number}}
+		 * @returns {{SpreadMode: number, InterpolationMode: number, GradientRecords: Array, StartFocalPoint: number, EndFocalPoint: number}}
 		 */
 		SwfTag.prototype.focalGradient = function(tagType)
 		{
@@ -5249,14 +5334,24 @@ if (!("swf2js" in window)) {
 				gradientRecords[gradientRecords.length] =
 					_this.gradientRecord(tagType);
 			}
-			var FocalPoint = bitio.getFloat16();
-
-			return {
-				SpreadMode: SpreadMode,
-				InterpolationMode: InterpolationMode,
-				GradientRecords: gradientRecords,
-				FocalPoint: FocalPoint
-			};
+			var FocalPoint = bitio.getFixed8();
+			if (tagType === 46 || tagType === 84) {
+				var EndFocalPoint = bitio.getFixed8();
+				return {
+					SpreadMode: SpreadMode,
+					InterpolationMode: InterpolationMode,
+					GradientRecords: gradientRecords,
+					StartFocalPoint: FocalPoint,
+					EndFocalPoint: EndFocalPoint
+				};
+			} else {
+				return {
+					SpreadMode: SpreadMode,
+					InterpolationMode: InterpolationMode,
+					GradientRecords: gradientRecords,
+					FocalPoint: FocalPoint
+				};
+			}
 		};
 
 		/**
@@ -5316,7 +5411,7 @@ if (!("swf2js" in window)) {
 				obj.EndCapStyle = bitio.getUIBits(2);
 
 				if (obj.JoinStyle === 2) {
-					obj.MiterLimitFactor = bitio.getUI16();
+					obj.MiterLimitFactor = bitio.getFixed8();
 				}
 
 				if (obj.HasFillFlag) {
@@ -5340,7 +5435,7 @@ if (!("swf2js" in window)) {
 					obj.EndCapStyle = bitio.getUIBits(2);
 
 					if (obj.JoinStyle === 2) {
-						obj.MiterLimitFactor = bitio.getUI16();
+						obj.MiterLimitFactor = bitio.getFixed8();
 					}
 
 					if (obj.HasFillFlag) {
@@ -5378,9 +5473,9 @@ if (!("swf2js" in window)) {
 			while (true) {
 				var first6Bits = bitio.getUIBits(6);
 				var shape = 0;
-				if (first6Bits & 0x20) {
+				if (first6Bits & 0x20) { // typeFlag === 1
 					var numBits = first6Bits & 0x0f;
-					if (first6Bits & 0x10) {
+					if (first6Bits & 0x10) { // straightFlag === 1
 						shape = _straightEdgeRecord.call(_this, tagType, numBits);
 					} else {
 						shape = _curvedEdgeRecord.call(_this, tagType, numBits);
@@ -5862,7 +5957,7 @@ if (!("swf2js" in window)) {
 			const JPG11 = 0xFB; //JPEG Extension 11
 			const JPG12 = 0xFC; //JPEG Extension 12
 			const JPG13 = 0xFD; //JPEG Extension 13
-			const COM = 0xFE; //Comment	
+			const COM = 0xFE; //Comment
 */
 			return marker != 0 &&
 				marker != SOI &&
@@ -5894,7 +5989,7 @@ if (!("swf2js" in window)) {
 			var val = i<length?val=JPEGData[i++]:-1;
 			var val2;
 			if (val == -1) return data;
-			
+
 			if (val == 0xFF) {
 				val = i<length?val=JPEGData[i++]:-1;
 				if (val == -1) {
@@ -5918,7 +6013,7 @@ if (!("swf2js" in window)) {
 						val = JPEGData[i++];
 						val2 = JPEGData[i++];
 						if ((val != 0xFF) || (val2 != SOI)) {
-							//not a JPEG file, proceed as is					
+							//not a JPEG file, proceed as is
 							data[p++] = 0xFF;
 							data[p++] = EOI;
 							data[p++] = 0xFF;
@@ -6570,13 +6665,9 @@ if (!("swf2js" in window)) {
 			obj.MorphLineStyles = _this.lineStyleArray(tagType);
 
 			obj.StartEdges = _this.shapeWithStyle(tagType);
-			if (bitio.byte_offset !== endOffset) {
-				bitio.byte_offset = endOffset;
-			}
-
+			// Ignore endOffset
 			obj.EndEdges = _this.shapeWithStyle(tagType);
 
-			// fill1 control
 			var startPosition = {x: 0, y: 0};
 			var endPosition = {x: 0, y: 0};
 			var StartRecords = obj.StartEdges.ShapeRecords;
@@ -6695,6 +6786,7 @@ if (!("swf2js" in window)) {
 
 				FillType = (FillType) ? 0 : 1;
 			}
+
 			stage.setCharacter(obj.CharacterId, obj);
 		};
 
@@ -6826,33 +6918,20 @@ if (!("swf2js" in window)) {
 			var EndColor;
 			var StartColor;
 			var color;
+			var ls=-1;
 			for (i = 0; i < lineStyleCount; i++) {
 				var lineStyle = lineStyles[i];
-				EndColor = lineStyle.EndColor;
-				StartColor = lineStyle.StartColor;
-				color = {
-					R: _floor(StartColor.R * startPer + EndColor.R * per),
-					G: _floor(StartColor.G * startPer + EndColor.G * per),
-					B: _floor(StartColor.B * startPer + EndColor.B * per),
-					A: StartColor.A * startPer + EndColor.A * per
-				};
-
-				var EndWidth = lineStyles[i].EndWidth;
-				var StartWidth = lineStyles[i].StartWidth;
-				shapes.lineStyles.lineStyles[i] = {
-					Width: _floor(StartWidth * startPer + EndWidth * per),
-					Color: color,
-					fillStyleType: 0
-				};
-			}
-
-			for (i = 0; i < fillStyleCount; i++) {
-				var fillStyle = fillStyles[i];
-				var fillStyleType = fillStyle.fillStyleType;
-
-				if (fillStyleType === 0x00) {
-					EndColor = fillStyle.EndColor;
-					StartColor = fillStyle.StartColor;
+				var EndWidth = lineStyles.EndWidth;
+				var StartWidth = lineStyles.StartWidth;
+				var EndWidth = Number(lineStyle.EndWidth);
+				var StartWidth = Number(lineStyle.StartWidth);
+				if (StartWidth==0 && EndWidth==0) {
+					continue;
+				}
+				ls++;
+				if (lineStyle.FillType === undefined) {
+					EndColor = lineStyle.EndColor;
+					StartColor = lineStyle.StartColor;
 					color = {
 						R: _floor(StartColor.R * startPer + EndColor.R * per),
 						G: _floor(StartColor.G * startPer + EndColor.G * per),
@@ -6860,30 +6939,119 @@ if (!("swf2js" in window)) {
 						A: StartColor.A * startPer + EndColor.A * per
 					};
 
-					shapes.fillStyles.fillStyles[i] = {
+					shapes.lineStyles.lineStyles[ls] = {
+						Width: _floor(StartWidth * startPer + EndWidth * per),
 						Color: color,
-						fillStyleType: fillStyleType
+						fillStyleType: 0
 					};
 				} else {
-					var EndGradientMatrix = fillStyle.endGradientMatrix;
-					var StartGradientMatrix = fillStyle.startGradientMatrix;
-					var matrix = [
-						StartGradientMatrix[0] * startPer + EndGradientMatrix[0] * per,
-						StartGradientMatrix[1] * startPer + EndGradientMatrix[1] * per,
-						StartGradientMatrix[2] * startPer + EndGradientMatrix[2] * per,
-						StartGradientMatrix[3] * startPer + EndGradientMatrix[3] * per,
-						StartGradientMatrix[4] * startPer + EndGradientMatrix[4] * per,
-						StartGradientMatrix[5] * startPer + EndGradientMatrix[5] * per
-					];
+					var fillStyleType = lineStyle.FillType.fillStyleType;
+					switch(fillStyleType) {
+						case 0x00: // solid fill
+							EndColor = lineStyle.EndColor;
+							StartColor = lineStyle.StartColor;
+							color = {
+								R: _floor(StartColor.R * startPer + EndColor.R * per),
+								G: _floor(StartColor.G * startPer + EndColor.G * per),
+								B: _floor(StartColor.B * startPer + EndColor.B * per),
+								A: StartColor.A * startPer + EndColor.A * per
+							};
 
-					var gRecords = [];
-					var gradient = fillStyle.gradient;
-					var GradientRecords = gradient.GradientRecords;
-					var gLen = GradientRecords.length;
-					for (var gIdx = 0; gIdx < gLen; gIdx++) {
-						var gRecord = GradientRecords[gIdx];
-						EndColor = gRecord.EndColor;
-						StartColor = gRecord.StartColor;
+							shapes.lineStyles.lineStyles[ls] = {
+								Width: _floor(StartWidth * startPer + EndWidth * per),
+								Color: color,
+								fillStyleType: 0
+							};
+							break;
+						case 0x10: // linear gradient fill
+						case 0x12: // radial gradient fill
+						case 0x13: // focal radial gradient fill (SWF 8 file format and later only)
+							var EndGradientMatrix = lineStyle.FillType.endGradientMatrix;
+							var StartGradientMatrix = lineStyle.FillType.startGradientMatrix;
+							var matrix = [
+								StartGradientMatrix[0] * startPer + EndGradientMatrix[0] * per,
+								StartGradientMatrix[1] * startPer + EndGradientMatrix[1] * per,
+								StartGradientMatrix[2] * startPer + EndGradientMatrix[2] * per,
+								StartGradientMatrix[3] * startPer + EndGradientMatrix[3] * per,
+								StartGradientMatrix[4] * startPer + EndGradientMatrix[4] * per,
+								StartGradientMatrix[5] * startPer + EndGradientMatrix[5] * per
+							];
+
+							var gRecords = [];
+							var gradient = lineStyle.FillType.gradient;
+							var GradientRecords = gradient.GradientRecords;
+							var gLen = GradientRecords.length;
+							var gLen = GradientRecords.length;
+							for (var gIdx = 0; gIdx < gLen; gIdx++) {
+								var gRecord = GradientRecords[gIdx];
+								EndColor = gRecord.EndColor;
+								StartColor = gRecord.StartColor;
+								color = {
+									R: _floor(StartColor.R * startPer + EndColor.R * per),
+									G: _floor(StartColor.G * startPer + EndColor.G * per),
+									B: _floor(StartColor.B * startPer + EndColor.B * per),
+									A: StartColor.A * startPer + EndColor.A * per
+								};
+
+								gRecords[gIdx] = {
+									Color: color,
+									Ratio: gRecord.StartRatio * startPer + gRecord.EndRatio * per
+								};
+							}
+							var FocalPoint = 0;
+							if (fillStyleType == 0x13) FocalPoint = gradient.StartFocalPoint * startPer + gradient.EndFocalPoint * per;
+
+							var shapeGradient = {
+								SpreadMode: lineStyle.FillType.SpreadMode,
+								InterpolationMode: lineStyle.FillType.InterpolationMode,
+								GradientRecords: gRecords
+							};
+							if (fillStyleType == 0x13)  shapeGradient = {
+								GradientRecords: gRecords,
+								FocalPoint: FocalPoint
+							};
+
+							shapes.lineStyles.lineStyles[ls] = {
+								Width: _floor(StartWidth * startPer + EndWidth * per),
+								gradient: shapeGradient,
+								gradientMatrix: matrix,
+								fillStyleType: fillStyleType
+							};
+							break;
+						case 0x40: // repeating bitmap fill
+						case 0x41: // clipped bitmap fill
+						case 0x42: // non-smoothed repeating bitmap
+						case 0x43: // non-smoothed clipped bitmap
+							var EndBitmapMatrix = lineStyle.FillType.endBitmapMatrix;
+							var StartBitmapMatrix = lineStyle.FillType.startBitmapMatrix;
+							var bitmapId = lineStyle.FillType.bitmapId;
+							var matrix = [
+								StartBitmapMatrix[0] * startPer + EndBitmapMatrix[0] * per,
+								StartBitmapMatrix[1] * startPer + EndBitmapMatrix[1] * per,
+								StartBitmapMatrix[2] * startPer + EndBitmapMatrix[2] * per,
+								StartBitmapMatrix[3] * startPer + EndBitmapMatrix[3] * per,
+								StartBitmapMatrix[4] * startPer + EndBitmapMatrix[4] * per,
+								StartBitmapMatrix[5] * startPer + EndBitmapMatrix[5] * per
+							];
+							shapes.lineStyles.lineStyles[ls] = {
+								Width: _floor(StartWidth * startPer + EndWidth * per),
+								fillStyleType: fillStyleType,
+								bitmapId: bitmapId,
+								bitmapMatrix: matrix
+							};
+							break;
+					}
+				}
+			}
+
+			for (i = 0; i < fillStyleCount; i++) {
+				var fillStyle = fillStyles[i];
+				var fillStyleType = fillStyle.fillStyleType;
+
+				switch(fillStyleType) {
+					case 0x00: // solid fill
+						EndColor = fillStyle.EndColor;
+						StartColor = fillStyle.StartColor;
 						color = {
 							R: _floor(StartColor.R * startPer + EndColor.R * per),
 							G: _floor(StartColor.G * startPer + EndColor.G * per),
@@ -6891,17 +7059,82 @@ if (!("swf2js" in window)) {
 							A: StartColor.A * startPer + EndColor.A * per
 						};
 
-						gRecords[gIdx] = {
+						shapes.fillStyles.fillStyles[i] = {
 							Color: color,
-							Ratio: gRecord.StartRatio * startPer + gRecord.EndRatio * per
+							fillStyleType: fillStyleType
 						};
-					}
+						break;
+					case 0x10: // linear gradient fill
+					case 0x12: // radial gradient fill
+					case 0x13: // focal radial gradient fill (SWF 8 file format and later only)
+						var EndGradientMatrix = fillStyle.endGradientMatrix;
+						var StartGradientMatrix = fillStyle.startGradientMatrix;
+						var matrix = [
+							StartGradientMatrix[0] * startPer + EndGradientMatrix[0] * per,
+							StartGradientMatrix[1] * startPer + EndGradientMatrix[1] * per,
+							StartGradientMatrix[2] * startPer + EndGradientMatrix[2] * per,
+							StartGradientMatrix[3] * startPer + EndGradientMatrix[3] * per,
+							StartGradientMatrix[4] * startPer + EndGradientMatrix[4] * per,
+							StartGradientMatrix[5] * startPer + EndGradientMatrix[5] * per
+						];
 
-					shapes.fillStyles.fillStyles[i] = {
-						gradient: { GradientRecords: gRecords},
-						gradientMatrix: matrix,
-						fillStyleType: fillStyleType
-					};
+						var gRecords = [];
+						var gradient = fillStyle.gradient;
+						var GradientRecords = gradient.GradientRecords;
+						var gLen = GradientRecords.length;
+						for (var gIdx = 0; gIdx < gLen; gIdx++) {
+							var gRecord = GradientRecords[gIdx];
+							EndColor = gRecord.EndColor;
+							StartColor = gRecord.StartColor;
+							color = {
+								R: _floor(StartColor.R * startPer + EndColor.R * per),
+								G: _floor(StartColor.G * startPer + EndColor.G * per),
+								B: _floor(StartColor.B * startPer + EndColor.B * per),
+								A: StartColor.A * startPer + EndColor.A * per
+							};
+
+							gRecords[gIdx] = {
+								Color: color,
+								Ratio: gRecord.StartRatio * startPer + gRecord.EndRatio * per
+							};
+						}
+						var FocalPoint = 0;
+						if (fillStyleType == 0x13) FocalPoint = gradient.StartFocalPoint * startPer + gradient.EndFocalPoint * per;
+						var shapeGradient = { GradientRecords: gRecords};
+						if (fillStyleType == 0x13)  shapeGradient = {
+							SpreadMode: fillStyle.SpreadMode,
+							InterpolationMode: fillStyle.InterpolationMode,
+							GradientRecords: gRecords,
+							FocalPoint: FocalPoint
+						};
+
+						shapes.fillStyles.fillStyles[i] = {
+							gradient: shapeGradient,
+							gradientMatrix: matrix,
+							fillStyleType: fillStyleType
+						};
+						break;
+					case 0x40: // repeating bitmap fill
+					case 0x41: // clipped bitmap fill
+					case 0x42: // non-smoothed repeating bitmap
+					case 0x43: // non-smoothed clipped bitmap
+						var EndBitmapMatrix = fillStyle.endBitmapMatrix;
+						var StartBitmapMatrix = fillStyle.startBitmapMatrix;
+						var bitmapId = fillStyle.bitmapId;
+						var matrix = [
+							StartBitmapMatrix[0] * startPer + EndBitmapMatrix[0] * per,
+							StartBitmapMatrix[1] * startPer + EndBitmapMatrix[1] * per,
+							StartBitmapMatrix[2] * startPer + EndBitmapMatrix[2] * per,
+							StartBitmapMatrix[3] * startPer + EndBitmapMatrix[3] * per,
+							StartBitmapMatrix[4] * startPer + EndBitmapMatrix[4] * per,
+							StartBitmapMatrix[5] * startPer + EndBitmapMatrix[5] * per
+						];
+						shapes.fillStyles.fillStyles[i] = {
+							fillStyleType: fillStyleType,
+							bitmapId: bitmapId,
+							bitmapMatrix: matrix
+						};
+						break;
 				}
 			}
 
@@ -6939,13 +7172,9 @@ if (!("swf2js" in window)) {
 		{
 			var bitio = this.bitio;
 			if (tagType === 5) {
-				var obj = {};
-				obj.CharacterId = bitio.getUI16();
-				obj.Depth = bitio.getUI16();
-				console.log("RemoveObject");
 				return {
-					CharacterId: obj.CharacterId,
-					Depth: obj.Depth
+					CharacterId: bitio.getUI16(),
+					Depth: bitio.getUI16()
 				};
 			}
 			return {Depth: bitio.getUI16()};
@@ -6974,7 +7203,7 @@ if (!("swf2js" in window)) {
 				ActionOffset = bitio.getUI16();
 			}
 
-			obj.characters = _this.buttonCharacters();
+			obj.characters = _this.buttonCharacters(tagType);
 
 			// actionScript
 			if (tagType === 7) {
@@ -6995,14 +7224,14 @@ if (!("swf2js" in window)) {
 		/**
 		 * @returns {Array}
 		 */
-		SwfTag.prototype.buttonCharacters = function()
+		SwfTag.prototype.buttonCharacters = function(tagType)
 		{
 			var characters = [];
 			var _this = this;
 			var bitio = _this.bitio;
 			while (bitio.getUI8() !== 0) {
 				bitio.incrementOffset(-1, 0);
-				var record = _this.buttonRecord();
+				var record = _this.buttonRecord(tagType);
 				var depth = record.Depth;
 				if (!(record.Depth in characters)) {
 					characters[depth] = [];
@@ -7015,31 +7244,35 @@ if (!("swf2js" in window)) {
 		/**
 		 * @returns {{}}
 		 */
-		SwfTag.prototype.buttonRecord = function()
+		SwfTag.prototype.buttonRecord = function(tagType)
 		{
 			var _this = this;
 			var bitio = _this.bitio;
 			var obj = {};
 
-			bitio.getUIBits(2); // Reserved
+			var reserved = bitio.getUIBits(2); // Reserved
 			obj.PlaceFlagHasBlendMode = bitio.getUIBits(1);
 			obj.PlaceFlagHasFilterList = bitio.getUIBits(1);
 			obj.ButtonStateHitTest = bitio.getUIBits(1);
 			obj.ButtonStateDown = bitio.getUIBits(1);
 			obj.ButtonStateOver = bitio.getUIBits(1);
 			obj.ButtonStateUp = bitio.getUIBits(1);
+			if (!reserved && !obj.PlaceFlagHasBlendMode && !obj.PlaceFlagHasFilterList &&!obj.ButtonStateHitTest &&
+				!obj.ButtonStateDown && !obj.ButtonStateOver && !obj.ButtonStateUp) return null;
 			obj.CharacterId = bitio.getUI16();
 			obj.Depth = bitio.getUI16();
 			obj.PlaceFlagHasMatrix = 1;
 			obj.Matrix = _this.matrix();
-			obj.ColorTransform = _this.colorTransform();
+			if (tagType == 34) {
+				obj.ColorTransform = _this.colorTransformWithAlpha();
+				if (obj.PlaceFlagHasFilterList) {
+					obj.SurfaceFilterList = _this.getFilterList();
+				}
+				if (obj.PlaceFlagHasBlendMode) {
+					obj.BlendMode = bitio.getUI8();
+				}
+			}
 			obj.PlaceFlagHasColorTransform = (obj.ColorTransform === undefined) ? 0 : 1;
-			if (obj.PlaceFlagHasBlendMode) {
-				obj.BlendMode = bitio.getUI8();
-			}
-			if (obj.PlaceFlagHasFilterList) {
-				obj.SurfaceFilterList = _this.getFilterList();
-			}
 			obj.PlaceFlagHasRatio = 0;
 			obj.PlaceFlagHasClipDepth = 0;
 			obj.Sound = null;
@@ -7099,18 +7332,18 @@ if (!("swf2js" in window)) {
 			obj.tagType = tagType;
 			var startOffset = bitio.byte_offset;
 
-			if (tagType === 4) {
+			// 4 PlaceObject, 26 PlaceObject2, 70 PlaceObject3, 94 PlaceObject4
+			if (tagType === 4) { // PlaceObject
 				obj.CharacterId = bitio.getUI16();
 				obj.Depth = bitio.getUI16();
 				obj.Matrix = _this.matrix();
 				obj.PlaceFlagHasMatrix = 1;
 
-				bitio.byteAlign();
 				if ((bitio.byte_offset - startOffset) < length) {
 					obj.ColorTransform = _this.colorTransform();
 					obj.PlaceFlagHasColorTransform = 1;
 				}
-			} else {
+			} else { // 26 PlaceObject2, 70 PlaceObject3
 				obj.PlaceFlagHasClipActions = bitio.getUIBits(1);
 				if (stage.getVersion() < 5) {
 					obj.PlaceFlagHasClipActions = 0;
@@ -7149,7 +7382,7 @@ if (!("swf2js" in window)) {
 					obj.Matrix = _this.matrix();
 				}
 				if (obj.PlaceFlagHasColorTransform) {
-					obj.ColorTransform = _this.colorTransform();
+					obj.ColorTransform = _this.colorTransformWithAlpha();
 				}
 				if (obj.PlaceFlagHasRatio) {
 					obj.Ratio = bitio.getUI16();
@@ -7173,6 +7406,8 @@ if (!("swf2js" in window)) {
 					}
 					if (obj.PlaceFlagHasVisible) {
 						obj.Visible = bitio.getUI8();
+					}
+					if (obj.PlaceFlagOpaqueBackground) {
 						obj.BackgroundColor = _this.rgba();
 					}
 				}
@@ -7180,56 +7415,10 @@ if (!("swf2js" in window)) {
 				if (obj.PlaceFlagHasClipActions) {
 					bitio.getUI16(); // Reserved
 					obj.AllEventFlags = _this.parseClipEventFlags();
-
-					var endLength = startOffset + length;
-					var actionRecords = [];
-					while (bitio.byte_offset < endLength) {
-						var clipActionRecord = _this.parseClipActionRecord(endLength);
-						actionRecords[actionRecords.length] = clipActionRecord;
-						if (endLength <= bitio.byte_offset) {
-							break;
-						}
-						var endFlag = (stage.getVersion() <= 5) ? bitio.getUI16() : bitio.getUI32();
-						if (!endFlag) {
-							break;
-						}
-						if (stage.getVersion() <= 5) {
-							bitio.byte_offset -= 2;
-						} else {
-							bitio.byte_offset -= 4;
-						}
-
-						if (clipActionRecord.KeyCode) {
-							bitio.byte_offset -= 1;
-						}
-					}
-					obj.ClipActionRecords = actionRecords;
+					obj.ClipActionRecords = _this.parseClipActionRecords();
 				}
 			}
 
-			bitio.byteAlign();
-			bitio.byte_offset = startOffset + length;
-
-			return obj;
-		};
-
-		/**
-		 * @returns {{}}
-		 */
-		SwfTag.prototype.parseClipActionRecord = function(endLength)
-		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var obj = {};
-			var EventFlags = _this.parseClipEventFlags();
-			if (endLength > bitio.byte_offset) {
-				var ActionRecordSize = bitio.getUI32();
-				if (EventFlags.keyPress) {
-					obj.KeyCode = bitio.getUI8();
-				}
-				obj.EventFlags = EventFlags;
-				obj.Actions = _this.parseDoAction(ActionRecordSize);
-			}
 			return obj;
 		};
 
@@ -7252,15 +7441,14 @@ if (!("swf2js" in window)) {
 			obj.enterFrame = bitio.getUIBits(1);
 			obj.load = bitio.getUIBits(1);
 
-			if (stage.getVersion() >= 6) {
-				obj.dragOver = bitio.getUIBits(1);
-				obj.rollOut = bitio.getUIBits(1);
-				obj.rollOver = bitio.getUIBits(1);
-				obj.releaseOutside = bitio.getUIBits(1);
-				obj.release = bitio.getUIBits(1);
-				obj.press = bitio.getUIBits(1);
-				obj.initialize = bitio.getUIBits(1);
-			}
+			// SWF version < 6 : always 0
+			obj.dragOver = bitio.getUIBits(1);
+			obj.rollOut = bitio.getUIBits(1);
+			obj.rollOver = bitio.getUIBits(1);
+			obj.releaseOutside = bitio.getUIBits(1);
+			obj.release = bitio.getUIBits(1);
+			obj.press = bitio.getUIBits(1);
+			obj.initialize = bitio.getUIBits(1);
 
 			obj.data = bitio.getUIBits(1);
 
@@ -7270,11 +7458,65 @@ if (!("swf2js" in window)) {
 				obj.keyPress = bitio.getUIBits(1);
 				obj.dragOut = bitio.getUIBits(1);
 				bitio.getUIBits(8); // Reserved
+			} else {
+				obj.construct = 0;
+				obj.keyPress = 0;
+				obj.dragOut = 0;
 			}
 
-			bitio.byteAlign();
-
 			return obj;
+		};
+
+		/**
+		 * @returns {{}}
+		 */
+		SwfTag.prototype.clipEventFlagsIsClear = function(obj)
+		{
+			if (obj.keyUp) return false;
+			if (obj.keyDown) return false;
+			if (obj.mouseUp) return false;
+			if (obj.mouseDown) return false;
+			if (obj.mouseMove) return false;
+			if (obj.unload) return false;
+			if (obj.enterFrame) return false;
+			if (obj.load) return false;
+			if (obj.dragOver) return false;
+			if (obj.rollOut) return false;
+			if (obj.rollOver) return false;
+			if (obj.releaseOutside) return false;
+			if (obj.release) return false;
+			if (obj.press) return false;
+			if (obj.initialize) return false;
+			if (obj.data) return false;
+			if (obj.construct) return false;
+			if (obj.keyPress) return false;
+			if (obj.dragOut) return false;
+			return true;
+
+		};
+
+		/**
+		 * @returns {{}}
+		 */
+		SwfTag.prototype.parseClipActionRecords = function()
+		{
+			var _this = this;
+			var bitio = _this.bitio;
+			var ClipActionRecords = [];
+			var r = 0;
+			while (true) {
+				var EventFlags = _this.parseClipEventFlags();
+				if (_this.clipEventFlagsIsClear(EventFlags)) break;
+				ClipActionRecords[r] = {};
+				ClipActionRecords[r].EventFlags = EventFlags;
+				var ActionRecordSize = bitio.getUI32();
+				if (EventFlags.keyPress) {
+					ClipActionRecords[r].KeyCode = bitio.getUI8();
+				}
+				ClipActionRecords[r].Actions = _this.parseDoAction(ActionRecordSize);
+				r++;
+			}
+			return ClipActionRecords;
 		};
 
 		/**
@@ -7344,14 +7586,16 @@ if (!("swf2js" in window)) {
 			var rgba = _this.rgba();
 			var alpha = rgba.A;
 			var color = rgba.R << 16 | rgba.G << 8 | rgba.B;
-			var blurX = bitio.getUI32() / 0x10000;
-			var blurY = bitio.getUI32() / 0x10000;
-			var angle = bitio.getUI32() / 0x10000 * 180 / _PI;
+			var blurX = bitio.getFixed();
+			var blurY = bitio.getFixed();
+			var angle = bitio.getFixed() * 180 / _PI;
 			var distance = bitio.getUI32() / 0x10000;
-			var strength = bitio.getFloat16() / 256;
+			var strength = bitio.getFixed8();
 			var inner = (bitio.getUIBits(1)) ? true : false;
 			var knockout = (bitio.getUIBits(1)) ? true : false;
+			// CompositeSource:  Always 1
 			var hideObject = (bitio.getUIBits(1)) ? false : true;
+			// passes: Number of blur passes
 			var quality = bitio.getUIBits(5);
 
 			if (!strength) {
@@ -7370,8 +7614,9 @@ if (!("swf2js" in window)) {
 		SwfTag.prototype.blurFilter = function()
 		{
 			var bitio = this.bitio;
-			var blurX = bitio.getUI32() / 0x10000;
-			var blurY = bitio.getUI32() / 0x10000;
+			var blurX = bitio.getFixed();
+			var blurY = bitio.getFixed();
+			// passes
 			var quality = bitio.getUIBits(5);
 			bitio.getUIBits(3); // Reserved
 
@@ -7385,15 +7630,19 @@ if (!("swf2js" in window)) {
 		{
 			var _this = this;
 			var bitio = _this.bitio;
+			// glowcolor
 			var rgba = _this.rgba();
 			var alpha = rgba.A;
 			var color = rgba.R << 16 | rgba.G << 8 | rgba.B;
-			var blurX = bitio.getUI32() / 0x10000;
-			var blurY = bitio.getUI32() / 0x10000;
-			var strength = bitio.getFloat16() / 256;
+			var blurX = bitio.getFixed();
+			var blurY = bitio.getFixed();
+			var strength = bitio.getFixed8() / 256;
+			// innerGlow
 			var inner = (bitio.getUIBits(1)) ? true : false;
 			var knockout = (bitio.getUIBits(1)) ? true : false;
-			bitio.getUIBits(1); // CompositeSource
+			// compositeSource
+			bitio.getUIBits(1);
+			// passes
 			var quality = bitio.getUIBits(5);
 
 			if (!strength) {
@@ -7414,23 +7663,26 @@ if (!("swf2js" in window)) {
 			var _this = this;
 			var bitio = _this.bitio;
 			var rgba;
+			// highlightColor
 			rgba = _this.rgba();
 			var highlightAlpha = rgba.A;
 			var highlightColor = rgba.R << 16 | rgba.G << 8 | rgba.B;
-
+			// shadowColor
 			rgba = _this.rgba();
 			var shadowAlpha = rgba.A;
 			var shadowColor = rgba.R << 16 | rgba.G << 8 | rgba.B;
 
-			var blurX = bitio.getUI32() / 0x10000;
-			var blurY = bitio.getUI32() / 0x10000;
-			var angle = bitio.getUI32() / 0x10000 * 180 / _PI;
-			var distance = bitio.getUI32() / 0x10000;
-			var strength = bitio.getFloat16() / 256;
+			var blurX = bitio.getFixed();
+			var blurY = bitio.getFixed();
+			var angle = bitio.getFixed() * 180 / _PI;
+			var distance = bitio.getFixed();
+			var strength = bitio.getFixed8();
+			// innerShadow
 			var inner = (bitio.getUIBits(1)) ? true : false;
 			var knockout = (bitio.getUIBits(1)) ? true : false;
 			bitio.getUIBits(1); // CompositeSource
 			var OnTop = bitio.getUIBits(1);
+			// passes
 			var quality = bitio.getUIBits(4);
 
 			var type = "inner";
@@ -7463,6 +7715,7 @@ if (!("swf2js" in window)) {
 			var i;
 			var NumColors = bitio.getUI8();
 
+			// gradientColors
 			var colors = [];
 			var alphas = [];
 			for (i = 0; i < NumColors; i++) {
@@ -7471,20 +7724,24 @@ if (!("swf2js" in window)) {
 				colors[colors.length] = rgba.R << 16 | rgba.G << 8 | rgba.B;
 			}
 
+			// gradientRatio
 			var ratios = [];
 			for (i = 0; i < NumColors; i++) {
 				ratios[ratios.length] = bitio.getUI8();
 			}
 
-			var blurX = bitio.getUI32() / 0x10000;
-			var blurY = bitio.getUI32() / 0x10000;
-			var angle = bitio.getUI32() / 0x10000 * 180 / _PI;
-			var distance = bitio.getUI32() / 0x10000;
-			var strength = bitio.getFloat16() / 256;
+			var blurX = bitio.getFixed();
+			var blurY = bitio.getFixed();
+			var angle = bitio.getFixed() * 180 / _PI;
+			var distance = bitio.getFixed();
+			var strength = bitio.getFixed8();
+			// innerShadow
 			var inner = (bitio.getUIBits(1)) ? true : false;
 			var knockout = (bitio.getUIBits(1)) ? true : false;
-			bitio.getUIBits(1); // CompositeSource
+			// compositeSource
+			bitio.getUIBits(1);
 			var OnTop = bitio.getUIBits(1);
+			// passes
 			var quality = bitio.getUIBits(4);
 
 			var type = "inner";
@@ -7517,13 +7774,13 @@ if (!("swf2js" in window)) {
 
 			obj.MatrixX = bitio.getUI8();
 			obj.MatrixY = bitio.getUI8();
-			obj.Divisor = bitio.getFloat16() | bitio.getFloat16();
-			obj.Bias = bitio.getFloat16() | bitio.getFloat16();
+			obj.Divisor = bitio.getFloat16(); // | bitio.getFloat16();
+			obj.Bias = bitio.getFloat16(); // | bitio.getFloat16();
 
 			var count = obj.MatrixX * obj.MatrixY;
 			var MatrixArr = [];
 			while (count--) {
-				MatrixArr[MatrixArr.length] = bitio.getUI32();
+				MatrixArr[MatrixArr.length] = bitio.getFloat16(); // bitio.getUI32();
 			}
 			obj.DefaultColor = _this.rgba();
 			bitio.getUIBits(6); // Reserved
@@ -7544,6 +7801,7 @@ if (!("swf2js" in window)) {
 			var NumColors = bitio.getUI8();
 
 			var i;
+			// gradientColors
 			var colors = [];
 			var alphas = [];
 			for (i = 0; i < NumColors; i++) {
@@ -7551,22 +7809,23 @@ if (!("swf2js" in window)) {
 				alphas[alphas.length] = rgba.A;
 				colors[colors.length] = rgba.R << 16 | rgba.G << 8 | rgba.B;
 			}
-
+			// gradientRatio
 			var ratios = [];
 			for (i = 0; i < NumColors; i++) {
 				ratios[ratios.length] = bitio.getUI8();
 			}
 
-			var blurX = bitio.getUI32() / 0x10000;
-			var blurY = bitio.getUI32() / 0x10000;
-			var angle = bitio.getUI32() / 0x10000 * 180 / _PI;
-			var distance = bitio.getUI32() / 0x10000;
-			var strength = bitio.getFloat16() / 256;
-
+			var blurX = bitio.getFixed();
+			var blurY = bitio.getFixed();
+			var angle = bitio.getFixed() * 180 / _PI;
+			var distance = bitio.getFixed();
+			var strength = bitio.getFixed8();
+			// innerShadow
 			var inner = (bitio.getUIBits(1)) ? true : false;
 			var knockout = (bitio.getUIBits(1)) ? true : false;
 			bitio.getUIBits(1); // CompositeSource
 			var OnTop = bitio.getUIBits(1);
+			// passes: Number of blur passes
 			var quality = bitio.getUIBits(4);
 
 			var type = "inner";
@@ -7596,9 +7855,8 @@ if (!("swf2js" in window)) {
 			var bitio = this.bitio;
 			var MatrixArr = [];
 			for (var i = 0; i < 20; i++) {
-				MatrixArr[MatrixArr.length] = bitio.getUI32();
+				MatrixArr[MatrixArr.length] = bitio.getFloat32();
 			}
-
 			return new ColorMatrixFilter(
 			);
 		};
@@ -7609,13 +7867,43 @@ if (!("swf2js" in window)) {
 		SwfTag.prototype.colorTransform = function()
 		{
 			var bitio = this.bitio;
-			bitio.byteAlign();
 
 			var result = [1, 1, 1, 1, 0, 0, 0, 0];
-			var first6bits = bitio.getUIBits(6);
-			var HasAddTerms = first6bits >> 5;
-			var HasMultiTerms = (first6bits >> 4) & 1;
-			var nbits = first6bits & 0x0f;
+			// var first6bits = bitio.getUIBits(6);
+			// first6bits >> 5;
+			// var HasMultiTerms = (first6bits >> 4) & 1;
+			// var nbits = first6bits & 0x0f;
+			var HasAddTerms = bitio.getUIBit();
+			var HasMultiTerms = bitio.getUIBit();
+			var nbits = bitio.getUIBits(4);
+
+			if (HasMultiTerms) {
+				result[0] = bitio.getSIBits(nbits) / 256;
+				result[1] = bitio.getSIBits(nbits) / 256;
+				result[2] = bitio.getSIBits(nbits) / 256;
+			}
+
+			if (HasAddTerms) {
+				result[4] = bitio.getSIBits(nbits);
+				result[5] = bitio.getSIBits(nbits);
+				result[6] = bitio.getSIBits(nbits);
+			}
+			bitio.byteAlign();
+
+			return result;
+		};
+
+		/**
+		 * @returns {Array}
+		 */
+		SwfTag.prototype.colorTransformWithAlpha = function()
+		{
+			var bitio = this.bitio;
+
+			var result = [1, 1, 1, 1, 0, 0, 0, 0];
+			var HasAddTerms = bitio.getUIBit();
+			var HasMultiTerms = bitio.getUIBit();
+			var nbits = bitio.getUIBits(4);
 
 			if (HasMultiTerms) {
 				result[0] = bitio.getSIBits(nbits) / 256;
@@ -7630,6 +7918,7 @@ if (!("swf2js" in window)) {
 				result[6] = bitio.getSIBits(nbits);
 				result[7] = bitio.getSIBits(nbits);
 			}
+			bitio.byteAlign();
 
 			return result;
 		};
@@ -7774,14 +8063,7 @@ if (!("swf2js" in window)) {
 			obj.tagLevel = this.tagLevel;
 			stage.soundStreams[stage.soundStreams.length] = obj;
 			stage.soundStreamCount++;
-			//stage.sndStreamUnloadCount++;
 
-			/*
-			var s = stage.soundStreams[stage.soundStreams.length-1];
-			console.log('SoundStream '+(stage.soundStreams.length-1)+' id '+obj.SoundStreamId+' '+
-				soundFormats[obj.SoundStreamCompression]+' '+soundSizes[obj.SoundStreamSize]+' '+soundTypes[obj.SoundStreamType]+' '+
-				soundRates[obj.SoundStreamRate]+' Hz '+this.tagLevel);
-			*/
 			return obj;
 		};
 
@@ -8636,7 +8918,7 @@ if (!("swf2js" in window)) {
 			var bitio = _this.bitio;
 			var stage = _this.stage;
 			var startOffset = bitio.byte_offset;
-	
+
 			obj.tagType = tagType;
 			obj.SoundId = bitio.getUI16();
 			obj.SoundFormat = bitio.getUIBits(4);
@@ -8685,7 +8967,6 @@ if (!("swf2js" in window)) {
 				obj.bytes = adpcmOutput.convertADPCMtoWave(false, obj.SoundType, obj.SoundSize, obj.SoundRate, data);
 				mimeType = "wave";
 			} else if (obj.SoundFormat == 4 || obj.SoundFormat == 5 || obj.SoundFormat == 6) {
-				console.log('Sound id '+obj.SoundId+' '+soundFormats[obj.SoundFormat]+' '+soundSizes[obj.SoundSize]+' '+soundTypes[obj.SoundType]+' '+soundRates[obj.SoundRate]+' Hz l '+data.length);
 				var nellyMoserDecoder = new NellyMoserDecoder(obj.SoundType, obj.SoundSize, obj.SoundRate, data);
 				obj.bytes = nellyMoserDecoder.toWave();
 				mimeType = "wave";
@@ -8722,10 +9003,9 @@ if (!("swf2js" in window)) {
 			obj.SoundInfo = _this.parseSoundInfo();
 			stage.setCharacter(obj.SoundId, obj);
 
-			//var sound = stage.sounds[obj.SoundId];
+			var sound = stage.sounds[obj.SoundId];
 			return {
 				SoundId: obj.SoundId,
-			//	Sound: sound,
 				SoundInfo: obj.SoundInfo,
 				tagType: tagType
 			};
@@ -8965,11 +9245,6 @@ if (!("swf2js" in window)) {
 				fr.Data.push(obj.compressed);
 			}
 			fr.lastFrame = stage.currentFrame;
-			/*
-			console.log('Soundstream > '+this.tagLevel+' f '+stage.currentFrame+' id '+s.SoundStreamId+' c '+stage.currentSoundStream+
-				' fr '+stage.currentFrameRange+' ['+fr.startFrame+'-'+fr.endFrame+'], ['+fr.startAudio+'-'+fr.endAudio+'] '+
-				((1+stage.currentFrame-fr.startFrame)*stage.getFrameRate()/1000)+' l '+fr.Data.length);
-			*/
 		};
 
 		/**
@@ -8990,8 +9265,10 @@ if (!("swf2js" in window)) {
 			obj.VideoFlagsDeblocking = bitio.getUIBits(3);
 			obj.VideoFlagsSmoothing = bitio.getUIBits(1);
 			obj.CodecID = bitio.getUI8();
+			obj.Data = [] ;
 			stage.setCharacter(obj.CharacterId, obj);
-			console.log(obj);
+			stage.videoStreams.push(obj);
+			stage.videoCount++;
 		};
 
 		/**
@@ -9009,36 +9286,22 @@ if (!("swf2js" in window)) {
 			obj.tagType = tagType;
 			obj.StreamID = bitio.getUI16();
 			obj.FrameNum = bitio.getUI16();
-			var StreamData = stage.getCharacter(obj.StreamID);
+			var videoStream = stage.getCharacter(obj.StreamID);
 			var sub = bitio.byte_offset - startOffset;
 			var dataLength = length - sub;
-			var VideoData;
-			switch (StreamData.CodecID) {
-				case 4:
-					VideoData = _this.parseVp6SwfVideoPacket(dataLength);
-					break;
-			}
-
-			bitio.byte_offset = startOffset + length;
-
-			// obj.base64 = 'data:image/jpeg;base64,' + window.btoa(VideoData);
-			stage.videos[obj.StreamID] = obj;
-		};
-
-		/**
-		 * @param length
-		 * @returns {string}
-		 */
-		SwfTag.prototype.parseVp6SwfVideoPacket = function(length)
-		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var VideoData = "";
-			var data = bitio.getData(length);
-
-			console.log(data);
-
-			return VideoData;
+			obj.VideoData = bitio.getData(dataLength);
+			/*
+					switch (StreamData.CodecID) {
+						case 1: // Jpeg
+						case 2: // Sorenson H.263
+						case 3: // Screen video (SWF 7 and later only)
+						case 4: // VP6 (SWF 8 and later only)
+						case 5: // VP6 video with alpha channel (SWF 8 and later only)
+						case 6 : // Screen_video_V2
+						case 7: // AVC
+					}
+					// videoStream.Data.push(obj);
+			*/
 		};
 
 		/**
@@ -16076,6 +16339,7 @@ if (!("swf2js" in window)) {
 		 */
 		ColorMatrixFilter.prototype.render = function(cache, matrix, colorTransform, stage)
 		{
+			var _this = this;
 			return cache;
 		};
 
@@ -19332,7 +19596,7 @@ if (!("swf2js" in window)) {
 						tag = loadStage.getInstance(instanceId);
 						if (!tag || tag.removeFlag) {
 							continue;
-						}	
+						}
 
 						var tagName = tag.getName();
 						if (!tagName) {
@@ -20069,6 +20333,7 @@ if (!("swf2js" in window)) {
 			_this._numChildren = 0;
 			_this.SoundId = null;
 			_this.SoundInfo = null;
+			_this.startSounds = [];
 			_this.container = [];
 			if (_this instanceof MovieClip) {
 				var totalFrames = _this.getTotalFrames() + 1;
@@ -20435,10 +20700,10 @@ if (!("swf2js" in window)) {
 		DisplayObjectContainer.prototype.startSound = function()
 		{
 			var _this = this;
-			var soundId = _this.soundId;
+			var soundId = _this.SoundId;
 			if (soundId) {
 				var stage = _this.getStage();
-				if (stage.sounds[soundId]) stage.startSound(soundId, _this.soundInfo);
+				if (stage.sounds[soundId]) stage.startSound(soundId, _this.SoundInfo);
 			}
 		};
 
@@ -20605,6 +20870,8 @@ if (!("swf2js" in window)) {
 			_this._hitArea = null;
 			_this._graphics = new Graphics();
 			_this._soundTransform = new SoundTransform();
+			_this.soundStopFlag = false;
+			_this.stopFlag = false;
 		};
 
 		/**
@@ -20902,16 +21169,16 @@ if (!("swf2js" in window)) {
 			stage.doneTags.unshift(_this);
 
 			// sound
-			if (_this instanceof MovieClip && !_this.soundStopFlag && !_this.stopFlag) {
-				var sounds = _this.getSounds();
-				if (sounds !== undefined) {
-					var sLen = sounds.length;
+			if (_this instanceof MovieClip && !_this.soundStopFlag) {
+				var startSounds = _this.getSounds();
+				if (startSounds !== undefined) {
+					var sLen = startSounds.length;
 					for (var idx = 0; idx < sLen; idx++) {
-						if (!(idx in sounds)) {
+						if (!(idx in startSounds)) {
 							continue;
 						}
-						var sound = sounds[idx];
-						_this.startSound(sound);
+						var startSound = startSounds[idx];
+						_this.startSound(startSound);
 					}
 				}
 			}
@@ -21600,6 +21867,7 @@ if (!("swf2js" in window)) {
 			var canvas;
 			for (var idx = 0; idx < length; idx++) {
 				var data = shapes[idx];
+				if (!data.obj) continue;
 				var obj = data.obj;
 				var styleObj = (!obj.HasFillFlag) ? obj : obj.FillType;
 				var cmd = data.cmd;
@@ -21625,8 +21893,10 @@ if (!("swf2js" in window)) {
 						if (isStroke) {
 							ctx.strokeStyle = css;
 							ctx.lineWidth = _max(obj.Width, 1 / minScale);
-							ctx.lineCap = "round";
-							ctx.lineJoin = "round";
+							ctx.lineCap = obj.StartCapStyle == 1?"butt":(obj.StartCapStyle ==2?"square":"round");
+							ctx.lineJoin = obj.JoinStyle == 1?"bevel":(obj.JoinStyle == 2?"square":"round");
+							if (obj.JoinStyle == 2 && obj.MiterLimitFactor != 0.0) ctx.miterLimit = obj.MiterLimitFactor*obj.Width;
+							if (obj.JoinStyle == 2 && obj.MiterLimitFactor != 0.0) console.log('miter '+obj.MiterLimitFactor+' '+ctx.miterLimit);
 							ctx.stroke();
 						} else {
 							ctx.fillStyle = css;
@@ -21644,9 +21914,34 @@ if (!("swf2js" in window)) {
 						if (type !== 16) {
 							ctx.save();
 							ctx.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
-							css = ctx.createRadialGradient(0, 0, 0, 0, 0, 16384);
+							var focalPoint = styleObj.gradient.FocalPoint?styleObj.gradient.FocalPoint:0;
+							if (styleObj.gradient.SpreadMode == 1) focalPoint = focalPoint*2;
+							else if (styleObj.gradient.SpreadMode == 2) focalPoint = focalPoint*5.6;
+							var r = 16384;
+							if (styleObj.gradient.SpreadMode && !isStroke) r = 65536;
+							css = ctx.createRadialGradient(focalPoint*r, 0, 0, 0, 0, r);
 						} else {
 							var xy = _this.linearGradientXY(m);
+							var xyn;
+
+							if (styleObj.gradient.SpreadMode && isStroke) {
+								xyn = new Array(4);
+								//xyn[0] = (xy[0]+xy[2])/2-(xy[2]-xy[0]); // xy[0]/2-xy[2]/2
+								//xyn[2] = (xy[0]+xy[2])/2+(xy[2]-xy[0]); // xy[0]/2+xy[2]/2
+								xyn[0] = xy[0]-(xy[2]-xy[0])*2.8;
+								xyn[1] = xy[1]-(xy[3]-xy[1])*2.8;
+								xyn[2] = xy[2]; //xy[2]+(xy[2]-xy[0])*1.4;
+								xyn[3] = xy[3]; //xy[3]+(xy[3]-xy[1])*1.4;
+								xy = xyn;
+							} else if (styleObj.gradient.SpreadMode) {
+								xyn = new Array(4);
+								xyn[0] = xy[0];
+								xyn[1] = xy[1];
+								xyn[2] = xy[2]+(xy[2]-xy[0])*2.8;
+								xyn[3] = xy[3]+(xy[3]-xy[1])*2.8;
+								xy = xyn;
+							}
+
 							css = ctx.createLinearGradient(xy[0], xy[1], xy[2], xy[3]);
 						}
 
@@ -21661,10 +21956,11 @@ if (!("swf2js" in window)) {
 						}
 
 						if (isStroke) {
-							ctx.strokeStyle = css;
 							ctx.lineWidth = _max(obj.Width, 1 / minScale);
-							ctx.lineCap = "round";
-							ctx.lineJoin = "round";
+							ctx.lineCap = obj.StartCapStyle == 1?"butt":(obj.StartCapStyle ==2?"square":"round");
+							ctx.lineJoin = obj.JoinStyle == 1?"bevel":(obj.JoinStyle == 2?"square":"round");
+							if (obj.JoinStyle == 2 && obj.MiterLimitFactor != 0.0) ctx.miterLimit = obj.MiterLimitFactor*obj.Width;
+							ctx.strokeStyle = css;
 							ctx.stroke();
 						} else {
 							ctx.fillStyle = css;
@@ -21678,10 +21974,10 @@ if (!("swf2js" in window)) {
 						break;
 
 						// bitmap
-					case 0x40:
-					case 0x41:
-					case 0x42:
-					case 0x43:
+					case 0x40: // repeating bitmap
+					case 0x41: // clipped bitmap fill
+					case 0x42: // non-smoothed repeating bitmap
+					case 0x43: // non-smoothed clipped bitmap
 						var width;
 						var height;
 						var loadStage = _this.getStage();
@@ -21737,14 +22033,22 @@ if (!("swf2js" in window)) {
 									ctx.transform(bMatrix[0], bMatrix[1], bMatrix[2], bMatrix[3], bMatrix[4], bMatrix[5]);
 									ctx.drawImage(canvas, 0, 0, width, height);
 								} else {
-									ctx.fillStyle = stage.context.createPattern(canvas, repeat);
-									ctx.transform(bMatrix[0], bMatrix[1], bMatrix[2], bMatrix[3], bMatrix[4], bMatrix[5]);
-									ctx.fill();
+									if (isStroke) {
+										ctx.lineWidth = _max(obj.Width, 1 / minScale);
+										ctx.lineCap = obj.StartCapStyle == 1?"butt":(obj.StartCapStyle ==2?"square":"round");
+										ctx.lineJoin = obj.JoinStyle == 1?"bevel":(obj.JoinStyle == 2?"square":"round");
+										ctx.strokeStyle = stage.context.createPattern(canvas, repeat);
+										// ctx.transform(bMatrix[0], bMatrix[1], bMatrix[2], bMatrix[3], bMatrix[4], bMatrix[5]);
+										ctx.stroke();
+									} else {
+										ctx.fillStyle = stage.context.createPattern(canvas, repeat);
+										ctx.transform(bMatrix[0], bMatrix[1], bMatrix[2], bMatrix[3], bMatrix[4], bMatrix[5]);
+										ctx.fill();
+									}
 								}
 							}
 							ctx.restore();
 						}
-
 						break;
 				}
 			}
@@ -21826,7 +22130,7 @@ if (!("swf2js" in window)) {
 
 		/**
 		 * @param m
-		 * @returns {*[]}	
+		 * @returns {*[]}
 		 */
 		Shape.prototype.linearGradientXY = function(m)
 		{
@@ -24104,7 +24408,7 @@ if (!("swf2js" in window)) {
 			_this.clipDepth = 0;
 
 			// sound
-			_this.sounds = [];
+			_this.startSounds = [];
 			_this.soundStopFlag = false;
 		};
 
@@ -24246,12 +24550,7 @@ if (!("swf2js" in window)) {
 
 			if (typeof frame === "number" && frame > 0) {
 				// reset all sounds
-				for (var i=0; i<_this.sounds.length; i++) {
-					if (_this.sounds[i]) {
-						var sound = stage.sounds[_this.sounds[i].SoundId];
-						if (sound && sound.Audio.isPlaying) sound.Audio.pause();
-					}
-				}
+				stage.stopAllSounds();
 				_this.setPreviousFrame(_this.getCurrentFrame());
 				_this.setNextFrame(frame);
 				_this.play();
@@ -24264,6 +24563,7 @@ if (!("swf2js" in window)) {
 		MovieClip.prototype.gotoAndStop = function(frame)
 		{
 			var _this = this;
+			var stage = _this.getStage();
 			if (typeof frame === "string") {
 				frame = _this.getLabel(frame);
 			}
@@ -24273,6 +24573,7 @@ if (!("swf2js" in window)) {
 				_this.isAction = false;
 			}
 			if (frame > 0) {
+				stage.stopAllSounds();
 				_this.setPreviousFrame(_this.getCurrentFrame());
 				_this.setNextFrame(frame);
 				_this.stop();
@@ -24282,16 +24583,12 @@ if (!("swf2js" in window)) {
 		/**
 		 * stopAllSounds
 		 */
-		MovieClip.prototype.stopAllSounds = function()
+		MovieClip.prototype.stopAllSounds = function ()
 		{
-			var _this = this;
-			var stage = _this.getStage();
-			for (var i=0; i<stage.sounds.length; i++) {
-				if (stage.sounds[i]) {
-					if (stage.sounds[i].Audio.isPlaying) stage.sounds[i].Audio.pause();
-				}
-			}
+			var stage = this.getStage();
+			stage.stopAllSounds();
 		};
+
 
 		/**
 		 * @param url
@@ -24305,7 +24602,6 @@ if (!("swf2js" in window)) {
 			var stage = _this.getStage();
 			var targetMc = null;
 
-			console.log('MovieClip.prototype.loadMovie '+url+' '+target);
 			if (!target) {
 				target = _this.getName();
 				targetMc = _this;
@@ -24345,7 +24641,6 @@ if (!("swf2js" in window)) {
 					xmlHttpRequest.open("POST", targetUrl, true);
 					xmlHttpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 				} else {
-					console.log('MovieClip.prototype.loadMovie '+targetUrl);
 					xmlHttpRequest.open("GET", targetUrl, true);
 				}
 
@@ -24430,7 +24725,7 @@ if (!("swf2js" in window)) {
 			targetMc.actions = [];
 			targetMc.instances = [];
 			targetMc.labels = [];
-			targetMc.sounds = [];
+			targetMc.startSounds = [];
 			targetMc.removeTags = [];
 			targetMc._totalframes = 1;
 			targetMc._url = null;
@@ -24449,7 +24744,6 @@ if (!("swf2js" in window)) {
 		MovieClip.prototype.getURL = function(url, target, method)
 		{
 			var _this = this;
-			console.log('MovieClip.prototype.getURL '+url+' '+target);
 			if (typeof url === "string") {
 				var cmd = url.substr(0, 9);
 				if (cmd === "FSCommand") {
@@ -24531,7 +24825,6 @@ if (!("swf2js" in window)) {
 		MovieClip.prototype.loadVariables = function(url, target, method)
 		{
 			var _this = this;
-			console.log('MovieClip.prototype.loadVariables '+url+' '+target);
 			var targetMc = _this;
 			if (target) {
 				targetMc = _this.getDisplayObject(target);
@@ -24548,7 +24841,6 @@ if (!("swf2js" in window)) {
 					xmlHttpRequest.open(method, urls[0], true);
 					xmlHttpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 				} else {
-					console.log('MovieClip.prototype.loadVariable '+url);
 					xmlHttpRequest.open("GET", url, true);
 				}
 
@@ -25047,6 +25339,7 @@ if (!("swf2js" in window)) {
 				initAction.apply(_this);
 			}
 		};
+
 		/**
 		 * @param stopFlag
 		 * @param frame
@@ -25150,6 +25443,7 @@ if (!("swf2js" in window)) {
 						frame = 1;
 						_this.resetCheck();
 					}
+					if (frame != _this.getPreviousFrame()) _this.soundStopFlag = false;
 					_this.setCurrentFrame(frame);
 					_this.startStopSoundStreams(_this.stopFlag, frame, _this.characterId);
 					_this.setPreviousFrame(_this.getCurrentFrame());
@@ -25217,9 +25511,14 @@ if (!("swf2js" in window)) {
 		MovieClip.prototype.nextFrame = function()
 		{
 			var _this = this;
+			var stage = _this.getStage();
 			var frame = _this.getCurrentFrame();
 			_this.setPreviousFrame(frame);
 			frame++;
+			if (frame != _this.getPreviousFrame()) {
+				stage.stopAllSounds();
+				_this.soundStopFlag = false;
+			}
 			_this.setNextFrame(frame);
 			_this.stop();
 		};
@@ -25230,9 +25529,15 @@ if (!("swf2js" in window)) {
 		MovieClip.prototype.prevFrame = function()
 		{
 			var _this = this;
+			var stage = _this.getStage();
 			var frame = _this.getCurrentFrame();
 			_this.setPreviousFrame(frame);
 			frame--;
+			frame = frame>0? frame:1;
+			if (frame != _this.getPreviousFrame()) {
+				stage.stopAllSounds();
+				_this.soundStopFlag = false;
+			}
 			_this.setCurrentFrame(frame);
 			_this.setNextFrame(frame);
 			_this.stop();
@@ -25408,10 +25713,10 @@ if (!("swf2js" in window)) {
 		MovieClip.prototype.addSound = function(frame, obj)
 		{
 			var _this = this;
-			if (!(frame in _this.sounds)) {
-				_this.sounds[frame] = [];
+			if (!(frame in _this.startSounds)) {
+				_this.startSounds[frame] = [];
 			}
-			_this.sounds[frame].push(obj);
+			_this.startSounds[frame].push(obj);
 		};
 
 		/**
@@ -25420,25 +25725,17 @@ if (!("swf2js" in window)) {
 		MovieClip.prototype.getSounds = function()
 		{
 			var _this = this;
-			return _this.sounds[_this.getCurrentFrame()];
+			return _this.startSounds[_this.getCurrentFrame()];
 		};
 
 		/**
 		 * @param sound \{ SoundId, Sound, tagType\}
 		 */
-		MovieClip.prototype.startSound = function(sound)
+		MovieClip.prototype.startSound = function(soundStart)
 		{
 			var _this = this;
-			//if (_this.stopFlag) return 0;
 			var stage = _this.getStage();
-			var soundId = sound.SoundId;
-			var tag = stage.getCharacter(soundId);
-			if (!tag) {
-				return 0;
-			}
-
-			var soundInfo = tag.SoundInfo;
-			stage.startSound(soundId, soundInfo);
+			stage.startSound(soundStart);
 			_this.soundStopFlag = true;
 		};
 
@@ -26066,7 +26363,6 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClipLoader.prototype.loadClip = function(url, target)
 		{
-			console.log('MovieClipLoader.prototype.loadClip '+url+' '+target);
 			if (!url || !target) {
 				return false;
 			}
@@ -26294,9 +26590,9 @@ if (!("swf2js" in window)) {
 		{
 			var _this = this;
 			var xmlHttpRequest = _this.xmlHttpRequest;
-			console.log('LoadVars.prototype.load '+url);
 			xmlHttpRequest.open("GET", url, true);
-			xmlHttpRequest.onreadystatechange = function() {
+			xmlHttpRequest.onreadystatechange = function()
+			{
 				var readyState = xmlHttpRequest.readyState;
 				if (readyState === 4) {
 					var src = decodeURIComponent(xmlHttpRequest.responseText);
@@ -26339,7 +26635,6 @@ if (!("swf2js" in window)) {
 			var _this = this;
 			var xmlHttpRequest = _this.xmlHttpRequest;
 			var sendMethod = method ? method.toUpperCase() : "GET";
-			console.log('LoadVars.prototype.send '+url+' '+target);
 			xmlHttpRequest.open(sendMethod, url, true);
 			if (sendMethod === "POST") {
 				xmlHttpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -26360,7 +26655,6 @@ if (!("swf2js" in window)) {
 		LoadVars.prototype.sendAndLoad = function(url, target, method)
 		{
 			var _this = this;
-			console.log('LoadVars.prototype.sendAndLoad '+url+' '+target);
 			_this.send(url, target, method);
 			return _this.load(url);
 		};
@@ -26494,7 +26788,6 @@ if (!("swf2js" in window)) {
 			var _this = this;
 			url = "" + url;
 			var xmlHttpRequest = new XMLHttpRequest();
-			console.log('Xml.prototype.load '+url);
 			xmlHttpRequest.open("GET", url, true);
 			xmlHttpRequest.onreadystatechange = function() {
 				var readyState = xmlHttpRequest.readyState;
@@ -26534,7 +26827,6 @@ if (!("swf2js" in window)) {
 		 */
 		Xml.prototype.send = function(url, target, method)
 		{
-			console.log('Xml.prototype.send '+url+' '+target);
 			var sendMethod = method ? method.toUpperCase() : "GET";
 			if (target) {
 				console.log(target);
@@ -26552,7 +26844,6 @@ if (!("swf2js" in window)) {
 		Xml.prototype.sendAndLoad = function(url, resultXML)
 		{
 			var _this = this;
-			console.log('Xml.prototype.sendAndLoad '+url);
 			_this.send(url);
 			return _this.load(resultXML);
 		};
@@ -26597,6 +26888,8 @@ if (!("swf2js" in window)) {
 			}
 		});
 
+		var sounds = [];
+
 		/**
 		 * @param name
 		 * @returns {*}
@@ -26622,61 +26915,6 @@ if (!("swf2js" in window)) {
 		Sound.prototype.start = function(currentTime, loopCount)
 		{
 			var _this = this;
-			var movieClip = _this.movieClip;
-			var stage = movieClip.getStage();
-			var sounds = stage.sounds;
-
-			for (var id in sounds) {
-				if (!sounds.hasOwnProperty(id)) {
-					continue;
-				}
-				var soundId,soundInfo, audio;
-				var sound = stage.sounds[id];
-				soundId = sound.SoundId;
-				audio = sound.Audio;
-				if (loopCount && currentTime) {
-					soundInfo = {
-						"HasLoops": true,
-						"LoopCount": loopCount,
-						"HasInPoint": true,
-						"Inpoint": currentTime
-					};
-				} else if (loopCount) {
-					soundInfo = {
-						"HasLoops": true,
-						"LoopCount": loopCount,
-					};
-				} else if (currentTime) {
-					soundInfo = {
-						"HasInPoint": true,
-						"Inpoint": currentTime
-					};
-				}
-				if (!stage.autoPlayAudioUnlocked) {
-					if (soundInfo && soundInfo.SyncStop) {
-						stage.soundsStopped.push({
-							"SoundId": soundId,
-							"SoundInfo": soundInfo
-						});
-					} else {
-						stage.soundsNotStarted.push({
-							"SoundId": soundId,
-							"SoundInfo": soundInfo
-						});
-					}
-				} else {
-					stage.soundsStarted.push({
-						"SoundId": soundId,
-						"SoundInfo": soundInfo
-					});					
-					if (soundInfo) audio.setSoundInfo(soundInfo);
-					else {
-						audio.currentTime = 0.0;
-						audio.play();
-					}
-				}
-			}
-			/*
 			var init = function(audio, time) {
 				return function() {
 					audio.currentTime = time;
@@ -26718,7 +26956,6 @@ if (!("swf2js" in window)) {
 
 				audio.play();
 			}
-			*/
 		};
 
 		/**
@@ -26752,7 +26989,6 @@ if (!("swf2js" in window)) {
 		{
 			var _this = this;
 			_this.isStreamin = bool;
-			console.log('Sound.prototype.loadSound '+url+' '+bool);
 			var sounds = _this.sounds;
 			var audio = _document.createElement("audio");
 			audio.src = url;
@@ -27559,7 +27795,6 @@ if (!("swf2js" in window)) {
 			_this.quality = "medium"; // low = 0.25, medium = 0.8, high = 1.0
 			_this.audioType = "default";
 			_this.bgcolor = null;
-			_this.autoStart = true;
 
 			// event
 			_this.mouse = new Mouse();
@@ -27585,6 +27820,7 @@ if (!("swf2js" in window)) {
 			_this.keyUpEventHits = [];
 
 			_this.sounds = [];
+			_this.loadSounds = [];
 			_this.soundsStopped = [];
 			_this.soundsStarted = [];
 			_this.soundsNotStarted = [];
@@ -27599,7 +27835,7 @@ if (!("swf2js" in window)) {
 			_this.soundStreamIsPlaying = false;
 			_this.autoPlayAudioUnlocked = false;
 			_this.lastAudioCurrentTime = -1;
-			_this.videos = [];
+			_this.videoStreams = [];
 			_this.videoCount = 0;
 			_this.autoPlayAllowed = false;
 			_this.autoStart = true;
@@ -27665,6 +27901,7 @@ if (!("swf2js" in window)) {
 			_this.imgUnloadCount = 0;
 			_this.sndUnloadCount = 0;
 			_this.sndStreamUnloadCount = 0;
+			_this.videoUnloadCount = 0;
 			_this.lastAudioCurrentTime = -1;
 			_this.SWF_HAS_AS3 = 0;
 		};
@@ -27805,81 +28042,66 @@ if (!("swf2js" in window)) {
 		{
 			var _this = this;
 			var control;
-			if (!(_this.autoPlayAllowed && _this.autoStart)) {
+			if (!_this.autoPlayAllowed || !_this.autoStart) {
 				control = document.createElement("input");
 				control.type = "button";
 				control.id = "control";
 				control.alt = "Play";
-				control.value = "Play";				
+				control.value = "Play";
 				var svg='data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTYiIGhlaWdodD0iMjU2IiB2aWV3Qm94PSItMTI4IC0xMjggMjU2IDI1NiI+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMi45NTU0MDM0LDAsMCwyLjk2ODA1MzUsLTEuMjM3MTg1OSwwLjY5NDU5OTMpIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOjAuMDMzNzY0MTQ7c3Ryb2tlLW1pdGVybGltaXQ6NDtzdHJva2UtZGFzaGFycmF5Om5vbmUiPjxwYXRoIHN0eWxlPSJvcGFjaXR5OjE7ZmlsbDojNjU2NTY1O2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTojNjU2NTY1O3N0cm9rZS13aWR0aDowLjAzMzc2NDE0O3N0cm9rZS1saW5lY2FwOmJ1dHQ7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjQ7c3Ryb2tlLWRhc2hhcnJheTpub25lO3N0cm9rZS1kYXNob2Zmc2V0OjAiIHZlY3Rvci1lZmZlY3Q9Im5vbi1zY2FsaW5nLXN0cm9rZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTUwLC01MCkiIGQ9Ik0gNTAsOTIuODc1IEMgMjYuMzU4LDkyLjg3NSA3LjEyNSw3My42NDIgNy4xMjUsNTAgNy4xMjUsMjYuMzU4IDI2LjM1OCw3LjEyNSA1MCw3LjEyNSA3My42NDIsNy4xMjUgOTIuODc1LDI2LjM1OCA5Mi44NzUsNTAgOTIuODc1LDczLjY0MiA3My42NDIsOTIuODc1IDUwLDkyLjg3NSBaIE0gNTAsOS4xMjUgQyAyNy40NjEsOS4xMjUgOS4xMjUsMjcuNDYxIDkuMTI1LDUwIDkuMTI1LDcyLjUzOCAyNy40NjEsOTAuODc1IDUwLDkwLjg3NSA3Mi41MzgsOTAuODc1IDkwLjg3NSw3Mi41MzggOTAuODc1LDUwIDkwLjg3NSwyNy40NjEgNzIuNTM4LDkuMTI1IDUwLDkuMTI1IFoiIC8+PC9nPjxnIHRyYW5zZm9ybT0ibWF0cml4KDMuNDg5OTk5NiwwLDAsMy40ODk5OTk1LC0wLjc0OTk5NjU1LDAuNzUwMDAwMDUpIiBpZD0iODdlNjc4ZjEtOWQzYi00NjRiLTlmZmUtNDYzYTNkMjcwMGFlIiBzdHlsZT0iZmlsbDojOTY5Njk2O2ZpbGwtb3BhY2l0eToxIj48Y2lyY2xlIHN0eWxlPSJvcGFjaXR5OjE7ZmlsbDojOTY5Njk2O2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTojMDAwMDAwO3N0cm9rZS13aWR0aDowO3N0cm9rZS1saW5lY2FwOmJ1dHQ7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjQ7c3Ryb2tlLWRhc2hhcnJheTpub25lO3N0cm9rZS1kYXNob2Zmc2V0OjA7c3Ryb2tlLW9wYWNpdHk6MSIgdmVjdG9yLWVmZmVjdD0ibm9uLXNjYWxpbmctc3Ryb2tlIiBjeD0iMCIgY3k9IjAiIHI9IjM1IiAvPjwvZz48ZyB0cmFuc2Zvcm09Im1hdHJpeCgwLDEuODI4MzIxLC0xLjgyMDUyODUsMCwyNC4yMjc0OTEsLTIuMDEyNTY0MykiIGlkPSJmNWI3NTcyMy03ZDdhLTQzOWYtOTlhNC1lNTQ2MmU5YjZjOWIiPjxwb2x5Z29uIHN0eWxlPSJvcGFjaXR5OjE7ZmlsbDojNjU2NTY1O2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTojMDAwMDAwO3N0cm9rZS13aWR0aDowO3N0cm9rZS1saW5lY2FwOmJ1dHQ7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjQ7c3Ryb2tlLWRhc2hhcnJheTpub25lO3N0cm9rZS1kYXNob2Zmc2V0OjAiIHZlY3Rvci1lZmZlY3Q9Im5vbi1zY2FsaW5nLXN0cm9rZSIgcG9pbnRzPSIzNy40MywzMi40MSAtMzcuNDMsMzIuNDEgMCwtMzIuNDEiLz48L2c+PC9zdmc+';
 				var d = document.getElementById(_this.name);
 				var s = window.getComputedStyle(d);
 				var w = Math.floor(parseFloat(s.height)/3);
 				var top = Math.floor((parseFloat(s.height)-w)/2), left = Math.floor((parseFloat(s.width)-w)/2);
 				control.style="position: absolute; top: "+top+"px; left: "+left+"px; background-image: url("+svg+"); background-size: "+w+"px; background-repeat: no-repeat; background-position: left;"+
-					"padding-left: "+w+"px; height: "+w+"px; border: none; background-color: transparent; color:transparent; z-index: 256;";
+					"padding-left: "+w+"px; height: "+w+"px; border: none; background-color: transparent; color:transparent; z-index: 255;";
 				d.appendChild(control);
 				control.onclick = function() {
 					control.parentNode.removeChild(control);
 					_this.play();
 				};
-			}
-
-			document.onkeydown = function(e) {
-				// allow start/stop by pressing Escape
-				if ((e || window.event).code === "Escape") {
-					control = document.getElementById("control");
+				var elemEventHandler = function(event) {
+					var control = document.getElementById('control');
 					if (control) {
 						control.parentNode.removeChild(control);
-						control = null;
-					}
-					if (_this.stopFlag) {
 						_this.play();
-					} else {
-						_this.stop();
+						event.target.removeEventListener("click", elemEventHandler, false);
 					}
-					// allow step one frame by pressing arrow up
-				} else if ((e || window.event).code === "ArrowUp") {
-					if (!_this.autoPlayAudioUnlocked) _this.unlockSounds();
-					_this.stopFlag = false;
-					_this.restartSounds();
-					_this.nextFrame();
-					_this.stopFlag = true;
-					_this.stopSounds();
-				}
-			};
+				};
+				d.addEventListener("click", elemEventHandler , false);
+			}
 		};
 
 		/**
 		 * @param audio
 		 * @param soundInfo
 		 */
-		Stage.prototype.startSound = function (soundId, soundInfo)
+		Stage.prototype.startSound = function (soundStart)
 		{
 			var _this = this;
-			var sound = _this.sounds[soundId];
+			var sound = _this.sounds[soundStart.SoundId];
 			var audio = sound.Audio;
-			
+
 			if (!this.autoPlayAudioUnlocked) {
-				if (soundInfo && soundInfo.SyncStop) {
-					this.soundsStopped.push({
-						"SoundId": soundId,
-						"SoundInfo": soundInfo
-					});
+				if (soundStart.soundInfo && !soundStart.soundInfo.SyncStop) {
+					this.soundsStopped.push(soundStart);
 				} else {
-					this.soundsNotStarted.push({
-						"SoundId": soundId,
-						"SoundInfo": soundInfo
-					});
+					this.soundsNotStarted.push(soundStart);
 				}
 			} else {
-				this.soundsStarted.push({
-					"SoundId": soundId,
-					"SoundInfo": soundInfo
-				});					
-				if (soundInfo) audio.setSoundInfo(soundInfo);
+				this.soundsStarted.push(soundStart);
+				if (soundStart.SoundInfo) audio.setSoundInfo(soundStart.SoundInfo);
 				else audio.play();
 			}
+		};
+
+		/**
+		 * stopAllSounds
+		 */
+		Stage.prototype.stopAllSounds = function()
+		{
+			var _this = this;
+			_this.stopSounds(true); //nowait
 		};
 
 		/**
@@ -27893,8 +28115,6 @@ if (!("swf2js" in window)) {
 			// clean up empty soundstreams
 			for (i=0; i<this.soundStreams.length; i++) {
 				for ( f=0; f<this.soundStreams[i].FrameRanges.length; f++) {
-					// console.log('Soundstream '+i+' '+this.soundStreams[i].SoundStreamId+' fr '+f+
-					//	' ['+this.soundStreams[i].FrameRanges[f].startFrame+'-'+this.soundStreams[i].FrameRanges[f].endFrame+']');
 					if (!this.soundStreams[i].FrameRanges[f].Data.length) this.soundStreams[i].FrameRanges[f] = null;
 				}
 				this.soundStreams[i].FrameRanges = this.soundStreams[i].FrameRanges.filter(Boolean);
@@ -27908,7 +28128,7 @@ if (!("swf2js" in window)) {
 				for (f=0; f<s.FrameRanges.length; f++) {
 					var frameRange = s.FrameRanges[f];
 
-					var totalLength = 0;					
+					var totalLength = 0;
 					for (b=0; b<frameRange.Data.length; b++) {
 						totalLength += frameRange.Data[b].length;
 					}
@@ -27955,13 +28175,8 @@ if (!("swf2js" in window)) {
 						var adpcmOutput = new AdpcmOutput();
 						data = adpcmOutput.convertADPCMtoWave(true, s.SoundStreamType, s.SoundStreamSize, s.SoundStreamRate, frameRange.Data);
 					} else if (s.SoundStreamCompression == 4 || s.SoundStreamCompression == 5 || s.SoundStreamCompression == 6) {
-						console.log('SoundStream '+i+' id '+s.SoundStreamId+' '+soundFormats[s.SoundStreamCompression]+' '+
-						soundSizes[s.SoundStreamSize]+' '+soundTypes[s.SoundStreamType]+' '+soundRates[s.SoundStreamRate]+' Hz l '+frameRange.Data.length);
-						//soundStreamNellyMoser
 						var nellyMoserDecoder = new NellyMoserDecoder(s.SoundStreamType, s.SoundStreamSize, s.SoundStreamRate, frameRange.Data);
 						data = nellyMoserDecoder.toWave();
-						//var nellyMoser = new NellyMoser(result);
-						//data = nellyMoser.decode();
 						mimeType = "wave";
 					} else if (s.SoundStreamCompression == 2) {
 						data = result;
@@ -27977,12 +28192,8 @@ if (!("swf2js" in window)) {
 					frameRange.Audio = audio;
 					frameRange.Duration = frameRange.endAudio;
 					this.sndStreamUnloadCount++;
-					console.log('SoundStream '+i+' id '+s.SoundStreamId+' '+soundFormats[s.SoundStreamCompression]+' '+
-						soundSizes[s.SoundStreamSize]+' '+soundTypes[s.SoundStreamType]+' '+soundRates[s.SoundStreamRate]+' Hz l '+
-						result.length+' ['+frameRange.startFrame+'-'+frameRange.endFrame+'] '+mimeType);
 				}
 			}
-			console.log('Soundstreams '+this.soundStreams.length+' unload '+this.sndStreamUnloadCount);
 		};
 
 		/**
@@ -28035,7 +28246,6 @@ if (!("swf2js" in window)) {
 			for (i=0; i<this.soundsNotStarted.length; i++) {
 				sound = this.sounds[this.soundsNotStarted[i].SoundId];
 				sound.Audio.restart();
-				//this.startSound(this.soundsNotStarted[i].SoundId, this.soundsNotStarted[i].SoundInfo);
 				this.soundsStarted.push({
 					"SoundId": this.soundsNotStarted[i].SoundId,
 					"SoundInfo": this.soundsNotStarted[i].SoundInfo
@@ -28062,7 +28272,7 @@ if (!("swf2js" in window)) {
 			var _this = this;
 			var i;
 			if (nowait) {
-				for (i=0; i<this.soundsStarted.length; i++) {
+				for (i=0; i<_this.soundsStarted.length; i++) {
 					var sound = this.sounds[this.soundsStarted[i].SoundId];
 					if (sound.Audio.isPlaying) {
 						sound.Audio.pause();
@@ -28098,10 +28308,7 @@ if (!("swf2js" in window)) {
 				var fr = this.soundStreams[this.soundStreamPlaying].FrameRanges[this.soundStreamFrameRange];
 				var f = this.getParent()._currentframe;
 				var cat = fr.Audio.seek();
-				// var fn = fr.startFrame+Math.ceil((cat-fr.startAudio+this.soundStreams[this.soundStreamPlaying].soundStreamOutputLatency)/this.getFrameRate()*1000)-1;
-				// var ot = this.nextTime;
 				if ((fr.startFrame <= f) && (f <= fr.endFrame) && (cat > this.lastAudioCurrentTime)) {
-					//this.nextTime = getTimeStamp() + (fr.startAudio + (f - fr.startFrame + 1) * this.getFrameRate() / 1000 - fr.soundStreamOutputLatency - cat) * 1000;
 					this.nextTime = getTimeStamp() + (fr.startAudio + (f - fr.startFrame + 1) * this.getFrameRate() / 1000 - this.soundStreams[this.soundStreamPlaying].soundStreamOutputLatency - cat) * 1000;
 					this.lastAudioCurrentTime = cat;
 				}
@@ -28164,7 +28371,6 @@ if (!("swf2js" in window)) {
 			}
 			if (!_this.autoPlayUnlocked) _this.unlockSounds();
 			_this.stopFlag = false;
-			console.log('Stage.prototype.step restartSounds');
 			_this.restartSounds();
 			_this.nextFrame();
 			_this.stopFlag = true;
@@ -28233,7 +28439,7 @@ if (!("swf2js" in window)) {
 				_this.bgcolor = options.bgcolor || _this.bgcolor;
 				_this.noScaling = options.noScaling || _this.noScaling;
 				_this.debug = options.debug || _this.debug;
-				if (options.autoStart) _this.autoStart = options.autoStart;
+				if (options.autoStart != undefined) _this.autoStart = options.autoStart;
 				if (_this.audioType!="default") {
 					switch(_this.audioType) {
 						case "webaudio" :
@@ -28545,7 +28751,7 @@ if (!("swf2js" in window)) {
 			var button = _document.createElement("button");
 			button.innerHTML = 'Close';
 			button.setAttribute('onclick', 'var s=document.getElementById("showDebug"); s.parentElement.removeChild(s);');
-			div_debug.style = 'position: absolute; top: 20px; left: 20px; background-color: #FFFFFF;';
+			div_debug.style = 'position: absolute; top: 20px; left: 20px; z-index: 256; background-color: #FFFFFF;';
 			div_debug.id = 'showDebug';
 			div_debug.prepend(button);
 			parent.appendChild(div_debug);
@@ -28600,7 +28806,7 @@ if (!("swf2js" in window)) {
 					'<tr><td>CompilationDate</td><td>'+ this.ProductInfo.CompilationDate + '</td</tr>\n';
 				}
 				div_info.innerHTML += '</table>';
-			div_info.style = 'position: absolute; top: 20px; left: 20px;';
+			div_info.style = 'position: absolute; top: 20px; left: 20px; z-index: 256;';
 			div_info.id = 'showInfo_'+this.id;
 			var button = _document.createElement("button");
 			button.innerHTML = 'Close';
@@ -28683,7 +28889,7 @@ if (!("swf2js" in window)) {
 					);
 					if (this.options) console.log('Options: '+JSON.stringify(this.options,null,'  '));
 					else console.log('Options: none');
-					if (this.autoPlayAllowed) {
+					if (this.autoPlayAllowed && this.autoStart) {
 						this.autoPlayAudioUnlocked = true;
 						this.play();
 					}
@@ -28967,7 +29173,7 @@ if (!("swf2js" in window)) {
 
 			var jpegData = swftag.parseJpegData(data);
 			image.src = "data:image/jpeg;base64," + swftag.base64encode(jpegData);
-			
+
 		};
 
 		/**
@@ -29054,7 +29260,15 @@ if (!("swf2js" in window)) {
 
 			_this.stop();
 
-			document.onkeydown = null;
+			window.removeEventListener("keydown", keyDownAction);
+			window.removeEventListener("keyup", keyUpAction);
+			window.removeEventListener("keyup", function (event)
+			{
+				_keyEvent = event;
+				_this.touchEnd(event);
+			});
+			//document.onkeydown = null;
+			//document.onkeyup = null;
 
 			_this.canvas.removeEventListener("mousedown", function(event) {
 				_event = event;
@@ -29707,7 +29921,6 @@ if (!("swf2js" in window)) {
 
 			var div = _document.getElementById(_this.getName());
 			if (!div) {
-				console.log('div '+_this.getName()+' not found.');
 				return;
 			}
 			var bounds = div.getBoundingClientRect();
@@ -30662,7 +30875,6 @@ if (!("swf2js" in window)) {
 				});
 
 				var xmlHttpRequest = new XMLHttpRequest();
-				console.log('Swf2js.prototype.load '+url);
 				xmlHttpRequest.open("GET", url, true);
 				if (isXHR2) {
 					xmlHttpRequest.responseType = "arraybuffer";
@@ -30708,7 +30920,6 @@ if (!("swf2js" in window)) {
 		Swf2js.prototype.getFileSize = function(url, callback)
 		{
 			var xhr = new XMLHttpRequest();
-			console.log('Swf2js.prototype.getFileSize '+url);
 			xhr.open("HEAD", url, true);
 			xhr.onreadystatechange = function() {
 				if (this.readyState == this.DONE) {
@@ -30725,7 +30936,6 @@ if (!("swf2js" in window)) {
 		 */
 		Swf2js.prototype.reload = function(url, options)
 		{
-			console.log('Swf2js.prototype.reload '+url);
 			if (!stageId) {
 				return this.load(url, options);
 			}
