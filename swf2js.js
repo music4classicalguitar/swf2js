@@ -1,5 +1,5 @@
 /**
- * swf2js 1.2.11
+ * swf2js 1.2.12
  * Based on : swf2js from Toshiyuki Ienaga (version 0.7.24 from https://github.com/ienaga/swf2js)
  * Develop: https://github.com/music4classicalguitar/swf2js
  * Info and demo : https://music4classicalguitar.github.io/swf2js/
@@ -1636,6 +1636,7 @@ if (!("swf2js" in window)) {
 			this.audioLoopCurrent = 0;
 			this.audioLoopStart = 0;
 			this.audioLoopEnd = 0;
+			this.soundEnvelopes = null;
 			this.audioPlayStart = 0;
 			this.audioPlayOffset = 0;
 			this.audioPlayTime = 0;
@@ -1979,7 +1980,7 @@ if (!("swf2js" in window)) {
 			this.audioPlayTime = 0;
 			this.audioStopFlag = false;
 			this.outputLatency = 0;
-			this.soundEnvelopes = [];
+			this.soundEnvelopes = null;
 			var inPoint = soundInfo.HasInPoint ? soundInfo.InPoint / soundRates[3] : 0;
 			var outPoint = soundInfo.HasOutPoint ? soundInfo.OutPoint / soundRates[3] : this.audioDuration;
 			var loopCount = soundInfo.HasLoops ? soundInfo.LoopCount : 1;
@@ -28244,8 +28245,7 @@ if (!("swf2js" in window)) {
 			var i, sound;
 			// if autoPlay not allowed and not autoPlayUnlocked
 			for (i=0; i<this.soundsNotStarted.length; i++) {
-				sound = this.sounds[this.soundsNotStarted[i].SoundId];
-				sound.Audio.restart();
+				this.startSound(this.soundsNotStarted[i]);
 				this.soundsStarted.push({
 					"SoundId": this.soundsNotStarted[i].SoundId,
 					"SoundInfo": this.soundsNotStarted[i].SoundInfo
@@ -28254,8 +28254,7 @@ if (!("swf2js" in window)) {
 			this.soundsNotStarted = [];
 
 			for (i=0; i<this.soundsStopped.length; i++) {
-				sound = this.sounds[this.soundsStopped[i].SoundId];
-				sound.Audio.restart();
+				this.startSound(this.soundsStopped[i]);
 				this.soundsStarted.push({
 					"SoundId": this.soundsStopped[i].SoundId,
 					"SoundInfo": this.soundsStopped[i].SoundInfo

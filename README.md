@@ -4,7 +4,7 @@ swf2js.js is a JavaScript FlashPlayer emulator that analyzes SWF files
 of Adobe Animate (Flash) in real time and converts them to HTML.
 
 This is an adapted version of swf2js, based on the free version of swf2js.js (version 0.7.24) from Toshiyuki Ienaga (see [https://github.com/ienaga/swf2js](https://github.com/ienaga/swf2js) or [https://swf2js.com](https://swf2js.com)).
-The current version is 1.2.11.
+The current version is 1.2.12.
 
 swf2js.min.js is the minified version created with Google Closure Compiler.
 
