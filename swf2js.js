@@ -1,5 +1,5 @@
 /**
- * swf2js 1.2.12
+ * swf2js 1.2.13
  * Based on : swf2js from Toshiyuki Ienaga (version 0.7.24 from https://github.com/ienaga/swf2js)
  * Develop: https://github.com/music4classicalguitar/swf2js
  * Info and demo : https://music4classicalguitar.github.io/swf2js/
@@ -999,8 +999,8 @@ if (!("swf2js" in window)) {
 		 */
 /* xxx jshint expr:true*/
 		var NellyMoserNormalizedInt32 = function(val) {
-			this.value;
-			this.scale;
+			this.value = 0;
+			this.scale = 0;
 
 			if (val == 0) {
 				this.value = val;
@@ -1033,8 +1033,8 @@ if (!("swf2js" in window)) {
 		};
 
 		var NellyMoserFactor = function(val) {
-			this.value;
-			this.shift;
+			this.value = 0;
+			this.shift = 0;
 
 			if (val == 124) {
 				// Common case optimization.
@@ -1611,26 +1611,26 @@ if (!("swf2js" in window)) {
 
 		var AudioInstance = function(obj) {
 			// webaudio
-			this.audioCtx;
-			this.audioData;
-			this.audioBuffer;
+			this.audioCtx = null;
+			this.audioData = null;
+			this.audioBuffer = null;
 			// webmedia
-			this.audioMediaElement;
+			this.audioMediaElement = null;
 			// webaudio & webmedia
-			this.gainNode;
-			this.panNode;
+			this.gainNode = null;
+			this.panNode = null;
 			// webaudio & webmedia & html5 & audio
-			this.audio;
-			this.audioDuration;
+			this.audio = null;
+			this.audioDuration = 0;
 			this.currentTime = 0;
 			this.currentVolume = 1;
 			this.pan = 0;
 			this.isPlaying = false;
 			this.loadState = "loading";
 			// load state requestAnimationFrame
-			this.loadRaf;
+			this.loadRaf = null;
 			// play state requestAnimationFrame
-			this.playRaf;
+			this.playRaf = null;
 			this.audioHasLoops = false;
 			this.audioLoopCount = 0;
 			this.audioLoopCurrent = 0;
@@ -1651,6 +1651,8 @@ if (!("swf2js" in window)) {
 			}
 			this.id = obj.id;
 			if (obj.type) this.type = obj.type;
+			this.mimeType = obj.mimeType;
+			this.data = obj.data;
 			this.load(obj.mimeType, obj.data);
 		};
 
@@ -1728,7 +1730,8 @@ if (!("swf2js" in window)) {
 				this.loadHtml5Audio(mimeType, data);
 				return;
 			}
-			var url = "data:audio/" + mimeType + ";base64," +this.base64encode(data);
+			var swfTag = new SwfTag();
+			var url = "data:audio/" + mimeType + ";base64," +swfTag.base64encode(data);
 			this.audio = new Audio(url);
 			this.audioMediaElement = this.audioCtx.createMediaElementSource(this.audio);
 			if (typeof this.audioMediaElement == 'undefined' || this.audioMediaElement == null) {
@@ -2100,6 +2103,7 @@ if (!("swf2js" in window)) {
 			this.audioStopFlag = false;
 			this.getPlayState();
 		};
+
 		/**
 		 * resize
 		 */
@@ -4667,6 +4671,7 @@ if (!("swf2js" in window)) {
 			[ 91, "DefineFont4"],
 			[ 93, "EnableTelemetry"]
 		];
+
 		/**
 		 * @param dataLength
 		 * @param characterId
@@ -4727,14 +4732,13 @@ if (!("swf2js" in window)) {
 					const spaces = '    ' ;
 					const t = TagTypes.filter(element => element[0] == tagType);
 					const tt = t.length==0?'Unknown tag '+tagType.toString():t[0][1];
-					// const h = tagType===1?' frame '+frame.toString():' cid'+characterId.toString();
 					stage.debug_lines.push(pos.byte.toString().padStart(6, ' ')+'/'+pos.bit+' '+pos.value.toString(2).padStart(8, '0')+' ['+tagType.toString(16).padStart(3,'0')+'] '+
 					l.toString().padStart(9,' ')+' '+
 						(stage.tags_total).toString().padStart(9,' ')+' '+spaces.repeat(stage.tagLevel)+
 						tt);
 				}
+
 				var tag = _parseTag.call(_this, tagType, length, _this.tagLevel);
-				// if (tag === null) window.alert('_parseTag tag null, type '+tagType+' '+TagTypes[tagType]);
 
 				var o = bitio.byte_offset - tagDataStartOffset;
 				if (o !== length) {
@@ -5791,6 +5795,7 @@ if (!("swf2js" in window)) {
 				return null;
 			}
 		};
+
 		/**
 		 * @param tagType
 		 * @param length
@@ -5972,6 +5977,7 @@ if (!("swf2js" in window)) {
 				marker != RST6 &&
 				marker != RST7;
 		};
+
 		/**
 		 * @param JPEGData
 		 * @returns {string}
@@ -7859,6 +7865,7 @@ if (!("swf2js" in window)) {
 				MatrixArr[MatrixArr.length] = bitio.getFloat32();
 			}
 			return new ColorMatrixFilter(
+				MatrixArr
 			);
 		};
 
@@ -12137,7 +12144,20 @@ if (!("swf2js" in window)) {
 			[  44, "ActionImplementsOp" ], // 0x2C
 			[ 143, "ActionTry" ], // 0x8F
 			[  42, "ActionThrow" ], // 0x2A
+			// dummy
+			[   0, "Action End of Actions"]
 		];
+
+		var BitmapData = function()
+		{
+		};
+
+		BitmapData.prototype.loadBitmap = function(name)
+		{
+			console.log('BitmapData.prototype.loadBitmap '+name);
+		};
+
+
 		/**
 		 * @param data
 		 * @param constantPool
@@ -12507,7 +12527,6 @@ if (!("swf2js" in window)) {
 
 						asData = bitio.getData(pBitio.getUI16());
 						obj.ActionScript = new ActionScript(asData, _this.constantPool, register, _this.initAction);
-
 						break;
 						// ActionWith
 					case 0x94: // 148
@@ -12808,6 +12827,7 @@ if (!("swf2js" in window)) {
 
 				var aScript = cache[cIdx];
 				var actionCode = aScript.actionCode;
+
 				if (actionCode === 0) {
 					break;
 				}
@@ -13162,7 +13182,8 @@ if (!("swf2js" in window)) {
 			getinstanceatdepth: "getInstanceAtDepth",
 			attachmovie: "attachMovie",
 			attachaudio: "attachAudio",
-			attachsound: "attachSound",
+			//attachsound: "attachSound",
+			//loadbitmap: "loadBitmap",
 			attachbitmap: "attachBitmap",
 			getnexthighestdepth: "getNextHighestDepth",
 			getbytesloaded: "getBytesLoaded",
@@ -13310,7 +13331,6 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionGetURL = function(mc, url, target)
 		{
-			console.log('ActionScript.prototype.ActionGetURL '+url+' '+target);
 			if (mc instanceof MovieClip) {
 				mc.getURL(url, target);
 			}
@@ -13702,7 +13722,6 @@ if (!("swf2js" in window)) {
 						url = value;
 					}
 
-					console.log('ActionScript.prototype.ActionGetURL2 '+url);
 					// local variables
 					if (SendVarsMethod) {
 						var variables = mc.variables;
@@ -13800,10 +13819,14 @@ if (!("swf2js" in window)) {
 					if (splitData.length > 1) {
 						var targetMc = mc.getDisplayObject(splitData[0]);
 						if (targetMc) {
-							frame = targetMc.getLabel(splitData[1]);
+							if (_isNaN(splitData[1]))
+								frame = targetMc.getLabel(splitData[1]);
+							else frame = splitData[1];
 						}
 					} else {
-						frame = mc.getLabel(splitData[0]);
+						if (_isNaN(splitData[1]))
+							frame = mc.getLabel(splitData[0]);
+						else frame = splitData[1];
 					}
 				}
 
@@ -14327,7 +14350,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionDefineFunction = function(stack, aScript, mc)
 		{
-			var action = mc.createActionScript2(aScript.ActionScript, this);
+			//var action = mc.createActionScript2(aScript.ActionScript, this);
+			var action = mc.createActionScript(aScript.ActionScript, this);
 			var name = aScript.FunctionName;
 			if (name !== "") {
 				mc.setVariable(name, action);
@@ -14739,6 +14763,7 @@ if (!("swf2js" in window)) {
 			var value = stack.pop();
 			var name = stack.pop();
 			var object = stack.pop();
+
 			if (object) {
 				if (typeof object === "string") {
 					var target = this.stringToObject(object, mc);
@@ -14958,6 +14983,7 @@ if (!("swf2js" in window)) {
 		ActionScript.prototype.ActionIncrement = function(stack)
 		{
 			var value = +stack.pop();
+			if (_isNaN(value)) value = 0;
 			value++;
 			stack[stack.length] = value;
 		};
@@ -16319,9 +16345,18 @@ if (!("swf2js" in window)) {
 			var _this = this;
 			BitmapFilter.call(_this);
 
+			var arg = arguments;
+
+			var matrix = arg[0] | 0;
+			var matrix2 = new Array(4);
+			for (var i = 0; i < 4; i++) {
+				matrix2[i] =  new Array(5);
+				for (var j = 0; j < 5; j++) {
+					matrix2[i][j] = matrix[i * 5 + j];
+				}
+			}
+			_this.matrix = matrix2;
 			_this.filterId = 6;
-
-
 		};
 
 		/**
@@ -16330,6 +16365,17 @@ if (!("swf2js" in window)) {
 		 */
 		ColorMatrixFilter.prototype = Object.create(BitmapFilter.prototype);
 		ColorMatrixFilter.prototype.constructor = ColorMatrixFilter;
+
+		ColorMatrixFilter.prototype.cut = function(color)
+		{
+			// get integer from float
+			var c;
+			if (color < 0) c = Math.ceil(color);
+			else c = Math.floor(color);
+			if (c<0) c= 0;
+			if (c>255) c= 255;
+			return c;
+		};
 
 		/**
 		 * @param cache
@@ -16341,7 +16387,35 @@ if (!("swf2js" in window)) {
 		ColorMatrixFilter.prototype.render = function(cache, matrix, colorTransform, stage)
 		{
 			var _this = this;
-			return cache;
+			var _cut = _this.cut;
+			//var cacheCanvas = cache.canvas;
+			//var canvas = cacheStore.getCanvas();
+			var cmCanvas = cacheStore.getCanvas();
+			var width = cmCanvas.width;
+			var height = cmCanvas.height;
+			//cmCanvas.width = width;
+			//cmCanvas.height = height;
+			var cmCtx = cmCanvas.getContext("2d");
+			var imgData = cmCtx.getImageData(0, 0, width, height);
+			var pxData = imgData.data;
+			var length = width * height;
+			var idx = 0;
+			var m = _this.matrix;
+			if (length > 0) {
+				while (length--) {
+					var r = pxData[idx++];
+					var g = pxData[idx++];
+					var b = pxData[idx++];
+					var a = pxData[idx++];
+					pxData[idx - 4] = _cut(m[0]*r+m[1]*g+m[2]*b+m[3]*a);
+					pxData[idx - 3] = _cut(m[4]*r+m[5]*g+m[6]*b+m[7]*a);
+					pxData[idx - 2] = _cut(m[8]*r+m[9]*g+m[10]*b+m[11]*a);
+					pxData[idx - 1] = _cut(m[12]*r+m[13]*g+m[14]*b+m[15]*a);
+				}
+			}
+			cmCtx.putImageData(imgData, 0, 0);
+
+			return cmCtx;
 		};
 
 		/**
@@ -17967,6 +18041,9 @@ if (!("swf2js" in window)) {
 				GradientBevelFilter: GradientBevelFilter,
 				BitmapFilter: BitmapFilter
 			}
+		};
+
+		DisplayObject.prototype.display = {
 		};
 
 		/**
@@ -20702,9 +20779,9 @@ if (!("swf2js" in window)) {
 		{
 			var _this = this;
 			var soundId = _this.SoundId;
-			if (soundId) {
+			if (_this.SoundId) {
 				var stage = _this.getStage();
-				if (stage.sounds[soundId]) stage.startSound(soundId, _this.SoundInfo);
+				if (stage.sounds[soundId]) stage.startSound({ SoundID: _this.SoundId, SoundInfo: _this.SoundInfo});
 			}
 		};
 
@@ -21897,7 +21974,6 @@ if (!("swf2js" in window)) {
 							ctx.lineCap = obj.StartCapStyle == 1?"butt":(obj.StartCapStyle ==2?"square":"round");
 							ctx.lineJoin = obj.JoinStyle == 1?"bevel":(obj.JoinStyle == 2?"square":"round");
 							if (obj.JoinStyle == 2 && obj.MiterLimitFactor != 0.0) ctx.miterLimit = obj.MiterLimitFactor*obj.Width;
-							if (obj.JoinStyle == 2 && obj.MiterLimitFactor != 0.0) console.log('miter '+obj.MiterLimitFactor+' '+ctx.miterLimit);
 							ctx.stroke();
 						} else {
 							ctx.fillStyle = css;
@@ -24430,6 +24506,11 @@ if (!("swf2js" in window)) {
 			var as = _this.variables[name];
 			if (as) {
 				_this.setActionQueue(as, stage);
+			} else {
+				as = _this.getProperty(name);
+				if (as) {
+					_this.setActionQueue(as, stage);
+				}
 			}
 		};
 
@@ -24551,7 +24632,7 @@ if (!("swf2js" in window)) {
 
 			if (typeof frame === "number" && frame > 0) {
 				// reset all sounds
-				stage.stopAllSounds();
+				// stage.stopAllSounds();
 				_this.setPreviousFrame(_this.getCurrentFrame());
 				_this.setNextFrame(frame);
 				_this.play();
@@ -24574,7 +24655,7 @@ if (!("swf2js" in window)) {
 				_this.isAction = false;
 			}
 			if (frame > 0) {
-				stage.stopAllSounds();
+				// stage.stopAllSounds();
 				_this.setPreviousFrame(_this.getCurrentFrame());
 				_this.setNextFrame(frame);
 				_this.stop();
@@ -25104,6 +25185,16 @@ if (!("swf2js" in window)) {
 			return movieClip;
 		};
 
+		MovieClip.prototype.attachBitmap = function()
+		{
+			var _this = this;
+			var _root = _this.getDisplayObject("_root");
+			var stage = _root.getStage();
+			var target = arguments[0];
+			var name = arguments[1];
+			var depth = arguments[2];
+		};
+
 		/**
 		 * @returns {number}
 		 */
@@ -25422,6 +25513,7 @@ if (!("swf2js" in window)) {
 				}
 			}
 		};
+
 		/**
 		 * @param stage
 		 * @param clipEvent
@@ -25441,7 +25533,8 @@ if (!("swf2js" in window)) {
 						frame++;
 					}
 					if (frame > totalFrames) {
-						frame = 1;
+						frame = totalFrames;
+						//frame = 1;
 						_this.resetCheck();
 					}
 					if (frame != _this.getPreviousFrame()) _this.soundStopFlag = false;
@@ -25494,9 +25587,10 @@ if (!("swf2js" in window)) {
 					_this.isAction = false;
 					var as = _this.getActions(_this.getCurrentFrame());
 					if (as) {
-						_this.setActionQueue(as, stage);
+						_this.setActionQueue(as, stage, _this);
 					}
 				}
+
 			} else {
 				// init action
 				var initAction = myStage.initActions[_this.getCharacterId()];
@@ -25517,7 +25611,7 @@ if (!("swf2js" in window)) {
 			_this.setPreviousFrame(frame);
 			frame++;
 			if (frame != _this.getPreviousFrame()) {
-				stage.stopAllSounds();
+				// stage.stopAllSounds();
 				_this.soundStopFlag = false;
 			}
 			_this.setNextFrame(frame);
@@ -25536,7 +25630,7 @@ if (!("swf2js" in window)) {
 			frame--;
 			frame = frame>0? frame:1;
 			if (frame != _this.getPreviousFrame()) {
-				stage.stopAllSounds();
+				// stage.stopAllSounds();
 				_this.soundStopFlag = false;
 			}
 			_this.setCurrentFrame(frame);
@@ -26039,7 +26133,7 @@ if (!("swf2js" in window)) {
 		{
 			return (function(clip, origin, chain)
 			{
-				return function()
+				return function(clip)
 				{
 					var as = new ActionScript([], origin.constantPool, origin.register, origin.initAction);
 					as.parentId = origin.id; // todo
@@ -26050,6 +26144,7 @@ if (!("swf2js" in window)) {
 						as.initVariable(arguments);
 					}
 					as.variables["this"] = this;
+					const execute = as.execute;
 					return as.execute(clip);
 				};
 			})(this, script, parent);
@@ -26857,13 +26952,16 @@ if (!("swf2js" in window)) {
 		{
 			var _this = this;
 			_this.target = target;
-			_this.variables = {};
+			_this.variables = { };
 			_this.sounds = [];
 			_this.volume = 100;
 			_this.pan = 0;
 			_this.transform = {ll: 100, lr: 100, rl: 100, rr: 100 };
-			_this.isStreamin = false;
+			_this.isStreaming = false;
 			_this.movieClip = null;
+			_this.onSoundComplete = null;
+			_this.onLoad = null;
+			_this.canPlayThrough = false;
 		};
 
 		/**
@@ -26876,20 +26974,14 @@ if (!("swf2js" in window)) {
 					return this.getProperty("onLoad");
 				},
 				set: function(onLoad) {
-					this.setProperty("onLoad", onLoad);
+					this.checkOnLoad(onLoad);
 				}
 			},
-			onSoundComplete: {
-				get: function() {
-					return this.getProperty("onSoundComplete");
-				},
-				set: function(onSoundComplete) {
-					this.setProperty("onSoundComplete", onSoundComplete);
-				}
+			position: {
+				get: function() { return this.getPosition(); },
+				set: function (value) { this.setPosition(value);}
 			}
 		});
-
-		var sounds = [];
 
 		/**
 		 * @param name
@@ -26898,6 +26990,7 @@ if (!("swf2js" in window)) {
 		Sound.prototype.getProperty = function(name)
 		{
 			return this.variables[name];
+
 		};
 
 		/**
@@ -26916,14 +27009,15 @@ if (!("swf2js" in window)) {
 		Sound.prototype.start = function(currentTime, loopCount)
 		{
 			var _this = this;
-			var init = function(audio, time) {
-				return function() {
-					audio.currentTime = time;
-				};
-			};
+			var stage = _this.target.getStage();
+			var sounds = _this.sounds;
 
-			var end = function(audio, sound) {
-				return function() {
+			if (loopCount == 0) loopCount = 1;
+
+			var end = function (audio, sound)
+			{
+				return function ()
+				{
 					var volume = sound.volume;
 					audio.loopCount--;
 					if (audio.loopCount > 0) {
@@ -26931,10 +27025,9 @@ if (!("swf2js" in window)) {
 						audio.currentTime = 0;
 						audio.play();
 					}
-
 					var onSoundComplete = sound.onSoundComplete;
 					if (onSoundComplete) {
-						onSoundComplete.apply(sound, [true]);
+						sound.actions(onSoundComplete);
 					}
 				};
 			};
@@ -26945,17 +27038,32 @@ if (!("swf2js" in window)) {
 					continue;
 				}
 				audio = sounds[id];
-				audio.load();
 
+				if (!stage.autoPlayAudioUnlocked) {
+					if (!(audio in stage.otherSoundsNotStarted)) {
+						stage.otherSoundsNotStarted.push({"Sound": _this, "audio": audio, "currentTime": currentTime, "loopCount": loopCount});
+						return;
+					}
+				}
+				audio.load();
 				if (currentTime) {
-					audio.addEventListener("canplay", init(audio, currentTime));
+					audio.currentTime = currentTime;
 				}
 				if (typeof loopCount === "number" && loopCount > 0) {
 					audio.loopCount = loopCount;
-					audio.addEventListener("ended", end(audio, _this));
 				}
-
+				audio.addEventListener("ended", end(audio, _this));
 				audio.play();
+				stage.otherSoundsStarted.push({"Sound": _this, "audio": audio, "currentTime": currentTime, "loopCount": loopCount});
+			}
+		};
+
+		Sound.prototype.actions = function(aScript)
+		{
+			var mc = this.target;
+			if (aScript) {
+				var as = aScript.ActionScript;
+				as.execute(mc);
 			}
 		};
 
@@ -26964,12 +27072,18 @@ if (!("swf2js" in window)) {
 		 */
 		Sound.prototype.stop = function(id)
 		{
+			console.log('Sound.prototype.stop');
+			var _this = this;
+			var stage = _this.target.getStage();
+
 			var sounds = this.sounds;
 			var audio;
 			if (id) {
 				audio = sounds[id];
 				if (audio) {
 					audio.pause();
+					stage.otherSoundsStarted = stage.otherSoundsStarted.filter(function(el) { return el.Sound != _this && el.audio != audio; });
+					stage.otherSoundsStopped.push({"Sound": _this, "audio": audio});
 				}
 			} else {
 				for (var key in sounds) {
@@ -26978,6 +27092,56 @@ if (!("swf2js" in window)) {
 					}
 					audio = sounds[key];
 					audio.pause();
+					stage.otherSoundsStarted = stage.otherSoundsStarted.filter(function(el) { return el.Sound != _this && el.audio != audio; });
+					stage.otherSoundsStopped.push({"Sound": _this, "audio": audio});
+				}
+			}
+		};
+
+		/**
+		 * position
+		 */
+		Sound.prototype.getPosition = function(id)
+		{
+			var _this = this;
+
+			var sounds = this.sounds;
+			var audio;
+			if (id) {
+				audio = sounds[id];
+				if (audio) {
+					return audio.currentTime*1000;
+				} else return 0;
+			} else {
+				for (var key in sounds) {
+					if (!sounds.hasOwnProperty(key)) {
+						continue;
+					}
+					audio = sounds[key];
+					if (audio) {
+						return audio.currentTime*1000;
+					}
+				}
+				return 0;
+			}
+		};
+
+		/**
+		 * position
+		 */
+		Sound.prototype.setPosition = function(value)
+		{
+			var _this = this;
+
+			var sounds = this.sounds;
+			var audio;
+			for (var key in sounds) {
+				if (!sounds.hasOwnProperty(key)) {
+					continue;
+				}
+				audio = sounds[key];
+				if (audio) {
+					audio.currentTime = value;
 				}
 			}
 		};
@@ -26986,33 +27150,58 @@ if (!("swf2js" in window)) {
 		 * @param url
 		 * @param bool
 		 */
-		Sound.prototype.loadSound = function(url, bool)
+		Sound.prototype.checkOnLoad = function(onLoad)
+		{
+			var sounds = this.sounds;
+			var found = false;
+			for (var key in sounds) {
+				if (!sounds.hasOwnProperty(key)) {
+					continue;
+				}
+				var sound = sounds[key];
+				if (sound.canPlayThrough) {
+					if (onLoad) {
+						found = true;
+						this.actions(onLoad) ;
+					}
+					found = true;
+				}
+			}
+			if (!found) {
+				this.actions(onLoad) ;
+			}
+		};
+
+		/**
+		 * @param url
+		 * @param bool
+		 */
+		Sound.prototype.loadSound = function(url, isStreaming)
 		{
 			var _this = this;
-			_this.isStreamin = bool;
+			var stage = _this.target.getStage();
+			_this.isStreaming = isStreaming;
+
 			var sounds = _this.sounds;
 			var audio = _document.createElement("audio");
 			audio.src = url;
 			sounds[0] = audio;
 
-			var onLoad = (function(audio, sound)
+			var checkLoad = (function (audio, sound)
 			{
 				return function() {
-					audio.load();
 					audio.preload = "auto";
 					audio.autoplay = false;
 					audio.loop = false;
-					var onLoad = sound.onLoad;
-					if (typeof onLoad === "function") {
-						onLoad.apply(sound, [true]);
-					}
+					sound.canPlayThrough = true;
 				};
 			})(audio, _this);
-			audio.addEventListener("canplaythrough", onLoad);
+			audio.addEventListener("canplaythrough", checkLoad);
 
-			var onError = (function(audio, sound)
+			var onError = (function (audio, sound)
 			{
 				return function() {
+				console.log('Error code: '+this.error.code+' '+this.error.message);
 					var onLoad = sound.onLoad;
 					if (typeof onLoad === "function") {
 						onLoad.apply(sound, [false]);
@@ -27020,6 +27209,11 @@ if (!("swf2js" in window)) {
 				};
 			})(audio, _this);
 			audio.addEventListener("error", onError);
+			stage.otherSoundCount++;
+
+			if (isStreaming) {
+				_this.start(0);
+			} else audio.load();
 		};
 
 		/**
@@ -27036,19 +27230,17 @@ if (!("swf2js" in window)) {
 				var characterId = exportAssets[id];
 				var tag = stage.sounds[characterId];
 				if (tag) {
-					/*
 					var audio = _document.createElement("audio");
 					audio.onload = function ()
 					{
-						this.load();
 						this.preload = "auto";
 						this.autoplay = false;
 						this.loop = false;
 					};
-					audio.src = tag.base64;
+					var swfTag = new SwfTag();
+					audio.src = "data:audio/" + tag.Audio.mimeType + ";base64," +swfTag.base64encode(tag.Audio.data);
 					sounds[id] = audio;
-					*/
-					sounds[id] = stage.sounds[characterId].Audio;
+					stage.otherSoundCount++;
 				}
 			}
 
@@ -27061,6 +27253,7 @@ if (!("swf2js" in window)) {
 		 */
 		Sound.prototype.getVolume = function()
 		{
+			console.log('Sound.prototype.getVolume '+this.volume);
 			return this.volume;
 		};
 
@@ -27095,7 +27288,16 @@ if (!("swf2js" in window)) {
 		 */
 		Sound.prototype.setPan = function(pan)
 		{
-			this.pan = pan;
+			var _this = this;
+			var sounds = _this.sounds;
+			_this.pan = pan;
+			for (var id in sounds) {
+				if (!sounds.hasOwnProperty(id)) {
+					continue;
+				}
+				var audio = sounds[id];
+				audio.pan = pan;
+			}
 		};
 
 		/**
@@ -27723,6 +27925,7 @@ if (!("swf2js" in window)) {
 					"DisplayObjectContainer": DisplayObjectContainer,
 					"InteractiveObject": InteractiveObject,
 					"DisplayObject": DisplayObject,
+					"BitmapData": BitmapData,
 					"Graphics": Graphics
 				},
 				"events": {
@@ -27821,13 +28024,16 @@ if (!("swf2js" in window)) {
 			_this.keyUpEventHits = [];
 
 			_this.sounds = [];
-			_this.loadSounds = [];
 			_this.soundsStopped = [];
 			_this.soundsStarted = [];
 			_this.soundsNotStarted = [];
+			_this.otherSoundsNotStarted = [];
 			_this.soundUseType = "webaudio";
 			_this.firstSound = true;
 			_this.soundCount = 0;
+			_this.otherSoundsStopped = [];
+			_this.otherSoundsStarted = [];
+			_this.otherSoundCount = 0;
 			_this.soundStreams = [];
 			_this.soundStreamCount = 0;
 			_this.soundStream = false;
@@ -27839,6 +28045,8 @@ if (!("swf2js" in window)) {
 			_this.videoStreams = [];
 			_this.videoCount = 0;
 			_this.autoPlayAllowed = false;
+			_this.autoPlayAudioAllowed = false;
+			_this.autoPlayVideoAllowed = false;
 			_this.autoStart = true;
 			_this.imageCount = 0;
 			_this.actions = [];
@@ -27851,9 +28059,9 @@ if (!("swf2js" in window)) {
 			_this.touchStatus = "up";
 			_this.overObj = null;
 			_this.touchEndAction = null;
-			_this.requestAnimationFrameId;
-			_this.nextTime;
-			_this.waitTime;
+			_this.requestAnimationFrameId = null;
+			_this.nextTime = 0;
+			_this.waitTime = 0;
 			_this.scale = 1;
 			_this.baseWidth = 0;
 			_this.baseHeight = 0;
@@ -27878,7 +28086,7 @@ if (!("swf2js" in window)) {
 			_this.abc = new packages(_this);
 			_this.symbols = [];
 			_this.abcFlag = false;
-			_this.progressSteps = [],
+			_this.progressSteps = [];
 			_this.progressStep = -1;
 
 			_this.debug = 0;
@@ -27935,6 +28143,7 @@ if (!("swf2js" in window)) {
 			console.log("Total in " + Math.ceil(this.progressSteps[this.progressStep][2] - this.progressSteps[0][1]) / 1000 +
 				" secs [" + Math.ceil(this.progressSteps[0][1]) + "," + Math.ceil(this.progressSteps[this.progressStep][2]) + "]");
 		};
+
 		/**
 		 * @returns {number|*}
 		 */
@@ -28013,6 +28222,7 @@ if (!("swf2js" in window)) {
 		{
 			this.frameCount = frameCount;
 		};
+
 		/**
 		 *
 		 * @returns {string}
@@ -28043,7 +28253,7 @@ if (!("swf2js" in window)) {
 		{
 			var _this = this;
 			var control;
-			if (!_this.autoPlayAllowed || !_this.autoStart) {
+			if (!_this.autoPlayAllowed || !_this.autoStart || _this.otherSoundCount> 0) {
 				control = document.createElement("input");
 				control.type = "button";
 				control.id = "control";
@@ -28102,6 +28312,7 @@ if (!("swf2js" in window)) {
 		Stage.prototype.stopAllSounds = function()
 		{
 			var _this = this;
+			console.log('Stage.prototype.stopAllSounds');
 			_this.stopSounds(true); //nowait
 		};
 
@@ -28242,8 +28453,12 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.restartSounds = function()
 		{
+			var _this = this;
 			var i, sound;
-			// if autoPlay not allowed and not autoPlayUnlocked
+
+			this.autoPlayAudioUnlocked = true;
+			this.autoPlayAllowed = true;
+
 			for (i=0; i<this.soundsNotStarted.length; i++) {
 				this.startSound(this.soundsNotStarted[i]);
 				this.soundsStarted.push({
@@ -28261,6 +28476,25 @@ if (!("swf2js" in window)) {
 				});
 			}
 			this.soundsStopped = [];
+
+			for (i=0; i<this.otherSoundsNotStarted.length; i++) {
+				if (this.otherSoundsNotStarted[i]) {
+					this.otherSoundsNotStarted[i].Sound.start(
+						this.otherSoundsNotStarted[i].currentTime,
+						this.otherSoundsNotStarted[i].loopCount
+					);
+					this.otherSoundsStarted.push(this.otherSoundsNotStarted[i]);
+				}
+			}
+			this.otherSoundsNotStarted = [];
+
+			for (i=0; i<this.otherSoundsStopped.length; i++) {
+				if (this.otherSoundsStopped[i]) {
+					this.otherSoundsStopped[i].audio.play();
+					this.otherSoundsStarted.push(this.otherSoundsStopped[i]);
+				}
+			}
+			this.otherSoundsStopped = [];
 		};
 
 		/**
@@ -28271,7 +28505,7 @@ if (!("swf2js" in window)) {
 			var _this = this;
 			var i;
 			if (nowait) {
-				for (i=0; i<_this.soundsStarted.length; i++) {
+				for (i=0; i<this.soundsStarted.length; i++) {
 					var sound = this.sounds[this.soundsStarted[i].SoundId];
 					if (sound.Audio.isPlaying) {
 						sound.Audio.pause();
@@ -28282,6 +28516,7 @@ if (!("swf2js" in window)) {
 					}
 				}
 				this.soundsStarted = [];
+
 				for (i=0; i<this.soundStreams.length; i++) {
 					for (var f=0; f<this.soundStreams[i].FrameRanges.length; f++) {
 						var frameRange = this.soundStreams[i].FrameRanges[f];
@@ -28290,6 +28525,12 @@ if (!("swf2js" in window)) {
 						}
 					}
 				}
+
+				for (i=0; i<this.otherSoundsStarted.length; i++) {
+					if (this.otherSoundsStarted[i]) this.otherSoundsStarted[i].Sound.stop();
+					this.otherSoundsStopped.push(this.otherSoundsStarted[i]);
+				}
+				this.otherSoundsStarted = [];
 			} else {
 				var wt = this.nextTime - getTimeStamp();
 				setTimeout(function() {
@@ -28319,6 +28560,7 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.animate = function() {
 			var _this = this;
+			var mc = _this.getParent();
 
 			if (this.soundStreamIsPlaying) this.syncWithSoundStream(_this);
 
@@ -28336,6 +28578,7 @@ if (!("swf2js" in window)) {
 				});
 			}
 		};
+
 		/**
 		 * play
 		 */
@@ -28363,6 +28606,7 @@ if (!("swf2js" in window)) {
 		Stage.prototype.step = function()
 		{
 			var _this = this;
+			var mc = _this.getParent();
 			var control = document.getElementById("control");
 			if (control) {
 				control.parentNode.removeChild(control);
@@ -28392,6 +28636,7 @@ if (!("swf2js" in window)) {
 				this.stop();
 			}
 		};
+
 		/**
 		 * stop
 		 */
@@ -28813,6 +29058,7 @@ if (!("swf2js" in window)) {
 			div_info.prepend(button);
 			parent.appendChild(div_info);
 		};
+
 		/**
 		 * loadStatus CountUp
 		 */
@@ -28828,6 +29074,8 @@ if (!("swf2js" in window)) {
 					if (((this.soundCount == 0 && this.soundStreamCount == 0) || autoPlayAudioAllowed) && (this.videoCount == 0 || autoPlayVideoAllowed)) {
 						this.autoPlayAllowed = true;
 						this.autoPlayUnlocked = true;
+						this.autoPlayAudioAllowed = autoPlayAudioAllowed;
+						this.autoPlayVideoAllowed = autoPlayVideoAllowed;
 					}
 					//this.addProgressStep("Prepare images and audio");
 					this.waitfor = "";
@@ -28889,8 +29137,8 @@ if (!("swf2js" in window)) {
 					if (this.options) console.log('Options: '+JSON.stringify(this.options,null,'  '));
 					else console.log('Options: none');
 					if (this.autoPlayAllowed && this.autoStart) {
-						this.autoPlayAudioUnlocked = true;
-						this.play();
+						if (this.otherSoundCount > 0) this.autoPlayUnlocked = false;
+						else this.play();
 					}
 					break;
 			}
@@ -29214,8 +29462,7 @@ if (!("swf2js" in window)) {
 				style.width = width + "px";
 				style.height = height + "px";
 				style.top = "0px";
-				if (_this.noScaling) style.left = "0px" ;
-				else style.left = ((screenWidth / 2) - (width / 2)) + "px";
+				style.left = ((screenWidth / 2) - (width / 2)) + "px";
 
 				width *= devicePixelRatio;
 				height *= devicePixelRatio;
@@ -29317,6 +29564,7 @@ if (!("swf2js" in window)) {
 			_this = null;
 
 		};
+
 		/**
 		 * loaded
 		 */
@@ -29534,7 +29782,6 @@ if (!("swf2js" in window)) {
 				while (i < _this.actions.length) {
 					var obj = _this.actions[i];
 					i++;
-
 					var mc = obj.mc;
 					var args = obj.args || [];
 					if (!mc.active) {
