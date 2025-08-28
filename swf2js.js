@@ -1,5 +1,5 @@
 /**
- * swf2js 1.2.13
+ * swf2js 1.2.14
  * Based on : swf2js from Toshiyuki Ienaga (version 0.7.24 from https://github.com/ienaga/swf2js)
  * Develop: https://github.com/music4classicalguitar/swf2js
  * Info and demo : https://music4classicalguitar.github.io/swf2js/
@@ -12,7 +12,7 @@ window.onerror = function(message, source, lineno, colno, error) {
 	window.alert("Message : " + message + "\nSource : " + source + "\nLine : " + lineno + "\nCol : " + colno + "\nError : " + error + " " + JSON.stringify(error));
 };
 
-var getTimeStamp;
+let getTimeStamp;
 
 /* use performance if available to get better timing/precision */
 if (window.performance.now) {
@@ -35,11 +35,11 @@ if (window.performance.now) {
 "use strict";
 /*jshint expr:false*/
 
-var autoPlayAudioAllowed = true;
-var audio = document.createElement("audio");
+let autoPlayAudioAllowed = true;
+let audio = document.createElement("audio");
 audio.src = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
 
-var promiseAudio = audio.play();
+let promiseAudio = audio.play();
 if (promiseAudio instanceof Promise) {
 	promiseAudio.catch(function(error) {
 		// Check if it is the right error
@@ -62,13 +62,13 @@ if (promiseAudio instanceof Promise) {
 	// Note: you could fallback to simple event listeners in this case
 }
 
-var autoPlayVideoAllowed = true;
-var video = document.createElement("video");
+let autoPlayVideoAllowed = true;
+let video = document.createElement("video");
 video.src = URL.createObjectURL(new Blob([new Uint8Array([0, 0, 0, 28, 102, 116, 121, 112, 105, 115, 111, 109, 0, 0, 2, 0, 105, 115, 111, 109, 105, 115, 111, 50, 109, 112, 52, 49, 0, 0, 0, 8, 102, 114, 101, 101, 0, 0, 2, 239, 109, 100, 97, 116, 33, 16, 5, 32, 164, 27, 255, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 55, 167, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 112, 33, 16, 5, 32, 164, 27, 255, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 55, 167, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 112, 0, 0, 2, 194, 109, 111, 111, 118, 0, 0, 0, 108, 109, 118, 104, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 232, 0, 0, 0, 47, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 236, 116, 114, 97, 107, 0, 0, 0, 92, 116, 107, 104, 100, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 47, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 101, 100, 116, 115, 0, 0, 0, 28, 101, 108, 115, 116, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 47, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 100, 109, 100, 105, 97, 0, 0, 0, 32, 109, 100, 104, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 172, 68, 0, 0, 8, 0, 85, 196, 0, 0, 0, 0, 0, 45, 104, 100, 108, 114, 0, 0, 0, 0, 0, 0, 0, 0, 115, 111, 117, 110, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 83, 111, 117, 110, 100, 72, 97, 110, 100, 108, 101, 114, 0, 0, 0, 1, 15, 109, 105, 110, 102, 0, 0, 0, 16, 115, 109, 104, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 100, 105, 110, 102, 0, 0, 0, 28, 100, 114, 101, 102, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 12, 117, 114, 108, 32, 0, 0, 0, 1, 0, 0, 0, 211, 115, 116, 98, 108, 0, 0, 0, 103, 115, 116, 115, 100, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 87, 109, 112, 52, 97, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 16, 0, 0, 0, 0, 172, 68, 0, 0, 0, 0, 0, 51, 101, 115, 100, 115, 0, 0, 0, 0, 3, 128, 128, 128, 34, 0, 2, 0, 4, 128, 128, 128, 20, 64, 21, 0, 0, 0, 0, 1, 244, 0, 0, 1, 243, 249, 5, 128, 128, 128, 2, 18, 16, 6, 128, 128, 128, 1, 2, 0, 0, 0, 24, 115, 116, 116, 115, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 4, 0, 0, 0, 0, 28, 115, 116, 115, 99, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0, 28, 115, 116, 115, 122, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1, 115, 0, 0, 1, 116, 0, 0, 0, 20, 115, 116, 99, 111, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 44, 0, 0, 0, 98, 117, 100, 116, 97, 0, 0, 0, 90, 109, 101, 116, 97, 0, 0, 0, 0, 0, 0, 0, 33, 104, 100, 108, 114, 0, 0, 0, 0, 0, 0, 0, 0, 109, 100, 105, 114, 97, 112, 112, 108, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 45, 105, 108, 115, 116, 0, 0, 0, 37, 169, 116, 111, 111, 0, 0, 0, 29, 100, 97, 116, 97, 0, 0, 0, 1, 0, 0, 0, 0, 76, 97, 118, 102, 53, 54, 46, 52, 48, 46, 49, 48, 49])], {
 	type: 'video/mp4'
 }));
 
-var promiseVideo = video.play();
+let promiseVideo = video.play();
 if (promiseVideo instanceof Promise) {
 	promiseVideo.catch(function(error) {
 		// Check if it is the right error
@@ -93,62 +93,62 @@ if (promiseVideo instanceof Promise) {
 }
 if (!("swf2js" in window)) {
 	(function(window) {
-		var _document = window.document;
-		var _Math = Math;
-		var _min = _Math.min;
-		var _max = _Math.max;
-		var _floor = _Math.floor;
-		var _ceil = _Math.ceil;
-		var _pow = _Math.pow;
-		var _random = _Math.random;
-		var _atan2 = _Math.atan2;
-		var _sqrt = _Math.sqrt;
-		var _cos = _Math.cos;
-		var _sin = _Math.sin;
-		var _log = _Math.log;
-		var _abs = _Math.abs;
-		var _SQRT2 = _Math.SQRT2;
-		var _LN2 = _Math.LN2;
-		var _LN2_2 = _LN2 / 2;
-		var _LOG1P = 0.29756328478758615;
-		var _PI = _Math.PI;
-		var _Number = Number;
-		var _fromCharCode = String.fromCharCode;
-		var _isNaN = isNaN;
-		var Func = Function;
-		var requestAnimationFrame =
+		let _document = window.document;
+		let _Math = Math;
+		let _min = _Math.min;
+		let _max = _Math.max;
+		let _floor = _Math.floor;
+		let _ceil = _Math.ceil;
+		let _pow = _Math.pow;
+		let _random = _Math.random;
+		let _atan2 = _Math.atan2;
+		let _sqrt = _Math.sqrt;
+		let _cos = _Math.cos;
+		let _sin = _Math.sin;
+		let _log = _Math.log;
+		let _abs = _Math.abs;
+		let _SQRT2 = _Math.SQRT2;
+		let _LN2 = _Math.LN2;
+		let _LN2_2 = _LN2 / 2;
+		let _LOG1P = 0.29756328478758615;
+		let _PI = _Math.PI;
+		let _Number = Number;
+		let _fromCharCode = String.fromCharCode;
+		let _isNaN = isNaN;
+		let Func = Function;
+		let requestAnimationFrame =
 			window.requestAnimationFrame ||
 			window.webkitRequestAnimationFrame ||
 			window.mozRequestAnimationFrame ||
 			window.setTimeout;
 		// params
-		var resizeId = 0;
-		var stageId = 0;
-		var stages = [];
-		var loadStages = [];
-		var instanceId = 0;
-		var tmpContext;
-		var StartDate = new Date();
-		var _navigator = window.navigator;
-		var ua = _navigator.userAgent;
-		var isAndroid = (ua.indexOf("Android") > 0);
-		var isAndroid4x = (ua.indexOf("Android 4.") > 0);
-		var isChrome = (ua.indexOf("Chrome") > 0);
+		let resizeId = 0;
+		let stageId = 0;
+		let stages = [];
+		let loadStages = [];
+		let instanceId = 0;
+		let tmpContext;
+		let StartDate = new Date();
+		let _navigator = window.navigator;
+		let ua = _navigator.userAgent;
+		let isAndroid = (ua.indexOf("Android") > 0);
+		let isAndroid4x = (ua.indexOf("Android 4.") > 0);
+		let isChrome = (ua.indexOf("Chrome") > 0);
 
-		var isTouch = false;
+		let isTouch = false;
 		if ("maxTouchPoints" in navigator) {
 			isTouch = navigator.maxTouchPoints > 0;
 		} else if ("msMaxTouchPoints" in navigator) {
 			isTouch = navigator.msMaxTouchPoints > 0;
 		} else {
-			var mQ = window.matchMedia && window.matchMedia("(pointer:coarse)");
+			let mQ = window.matchMedia && window.matchMedia("(pointer:coarse)");
 			if (mQ && mQ.media === "(pointer:coarse)") {
 				isTouch = !!mQ.matches;
 			} else if ('orientation' in window) {
 				isTouch = true; // deprecated, but good fallback
 			} else {
 				// Only as a last resort, fall back to user agent sniffing
-				var UA = navigator.userAgent;
+				let UA = navigator.userAgent;
 				isTouch = (
 					/\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
 					/\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
@@ -156,24 +156,24 @@ if (!("swf2js" in window)) {
 			}
 		}
 
-		var xmlHttpRequest = new XMLHttpRequest();
-		var isXHR2 = (typeof xmlHttpRequest.responseType !== "undefined");
-		var isArrayBuffer = window.ArrayBuffer;
-		var quality = (isTouch) ? 0.6 : 0.8;
-		var devicePixelRatio = window.devicePixelRatio || 1;
-		var _devicePixelRatio = devicePixelRatio * quality;
-		var _event = null;
-		var _isTouchEvent;
-		var _keyEvent = null;
+		let xmlHttpRequest = new XMLHttpRequest();
+		let isXHR2 = (typeof xmlHttpRequest.responseType !== "undefined");
+		let isArrayBuffer = window.ArrayBuffer;
+		let quality = (isTouch) ? 0.6 : 0.8;
+		let devicePixelRatio = window.devicePixelRatio || 1;
+		let _devicePixelRatio = devicePixelRatio * quality;
+		let _event = null;
+		let _isTouchEvent;
+		let _keyEvent = null;
 		// Alpha Bug
-		var isAlphaBug = isAndroid;
-		var chkCanvas = _document.createElement("canvas");
+		let isAlphaBug = isAndroid;
+		let chkCanvas = _document.createElement("canvas");
 		chkCanvas.width = 1;
 		chkCanvas.height = 1;
 		tmpContext = chkCanvas.getContext("2d");
 		if (isAndroid) {
-			var imageData = tmpContext.createImageData(1, 1);
-			var pixelArray = imageData.data;
+			let imageData = tmpContext.createImageData(1, 1);
+			let pixelArray = imageData.data;
 			pixelArray[0] = 128;
 			pixelArray[3] = 128;
 			tmpContext.putImageData(imageData, 0, 0);
@@ -203,7 +203,7 @@ if (!("swf2js" in window)) {
 		if (typeof Object.defineProperties !== "function") {
 			Object.defineProperties = function(obj, descs)
 			{
-				for (var prop in descs) {
+				for (let prop in descs) {
 					if (descs.hasOwnProperty(prop)) {
 						Object.defineProperty(obj, prop, descs[prop]);
 					}
@@ -227,18 +227,18 @@ if (!("swf2js" in window)) {
 		}
 
 		// shift-jis
-		var JCT11280 = new Func('var a="zKV33~jZ4zN=~ji36XazM93y!{~k2y!o~k0ZlW6zN?3Wz3W?{EKzK[33[`y|;-~j^YOTz$!~kNy|L1$353~jV3zKk3~k-4P4zK_2+~jY4y!xYHR~jlz$_~jk4z$e3X5He<0y!wy|X3[:~l|VU[F3VZ056Hy!nz/m1XD61+1XY1E1=1y|bzKiz!H034zKj~mEz#c5ZA3-3X$1~mBz$$3~lyz#,4YN5~mEz#{ZKZ3V%7Y}!J3X-YEX_J(3~mAz =V;kE0/y|F3y!}~m>z/U~mI~j_2+~mA~jp2;~m@~k32;~m>V}2u~mEX#2x~mBy+x2242(~mBy,;2242(~may->2&XkG2;~mIy-_2&NXd2;~mGz,{4<6:.:B*B:XC4>6:.>B*BBXSA+A:X]E&E<~r#z+625z s2+zN=`HXI@YMXIAXZYUM8X4K/:Q!Z&33 3YWX[~mB`{zKt4z (zV/z 3zRw2%Wd39]S11z$PAXH5Xb;ZQWU1ZgWP%3~o@{Dgl#gd}T){Uo{y5_d{e@}C(} WU9|cB{w}bzvV|)[} H|zT}d||0~{]Q|(l{|x{iv{dw}(5}[Z|kuZ }cq{{y|ij}.I{idbof%cu^d}Rj^y|-M{ESYGYfYsZslS`?ZdYO__gLYRZ&fvb4oKfhSf^d<Yeasc1f&a=hnYG{QY{D`Bsa|u,}Dl|_Q{C%xK|Aq}C>|c#ryW=}eY{L+`)][YF_Ub^h4}[X|?r|u_ex}TL@YR]j{SrXgo*|Gv|rK}B#mu{R1}hs|dP{C7|^Qt3|@P{YVV |8&}#D}ef{e/{Rl|>Hni}R1{Z#{D[}CQlQ||E}[s{SG_+i8eplY[=[|ec[$YXn#`hcm}YR|{Ci(_[ql|?8p3]-}^t{wy}4la&pc|3e{Rp{LqiJ],] `kc(]@chYnrM`O^,ZLYhZB]ywyfGY~aex!_Qww{a!|)*lHrM{N+n&YYj~Z b c#e_[hZSon|rOt`}hBXa^i{lh|<0||r{KJ{kni)|x,|0auY{D!^Sce{w;|@S|cA}Xn{C1h${E]Z-XgZ*XPbp]^_qbH^e[`YM|a||+=]!Lc}]vdBc=j-YSZD]YmyYLYKZ9Z>Xcczc2{Yh}9Fc#Z.l{}(D{G{{mRhC|L3b#|xK[Bepj#ut`H[,{E9Yr}1b{[e]{ZFk7[ZYbZ0XL]}Ye[(`d}c!|*y`Dg=b;gR]Hm=hJho}R-[n}9;{N![7k_{UbmN]rf#pTe[x8}!Qcs_rs[m`|>N}^V})7{^r|/E}),}HH{OYe2{Skx)e<_.cj.cjoMhc^d}0uYZd!^J_@g,[[[?{i@][|3S}Yl3|!1|eZ|5IYw|1D}e7|Cv{OHbnx-`wvb[6[4} =g+k:{C:}ed{S]|2M]-}WZ|/q{LF|dYu^}Gs^c{Z=}h>|/i|{W]:|ip{N:|zt|S<{DH[p_tvD{N<[8Axo{X4a.^o^X>Yfa59`#ZBYgY~_t^9`jZHZn`>G[oajZ;X,i)Z.^~YJe ZiZF^{][[#Zt^|]Fjx]&_5dddW]P0C[-]}]d|y {C_jUql] |OpaA[Z{lp|rz}:Mu#]_Yf6{Ep?f5`$[6^D][^u[$[6^.Z8]]ePc2U/=]K^_+^M{q*|9tYuZ,s(dS{i=|bNbB{uG}0jZOa:[-]dYtu3]:]<{DJ_SZIqr_`l=Yt`gkTnXb3d@kiq0a`Z{|!B|}e}Ww{Sp,^Z|0>_Z}36|]A|-t}lt{R6pi|v8hPu#{C>YOZHYmg/Z4nicK[}hF_Bg|YRZ7c|crkzYZY}_iXcZ.|)U|L5{R~qi^Uga@Y[xb}&qdbd6h5|Btw[}c<{Ds53[Y7]?Z<|e0{L[ZK]mXKZ#Z2^tavf0`PE[OSOaP`4gi`qjdYMgys/?[nc,}EEb,eL]g[n{E_b/vcvgb.{kcwi`~v%|0:|iK{Jh_vf5lb}KL|(oi=LrzhhY_^@`zgf[~g)[J_0fk_V{T)}I_{D&_/d9W/|MU[)f$xW}?$xr4<{Lb{y4}&u{XJ|cm{Iu{jQ}CMkD{CX|7A}G~{kt)nB|d5|<-}WJ}@||d@|Iy}Ts|iL|/^|no|0;}L6{Pm]7}$zf:|r2}?C_k{R(}-w|`G{Gy[g]bVje=_0|PT{^Y^yjtT[[[l!Ye_`ZN]@[n_)j3nEgMa]YtYpZy].d-Y_cjb~Y~[nc~sCi3|zg}B0}do{O^{|$`_|D{}U&|0+{J3|8*]iayx{a{xJ_9|,c{Ee]QXlYb]$[%YMc*]w[aafe]aVYi[fZEii[xq2YQZHg]Y~h#|Y:thre^@^|_F^CbTbG_1^qf7{L-`VFx Zr|@EZ;gkZ@slgko`[e}T:{Cu^pddZ_`yav^Ea+[#ZBbSbO`elQfLui}.F|txYcbQ`XehcGe~fc^RlV{D_0ZAej[l&jShxG[ipB_=u:eU}3e8[=j|{D(}dO{Do[BYUZ0/]AYE]ALYhZcYlYP/^-^{Yt_1_-;YT`P4BZG=IOZ&]H[e]YYd[9^F[1YdZxZ?Z{Z<]Ba2[5Yb[0Z4l?]d_;_)a?YGEYiYv`_XmZs4ZjY^Zb]6gqGaX^9Y}dXZr[g|]Y}K aFZp^k^F]M`^{O1Ys]ZCgCv4|E>}8eb7}l`{L5[Z_faQ|c2}Fj}hw^#|Ng|B||w2|Sh{v+[G}aB|MY}A{|8o}X~{E8paZ:]i^Njq]new)`-Z>haounWhN}c#{DfZ|fK]KqGZ=:u|fqoqcv}2ssm}.r{]{nIfV{JW)[K|,Z{Uxc|]l_KdCb%]cfobya3`p}G^|LZiSC]U|(X|kBlVg[kNo({O:g:|-N|qT}9?{MBiL}Sq{`P|3a|u.{Uaq:{_o|^S}jX{Fob0`;|#y_@[V[K|cw[<_ }KU|0F}d3|et{Q7{LuZttsmf^kYZ`Af`}$x}U`|Ww}d]| >}K,r&|XI|*e{C/a-bmr1fId4[;b>tQ_:]hk{b-pMge]gfpo.|(w[jgV{EC1Z,YhaY^q,_G[c_g[J0YX]`[h^hYK^_Yib,` {i6vf@YM^hdOKZZn(jgZ>bzSDc^Z%[[o9[2=/YHZ(_/Gu_`*|8z{DUZxYt^vuvZjhi^lc&gUd4|<UiA`z]$b/Z?l}YI^jaHxe|;F}l${sQ}5g}hA|e4}?o{ih}Uz{C)jPe4]H^J[Eg[|AMZMlc}:,{iz}#*|gc{Iq|/:|zK{l&}#u|myd{{M&v~nV};L|(g|I]ogddb0xsd7^V})$uQ{HzazsgxtsO^l}F>ZB]r|{7{j@cU^{{CbiYoHlng]f+nQ[bkTn/}<-d9q {KXadZYo+n|l[|lc}V2{[a{S4Zam~Za^`{HH{xx_SvF|ak=c^[v^7_rYT`ld@]:_ub%[$[m](Shu}G2{E.ZU_L_R{tz`vj(f?^}hswz}GdZ}{S:h`aD|?W|`dgG|if{a8|J1{N,}-Ao3{H#{mfsP|[ bzn+}_Q{MT{u4kHcj_q`eZj[8o0jy{p7}C|[}l){MuYY{|Ff!Ykn3{rT|m,^R|,R}$~Ykgx{P!]>iXh6[l[/}Jgcg{JYZ.^qYfYIZl[gZ#Xj[Pc7YyZD^+Yt;4;`e8YyZVbQ7YzZxXja.7SYl[s]2^/Ha$[6ZGYrb%XiYdf2]H]kZkZ*ZQ[ZYS^HZXcCc%Z|[(bVZ]]:OJQ_DZCg<[,]%Zaa [g{C00HY[c%[ChyZ,Z_`PbXa+eh`^&jPi0a[ggvhlekL]w{Yp^v}[e{~;k%a&k^|nR_z_Qng}[E}*Wq:{k^{FJZpXRhmh3^p>de^=_7`|ZbaAZtdhZ?n4ZL]u`9ZNc3g%[6b=e.ZVfC[ZZ^^^hD{E(9c(kyZ=bb|Sq{k`|vmr>izlH[u|e`}49}Y%}FT{[z{Rk}Bz{TCc/lMiAqkf(m$hDc;qooi[}^o:c^|Qm}a_{mrZ(pA`,}<2sY| adf_%|}`}Y5U;}/4|D>|$X{jw{C<|F.hK|*A{MRZ8Zsm?imZm_?brYWZrYx`yVZc3a@f?aK^ojEd {bN}/3ZH]/$YZhm^&j 9|(S|b]mF}UI{q&aM]LcrZ5^.|[j`T_V_Gak}9J[ ZCZD|^h{N9{~&[6Zd{}B}2O|cv]K}3s}Uy|l,fihW{EG`j_QOp~Z$F^zexS`dcISfhZBXP|.vn|_HYQ|)9|cr]<`&Z6]m_(ZhPcSg>`Z]5`~1`0Xcb4k1{O!bz|CN_T{LR|a/gFcD|j<{Z._[f)mPc:1`WtIaT1cgYkZOaVZOYFrEe[}T$}Ch}mk{K-^@]fH{Hdi`c*Z&|Kt{if[C{Q;{xYB`dYIX:ZB[}]*[{{p9|4GYRh2ao{DS|V+[zd$`F[ZXKadb*A] Ys]Maif~a/Z2bmclb8{Jro_rz|x9cHojbZ{GzZx_)]:{wAayeDlx}<=`g{H1{l#}9i|)=|lP{Qq}.({La|!Y{i2EZfp=c*}Cc{EDvVB|;g}2t{W4av^Bn=]ri,|y?|3+}T*ckZ*{Ffr5e%|sB{lx^0]eZb]9[SgAjS_D|uHZx]dive[c.YPkcq/}db{EQh&hQ|eg}G!ljil|BO]X{Qr_GkGl~YiYWu=c3eb}29v3|D|}4i||.{Mv})V{SP1{FX}CZW6{cm|vO{pS|e#}A~|1i}81|Mw}es|5[}3w{C`h9aL]o{}p[G`>i%a1Z@`Ln2bD[$_h`}ZOjhdTrH{[j_:k~kv[Sdu]CtL}41{I |[[{]Zp$]XjxjHt_eThoa#h>sSt8|gK|TVi[Y{t=}Bs|b7Zpr%{gt|Yo{CS[/{iteva|cf^hgn}($_c^wmb^Wm+|55jrbF|{9^ q6{C&c+ZKdJkq_xOYqZYSYXYl`8]-cxZAq/b%b*_Vsa[/Ybjac/OaGZ4fza|a)gY{P?| I|Y |,pi1n7}9bm9ad|=d{aV|2@[(}B`d&|Uz}B}{`q|/H|!JkM{FU|CB|.{}Az}#P|lk}K{|2rk7{^8^?`/|k>|Ka{Sq}Gz}io{DxZh[yK_#}9<{TRdgc]`~Z>JYmYJ]|`!ZKZ]gUcx|^E[rZCd`f9oQ[NcD_$ZlZ;Zr}mX|=!|$6ZPZYtIo%fj}CpcN|B,{VDw~gb}@hZg`Q{LcmA[(bo`<|@$|o1|Ss}9Z_}tC|G`{F/|9nd}i=}V-{L8aaeST]daRbujh^xlpq8|}zs4bj[S`J|]?G{P#{rD{]I`OlH{Hm]VYuSYUbRc*6[j`8]pZ[bt_/^Jc*[<Z?YE|Xb|?_Z^Vcas]h{t9|Uwd)_(=0^6Zb{Nc} E[qZAeX[a]P^|_J>e8`W^j_Y}R{{Jp__]Ee#e:iWb9q_wKbujrbR}CY`,{mJ}gz{Q^{t~N|? gSga`V_||:#mi}3t|/I`X{N*|ct|2g{km}gi|{={jC}F;|E}{ZZjYf*frmu}8Tdroi{T[|+~}HG{cJ}DM{Lp{Ctd&}$hi3|FZ| m}Kr|38}^c|m_|Tr{Qv|36}?Up>|;S{DV{k_as}BK{P}}9p|t`jR{sAm4{D=b4pWa[}Xi{EjwEkI}3S|E?u=X0{jf} S|NM|JC{qo^3cm]-|JUx/{Cj{s>{Crt[UXuv|D~|j|d{YXZR}Aq}0r}(_{pJfi_z}0b|-vi)Z mFe,{f4|q`b{}^Z{HM{rbeHZ|^x_o|XM|L%|uFXm}@C_{{Hhp%a7|0p[Xp+^K}9U{bP}: tT}B|}+$|b2|[^|~h{FAby[`{}xgygrt~h1[li`c4vz|,7p~b(|mviN}^pg[{N/|g3|^0c,gE|f%|7N{q[|tc|TKA{LU}I@|AZp(}G-sz{F |qZ{}F|f-}RGn6{Z]_5})B}UJ{FFb2]4ZI@v=k,]t_Dg5Bj]Z-]L]vrpdvdGlk|gF}G]|IW}Y0[G| /bo|Te^,_B}#n^^{QHYI[?hxg{[`]D^IYRYTb&kJ[cri[g_9]Ud~^_]<p@_e_XdNm-^/|5)|h_{J;{kacVopf!q;asqd}n)|.m|bf{QW|U)}b+{tL|w``N|to{t ZO|T]jF}CB|0Q{e5Zw|k |We}5:{HO{tPwf_uajjBfX}-V_C_{{r~gg|Ude;s+}KNXH}! `K}eW{Upwbk%ogaW}9EYN}YY|&v|SL{C3[5s.]Y]I]u{M6{pYZ`^,`ZbCYR[1mNg>rsk0Ym[jrE]RYiZTr*YJ{Ge|%-lf|y(`=[t}E6{k!|3)}Zk} ][G{E~cF{u3U.rJ|a9p#o#ZE|?|{sYc#vv{E=|LC}cu{N8`/`3`9rt[4|He{cq|iSYxY`}V |(Q|t4{C?]k_Vlvk)BZ^r<{CL}#h}R+[<|i=}X|{KAo]|W<`K{NW|Zx}#;|fe{IMr<|K~tJ_x}AyLZ?{GvbLnRgN}X&{H7|x~}Jm{]-| GpNu0}.ok>|c4{PYisrDZ|fwh9|hfo@{H~XSbO]Odv]%`N]b1Y]]|eIZ}_-ZA]aj,>eFn+j[aQ_+]h[J_m_g]%_wf.`%k1e#Z?{CvYu_B^|gk`Xfh^M3`afGZ-Z|[m{L}|k3cp[it ^>YUi~d>{T*}YJ{Q5{Jxa$hg|%4`}|LAgvb }G}{P=|<;Ux{_skR{cV|-*|s-{Mp|XP|$G|_J}c6cM{_=_D|*9^$ec{V;|4S{qO|w_|.7}d0|/D}e}|0G{Dq]Kdp{}dfDi>}B%{Gd|nl}lf{C-{y}|ANZr}#={T~|-(}c&{pI|ft{lsVP}){|@u}!W|bcmB{d?|iW|:dxj{PSkO|Hl]Li:}VYk@|2={fnWt{M3`cZ6|)}|Xj}BYa?vo{e4|L7|B7{L7|1W|lvYO}W8nJ|$Vih|{T{d*_1|:-n2dblk``fT{Ky|-%}m!|Xy|-a{Pz}[l{kFjz|iH}9N{WE{x,|jz}R {P|{D)c=nX|Kq|si}Ge{sh|[X{RF{t`|jsr*fYf,rK|/9}$}}Nf{y!1|<Std}4Wez{W${Fd_/^O[ooqaw_z[L`Nbv[;l7V[ii3_PeM}.h^viqYjZ*j1}+3{bt{DR[;UG}3Og,rS{JO{qw{d<_zbAh<R[1_r`iZTbv^^a}c{iEgQZ<exZFg.^Rb+`Uj{a+{z<[~r!]`[[|rZYR|?F|qppp]L|-d|}K}YZUM|=Y|ktm*}F]{D;g{uI|7kg^}%?Z%ca{N[_<q4xC]i|PqZC]n}.bDrnh0Wq{tr|OMn6tM|!6|T`{O`|>!]ji+]_bTeU}Tq|ds}n|{Gm{z,f)}&s{DPYJ`%{CGd5v4tvb*hUh~bf]z`jajiFqAii]bfy^U{Or|m+{I)cS|.9k:e3`^|xN}@Dnlis`B|Qo{`W|>||kA}Y}{ERYuYx`%[exd`]|OyiHtb}HofUYbFo![5|+]gD{NIZR|Go}.T{rh^4]S|C9_}xO^i`vfQ}C)bK{TL}cQ|79iu}9a];sj{P.o!f[Y]pM``Jda^Wc9ZarteBZClxtM{LW}l9|a.mU}KX}4@{I+f1}37|8u}9c|v${xGlz}jP{Dd1}e:}31}%3X$|22i<v+r@~mf{sN{C67G97855F4YL5}8f{DT|xy{sO{DXB334@55J1)4.G9A#JDYtXTYM4, YQD9;XbXm9SX]IB^4UN=Xn<5(;(F3YW@XkH-X_VM[DYM:5XP!T&Y`6|,^{IS-*D.H>:LXjYQ0I3XhAF:9:(==.F*3F1189K/7163D,:@|e2{LS36D4hq{Lw/84443@4.933:0307::6D7}&l{Mx657;89;,K5678H&93D(H<&<>0B90X^I;}Ag1{P%3A+>><975}[S{PZE453?4|T2{Q+5187;>447:81{C=hL6{Me^:=7ii{R=.=F<81;48?|h8}Uh{SE|,VxL{ST,7?9Y_5Xk3A#:$%YSYdXeKXOD8+TXh7(@>(YdXYHXl9J6X_5IXaL0N?3YK7Xh!1?XgYz9YEXhXaYPXhC3X`-YLY_XfVf[EGXZ5L8BXL9YHX]SYTXjLXdJ: YcXbQXg1PX]Yx4|Jr{Ys4.8YU+XIY`0N,<H%-H;:0@,74/:8546I=9177154870UC]d<C3HXl7ALYzXFXWP<<?E!88E5@03YYXJ?YJ@6YxX-YdXhYG|9o{`iXjY_>YVXe>AYFX[/(I@0841?):-B=14337:8=|14{c&93788|di{cW-0>0<097/A;N{FqYpugAFT%X/Yo3Yn,#=XlCYHYNX[Xk3YN:YRT4?)-YH%A5XlYF3C1=NWyY}>:74-C673<69545v {iT85YED=64=.F4..9878/D4378?48B3:7:7/1VX[f4{D,{l<5E75{dAbRB-8-@+;DBF/$ZfW8S<4YhXA.(5@*11YV8./S95C/0R-A4AXQYI7?68167B95HA1*<M3?1/@;/=54XbYP36}lc{qzSS38:19?,/39193574/66878Yw1X-87E6=;964X`T734:>86>1/=0;(I-1::7ALYGXhF+Xk[@W%TYbX7)KXdYEXi,H-XhYMRXfYK?XgXj.9HX_SX]YL1XmYJ>Y}WwIXiI-3-GXcYyXUYJ$X`Vs[7;XnYEZ;XF! 3;%8;PXX(N3Y[)Xi1YE&/ :;74YQ6X`33C;-(>Xm0(TYF/!YGXg8 9L5P01YPXO-5%C|qd{{/K/E6,=0144:361:955;6443@?B7*7:F89&F35YaX-CYf,XiFYRXE_e{}sF 0*7XRYPYfXa5YXXY8Xf8Y~XmA[9VjYj*#YMXIYOXk,HHX40YxYMXU8OXe;YFXLYuPXP?EB[QV0CXfY{:9XV[FWE0D6X^YVP*$4%OXiYQ(|xp|%c3{}V`1>Y`XH00:8/M6XhQ1:;3414|TE|&o@1*=81G8<3}6<|(f6>>>5-5:8;093B^3U*+*^*UT30XgYU&7*O1953)5@E78--F7YF*B&0:%P68W9Zn5974J9::3}Vk|-,C)=)1AJ4+<3YGXfY[XQXmT1M-XcYTYZXCYZXEYXXMYN,17>XIG*SaS|/eYJXbI?XdNZ+WRYP<F:R PXf;0Xg`$|1GX9YdXjLYxWX!ZIXGYaXNYm6X9YMX?9EXmZ&XZ#XQ>YeXRXfAY[4 ;0X!Zz0XdN$XhYL XIY^XGNXUYS/1YFXhYk.TXn4DXjB{jg|4DEX]:XcZMW=A.+QYL<LKXc[vV$+&PX*Z3XMYIXUQ:ZvW< YSXFZ,XBYeXMM)?Xa XiZ4/EXcP3%}&-|6~:1(-+YT$@XIYRBC<}&,|7aJ6}bp|8)K1|Xg|8C}[T|8Q.89;-964I38361<=/;883651467<7:>?1:.}le|:Z=39;1Y^)?:J=?XfLXbXi=Q0YVYOXaXiLXmJXO5?.SFXiCYW}-;|=u&D-X`N0X^,YzYRXO(QX_YW9`I|>hZ:N&X)DQXP@YH#XmNXi$YWX^=!G6YbYdX>XjY|XlX^XdYkX>YnXUXPYF)FXT[EVTMYmYJXmYSXmNXi#GXmT3X8HOX[ZiXN]IU2>8YdX1YbX<YfWuZ8XSXcZU%0;1XnXkZ_WTG,XZYX5YSX Yp 05G?XcYW(IXg6K/XlYP4XnI @XnO1W4Zp-9C@%QDYX+OYeX9>--YSXkD.YR%Q/Yo YUX].Xi<HYEZ2WdCE6YMXa7F)=,D>-@9/8@5=?7164;35387?N<618=6>7D+C50<6B03J0{Hj|N9$D,9I-,.KB3}m |NzE0::/81YqXjMXl7YG; [.W=Z0X4XQY]:MXiR,XgM?9$9>:?E;YE77VS[Y564760391?14941:0=:8B:;/1DXjFA-564=0B3XlH1+D85:0Q!B#:-6&N/:9<-R3/7Xn<*3J4.H:+334B.=>30H.;3833/76464665755:/83H6633:=;.>5645}&E|Y)?1/YG-,93&N3AE@5 <L1-G/8A0D858/30>8<549=@B8] V0[uVQYlXeD(P#ID&7T&7;Xi0;7T-$YE)E=1:E1GR):--0YI7=E<}n9|aT6783A>D7&4YG7=391W;Zx<5+>F#J39}o/|cc;6=A050EQXg8A1-}D-|d^5548083563695D?-.YOXd37I$@LYLWeYlX<Yd+YR A$;3-4YQ-9XmA0!9/XLY_YT(=5XdDI>YJ5XP1ZAW{9>X_6R(XhYO65&J%DA)C-!B:97#A9;@?F;&;(9=11/=657/H,<8}bz|j^5446>.L+&Y^8Xb6?(CYOXb*YF(8X`FYR(XPYVXmPQ%&DD(XmZXW??YOXZXfCYJ79,O)XnYF7K0!QXmXi4IYFRXS,6<%-:YO(+:-3Q!1E1:W,Zo}Am|n~;3580534*?3Zc4=9334361693:30C<6/717:<1/;>59&:4}6!|rS36=1?75<8}[B|s809983579I.A.>84758=108564741H*9E{L{|u%YQ<%6XfH.YUXe4YL@,>N}Tv|ve*G0X)Z;/)3@A74(4P&A1X:YVH97;,754*A66:1 D739E3553545558E4?-?K17/770843XAYf838A7K%N!YW4.$T19Z`WJ*0XdYJXTYOXNZ 1XaN1A+I&Xi.Xk3Z3GB&5%WhZ1+5#Y[X<4YMXhQYoQXVXbYQ8XSYUX4YXBXWDMG0WxZA[8V+Z8X;D],Va$%YeX?FXfX[XeYf<X:Z[WsYz8X_Y]%XmQ(!7BXIZFX]&YE3F$(1XgYgYE& +[+W!<YMYFXc;+PXCYI9YrWxGXY9DY[!GXiI7::)OC;*$.>N*HA@{C|}&k=:<TB83X`3YL+G4XiK]i}(fYK<=5$.FYE%4*5*H*6XkCYL=*6Xi6!Yi1KXR4YHXbC8Xj,B9ZbWx/XbYON#5B}Ue}+QKXnF1&YV5XmYQ0!*3IXBYb71?1B75XmF;0B976;H/RXU:YZX;BG-NXj;XjI>A#D3B636N;,*%<D:0;YRXY973H5)-4FXOYf0:0;/7759774;7;:/855:543L43<?6=E,.A4:C=L)%4YV!1(YE/4YF+ F3%;S;&JC:%/?YEXJ4GXf/YS-EXEYW,9;E}X$}547EXiK=51-?71C%?57;5>463553Zg90;6447?<>4:9.7538XgN{|!}9K/E&3-:D+YE1)YE/3;37/:05}n<}:UX8Yj4Yt864@JYK..G=.(A Q3%6K>3(P3#AYE$-6H/456*C=.XHY[#S.<780191;057C)=6HXj?955B:K1 E>-B/9,;5.!L?:0>/.@//:;7833YZ56<4:YE=/:7Z_WGC%3I6>XkC*&NA16X=Yz2$X:Y^&J48<99k8}CyB-61<18K946YO4{|N}E)YIB9K0L>4=46<1K0+R;6-=1883:478;4,S+3YJX`GJXh.Yp+Xm6MXcYpX(>7Yo,/:X=Z;Xi0YTYHXjYmXiXj;*;I-8S6N#XgY}.3XfYGO3C/$XjL$*NYX,1 6;YH&<XkK9C#I74.>}Hd`A748X[T450[n75<4439:18A107>|ET}Rf<1;14876/Yb983E<5.YNXd4149>,S=/4E/<306443G/06}0&}UkYSXFYF=44=-5095=88;63844,9E6644{PL}WA8:>)7+>763>>0/B3A545CCnT}Xm|dv}Xq1L/YNXk/H8;;.R63351YY747@15YE4J8;46;.38.>4A369.=-83,;Ye3?:3@YE.4-+N353;/;@(X[YYD>@/05-I*@.:551741Yf5>6A443<3535;.58/86=D4753442$635D1>0359NQ @73:3:>><Xn?;43C14 ?Y|X611YG1&<+,4<*,YLXl<1/AIXjF*N89A4Z576K1XbJ5YF.ZOWN.YGXO/YQ01:4G38Xl1;KI0YFXB=R<7;D/,/4>;$I,YGXm94@O35Yz66695385.>:6A#5}W7n^4336:4157597434433<3|XA}m`>=D>:4A.337370?-6Q96{`E|4A}C`|Qs{Mk|J+~r>|o,wHv>Vw}!c{H!|Gb|*Ca5}J||,U{t+{CN[!M65YXOY_*B,Y[Z9XaX[QYJYLXPYuZ%XcZ8LY[SYPYKZM<LMYG9OYqSQYM~[e{UJXmQYyZM_)>YjN1~[f3{aXFY|Yk:48YdH^NZ0|T){jVFYTZNFY^YTYN~[h{nPYMYn3I]`EYUYsYIZEYJ7Yw)YnXPQYH+Z.ZAZY]^Z1Y`YSZFZyGYHXLYG 8Yd#4~[i|+)YH9D?Y^F~Y7|-eYxZ^WHYdYfZQ~[j|3>~[k|3oYmYqY^XYYO=Z*4[]Z/OYLXhZ1YLZIXgYIHYEYK,<Y`YEXIGZI[3YOYcB4SZ!YHZ*&Y{Xi3~[l|JSY`Zz?Z,~[m|O=Yi>??XnYWXmYS617YVYIHZ(Z4[~L4/=~[n|Yu{P)|];YOHHZ}~[o33|a>~[r|aE]DH~[s|e$Zz~[t|kZFY~XhYXZB[`Y}~[u|{SZ&OYkYQYuZ2Zf8D~[v}% ~[w3},Q[X]+YGYeYPIS~[y}4aZ!YN^!6PZ*~[z}?E~[{3}CnZ=~[}}EdDZz/9A3(3S<,YR8.D=*XgYPYcXN3Z5 4)~[~}JW=$Yu.XX~] }KDX`PXdZ4XfYpTJLY[F5]X~[2Yp}U+DZJ::<446[m@~]#3}]1~]%}^LZwZQ5Z`/OT<Yh^ -~]&}jx[ ~m<z!%2+~ly4VY-~o>}p62yz!%2+Xf2+~ly4VY-zQ`z (=] 2z~o2",C={" ":0,"!":1},c=34,i=2,p,s="",u=String.fromCharCode,t=u(12539);for(;++c<127;)C[u(c)]=c^39&&c^92?i++:0;i=0;for(;0<=(c=C[a.charAt(i++)]);)if(16===c)if((c=C[a.charAt(i++)])<87){if(86===c)c=1879;for(;c--;)s+=u(++p)}else s+=s.substr(8272,360);else if(c<86)s+=u(p+=c<51?c-16:(c-55)*92+C[a.charAt(i++)]);else if((c=((c-86)*92+C[a.charAt(i++)])*92+C[a.charAt(i++)])<49152)s+=u(p=c<40960?c:c|57344);else{c&=511;for(;c--;)s+=t;p=12539}return s')();
+		let JCT11280 = new Func('let a="zKV33~jZ4zN=~ji36XazM93y!{~k2y!o~k0ZlW6zN?3Wz3W?{EKzK[33[`y|;-~j^YOTz$!~kNy|L1$353~jV3zKk3~k-4P4zK_2+~jY4y!xYHR~jlz$_~jk4z$e3X5He<0y!wy|X3[:~l|VU[F3VZ056Hy!nz/m1XD61+1XY1E1=1y|bzKiz!H034zKj~mEz#c5ZA3-3X$1~mBz$$3~lyz#,4YN5~mEz#{ZKZ3V%7Y}!J3X-YEX_J(3~mAz =V;kE0/y|F3y!}~m>z/U~mI~j_2+~mA~jp2;~m@~k32;~m>V}2u~mEX#2x~mBy+x2242(~mBy,;2242(~may->2&XkG2;~mIy-_2&NXd2;~mGz,{4<6:.:B*B:XC4>6:.>B*BBXSA+A:X]E&E<~r#z+625z s2+zN=`HXI@YMXIAXZYUM8X4K/:Q!Z&33 3YWX[~mB`{zKt4z (zV/z 3zRw2%Wd39]S11z$PAXH5Xb;ZQWU1ZgWP%3~o@{Dgl#gd}T){Uo{y5_d{e@}C(} WU9|cB{w}bzvV|)[} H|zT}d||0~{]Q|(l{|x{iv{dw}(5}[Z|kuZ }cq{{y|ij}.I{idbof%cu^d}Rj^y|-M{ESYGYfYsZslS`?ZdYO__gLYRZ&fvb4oKfhSf^d<Yeasc1f&a=hnYG{QY{D`Bsa|u,}Dl|_Q{C%xK|Aq}C>|c#ryW=}eY{L+`)][YF_Ub^h4}[X|?r|u_ex}TL@YR]j{SrXgo*|Gv|rK}B#mu{R1}hs|dP{C7|^Qt3|@P{YVV |8&}#D}ef{e/{Rl|>Hni}R1{Z#{D[}CQlQ||E}[s{SG_+i8eplY[=[|ec[$YXn#`hcm}YR|{Ci(_[ql|?8p3]-}^t{wy}4la&pc|3e{Rp{LqiJ],] `kc(]@chYnrM`O^,ZLYhZB]ywyfGY~aex!_Qww{a!|)*lHrM{N+n&YYj~Z b c#e_[hZSon|rOt`}hBXa^i{lh|<0||r{KJ{kni)|x,|0auY{D!^Sce{w;|@S|cA}Xn{C1h${E]Z-XgZ*XPbp]^_qbH^e[`YM|a||+=]!Lc}]vdBc=j-YSZD]YmyYLYKZ9Z>Xcczc2{Yh}9Fc#Z.l{}(D{G{{mRhC|L3b#|xK[Bepj#ut`H[,{E9Yr}1b{[e]{ZFk7[ZYbZ0XL]}Ye[(`d}c!|*y`Dg=b;gR]Hm=hJho}R-[n}9;{N![7k_{UbmN]rf#pTe[x8}!Qcs_rs[m`|>N}^V})7{^r|/E}),}HH{OYe2{Skx)e<_.cj.cjoMhc^d}0uYZd!^J_@g,[[[?{i@][|3S}Yl3|!1|eZ|5IYw|1D}e7|Cv{OHbnx-`wvb[6[4} =g+k:{C:}ed{S]|2M]-}WZ|/q{LF|dYu^}Gs^c{Z=}h>|/i|{W]:|ip{N:|zt|S<{DH[p_tvD{N<[8Axo{X4a.^o^X>Yfa59`#ZBYgY~_t^9`jZHZn`>G[oajZ;X,i)Z.^~YJe ZiZF^{][[#Zt^|]Fjx]&_5dddW]P0C[-]}]d|y {C_jUql] |OpaA[Z{lp|rz}:Mu#]_Yf6{Ep?f5`$[6^D][^u[$[6^.Z8]]ePc2U/=]K^_+^M{q*|9tYuZ,s(dS{i=|bNbB{uG}0jZOa:[-]dYtu3]:]<{DJ_SZIqr_`l=Yt`gkTnXb3d@kiq0a`Z{|!B|}e}Ww{Sp,^Z|0>_Z}36|]A|-t}lt{R6pi|v8hPu#{C>YOZHYmg/Z4nicK[}hF_Bg|YRZ7c|crkzYZY}_iXcZ.|)U|L5{R~qi^Uga@Y[xb}&qdbd6h5|Btw[}c<{Ds53[Y7]?Z<|e0{L[ZK]mXKZ#Z2^tavf0`PE[OSOaP`4gi`qjdYMgys/?[nc,}EEb,eL]g[n{E_b/vcvgb.{kcwi`~v%|0:|iK{Jh_vf5lb}KL|(oi=LrzhhY_^@`zgf[~g)[J_0fk_V{T)}I_{D&_/d9W/|MU[)f$xW}?$xr4<{Lb{y4}&u{XJ|cm{Iu{jQ}CMkD{CX|7A}G~{kt)nB|d5|<-}WJ}@||d@|Iy}Ts|iL|/^|no|0;}L6{Pm]7}$zf:|r2}?C_k{R(}-w|`G{Gy[g]bVje=_0|PT{^Y^yjtT[[[l!Ye_`ZN]@[n_)j3nEgMa]YtYpZy].d-Y_cjb~Y~[nc~sCi3|zg}B0}do{O^{|$`_|D{}U&|0+{J3|8*]iayx{a{xJ_9|,c{Ee]QXlYb]$[%YMc*]w[aafe]aVYi[fZEii[xq2YQZHg]Y~h#|Y:thre^@^|_F^CbTbG_1^qf7{L-`VFx Zr|@EZ;gkZ@slgko`[e}T:{Cu^pddZ_`yav^Ea+[#ZBbSbO`elQfLui}.F|txYcbQ`XehcGe~fc^RlV{D_0ZAej[l&jShxG[ipB_=u:eU}3e8[=j|{D(}dO{Do[BYUZ0/]AYE]ALYhZcYlYP/^-^{Yt_1_-;YT`P4BZG=IOZ&]H[e]YYd[9^F[1YdZxZ?Z{Z<]Ba2[5Yb[0Z4l?]d_;_)a?YGEYiYv`_XmZs4ZjY^Zb]6gqGaX^9Y}dXZr[g|]Y}K aFZp^k^F]M`^{O1Ys]ZCgCv4|E>}8eb7}l`{L5[Z_faQ|c2}Fj}hw^#|Ng|B||w2|Sh{v+[G}aB|MY}A{|8o}X~{E8paZ:]i^Njq]new)`-Z>haounWhN}c#{DfZ|fK]KqGZ=:u|fqoqcv}2ssm}.r{]{nIfV{JW)[K|,Z{Uxc|]l_KdCb%]cfobya3`p}G^|LZiSC]U|(X|kBlVg[kNo({O:g:|-N|qT}9?{MBiL}Sq{`P|3a|u.{Uaq:{_o|^S}jX{Fob0`;|#y_@[V[K|cw[<_ }KU|0F}d3|et{Q7{LuZttsmf^kYZ`Af`}$x}U`|Ww}d]| >}K,r&|XI|*e{C/a-bmr1fId4[;b>tQ_:]hk{b-pMge]gfpo.|(w[jgV{EC1Z,YhaY^q,_G[c_g[J0YX]`[h^hYK^_Yib,` {i6vf@YM^hdOKZZn(jgZ>bzSDc^Z%[[o9[2=/YHZ(_/Gu_`*|8z{DUZxYt^vuvZjhi^lc&gUd4|<UiA`z]$b/Z?l}YI^jaHxe|;F}l${sQ}5g}hA|e4}?o{ih}Uz{C)jPe4]H^J[Eg[|AMZMlc}:,{iz}#*|gc{Iq|/:|zK{l&}#u|myd{{M&v~nV};L|(g|I]ogddb0xsd7^V})$uQ{HzazsgxtsO^l}F>ZB]r|{7{j@cU^{{CbiYoHlng]f+nQ[bkTn/}<-d9q {KXadZYo+n|l[|lc}V2{[a{S4Zam~Za^`{HH{xx_SvF|ak=c^[v^7_rYT`ld@]:_ub%[$[m](Shu}G2{E.ZU_L_R{tz`vj(f?^}hswz}GdZ}{S:h`aD|?W|`dgG|if{a8|J1{N,}-Ao3{H#{mfsP|[ bzn+}_Q{MT{u4kHcj_q`eZj[8o0jy{p7}C|[}l){MuYY{|Ff!Ykn3{rT|m,^R|,R}$~Ykgx{P!]>iXh6[l[/}Jgcg{JYZ.^qYfYIZl[gZ#Xj[Pc7YyZD^+Yt;4;`e8YyZVbQ7YzZxXja.7SYl[s]2^/Ha$[6ZGYrb%XiYdf2]H]kZkZ*ZQ[ZYS^HZXcCc%Z|[(bVZ]]:OJQ_DZCg<[,]%Zaa [g{C00HY[c%[ChyZ,Z_`PbXa+eh`^&jPi0a[ggvhlekL]w{Yp^v}[e{~;k%a&k^|nR_z_Qng}[E}*Wq:{k^{FJZpXRhmh3^p>de^=_7`|ZbaAZtdhZ?n4ZL]u`9ZNc3g%[6b=e.ZVfC[ZZ^^^hD{E(9c(kyZ=bb|Sq{k`|vmr>izlH[u|e`}49}Y%}FT{[z{Rk}Bz{TCc/lMiAqkf(m$hDc;qooi[}^o:c^|Qm}a_{mrZ(pA`,}<2sY| adf_%|}`}Y5U;}/4|D>|$X{jw{C<|F.hK|*A{MRZ8Zsm?imZm_?brYWZrYx`yVZc3a@f?aK^ojEd {bN}/3ZH]/$YZhm^&j 9|(S|b]mF}UI{q&aM]LcrZ5^.|[j`T_V_Gak}9J[ ZCZD|^h{N9{~&[6Zd{}B}2O|cv]K}3s}Uy|l,fihW{EG`j_QOp~Z$F^zexS`dcISfhZBXP|.vn|_HYQ|)9|cr]<`&Z6]m_(ZhPcSg>`Z]5`~1`0Xcb4k1{O!bz|CN_T{LR|a/gFcD|j<{Z._[f)mPc:1`WtIaT1cgYkZOaVZOYFrEe[}T$}Ch}mk{K-^@]fH{Hdi`c*Z&|Kt{if[C{Q;{xYB`dYIX:ZB[}]*[{{p9|4GYRh2ao{DS|V+[zd$`F[ZXKadb*A] Ys]Maif~a/Z2bmclb8{Jro_rz|x9cHojbZ{GzZx_)]:{wAayeDlx}<=`g{H1{l#}9i|)=|lP{Qq}.({La|!Y{i2EZfp=c*}Cc{EDvVB|;g}2t{W4av^Bn=]ri,|y?|3+}T*ckZ*{Ffr5e%|sB{lx^0]eZb]9[SgAjS_D|uHZx]dive[c.YPkcq/}db{EQh&hQ|eg}G!ljil|BO]X{Qr_GkGl~YiYWu=c3eb}29v3|D|}4i||.{Mv})V{SP1{FX}CZW6{cm|vO{pS|e#}A~|1i}81|Mw}es|5[}3w{C`h9aL]o{}p[G`>i%a1Z@`Ln2bD[$_h`}ZOjhdTrH{[j_:k~kv[Sdu]CtL}41{I |[[{]Zp$]XjxjHt_eThoa#h>sSt8|gK|TVi[Y{t=}Bs|b7Zpr%{gt|Yo{CS[/{iteva|cf^hgn}($_c^wmb^Wm+|55jrbF|{9^ q6{C&c+ZKdJkq_xOYqZYSYXYl`8]-cxZAq/b%b*_Vsa[/Ybjac/OaGZ4fza|a)gY{P?| I|Y |,pi1n7}9bm9ad|=d{aV|2@[(}B`d&|Uz}B}{`q|/H|!JkM{FU|CB|.{}Az}#P|lk}K{|2rk7{^8^?`/|k>|Ka{Sq}Gz}io{DxZh[yK_#}9<{TRdgc]`~Z>JYmYJ]|`!ZKZ]gUcx|^E[rZCd`f9oQ[NcD_$ZlZ;Zr}mX|=!|$6ZPZYtIo%fj}CpcN|B,{VDw~gb}@hZg`Q{LcmA[(bo`<|@$|o1|Ss}9Z_}tC|G`{F/|9nd}i=}V-{L8aaeST]daRbujh^xlpq8|}zs4bj[S`J|]?G{P#{rD{]I`OlH{Hm]VYuSYUbRc*6[j`8]pZ[bt_/^Jc*[<Z?YE|Xb|?_Z^Vcas]h{t9|Uwd)_(=0^6Zb{Nc} E[qZAeX[a]P^|_J>e8`W^j_Y}R{{Jp__]Ee#e:iWb9q_wKbujrbR}CY`,{mJ}gz{Q^{t~N|? gSga`V_||:#mi}3t|/I`X{N*|ct|2g{km}gi|{={jC}F;|E}{ZZjYf*frmu}8Tdroi{T[|+~}HG{cJ}DM{Lp{Ctd&}$hi3|FZ| m}Kr|38}^c|m_|Tr{Qv|36}?Up>|;S{DV{k_as}BK{P}}9p|t`jR{sAm4{D=b4pWa[}Xi{EjwEkI}3S|E?u=X0{jf} S|NM|JC{qo^3cm]-|JUx/{Cj{s>{Crt[UXuv|D~|j|d{YXZR}Aq}0r}(_{pJfi_z}0b|-vi)Z mFe,{f4|q`b{}^Z{HM{rbeHZ|^x_o|XM|L%|uFXm}@C_{{Hhp%a7|0p[Xp+^K}9U{bP}: tT}B|}+$|b2|[^|~h{FAby[`{}xgygrt~h1[li`c4vz|,7p~b(|mviN}^pg[{N/|g3|^0c,gE|f%|7N{q[|tc|TKA{LU}I@|AZp(}G-sz{F |qZ{}F|f-}RGn6{Z]_5})B}UJ{FFb2]4ZI@v=k,]t_Dg5Bj]Z-]L]vrpdvdGlk|gF}G]|IW}Y0[G| /bo|Te^,_B}#n^^{QHYI[?hxg{[`]D^IYRYTb&kJ[cri[g_9]Ud~^_]<p@_e_XdNm-^/|5)|h_{J;{kacVopf!q;asqd}n)|.m|bf{QW|U)}b+{tL|w``N|to{t ZO|T]jF}CB|0Q{e5Zw|k |We}5:{HO{tPwf_uajjBfX}-V_C_{{r~gg|Ude;s+}KNXH}! `K}eW{Upwbk%ogaW}9EYN}YY|&v|SL{C3[5s.]Y]I]u{M6{pYZ`^,`ZbCYR[1mNg>rsk0Ym[jrE]RYiZTr*YJ{Ge|%-lf|y(`=[t}E6{k!|3)}Zk} ][G{E~cF{u3U.rJ|a9p#o#ZE|?|{sYc#vv{E=|LC}cu{N8`/`3`9rt[4|He{cq|iSYxY`}V |(Q|t4{C?]k_Vlvk)BZ^r<{CL}#h}R+[<|i=}X|{KAo]|W<`K{NW|Zx}#;|fe{IMr<|K~tJ_x}AyLZ?{GvbLnRgN}X&{H7|x~}Jm{]-| GpNu0}.ok>|c4{PYisrDZ|fwh9|hfo@{H~XSbO]Odv]%`N]b1Y]]|eIZ}_-ZA]aj,>eFn+j[aQ_+]h[J_m_g]%_wf.`%k1e#Z?{CvYu_B^|gk`Xfh^M3`afGZ-Z|[m{L}|k3cp[it ^>YUi~d>{T*}YJ{Q5{Jxa$hg|%4`}|LAgvb }G}{P=|<;Ux{_skR{cV|-*|s-{Mp|XP|$G|_J}c6cM{_=_D|*9^$ec{V;|4S{qO|w_|.7}d0|/D}e}|0G{Dq]Kdp{}dfDi>}B%{Gd|nl}lf{C-{y}|ANZr}#={T~|-(}c&{pI|ft{lsVP}){|@u}!W|bcmB{d?|iW|:dxj{PSkO|Hl]Li:}VYk@|2={fnWt{M3`cZ6|)}|Xj}BYa?vo{e4|L7|B7{L7|1W|lvYO}W8nJ|$Vih|{T{d*_1|:-n2dblk``fT{Ky|-%}m!|Xy|-a{Pz}[l{kFjz|iH}9N{WE{x,|jz}R {P|{D)c=nX|Kq|si}Ge{sh|[X{RF{t`|jsr*fYf,rK|/9}$}}Nf{y!1|<Std}4Wez{W${Fd_/^O[ooqaw_z[L`Nbv[;l7V[ii3_PeM}.h^viqYjZ*j1}+3{bt{DR[;UG}3Og,rS{JO{qw{d<_zbAh<R[1_r`iZTbv^^a}c{iEgQZ<exZFg.^Rb+`Uj{a+{z<[~r!]`[[|rZYR|?F|qppp]L|-d|}K}YZUM|=Y|ktm*}F]{D;g{uI|7kg^}%?Z%ca{N[_<q4xC]i|PqZC]n}.bDrnh0Wq{tr|OMn6tM|!6|T`{O`|>!]ji+]_bTeU}Tq|ds}n|{Gm{z,f)}&s{DPYJ`%{CGd5v4tvb*hUh~bf]z`jajiFqAii]bfy^U{Or|m+{I)cS|.9k:e3`^|xN}@Dnlis`B|Qo{`W|>||kA}Y}{ERYuYx`%[exd`]|OyiHtb}HofUYbFo![5|+]gD{NIZR|Go}.T{rh^4]S|C9_}xO^i`vfQ}C)bK{TL}cQ|79iu}9a];sj{P.o!f[Y]pM``Jda^Wc9ZarteBZClxtM{LW}l9|a.mU}KX}4@{I+f1}37|8u}9c|v${xGlz}jP{Dd1}e:}31}%3X$|22i<v+r@~mf{sN{C67G97855F4YL5}8f{DT|xy{sO{DXB334@55J1)4.G9A#JDYtXTYM4, YQD9;XbXm9SX]IB^4UN=Xn<5(;(F3YW@XkH-X_VM[DYM:5XP!T&Y`6|,^{IS-*D.H>:LXjYQ0I3XhAF:9:(==.F*3F1189K/7163D,:@|e2{LS36D4hq{Lw/84443@4.933:0307::6D7}&l{Mx657;89;,K5678H&93D(H<&<>0B90X^I;}Ag1{P%3A+>><975}[S{PZE453?4|T2{Q+5187;>447:81{C=hL6{Me^:=7ii{R=.=F<81;48?|h8}Uh{SE|,VxL{ST,7?9Y_5Xk3A#:$%YSYdXeKXOD8+TXh7(@>(YdXYHXl9J6X_5IXaL0N?3YK7Xh!1?XgYz9YEXhXaYPXhC3X`-YLY_XfVf[EGXZ5L8BXL9YHX]SYTXjLXdJ: YcXbQXg1PX]Yx4|Jr{Ys4.8YU+XIY`0N,<H%-H;:0@,74/:8546I=9177154870UC]d<C3HXl7ALYzXFXWP<<?E!88E5@03YYXJ?YJ@6YxX-YdXhYG|9o{`iXjY_>YVXe>AYFX[/(I@0841?):-B=14337:8=|14{c&93788|di{cW-0>0<097/A;N{FqYpugAFT%X/Yo3Yn,#=XlCYHYNX[Xk3YN:YRT4?)-YH%A5XlYF3C1=NWyY}>:74-C673<69545v {iT85YED=64=.F4..9878/D4378?48B3:7:7/1VX[f4{D,{l<5E75{dAbRB-8-@+;DBF/$ZfW8S<4YhXA.(5@*11YV8./S95C/0R-A4AXQYI7?68167B95HA1*<M3?1/@;/=54XbYP36}lc{qzSS38:19?,/39193574/66878Yw1X-87E6=;964X`T734:>86>1/=0;(I-1::7ALYGXhF+Xk[@W%TYbX7)KXdYEXi,H-XhYMRXfYK?XgXj.9HX_SX]YL1XmYJ>Y}WwIXiI-3-GXcYyXUYJ$X`Vs[7;XnYEZ;XF! 3;%8;PXX(N3Y[)Xi1YE&/ :;74YQ6X`33C;-(>Xm0(TYF/!YGXg8 9L5P01YPXO-5%C|qd{{/K/E6,=0144:361:955;6443@?B7*7:F89&F35YaX-CYf,XiFYRXE_e{}sF 0*7XRYPYfXa5YXXY8Xf8Y~XmA[9VjYj*#YMXIYOXk,HHX40YxYMXU8OXe;YFXLYuPXP?EB[QV0CXfY{:9XV[FWE0D6X^YVP*$4%OXiYQ(|xp|%c3{}V`1>Y`XH00:8/M6XhQ1:;3414|TE|&o@1*=81G8<3}6<|(f6>>>5-5:8;093B^3U*+*^*UT30XgYU&7*O1953)5@E78--F7YF*B&0:%P68W9Zn5974J9::3}Vk|-,C)=)1AJ4+<3YGXfY[XQXmT1M-XcYTYZXCYZXEYXXMYN,17>XIG*SaS|/eYJXbI?XdNZ+WRYP<F:R PXf;0Xg`$|1GX9YdXjLYxWX!ZIXGYaXNYm6X9YMX?9EXmZ&XZ#XQ>YeXRXfAY[4 ;0X!Zz0XdN$XhYL XIY^XGNXUYS/1YFXhYk.TXn4DXjB{jg|4DEX]:XcZMW=A.+QYL<LKXc[vV$+&PX*Z3XMYIXUQ:ZvW< YSXFZ,XBYeXMM)?Xa XiZ4/EXcP3%}&-|6~:1(-+YT$@XIYRBC<}&,|7aJ6}bp|8)K1|Xg|8C}[T|8Q.89;-964I38361<=/;883651467<7:>?1:.}le|:Z=39;1Y^)?:J=?XfLXbXi=Q0YVYOXaXiLXmJXO5?.SFXiCYW}-;|=u&D-X`N0X^,YzYRXO(QX_YW9`I|>hZ:N&X)DQXP@YH#XmNXi$YWX^=!G6YbYdX>XjY|XlX^XdYkX>YnXUXPYF)FXT[EVTMYmYJXmYSXmNXi#GXmT3X8HOX[ZiXN]IU2>8YdX1YbX<YfWuZ8XSXcZU%0;1XnXkZ_WTG,XZYX5YSX Yp 05G?XcYW(IXg6K/XlYP4XnI @XnO1W4Zp-9C@%QDYX+OYeX9>--YSXkD.YR%Q/Yo YUX].Xi<HYEZ2WdCE6YMXa7F)=,D>-@9/8@5=?7164;35387?N<618=6>7D+C50<6B03J0{Hj|N9$D,9I-,.KB3}m |NzE0::/81YqXjMXl7YG; [.W=Z0X4XQY]:MXiR,XgM?9$9>:?E;YE77VS[Y564760391?14941:0=:8B:;/1DXjFA-564=0B3XlH1+D85:0Q!B#:-6&N/:9<-R3/7Xn<*3J4.H:+334B.=>30H.;3833/76464665755:/83H6633:=;.>5645}&E|Y)?1/YG-,93&N3AE@5 <L1-G/8A0D858/30>8<549=@B8] V0[uVQYlXeD(P#ID&7T&7;Xi0;7T-$YE)E=1:E1GR):--0YI7=E<}n9|aT6783A>D7&4YG7=391W;Zx<5+>F#J39}o/|cc;6=A050EQXg8A1-}D-|d^5548083563695D?-.YOXd37I$@LYLWeYlX<Yd+YR A$;3-4YQ-9XmA0!9/XLY_YT(=5XdDI>YJ5XP1ZAW{9>X_6R(XhYO65&J%DA)C-!B:97#A9;@?F;&;(9=11/=657/H,<8}bz|j^5446>.L+&Y^8Xb6?(CYOXb*YF(8X`FYR(XPYVXmPQ%&DD(XmZXW??YOXZXfCYJ79,O)XnYF7K0!QXmXi4IYFRXS,6<%-:YO(+:-3Q!1E1:W,Zo}Am|n~;3580534*?3Zc4=9334361693:30C<6/717:<1/;>59&:4}6!|rS36=1?75<8}[B|s809983579I.A.>84758=108564741H*9E{L{|u%YQ<%6XfH.YUXe4YL@,>N}Tv|ve*G0X)Z;/)3@A74(4P&A1X:YVH97;,754*A66:1 D739E3553545558E4?-?K17/770843XAYf838A7K%N!YW4.$T19Z`WJ*0XdYJXTYOXNZ 1XaN1A+I&Xi.Xk3Z3GB&5%WhZ1+5#Y[X<4YMXhQYoQXVXbYQ8XSYUX4YXBXWDMG0WxZA[8V+Z8X;D],Va$%YeX?FXfX[XeYf<X:Z[WsYz8X_Y]%XmQ(!7BXIZFX]&YE3F$(1XgYgYE& +[+W!<YMYFXc;+PXCYI9YrWxGXY9DY[!GXiI7::)OC;*$.>N*HA@{C|}&k=:<TB83X`3YL+G4XiK]i}(fYK<=5$.FYE%4*5*H*6XkCYL=*6Xi6!Yi1KXR4YHXbC8Xj,B9ZbWx/XbYON#5B}Ue}+QKXnF1&YV5XmYQ0!*3IXBYb71?1B75XmF;0B976;H/RXU:YZX;BG-NXj;XjI>A#D3B636N;,*%<D:0;YRXY973H5)-4FXOYf0:0;/7759774;7;:/855:543L43<?6=E,.A4:C=L)%4YV!1(YE/4YF+ F3%;S;&JC:%/?YEXJ4GXf/YS-EXEYW,9;E}X$}547EXiK=51-?71C%?57;5>463553Zg90;6447?<>4:9.7538XgN{|!}9K/E&3-:D+YE1)YE/3;37/:05}n<}:UX8Yj4Yt864@JYK..G=.(A Q3%6K>3(P3#AYE$-6H/456*C=.XHY[#S.<780191;057C)=6HXj?955B:K1 E>-B/9,;5.!L?:0>/.@//:;7833YZ56<4:YE=/:7Z_WGC%3I6>XkC*&NA16X=Yz2$X:Y^&J48<99k8}CyB-61<18K946YO4{|N}E)YIB9K0L>4=46<1K0+R;6-=1883:478;4,S+3YJX`GJXh.Yp+Xm6MXcYpX(>7Yo,/:X=Z;Xi0YTYHXjYmXiXj;*;I-8S6N#XgY}.3XfYGO3C/$XjL$*NYX,1 6;YH&<XkK9C#I74.>}Hd`A748X[T450[n75<4439:18A107>|ET}Rf<1;14876/Yb983E<5.YNXd4149>,S=/4E/<306443G/06}0&}UkYSXFYF=44=-5095=88;63844,9E6644{PL}WA8:>)7+>763>>0/B3A545CCnT}Xm|dv}Xq1L/YNXk/H8;;.R63351YY747@15YE4J8;46;.38.>4A369.=-83,;Ye3?:3@YE.4-+N353;/;@(X[YYD>@/05-I*@.:551741Yf5>6A443<3535;.58/86=D4753442$635D1>0359NQ @73:3:>><Xn?;43C14 ?Y|X611YG1&<+,4<*,YLXl<1/AIXjF*N89A4Z576K1XbJ5YF.ZOWN.YGXO/YQ01:4G38Xl1;KI0YFXB=R<7;D/,/4>;$I,YGXm94@O35Yz66695385.>:6A#5}W7n^4336:4157597434433<3|XA}m`>=D>:4A.337370?-6Q96{`E|4A}C`|Qs{Mk|J+~r>|o,wHv>Vw}!c{H!|Gb|*Ca5}J||,U{t+{CN[!M65YXOY_*B,Y[Z9XaX[QYJYLXPYuZ%XcZ8LY[SYPYKZM<LMYG9OYqSQYM~[e{UJXmQYyZM_)>YjN1~[f3{aXFY|Yk:48YdH^NZ0|T){jVFYTZNFY^YTYN~[h{nPYMYn3I]`EYUYsYIZEYJ7Yw)YnXPQYH+Z.ZAZY]^Z1Y`YSZFZyGYHXLYG 8Yd#4~[i|+)YH9D?Y^F~Y7|-eYxZ^WHYdYfZQ~[j|3>~[k|3oYmYqY^XYYO=Z*4[]Z/OYLXhZ1YLZIXgYIHYEYK,<Y`YEXIGZI[3YOYcB4SZ!YHZ*&Y{Xi3~[l|JSY`Zz?Z,~[m|O=Yi>??XnYWXmYS617YVYIHZ(Z4[~L4/=~[n|Yu{P)|];YOHHZ}~[o33|a>~[r|aE]DH~[s|e$Zz~[t|kZFY~XhYXZB[`Y}~[u|{SZ&OYkYQYuZ2Zf8D~[v}% ~[w3},Q[X]+YGYeYPIS~[y}4aZ!YN^!6PZ*~[z}?E~[{3}CnZ=~[}}EdDZz/9A3(3S<,YR8.D=*XgYPYcXN3Z5 4)~[~}JW=$Yu.XX~] }KDX`PXdZ4XfYpTJLY[F5]X~[2Yp}U+DZJ::<446[m@~]#3}]1~]%}^LZwZQ5Z`/OT<Yh^ -~]&}jx[ ~m<z!%2+~ly4VY-~o>}p62yz!%2+Xf2+~ly4VY-zQ`z (=] 2z~o2",C={" ":0,"!":1},c=34,i=2,p,s="",u=String.fromCharCode,t=u(12539);for(;++c<127;)C[u(c)]=c^39&&c^92?i++:0;i=0;for(;0<=(c=C[a.charAt(i++)]);)if(16===c)if((c=C[a.charAt(i++)])<87){if(86===c)c=1879;for(;c--;)s+=u(++p)}else s+=s.substr(8272,360);else if(c<86)s+=u(p+=c<51?c-16:(c-55)*92+C[a.charAt(i++)]);else if((c=((c-86)*92+C[a.charAt(i++)])*92+C[a.charAt(i++)])<49152)s+=u(p=c<40960?c:c|57344);else{c&=511;for(;c--;)s+=t;p=12539}return s')();
 
-		var soundFormats = [
+		let soundFormats = [
 			"Uncompressed native-endian", "ADPCM", "MP3", "Uncompressed little-endian",
 			"NellyMoser 16 kHz", "NellyMoser 8 kHz", "NellyMoser 22.050 kHz", "?",
 			"?", "?", "?", "Speex",
 			"?", "?", "?", "x-aiff"
 		];
 		// first four : mp3, last three : nellymoser
-		var soundRates = [5512, 11025, 22050, 44100, 16000, 8000, 22050];
-		var soundSizes = ["8bit", "16bit"];
-		var soundTypes = ["mono", "stereo"];
+		let soundRates = [5512, 11025, 22050, 44100, 16000, 8000, 22050];
+		let soundSizes = ["8bit", "16bit"];
+		let soundTypes = ["mono", "stereo"];
 
 		/**
 		   convert APCPM to WAV
@@ -249,7 +249,7 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var AdpcmState = function() {
+		let AdpcmState = function() {
 			this.index = 0;
 			this.sample = 0;
 		};
@@ -257,7 +257,7 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var AdpcmInput = function(data) {
+		let AdpcmInput = function(data) {
 			this.data = data;
 			this.bitPos = 0;
 			this.tempByte = 0;
@@ -269,7 +269,7 @@ if (!("swf2js" in window)) {
 			if (nBits == 0) {
 				return 0;
 			}
-			var ret = this.readUBInternal(nBits);
+			let ret = this.readUBInternal(nBits);
 			return ret;
 		};
 
@@ -277,14 +277,14 @@ if (!("swf2js" in window)) {
 			if (nBits == 0) {
 				return 0;
 			}
-			var ret = this.readSBInternal(nBits);
+			let ret = this.readSBInternal(nBits);
 			return ret;
 		};
 /*jshint bitwise: false*/
 		AdpcmInput.prototype.readSBInternal = function(nBits) {
-			var uval = this.readUBInternal(nBits);
+			let uval = this.readUBInternal(nBits);
 
-			var shift = 32 - nBits;
+			let shift = 32 - nBits;
 			// sign extension
 			uval = (uval << shift) >> shift;
 			return uval;
@@ -294,12 +294,12 @@ if (!("swf2js" in window)) {
 			if (nBits == 0) {
 				return 0;
 			}
-			var ret = 0;
+			let ret = 0;
 			if (this.bitPos == 0) {
 				this.tempByte = this.readNoBitReset();
 			}
-			for (var bit = 0; bit < nBits; bit++) {
-				var nb = (this.tempByte >> (7 - this.bitPos)) & 1;
+			for (let bit = 0; bit < nBits; bit++) {
+				let nb = (this.tempByte >> (7 - this.bitPos)) & 1;
 				ret += (nb << (nBits - 1 - bit));
 				this.bitPos++;
 				if (this.bitPos == 8) {
@@ -313,7 +313,7 @@ if (!("swf2js" in window)) {
 		};
 
 		AdpcmInput.prototype.readNoBitReset = function() {
-			var r;
+			let r;
 			if (this.offset < this.length) {
 				r = this.data[this.offset];
 				this.offset++;
@@ -339,7 +339,7 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var AdpcmOutput = function() {
+		let AdpcmOutput = function() {
 			this.indexAdjustTable2bit = [
 				-1, 2,
 				-1, 2
@@ -371,9 +371,9 @@ if (!("swf2js" in window)) {
 		AdpcmOutput.prototype.decode2bit = function(deltaCode, state) {
 			//		assert (deltaCode == (deltaCode & 3));
 
-			var step = this.stepSizeTable[state.index];
+			let step = this.stepSizeTable[state.index];
 
-			var difference = step >> 1;
+			let difference = step >> 1;
 			if ((deltaCode & 1) == 1) {
 				difference += step;
 			}
@@ -401,9 +401,9 @@ if (!("swf2js" in window)) {
 		AdpcmOutput.prototype.decode3bit = function(deltaCode, state) {
 			//		assert (deltaCode == (deltaCode & 7));
 
-			var step = this.stepSizeTable[state.index];
+			let step = this.stepSizeTable[state.index];
 
-			var difference = step >> 2;
+			let difference = step >> 2;
 			if ((deltaCode & 1) == 1) {
 				difference += step >> 1;
 			}
@@ -434,9 +434,9 @@ if (!("swf2js" in window)) {
 		AdpcmOutput.prototype.decode4bit = function(deltaCode, state) {
 			//		assert (deltaCode == (deltaCode & 15));
 
-			var step = this.stepSizeTable[state.index];
+			let step = this.stepSizeTable[state.index];
 
-			var difference = step >> 3;
+			let difference = step >> 3;
 			if ((deltaCode & 1) == 1) {
 				difference += step >> 2;
 			}
@@ -471,9 +471,9 @@ if (!("swf2js" in window)) {
 			//		assert (deltaCode >= 0);
 			//		assert (deltaCode <= 31 /* 2#11111 */);
 
-			var step = this.stepSizeTable[state.index];
+			let step = this.stepSizeTable[state.index];
 
-			var difference = step >> 4;
+			let difference = step >> 4;
 			if ((deltaCode & 1) == 1) {
 				difference += step >> 3;
 			}
@@ -512,28 +512,28 @@ if (!("swf2js" in window)) {
 			// SWF SoundSize The sample size of the sound data. 0 = 8bit, 1 = 16bit
 			// SWF SoundRate The sampling rate of the sound data: 0 = 5.5 kHz; 1 = 11 kHz; 2 = 22 kHz; 3 = 44 kHz
 			try {
-				var sis = new AdpcmInput(input);
-				var pcmOutput = new PcmOutput(soundType, soundSize, soundRate, []);
-				var adpcm_code_size = sis.readUB(2);
-				var bits_per_code = adpcm_code_size + 2;
+				let sis = new AdpcmInput(input);
+				let pcmOutput = new PcmOutput(soundType, soundSize, soundRate, []);
+				let adpcm_code_size = sis.readUB(2);
+				let bits_per_code = adpcm_code_size + 2;
 				do {
 					if (soundType == 1) { // stereo
-						var initialSampleLeft = sis.readSB(16);
-						var initialIndexLeft = sis.readUB(6);
-						var initialSampleRight = sis.readSB(16);
-						var initialIndexRight = sis.readUB(6);
-						var stateLeft = new AdpcmState();
+						let initialSampleLeft = sis.readSB(16);
+						let initialIndexLeft = sis.readUB(6);
+						let initialSampleRight = sis.readSB(16);
+						let initialIndexRight = sis.readUB(6);
+						let stateLeft = new AdpcmState();
 						stateLeft.index = initialIndexLeft;
 						stateLeft.sample = initialSampleLeft;
-						var stateRight = new AdpcmState();
+						let stateRight = new AdpcmState();
 						stateRight.index = initialIndexRight;
 						stateRight.sample = initialSampleRight;
-						for (var i = 1;
+						for (let i = 1;
 							(i <= 4095) && (sis.availableBits() >= bits_per_code * 2); i++) {
-							var codeLeft = sis.readUB(bits_per_code);
-							var codeRight = sis.readUB(bits_per_code);
-							var valLeft = 0;
-							var valRight = 0;
+							let codeLeft = sis.readUB(bits_per_code);
+							let codeRight = sis.readUB(bits_per_code);
+							let valLeft = 0;
+							let valRight = 0;
 							switch (bits_per_code) {
 								case 2:
 									valLeft = this.decode2bit(codeLeft, stateLeft);
@@ -556,15 +556,15 @@ if (!("swf2js" in window)) {
 							pcmOutput.writeSI16(valRight);
 						}
 					} else {
-						var initialSample = sis.readSB(16);
-						var initialIndex = sis.readUB(6);
-						var state = new AdpcmState();
+						let initialSample = sis.readSB(16);
+						let initialIndex = sis.readUB(6);
+						let state = new AdpcmState();
 						state.index = initialIndex;
 						state.sample = initialSample;
-						for (var p = 1;
+						for (let p = 1;
 							(p <= 4095) && (sis.availableBits() >= bits_per_code); p++) {
-							var code = sis.readUB(bits_per_code);
-							var val = 0;
+							let code = sis.readUB(bits_per_code);
+							let val = 0;
 							switch (bits_per_code) {
 								case 2:
 									val = this.decode2bit(code, state);
@@ -591,16 +591,16 @@ if (!("swf2js" in window)) {
 		};
 
 		AdpcmOutput.prototype.convertADPCMtoWave = function(isSoundStream, soundType, soundSize, soundRate, input) {
-			var sos = new AdpcmOutput();
-			var data = [];
+			let sos = new AdpcmOutput();
+			let data = [];
 			if (isSoundStream) {
-				for (var i = 0; i < input.length; i++) {
+				for (let i = 0; i < input.length; i++) {
 					data = data.concat(sos.decode(soundType, soundSize, soundRate, input[i]));
 				}
 			} else {
 				data = sos.decode(soundType, soundSize, soundRate, input);
 			}
-			var pcmOutput = new PcmOutput(soundType, soundSize, soundRate, data);
+			let pcmOutput = new PcmOutput(soundType, soundSize, soundRate, data);
 			return pcmOutput.createWave();
 
 		};
@@ -608,7 +608,7 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var PcmOutput = function(soundType, soundSize, soundRate, data) {
+		let PcmOutput = function(soundType, soundSize, soundRate, data) {
 			this.data = data;
 			this.soundType = soundType; // 0 : mono, 1 : stereo
 			this.soundSize = soundSize; // 0 : 8 bits, 1 : 16 bits
@@ -635,14 +635,14 @@ if (!("swf2js" in window)) {
 		};
 
 		PcmOutput.prototype.convertString = function(s) {
-			var result = [];
-			for (var i = 0; i < s.length; i++) result[i] = s.charCodeAt(i);
+			let result = [];
+			for (let i = 0; i < s.length; i++) result[i] = s.charCodeAt(i);
 			return result;
 		};
 
 		PcmOutput.prototype.convert2LE = function(value, size) {
-			var bytes = [];
-			for (var i = 0; i < size; i++) {
+			let bytes = [];
+			for (let i = 0; i < size; i++) {
 				bytes[i] = value & 0xff;
 				value >>= 8;
 			}
@@ -650,36 +650,36 @@ if (!("swf2js" in window)) {
 		};
 
 		PcmOutput.prototype.createWave = function() {
-			var subChunk1Data = [];
-			var audioFormat = 1; //PCM
+			let subChunk1Data = [];
+			let audioFormat = 1; //PCM
 			subChunk1Data = this.convert2LE(audioFormat, 2);
 			// SWF SoundType Number of channels in the streaming sound data. 0 = sndMono; 1 = sndStereo
-			var numChannels = this.soundType == 1 ? 2 : 1;
+			let numChannels = this.soundType == 1 ? 2 : 1;
 			subChunk1Data = subChunk1Data.concat(this.convert2LE(numChannels, 2));
 			// SWF SoundRate The sampling rate of the streaming sound data: 0 = 5.5 kHz; 1 = 11 kHz; 2 = 22 kHz; 3 = 44 kHz
-			var sampleRate = soundRates[this.soundRate];
+			let sampleRate = soundRates[this.soundRate];
 			subChunk1Data = subChunk1Data.concat(this.convert2LE(sampleRate, 4));
 			// SWF StreamSoundSize The sample size of the streaming sound data. 0 : 8 bit, 1 : 16 bit.
-			var bitsPerSample = this.soundSize ? 16 : 8;
-			var byteRate = sampleRate * numChannels * bitsPerSample / 8;
+			let bitsPerSample = this.soundSize ? 16 : 8;
+			let byteRate = sampleRate * numChannels * bitsPerSample / 8;
 			subChunk1Data = subChunk1Data.concat(this.convert2LE(byteRate, 4));
-			var blockAlign = numChannels * bitsPerSample / 8;
+			let blockAlign = numChannels * bitsPerSample / 8;
 			subChunk1Data = subChunk1Data.concat(this.convert2LE(blockAlign, 2));
 			subChunk1Data = subChunk1Data.concat(this.convert2LE(bitsPerSample, 2));
 
-			var chunks = [];
+			let chunks = [];
 			chunks = this.convertString("fmt ");
 			chunks = chunks.concat(this.convert2LE(subChunk1Data.length, 4));
 			chunks = chunks.concat(subChunk1Data);
 			chunks = chunks.concat(this.convertString("data"));
-			var data;
+			let data;
 			if (this.data.constructor === Uint8Array) {
 				data = Array.from(this.data);
 			} else data = this.data;
 			chunks = chunks.concat(this.convert2LE(data.length, 4));
 			chunks = chunks.concat(data);
 
-			var result = [];
+			let result = [];
 			result = this.convertString("RIFF");
 			result = result.concat(this.convert2LE(4 + chunks.length, 4));
 			result = result.concat(this.convertString("WAVE"));
@@ -693,7 +693,7 @@ if (!("swf2js" in window)) {
 			SWFInputStream.java, SWFOutputStream.java, NellyMoserDecoder.java, CodecImpl.java and SWF.java
 			https://github.com/jindrapetrik/jpexs-decompiler
 		 */
-		var bandBound = [
+		let bandBound = [
 			0, 2, 4, 6,
 			8, 10, 12, 14,
 			16, 18, 21, 24,
@@ -702,14 +702,14 @@ if (!("swf2js" in window)) {
 			83, 95, 109, 124
 		];
 
-		var gainBit = [
+		let gainBit = [
 			6, 5, 5, 5, 5, 5, 5, 5,
 			5, 5, 5, 5, 5, 5, 5, 5,
 			5, 5, 5, 5, 5, 5, 5, 0,
 			0, 0, 0, 0, 0, 0, 0, 0
 		];
 
-		var table1 = [
+		let table1 = [
 			3134, 5342, 6870, 7792,
 			8569, 9185, 9744, 10191,
 			10631, 11061, 11434, 11770,
@@ -728,7 +728,7 @@ if (!("swf2js" in window)) {
 			27877, 28463, 29426, 31355
 		];
 
-		var table2 = [
+		let table2 = [
 			-11725, -9420, -7910, -6801,
 			-5948, -5233, -4599, -4039,
 			-3507, -3030, -2596, -2170,
@@ -739,7 +739,7 @@ if (!("swf2js" in window)) {
 			6622, 8154, 10076, 12975
 		];
 
-		var table3 = [
+		let table3 = [
 			0.0, -0.847256005, 0.722470999, -1.52474797,
 			-0.453148007, 0.375360996, 1.47178996, -1.98225796,
 			-1.19293797, -0.582937002, -0.0693780035, 0.390956998,
@@ -782,7 +782,7 @@ if (!("swf2js" in window)) {
 		 * }
 		 * </pre>
 		 */
-		var table4 = [
+		let table4 = [
 			0.999981225, 0.999529421, 0.998475611, 0.996820271,
 			0.994564593, 0.991709828, 0.988257587, 0.984210074,
 			0.979569793, 0.974339426, 0.968522072, 0.962121427,
@@ -809,7 +809,7 @@ if (!("swf2js" in window)) {
 		 * }
 		 * </pre>
 		 */
-		var table5 = [
+		let table5 = [
 			0.125, 0.124962397, 0.124849401, 0.124661297,
 			0.124398097, 0.124059901, 0.123647101, 0.123159699,
 			0.122598201, 0.121962801, 0.1212539, 0.120471999,
@@ -836,7 +836,7 @@ if (!("swf2js" in window)) {
 		 * }
 		 * </pre>
 		 */
-		var table6 = [
+		let table6 = [
 			-0.00613590004, -0.0306748003, -0.0551952012, -0.0796824023,
 			-0.104121603, -0.128498107, -0.152797207, -0.177004203,
 			-0.201104596, -0.225083902, -0.248927593, -0.272621393,
@@ -863,7 +863,7 @@ if (!("swf2js" in window)) {
 		 * }
 		 * </pre>
 		 */
-		var table7 = [
+		let table7 = [
 			0.00613590004, 0.0184067003, 0.0306748003, 0.0429382995,
 			0.0551952012, 0.0674438998, 0.0796824023, 0.0919089988,
 			0.104121603, 0.116318598, 0.128498107, 0.1406582,
@@ -898,7 +898,7 @@ if (!("swf2js" in window)) {
 			0.999077678, 0.999529421, 0.999830604, 0.999981225
 		];
 
-		var table9 = [
+		let table9 = [
 			32767, 30840, 29127, 27594, 26214, 24966, 23831, 22795,
 			21845, 20972, 20165, 19418, 18725, 18079, 17476, 16913,
 			16384, 0, 0, 0, 0, 0, 0, 0,
@@ -913,7 +913,7 @@ if (!("swf2js" in window)) {
 		 * }
 		 * </pre>
 		 */
-		var table10 = [
+		let table10 = [
 			0.0, 0.0122715384, 0.024541229, 0.0368072242,
 			0.0490676723, 0.061320737, 0.0735645667, 0.0857973099,
 			0.0980171412, 0.110222213, 0.122410677, 0.134580716,
@@ -958,7 +958,7 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var NellyMoserBitStream = function() {
+		let NellyMoserBitStream = function() {
 			this.byteOffset = 0;
 			this.bitOffset = 0;
 		};
@@ -980,8 +980,8 @@ if (!("swf2js" in window)) {
 		};
 
 		NellyMoserBitStream.prototype.pop = function(len, buf) {
-			var val = (buf[this.byteOffset] & 0xff) >> this.bitOffset;
-			var bits_read = 8 - this.bitOffset;
+			let val = (buf[this.byteOffset] & 0xff) >> this.bitOffset;
+			let bits_read = 8 - this.bitOffset;
 
 			if (len >= bits_read) {
 				++this.byteOffset;
@@ -998,7 +998,7 @@ if (!("swf2js" in window)) {
 		 * @constructor
 		 */
 /* xxx jshint expr:true*/
-		var NellyMoserNormalizedInt32 = function(val) {
+		let NellyMoserNormalizedInt32 = function(val) {
 			this.value = 0;
 			this.scale = 0;
 
@@ -1012,8 +1012,8 @@ if (!("swf2js" in window)) {
 				return;
 			}
 
-			var v = val;
-			var s = 0;
+			let v = val;
+			let s = 0;
 
 			if (v > 0) {
 				do {
@@ -1021,7 +1021,7 @@ if (!("swf2js" in window)) {
 					++s;
 				} while (v < (1 << 30));
 			} else {
-				var floor = 1 << 31; // lowest possible 32bit value
+				let floor = 1 << 31; // lowest possible 32bit value
 				do {
 					v <<= 1;
 					++s;
@@ -1032,7 +1032,7 @@ if (!("swf2js" in window)) {
 			this.scale = s;
 		};
 
-		var NellyMoserFactor = function(val) {
+		let NellyMoserFactor = function(val) {
 			this.value = 0;
 			this.shift = 0;
 
@@ -1047,11 +1047,11 @@ if (!("swf2js" in window)) {
 				return;
 			}
 
-			var sign = ((~val >>> 31) << 1) - 1;
+			let sign = ((~val >>> 31) << 1) - 1;
 
-			var abs = val * sign;
+			let abs = val * sign;
 
-			var scale = -1;
+			let scale = -1;
 			while ((abs & (1 << 15)) == 0) {
 				abs <<= 1;
 				++scale;
@@ -1060,15 +1060,15 @@ if (!("swf2js" in window)) {
 
 			this.shift = 27 - scale;
 
-			var table_val = table9[(abs - 0x3e00) >> 10];
-			var tmp = abs * table_val;
+			let table_val = table9[(abs - 0x3e00) >> 10];
+			let tmp = abs * table_val;
 			tmp = (1 << 30) - tmp;
 			tmp += (1 << 14);
 			tmp >>= 15;
 			tmp *= table_val;
 			tmp += (1 << 14);
 			tmp >>= 15;
-			var tmp2 = tmp;
+			let tmp2 = tmp;
 			tmp *= abs;
 			tmp = (1 << 29) - tmp;
 			tmp += (1 << 14);
@@ -1088,52 +1088,52 @@ if (!("swf2js" in window)) {
 		};
 /*  xxx jshint expr:true*/
 
-		var NellyMoser = function() {};
+		let NellyMoser = function() {};
 
 		NellyMoser.prototype.decode = function(state, input, output) {
-			var bs = new NellyMoserBitStream(input);
+			let bs = new NellyMoserBitStream(input);
 
-			var unpacked_input = new Array(124);
-			var var_808 = new Array(128);
-			var var_608 = new Array(124);
-			var var_418 = new Array(124);
-			var unpacked_byte = bs.pop(gainBit[0], input);
+			let unpacked_input = new Array(124);
+			let var_808 = new Array(128);
+			let var_608 = new Array(124);
+			let var_418 = new Array(124);
+			let unpacked_byte = bs.pop(gainBit[0], input);
 			unpacked_input[0] = unpacked_byte;
 			var_808[0] = table1[unpacked_byte];
 
-			for (var i = 1; i < 23; ++i) {
+			for (let i = 1; i < 23; ++i) {
 				unpacked_byte = bs.pop(gainBit[i], input);
 				unpacked_input[i] = unpacked_byte;
 				var_808[i] = var_808[i - 1] + table2[unpacked_byte];
 			}
 
-			for (var i = 0; i < 23; ++i) {
-				var pow = Math.fround(Math.pow(
+			for (let i = 0; i < 23; ++i) {
+				let pow = Math.fround(Math.pow(
 					2.0, var_808[i] * (0.5 * 0.0009765625)
 				));
 
-				var bound = bandBound[i];
-				var next_bound = bandBound[i + 1];
+				let bound = bandBound[i];
+				let next_bound = bandBound[i + 1];
 				for (; bound < next_bound; ++bound) {
 					var_418[bound] = var_808[i];
 					var_608[bound] = pow;
 				}
 			}
 
-			var packed_byte_sizes = new Array(124);
-			var leftover = this.wc(var_418, 124, 198, packed_byte_sizes);
+			let packed_byte_sizes = new Array(124);
+			let leftover = this.wc(var_418, 124, 198, packed_byte_sizes);
 
-			for (var out_off = 0; out_off < 256; out_off += 128) {
-				for (var i = 0; i < 124; ++i) {
-					var packed_size = packed_byte_sizes[i];
-					var val = var_608[i];
+			for (let out_off = 0; out_off < 256; out_off += 128) {
+				for (let i = 0; i < 124; ++i) {
+					let packed_size = packed_byte_sizes[i];
+					let val = var_608[i];
 					if (packed_size > 0) {
-						var pow2 = 1 << packed_size;
+						let pow2 = 1 << packed_size;
 						unpacked_byte = bs.pop(packed_size, input);
 						unpacked_input[i] = unpacked_byte;
 						val *= table3[pow2 - 1 + unpacked_byte];
 					} else {
-						var rnd_u32 = Math.random() * 4294967296.0;
+						let rnd_u32 = Math.random() * 4294967296.0;
 						if (rnd_u32 < (1 << 30) + (1 << 14)) {
 							val *= -0.707099974;
 						} else {
@@ -1143,11 +1143,11 @@ if (!("swf2js" in window)) {
 					var_808[i] = val;
 				}
 
-				for (var i = 124; i < 128; ++i) {
+				for (let i = 124; i < 128; ++i) {
 					var_808[i] = 0;
 				}
 
-				for (var i = leftover; i > 0; i -= 8) {
+				for (let i = leftover; i > 0; i -= 8) {
 					if (i > 8) {
 						bs.pop(8, input);
 					} else {
@@ -1162,12 +1162,12 @@ if (!("swf2js" in window)) {
 
 		NellyMoser.prototype.iTransfm = function(state, input, len_log2, output, out_off) {
 
-			var len = 1 << len_log2;
-			var quarter_len = len >> 2;
-			var y = len - 1;
-			var x = len >> 1;
-			var j = x - 1;
-			var i = 0;
+			let len = 1 << len_log2;
+			let quarter_len = len >> 2;
+			let y = len - 1;
+			let x = len >> 1;
+			let j = x - 1;
+			let i = 0;
 
 			/*
 			i-->	  <--j
@@ -1184,10 +1184,10 @@ if (!("swf2js" in window)) {
 			this.auxceps(input, 0, len_log2, output, out_off);
 
 			for (; i < quarter_len; ++i, --j, ++x, --y) {
-				var state_i = state[i];
-				var state_j = state[j];
-				var out_x = output[out_off + x];
-				var out_y = output[out_off + y];
+				let state_i = state[i];
+				let state_j = state[j];
+				let out_x = output[out_off + x];
+				let out_y = output[out_off + y];
 
 				state[i] = -output[out_off + j];
 				state[j] = -output[out_off + i];
@@ -1202,19 +1202,19 @@ if (!("swf2js" in window)) {
 
 		NellyMoser.prototype.auxceps = function(input, in_off, len_log2, output, out_off) {
 
-			var len = 1 << len_log2;
-			var half_len_m1 = (len >> 1) - 1;
-			var quarter_len = len >> 2;
+			let len = 1 << len_log2;
+			let half_len_m1 = (len >> 1) - 1;
+			let quarter_len = len >> 2;
 
-			for (var i = 0; i < quarter_len; ++i) {
-				var i2 = i << 1;
-				var j = len - 1 - i2;
-				var k = j - 1;
+			for (let i = 0; i < quarter_len; ++i) {
+				let i2 = i << 1;
+				let j = len - 1 - i2;
+				let k = j - 1;
 
-				var in_i2 = input[in_off + i2];
-				var in_i2_1 = input[in_off + i2 + 1];
-				var in_j = input[in_off + j];
-				var in_k = input[in_off + k];
+				let in_i2 = input[in_off + i2];
+				let in_i2_1 = input[in_off + i2 + 1];
+				let in_j = input[in_off + j];
+				let in_k = input[in_off + k];
 
 				output[out_off + i2] = Math.fround((table4[i] * in_i2 - table6[i] * in_j));
 				output[out_off + i2 + 1] = Math.fround((in_j * table4[i] + in_i2 * table6[i]));
@@ -1225,8 +1225,8 @@ if (!("swf2js" in window)) {
 
 			this.HarXfm(output, out_off, len_log2 - 1);
 
-			var last_out = output[out_off + len - 1];
-			var pre_last_out = output[out_off + len - 2];
+			let last_out = output[out_off + len - 1];
+			let pre_last_out = output[out_off + len - 2];
 
 			output[out_off] = table5[0] * output[out_off];
 			output[out_off + len - 1] = output[out_off + 1] * -table5[0];
@@ -1234,14 +1234,14 @@ if (!("swf2js" in window)) {
 			output[out_off + len - 2] = table5[half_len_m1] * output[out_off + len - 2] + table5[1] * last_out;
 			output[out_off + 1] = pre_last_out * table5[1] - last_out * table5[half_len_m1];
 
-			var i_out = len - 3;
-			var i_tbl = half_len_m1;
-			var j = 3;
-			for (var i = 1; i < quarter_len; ++i, --i_tbl, i_out -= 2, j += 2) {
-				var old_out_a = output[out_off + i_out];
-				var old_out_b = output[out_off + i_out - 1];
-				var old_out_c = output[out_off + j];
-				var old_out_d = output[out_off + j - 1];
+			let i_out = len - 3;
+			let i_tbl = half_len_m1;
+			let j = 3;
+			for (let i = 1; i < quarter_len; ++i, --i_tbl, i_out -= 2, j += 2) {
+				let old_out_a = output[out_off + i_out];
+				let old_out_b = output[out_off + i_out - 1];
+				let old_out_c = output[out_off + j];
+				let old_out_d = output[out_off + j - 1];
 
 				output[out_off + j - 1] = Math.fround((table5[i_tbl] * old_out_c + table5[(j - 1) >> 1] * old_out_d));
 				output[out_off + j] = Math.fround((old_out_b * table5[(j + 1) >> 1] - old_out_a * table5[i_tbl - 1]));
@@ -1251,16 +1251,16 @@ if (!("swf2js" in window)) {
 		};
 
 		NellyMoser.prototype.HarXfm = function(data, data_off, half_len_log2) {
-			var half_len = 1 << half_len_log2;
+			let half_len = 1 << half_len_log2;
 
 			this.HarXfmHelper(data, data_off, half_len);
 
-			var j = 0;
-			for (var i = half_len >> 1; i > 0; --i, j += 4) {
-				var j0 = data[data_off + j];
-				var j1 = data[data_off + j + 1];
-				var j2 = data[data_off + j + 2];
-				var j3 = data[data_off + j + 3];
+			let j = 0;
+			for (let i = half_len >> 1; i > 0; --i, j += 4) {
+				let j0 = data[data_off + j];
+				let j1 = data[data_off + j + 1];
+				let j2 = data[data_off + j + 2];
+				let j3 = data[data_off + j + 3];
 				data[data_off + j] = j0 + j2;
 				data[data_off + j + 1] = j1 + j3;
 				data[data_off + j + 2] = j0 - j2;
@@ -1268,15 +1268,15 @@ if (!("swf2js" in window)) {
 			}
 
 			j = 0;
-			for (var i = half_len >> 2; i > 0; --i, j += 8) {
-				var j0 = data[data_off + j];
-				var j1 = data[data_off + j + 1];
-				var j2 = data[data_off + j + 2];
-				var j3 = data[data_off + j + 3];
-				var j4 = data[data_off + j + 4];
-				var j5 = data[data_off + j + 5];
-				var j6 = data[data_off + j + 6];
-				var j7 = data[data_off + j + 7];
+			for (let i = half_len >> 2; i > 0; --i, j += 8) {
+				let j0 = data[data_off + j];
+				let j1 = data[data_off + j + 1];
+				let j2 = data[data_off + j + 2];
+				let j3 = data[data_off + j + 3];
+				let j4 = data[data_off + j + 4];
+				let j5 = data[data_off + j + 5];
+				let j6 = data[data_off + j + 6];
+				let j7 = data[data_off + j + 7];
 				data[data_off + j] = j0 + j4;
 				data[data_off + j + 1] = j1 + j5;
 				data[data_off + j + 2] = j2 + j7;
@@ -1287,33 +1287,33 @@ if (!("swf2js" in window)) {
 				data[data_off + j + 7] = j3 + j6;
 			}
 
-			var i = 0;
-			var x = half_len >> 3;
-			var y = 64;
-			var z = 4;
-			for (var idx1 = half_len_log2 - 2; idx1 > 0; --idx1, z <<= 1, y >>= 1, x >>= 1) {
+			let i = 0;
+			let x = half_len >> 3;
+			let y = 64;
+			let z = 4;
+			for (let idx1 = half_len_log2 - 2; idx1 > 0; --idx1, z <<= 1, y >>= 1, x >>= 1) {
 				j = 0;
-				for (var idx2 = x; idx2 != 0; --idx2, j += z << 1) {
-					for (var idx3 = z >> 1; idx3 > 0; --idx3, j += 2, i += y) {
-						var k = j + (z << 1);
+				for (let idx2 = x; idx2 != 0; --idx2, j += z << 1) {
+					for (let idx3 = z >> 1; idx3 > 0; --idx3, j += 2, i += y) {
+						let k = j + (z << 1);
 
-						var j0 = data[data_off + j];
-						var j1 = data[data_off + j + 1];
-						var k0 = data[data_off + k];
-						var k1 = data[data_off + k + 1];
+						let j0 = data[data_off + j];
+						let j1 = data[data_off + j + 1];
+						let k0 = data[data_off + k];
+						let k1 = data[data_off + k + 1];
 
 						data[data_off + k] = Math.fround((j0 - (k0 * table10[128 - i] + k1 * table10[i])));
 						data[data_off + j] = Math.fround((j0 + (k0 * table10[128 - i] + k1 * table10[i])));
 						data[data_off + k + 1] = Math.fround((j1 + (k0 * table10[i] - k1 * table10[128 - i])));
 						data[data_off + j + 1] = Math.fround((j1 - (k0 * table10[i] - k1 * table10[128 - i])));
 					}
-					for (var idx4 = z >> 1; idx4 > 0; --idx4, j += 2, i -= y) {
-						var k = j + (z << 1);
+					for (let idx4 = z >> 1; idx4 > 0; --idx4, j += 2, i -= y) {
+						let k = j + (z << 1);
 
-						var j0 = data[data_off + j];
-						var j1 = data[data_off + j + 1];
-						var k0 = data[data_off + k];
-						var k1 = data[data_off + k + 1];
+						let j0 = data[data_off + j];
+						let j1 = data[data_off + j + 1];
+						let k0 = data[data_off + k];
+						let k1 = data[data_off + k + 1];
 
 						data[data_off + k] = Math.fround((j0 + (k0 * table10[128 - i] - k1 * table10[i])));
 						data[data_off + j] = Math.fround((j0 - (k0 * table10[128 - i] - k1 * table10[i])));
@@ -1326,21 +1326,21 @@ if (!("swf2js" in window)) {
 
 		NellyMoser.prototype.HarXfmHelper = function(data, data_off, half_len) {
 
-			var len = half_len << 1;
+			let len = half_len << 1;
 
-			var j = 1;
-			for (var i = 1; i < len; i += 2) {
+			let j = 1;
+			for (let i = 1; i < len; i += 2) {
 				if (i < j) {
-					var tmp1 = data[data_off + i];
+					let tmp1 = data[data_off + i];
 					data[data_off + i] = data[data_off + j];
 					data[data_off + j] = tmp1;
 
-					var tmp2 = data[data_off + i - 1];
+					let tmp2 = data[data_off + i - 1];
 					data[data_off + i - 1] = data[data_off + j - 1];
 					data[data_off + j - 1] = tmp2;
 				}
 
-				var x = half_len;
+				let x = half_len;
 				while (x > 1 && x < j) {
 					j -= x;
 					x >>= 1;
@@ -1350,50 +1350,50 @@ if (!("swf2js" in window)) {
 		};
 
 		NellyMoser.prototype.wc = function(input, len, total_bits, packed_sizes) {
-			var max_input = 0;
-			for (var i = 0; i < len; ++i) {
+			let max_input = 0;
+			for (let i = 0; i < len; ++i) {
 				if (input[i] > max_input) {
 					max_input = input[i];
 				}
 			}
 
-			var max_input_scale = 0;
+			let max_input_scale = 0;
 			{
-				var normalized = new NellyMoserNormalizedInt32(Math.floor(max_input));
+				let normalized = new NellyMoserNormalizedInt32(Math.floor(max_input));
 				max_input_scale = normalized.scale - 16;
 			}
 
-			var scaled_input = new Array(124);
+			let scaled_input = new Array(124);
 
 			if (max_input_scale < 0) {
-				for (var i = 0; i < len; ++i) {
+				for (let i = 0; i < len; ++i) {
 					scaled_input[i] = (Math.floor(input[i]) >> -max_input_scale);
 				}
 			} else {
-				for (var i = 0; i < len; ++i) {
+				for (let i = 0; i < len; ++i) {
 					scaled_input[i] = (Math.floor(input[i]) << max_input_scale);
 				}
 			}
 
-			var factor = new NellyMoserFactor(len);
+			let factor = new NellyMoserFactor(len);
 
-			for (var i = 0; i < len; ++i) {
+			for (let i = 0; i < len; ++i) {
 				scaled_input[i] = ((Math.floor(scaled_input[i]) * 3) >> 2); // *= 0.75
 			}
 
-			var scaled_input_sum = 0;
-			for (var i = 0; i < len; ++i) {
+			let scaled_input_sum = 0;
+			for (let i = 0; i < len; ++i) {
 				scaled_input_sum += scaled_input[i];
 			}
 
 			max_input_scale += 11;
 			scaled_input_sum -= total_bits << max_input_scale;
-			var scaled_input_base = 0; {
-				var val = scaled_input_sum - (total_bits << max_input_scale);
-				var normalized = new NellyMoserNormalizedInt32(Math.floor(val));
+			let scaled_input_base = 0; {
+				let val = scaled_input_sum - (total_bits << max_input_scale);
+				let normalized = new NellyMoserNormalizedInt32(Math.floor(val));
 				scaled_input_base = ((val >> 16) * factor.value) >> 15;
 
-				var shift = 31 - factor.shift - normalized.scale;
+				let shift = 31 - factor.shift - normalized.scale;
 				if (shift >= 0) {
 					scaled_input_base <<= shift;
 				} else {
@@ -1401,10 +1401,10 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var bits_used = this.getD(scaled_input, max_input_scale, len, 6, scaled_input_base);
+			let bits_used = this.getD(scaled_input, max_input_scale, len, 6, scaled_input_base);
 			if (bits_used != total_bits) {
-				var diff = bits_used - total_bits;
-				var diff_scale = 0;
+				let diff = bits_used - total_bits;
+				let diff_scale = 0;
 				if (diff <= 0) {
 					for (; diff >= -16384; diff <<= 1) {
 						++diff_scale;
@@ -1415,7 +1415,7 @@ if (!("swf2js" in window)) {
 					}
 				}
 
-				var base_delta = (diff * factor.value) >> 15;
+				let base_delta = (diff * factor.value) >> 15;
 				diff_scale = max_input_scale - (factor.shift + diff_scale - 15);
 				if (diff_scale >= 0) {
 					base_delta <<= diff_scale;
@@ -1423,9 +1423,9 @@ if (!("swf2js" in window)) {
 					base_delta >>= -diff_scale;
 				}
 
-				var num_revisions = 1;
-				var last_bits_used;
-				var last_scaled_input_base;
+				let num_revisions = 1;
+				let last_bits_used;
+				let last_scaled_input_base;
 				for (;;) {
 					last_bits_used = bits_used;
 					last_scaled_input_base = scaled_input_base;
@@ -1441,9 +1441,9 @@ if (!("swf2js" in window)) {
 				}
 
 				if (bits_used != total_bits) {
-					var scaled_input_base_1;
-					var bits_used_1;
-					var bits_used_2;
+					let scaled_input_base_1;
+					let bits_used_1;
+					let bits_used_2;
 					if (bits_used > total_bits) {
 						scaled_input_base_1 = scaled_input_base;
 						scaled_input_base = last_scaled_input_base;
@@ -1456,7 +1456,7 @@ if (!("swf2js" in window)) {
 					}
 
 					while (bits_used != total_bits && num_revisions < 20) {
-						var avg = (scaled_input_base + scaled_input_base_1) >> 1;
+						let avg = (scaled_input_base + scaled_input_base_1) >> 1;
 						bits_used = this.getD(scaled_input, max_input_scale, len, 6, avg);
 						++num_revisions;
 						if (bits_used > total_bits) {
@@ -1468,8 +1468,8 @@ if (!("swf2js" in window)) {
 						}
 					}
 
-					var dev_1 = Math.abs(bits_used_1 - total_bits);
-					var dev_2 = Math.abs(bits_used_2 - total_bits);
+					let dev_1 = Math.abs(bits_used_1 - total_bits);
+					let dev_2 = Math.abs(bits_used_2 - total_bits);
 
 					if (dev_1 < dev_2) {
 						scaled_input_base = scaled_input_base_1;
@@ -1480,8 +1480,8 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			for (var i = 0; i < len; ++i) {
-				var tmp = Math.floor(scaled_input[i]) - scaled_input_base;
+			for (let i = 0; i < len; ++i) {
+				let tmp = Math.floor(scaled_input[i]) - scaled_input_base;
 				if (tmp >= 0) {
 					tmp = (tmp + (1 << (max_input_scale - 1))) >> max_input_scale;
 				} else {
@@ -1491,8 +1491,8 @@ if (!("swf2js" in window)) {
 			}
 
 			if (bits_used > total_bits) {
-				var i = 0;
-				var bit_count = 0;
+				let i = 0;
+				let bit_count = 0;
 				for (; bit_count < total_bits; ++i) {
 					bit_count += packed_sizes[i];
 				}
@@ -1510,15 +1510,15 @@ if (!("swf2js" in window)) {
 		};
 
 		NellyMoser.prototype.getD = function(input, scale, len, upper_bound, base) {
-			var d = 0;
+			let d = 0;
 			if (len <= 0) {
 				return d;
 			}
 
-			var var_1 = 1 << (scale - 1);
+			let var_1 = 1 << (scale - 1);
 
-			for (var i = 0; i < len; ++i) {
-				var var_2 = input[i] - base;
+			for (let i = 0; i < len; ++i) {
+				let var_2 = input[i] - base;
 				if (var_2 < 0) {
 					var_2 = 0;
 				} else {
@@ -1531,7 +1531,7 @@ if (!("swf2js" in window)) {
 		};
 
 		// jpexs decompiler SWFInputStream.java
-		var NellyMoserReader = function(data) {
+		let NellyMoserReader = function(data) {
 			this.data = data;
 			this.length = this.data.length;
 			this.bitpos = 0;
@@ -1546,7 +1546,7 @@ if (!("swf2js" in window)) {
 		NellyMoserReader.prototype.readBytesInternalEx = function(count) {
 			if (count <= 0) return [];
 			this.bitPos = 0;
-			var ret = new Array(count);
+			let ret = new Array(count);
 			this.read(ret);
 			if (ret.length != count) {
 				throw new Error('End of stream');
@@ -1555,7 +1555,7 @@ if (!("swf2js" in window)) {
 		};
 
 		NellyMoserReader.prototype.read = function(bytes) {
-			for (var i = 0; i < bytes.length; i++) {
+			for (let i = 0; i < bytes.length; i++) {
 				if (this.offset < this.length) {
 					bytes[i] = this.data[this.offset];
 					this.offset++;
@@ -1568,7 +1568,7 @@ if (!("swf2js" in window)) {
 		const NELLY_BUF_LEN = 128;
 		const NELLY_SAMPLES = 2 * NELLY_BUF_LEN;
 
-		var NellyMoserDecoder = function(soundType, soundSize, soundRate, data) {
+		let NellyMoserDecoder = function(soundType, soundSize, soundRate, data) {
 			this.soundType = soundType;
 			this.soundSize = soundSize;
 			this.soundRate = soundRate;
@@ -1577,21 +1577,21 @@ if (!("swf2js" in window)) {
 		};
 
 		NellyMoserDecoder.prototype.toWave = function() {
-			var sis = new NellyMoserReader(this.data);
-			var nellyMoser = new NellyMoser();
-			var audioD = new Array(NELLY_SAMPLES);
-			var state = new Array(64);
-			var blockCount = sis.length / NELLY_BLOCK_LEN;
-			for (var j = 0; j < blockCount; j++) {
-				var block = sis.readBytesEx(NELLY_BLOCK_LEN, "block");
+			let sis = new NellyMoserReader(this.data);
+			let nellyMoser = new NellyMoser();
+			let audioD = new Array(NELLY_SAMPLES);
+			let state = new Array(64);
+			let blockCount = sis.length / NELLY_BLOCK_LEN;
+			for (let j = 0; j < blockCount; j++) {
+				let block = sis.readBytesEx(NELLY_BLOCK_LEN, "block");
 				nellyMoser.decode(state, block, audioD);
-				var audio = new Array(NELLY_SAMPLES);
-				for (var i = 0; i < audioD.length; i++) {
+				let audio = new Array(NELLY_SAMPLES);
+				for (let i = 0; i < audioD.length; i++) {
 					audio[i] = audioD[i] | 0; // convert to short
 				}
-				var d = new Array(audio.length * 2);
-				for (var i = 0; i < audio.length; i++) {
-					var s = audio[i];
+				let d = new Array(audio.length * 2);
+				for (let i = 0; i < audio.length; i++) {
+					let s = audio[i];
 					d[i * 2] = (s & 0xff);
 					d[i * 2 + 1] = ((s >> 8) & 0xff);
 				}
@@ -1599,17 +1599,17 @@ if (!("swf2js" in window)) {
 			}
 			this.soundSize = 2; // 16 bits
 			this.soundType = 0; // mono
-			var pcmOutput = new PcmOutput(this.soundType, this.soundSize, this.soundRate, this.result);
+			let pcmOutput = new PcmOutput(this.soundType, this.soundSize, this.soundRate, this.result);
 			return pcmOutput.createWave();
 		};
 
-		var AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
-		var audioCtx;
+		let AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
+		let audioCtx;
 		if (typeof AudioContext !== 'undefined') {
 			audioCtx = new AudioContext();
 		}
 
-		var AudioInstance = function(obj) {
+		let AudioInstance = function(obj) {
 			// webaudio
 			this.audioCtx = null;
 			this.audioData = null;
@@ -1677,8 +1677,8 @@ if (!("swf2js" in window)) {
 		};
 
 		AudioInstance.prototype.decodeBase64 = function(s) {
-			var e={},i,b=0,c,x,l=0,a,r='',w=String.fromCharCode,L=s.length;
-			var A="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+			let e={},i,b=0,c,x,l=0,a,r='',w=String.fromCharCode,L=s.length;
+			let A="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 			for(i=0;i<64;i++){e[A.charAt(i)]=i;}
 			for(x=0;x<L;x++){
 				c=e[s.charAt(x)];b=(b<<6)+c;l+=6;
@@ -1688,7 +1688,7 @@ if (!("swf2js" in window)) {
 		};
 
 		AudioInstance.prototype.loadWebBufferAudio = function(mimeType, data) {
-			var _this = this;
+			let _this = this;
 			if (typeof AudioContext !== 'undefined') {
 				_this.audioCtx = audioCtx;
 			} else {
@@ -1696,8 +1696,8 @@ if (!("swf2js" in window)) {
 				_this.loadHtml5Audio(mimeType, data);
 				return;
 			}
-			var dataView = new Uint8Array(data.length);
-			for (var i = 0; i < data.length; ++i) {
+			let dataView = new Uint8Array(data.length);
+			for (let i = 0; i < data.length; ++i) {
 				dataView[i] = data[i]; //.charCodeAt(i);
 			}
 			_this.audioCtx.decodeAudioData(dataView.buffer,
@@ -1730,8 +1730,8 @@ if (!("swf2js" in window)) {
 				this.loadHtml5Audio(mimeType, data);
 				return;
 			}
-			var swfTag = new SwfTag();
-			var url = "data:audio/" + mimeType + ";base64," +swfTag.base64encode(data);
+			let swfTag = new SwfTag();
+			let url = "data:audio/" + mimeType + ";base64," +swfTag.base64encode(data);
 			this.audio = new Audio(url);
 			this.audioMediaElement = this.audioCtx.createMediaElementSource(this.audio);
 			if (typeof this.audioMediaElement == 'undefined' || this.audioMediaElement == null) {
@@ -1757,7 +1757,7 @@ if (!("swf2js" in window)) {
 		};
 
 		AudioInstance.prototype.getLoadState = function() {
-			var _this = this;
+			let _this = this;
 			switch (_this.type) {
 				case "webaudio":
 					if (_this.audio.readyState == 4 && _this.audio.duration != Infinity && !isNaN(_this.audio.duration)) {
@@ -1787,7 +1787,7 @@ if (!("swf2js" in window)) {
 		};
 
 		AudioInstance.prototype.getUrl = function(mimeType, data) {
-			var swfTag = new SwfTag();
+			let swfTag = new SwfTag();
 			return "data:audio/" + mimeType + ";base64," + swfTag.base64encode(data);
 		};
 
@@ -1865,8 +1865,8 @@ if (!("swf2js" in window)) {
 				if (this.isPlaying) switch (this.type) {
 					case "webaudio":
 						// getOutputTimestamp not supported on Safari, Firefox/Android, Internet Explorer
-						var t = this.audioCtx.getOutputTimestamp ? this.audioCtx.getOutputTimestamp().contextTime : this.audioCtx.currentTime;
-						var ts = this.audioPlayOffset+t-this.audioPlayStart;
+						let t = this.audioCtx.getOutputTimestamp ? this.audioCtx.getOutputTimestamp().contextTime : this.audioCtx.currentTime;
+						let ts = this.audioPlayOffset+t-this.audioPlayStart;
 						if (ts > this.audioDuration) ts = this.audioDuration;
 						return ts;
 					default:
@@ -1886,17 +1886,17 @@ if (!("swf2js" in window)) {
 		};
 
 		AudioInstance.prototype.getPlayState = function() {
-			var _this = this;
+			let _this = this;
 			if (this.audioStopFlag || !this.isPlaying) return;
 			if (this.soundEnvelopes) {
-				var cpos = this.seek();
-				var ppos = -1,
+				let cpos = this.seek();
+				let ppos = -1,
 					npos = -1,
 					pvol = -1,
 					nvol = -1,
 					pstereo = -1,
 					nstereo = -1;
-				for (var i = 0; i < this.soundEnvelopes.length; i++) {
+				for (let i = 0; i < this.soundEnvelopes.length; i++) {
 					if (this.soundEnvelopes[i].Position>=cpos) {
 						npos = this.soundEnvelopes[i].Position;
 						nvol = (this.soundEnvelopes[i].LeftLevel + this.soundEnvelopes[i].RightLevel)/2;
@@ -1919,6 +1919,7 @@ if (!("swf2js" in window)) {
 							if (this.audioLoopCurrent) {
 								this.audioLoopCurrent--;
 								this.currentTime = this.audioLoopStart;
+								console.log('restart');
 								this.restart();
 							} else {
 								this.pause();
@@ -1984,16 +1985,16 @@ if (!("swf2js" in window)) {
 			this.audioStopFlag = false;
 			this.outputLatency = 0;
 			this.soundEnvelopes = null;
-			var inPoint = soundInfo.HasInPoint ? soundInfo.InPoint / soundRates[3] : 0;
-			var outPoint = soundInfo.HasOutPoint ? soundInfo.OutPoint / soundRates[3] : this.audioDuration;
-			var loopCount = soundInfo.HasLoops ? soundInfo.LoopCount : 1;
+			let inPoint = soundInfo.HasInPoint ? soundInfo.InPoint / soundRates[3] : 0;
+			let outPoint = soundInfo.HasOutPoint ? soundInfo.OutPoint / soundRates[3] : this.audioDuration;
+			let loopCount = soundInfo.HasLoops ? soundInfo.LoopCount : 1;
 			this.currentTime = 0;
 			if (soundInfo.HasEnvelope) {
 				this.soundEnvelopes = [];
-				for (var i = 0; i < soundInfo.EnvPoints; i++) {
-					var position = soundInfo.EnvelopeRecords[i].Pos44 / 44100+inPoint;
-					var leftLevel = soundInfo.EnvelopeRecords[i].LeftLevel / 32768;
-					var rightLevel = soundInfo.EnvelopeRecords[i].RightLevel / 32768;
+				for (let i = 0; i < soundInfo.EnvPoints; i++) {
+					let position = soundInfo.EnvelopeRecords[i].Pos44 / 44100+inPoint;
+					let leftLevel = soundInfo.EnvelopeRecords[i].LeftLevel / 32768;
+					let rightLevel = soundInfo.EnvelopeRecords[i].RightLevel / 32768;
 					this.soundEnvelopes.push({
 						"Position": position,
 						"LeftLevel": leftLevel,
@@ -2013,7 +2014,7 @@ if (!("swf2js" in window)) {
 		};
 
 		AudioInstance.prototype.play = function() {
-			var _this = this;
+			let _this = this;
 			switch (_this.type) {
 				case "webaudio":
 					this.audio = this.audioCtx.createBufferSource();
@@ -2109,11 +2110,11 @@ if (!("swf2js" in window)) {
 		 */
 		function resizeCanvas()
 		{
-			for (var i in stages) {
+			for (let i in stages) {
 				if (!stages.hasOwnProperty(i)) {
 					continue;
 				}
-				var stage = stages[i];
+				let stage = stages[i];
 				if (!stage.isLoad) {
 					continue;
 				}
@@ -2142,7 +2143,7 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var VectorToCanvas = function() {};
+		let VectorToCanvas = function() {};
 
 		/**
 		 * Function
@@ -2155,14 +2156,14 @@ if (!("swf2js" in window)) {
 		 */
 		VectorToCanvas.prototype.clone = function(src)
 		{
-			var execute = function(src, obj)
+			let execute = function(src, obj)
 			{
-				var prop;
+				let prop;
 				for (prop in src) {
 					if (!src.hasOwnProperty(prop)) {
 						continue;
 					}
-					var value = src[prop];
+					let value = src[prop];
 					if (value instanceof Array) {
 						obj[prop] = [];
 						execute(value, obj[prop]);
@@ -2175,7 +2176,7 @@ if (!("swf2js" in window)) {
 				}
 			};
 
-			var obj = {};
+			let obj = {};
 			execute(src, obj);
 			return obj;
 		};
@@ -2187,30 +2188,30 @@ if (!("swf2js" in window)) {
 		 */
 		VectorToCanvas.prototype.convert = function(shapes, isMorph)
 		{
-			var _this = this;
-			var lineStyles = shapes.lineStyles.lineStyles;
-			var fillStyles = shapes.fillStyles.fillStyles;
-			var records = shapes.ShapeRecords;
-			var idx = 0;
-			var obj = {};
-			var cache = [];
-			var AnchorX = 0;
-			var AnchorY = 0;
-			var MoveX = 0;
-			var MoveY = 0;
-			var LineX = 0;
-			var LineY = 0;
-			var FillStyle0 = 0;
-			var FillStyle1 = 0;
-			var LineStyle = 0;
-			var fills0 = [];
-			var fills1 = [];
-			var lines = [];
-			var stack = [];
-			var depth = 0;
-			var length = records.length;
-			for (var i = 0; i < length; i++) {
-				var record = records[i];
+			let _this = this;
+			let lineStyles = shapes.lineStyles.lineStyles;
+			let fillStyles = shapes.fillStyles.fillStyles;
+			let records = shapes.ShapeRecords;
+			let idx = 0;
+			let obj = {};
+			let cache = [];
+			let AnchorX = 0;
+			let AnchorY = 0;
+			let MoveX = 0;
+			let MoveY = 0;
+			let LineX = 0;
+			let LineY = 0;
+			let FillStyle0 = 0;
+			let FillStyle1 = 0;
+			let LineStyle = 0;
+			let fills0 = [];
+			let fills1 = [];
+			let lines = [];
+			let stack = [];
+			let depth = 0;
+			let length = records.length;
+			for (let i = 0; i < length; i++) {
+				let record = records[i];
 				if (!record) {
 					stack = _this.setStack(stack, _this.fillMerge(fills0, fills1, isMorph));
 					stack = _this.setStack(stack, lines);
@@ -2259,9 +2260,9 @@ if (!("swf2js" in window)) {
 
 				AnchorX = record.AnchorX;
 				AnchorY = record.AnchorY;
-				var ControlX = record.ControlX;
-				var ControlY = record.ControlY;
-				var isCurved = record.isCurved;
+				let ControlX = record.ControlX;
+				let ControlY = record.ControlY;
+				let isCurved = record.isCurved;
 				if (FillStyle0) {
 					idx = FillStyle0 - 1;
 					if (!(idx in fills0)) {
@@ -2322,7 +2323,7 @@ if (!("swf2js" in window)) {
 					obj = lines[idx];
 					cache = obj.cache;
 					cache[cache.length] = [0, LineX, LineY];
-					var code = [2, AnchorX, AnchorY];
+					let code = [2, AnchorX, AnchorY];
 					if (isCurved) {
 						code = [1, ControlX, ControlY, AnchorX, AnchorY];
 					}
@@ -2344,17 +2345,17 @@ if (!("swf2js" in window)) {
 		 */
 		VectorToCanvas.prototype.fillMerge = function(fills0, fills1, isMorph)
 		{
-			var _this = this;
+			let _this = this;
 			fills0 = _this.fillReverse(fills0);
 			if (fills0.length) {
-				for (var i in fills0) {
+				for (let i in fills0) {
 					if (!fills0.hasOwnProperty(i)) {
 						continue;
 					}
-					var fills = fills0[i];
+					let fills = fills0[i];
 					if (i in fills1) {
-						var fill1 = fills1[i];
-						for (var depth in fills) {
+						let fill1 = fills1[i];
+						for (let depth in fills) {
 							if (!fills.hasOwnProperty(depth)) {
 								continue;
 							}
@@ -2378,28 +2379,28 @@ if (!("swf2js" in window)) {
 				return fills0;
 			}
 
-			for (var i in fills0) {
+			for (let i in fills0) {
 				if (!fills0.hasOwnProperty(i)) {
 					continue;
 				}
-				var fills = fills0[i];
-				for (var depth in fills) {
+				let fills = fills0[i];
+				for (let depth in fills) {
 					if (!fills.hasOwnProperty(depth)) {
 						continue;
 					}
-					var AnchorX = 0;
-					var AnchorY = 0;
-					var obj = fills[depth];
-					var cacheX = obj.startX;
-					var cacheY = obj.startY;
-					var cache = obj.cache;
-					var length = cache.length;
+					let AnchorX = 0;
+					let AnchorY = 0;
+					let obj = fills[depth];
+					let cacheX = obj.startX;
+					let cacheY = obj.startY;
+					let cache = obj.cache;
+					let length = cache.length;
 					if (length) {
-						for (var idx in cache) {
+						for (let idx in cache) {
 							if (!cache.hasOwnProperty(idx)) {
 								continue;
 							}
-							var recode = cache[idx];
+							let recode = cache[idx];
 							AnchorX = recode.AnchorX;
 							AnchorY = recode.AnchorY;
 							recode.AnchorX = cacheX;
@@ -2407,7 +2408,7 @@ if (!("swf2js" in window)) {
 							cacheX = AnchorX;
 							cacheY = AnchorY;
 						}
-						var array = [];
+						let array = [];
 						if (length > 0) {
 							while (length--) {
 								array[array.length] = cache[length];
@@ -2433,48 +2434,48 @@ if (!("swf2js" in window)) {
 		 */
 		VectorToCanvas.prototype.coordinateAdjustment = function(fills1, isMorph)
 		{
-			for (var i in fills1) {
+			for (let i in fills1) {
 				if (!fills1.hasOwnProperty(i)) {
 					continue;
 				}
-				var array = [];
-				var fills = fills1[i];
+				let array = [];
+				let fills = fills1[i];
 
-				for (var depth in fills) {
+				for (let depth in fills) {
 					if (!fills.hasOwnProperty(depth)) {
 						continue;
 					}
 					array[array.length] = fills[depth];
 				}
 
-				var adjustment = [];
+				let adjustment = [];
 				if (array.length > 1 && !isMorph) {
 					while (true) {
 						if (!array.length) {
 							break;
 						}
 
-						var fill = array.shift();
+						let fill = array.shift();
 						if (fill.startX === fill.endX && fill.startY === fill.endY) {
 							adjustment[adjustment.length] = fill;
 							continue;
 						}
 
-						var mLen = array.length;
+						let mLen = array.length;
 						if (mLen < 0) {
 							break;
 						}
 
-						var isMatch = 0;
+						let isMatch = 0;
 						while (mLen--) {
-							var comparison = array[mLen];
+							let comparison = array[mLen];
 							if (comparison.startX === fill.endX && comparison.startY === fill.endY) {
 								fill.endX = comparison.endX;
 								fill.endY = comparison.endY;
-								var cache0 = fill.cache;
-								var cache1 = comparison.cache;
-								var cLen = cache1.length;
-								for (var cIdx = 0; cIdx < cLen; cIdx++) {
+								let cache0 = fill.cache;
+								let cache1 = comparison.cache;
+								let cLen = cache1.length;
+								for (let cIdx = 0; cIdx < cLen; cIdx++) {
 									cache0[cache0.length] = cache1[cIdx];
 								}
 								array.splice(mLen, 1);
@@ -2492,18 +2493,18 @@ if (!("swf2js" in window)) {
 					adjustment = array;
 				}
 
-				var aLen = adjustment.length;
-				var cache = [];
-				var obj = {};
-				for (var idx = 0; idx < aLen; idx++) {
-					var data = adjustment[idx];
+				let aLen = adjustment.length;
+				let cache = [];
+				let obj = {};
+				for (let idx = 0; idx < aLen; idx++) {
+					let data = adjustment[idx];
 					obj = data.obj;
-					var caches = data.cache;
-					var cacheLength = caches.length;
+					let caches = data.cache;
+					let cacheLength = caches.length;
 					cache[cache.length] = [0, data.startX, data.startY];
-					for (var compIdx = 0; compIdx < cacheLength; compIdx++) {
-						var r = caches[compIdx];
-						var code = [2, r.AnchorX, r.AnchorY];
+					for (let compIdx = 0; compIdx < cacheLength; compIdx++) {
+						let r = caches[compIdx];
+						let code = [2, r.AnchorX, r.AnchorY];
 						if (r.isCurved) {
 							code = [1, r.ControlX, r.ControlY, r.AnchorX, r.AnchorY];
 						}
@@ -2523,14 +2524,14 @@ if (!("swf2js" in window)) {
 		 */
 		VectorToCanvas.prototype.setStack = function(stack, array)
 		{
-			var _this = this;
-			var _buildCommand = _this.buildCommand;
+			let _this = this;
+			let _buildCommand = _this.buildCommand;
 			if (array.length) {
-				for (var i in array) {
+				for (let i in array) {
 					if (!array.hasOwnProperty(i)) {
 						continue;
 					}
-					var data = array[i];
+					let data = array[i];
 					stack[stack.length] = {
 						obj: data.obj,
 						cmd: _buildCommand.call(_this, data.cache)
@@ -2546,7 +2547,7 @@ if (!("swf2js" in window)) {
 		 */
 		VectorToCanvas.prototype.buildCommand = function(cache)
 		{
-			var _this = this;
+			let _this = this;
 			return _this.toCanvas2D(cache);
 		};
 
@@ -2556,11 +2557,11 @@ if (!("swf2js" in window)) {
 		 */
 		VectorToCanvas.prototype.toCanvas2D = function(cache)
 		{
-			var length = cache.length;
-			var str = "";
-			var i = 0;
+			let length = cache.length;
+			let str = "";
+			let i = 0;
 			while (i < length) {
-				var a = cache[i];
+				let a = cache[i];
 				switch (a[0]) {
 					case 0:
 						str += "ctx.moveTo(" + a[1] + "," + a[2] + ");";
@@ -2581,17 +2582,17 @@ if (!("swf2js" in window)) {
 
 						// Graphics
 					case 5: // fillStyle
-						str += "var r = Math.max(0, Math.min((" + a[1] + " * ct[0]) + ct[4], 255))|0;";
-						str += "var g = Math.max(0, Math.min((" + a[2] + " * ct[1]) + ct[5], 255))|0;";
-						str += "var b = Math.max(0, Math.min((" + a[3] + " * ct[2]) + ct[6], 255))|0;";
-						str += "var a = Math.max(0, Math.min((" + a[4] + " * 255 * ct[3]) + ct[7], 255)) / 255;";
+						str += "let r = Math.max(0, Math.min((" + a[1] + " * ct[0]) + ct[4], 255))|0;";
+						str += "let g = Math.max(0, Math.min((" + a[2] + " * ct[1]) + ct[5], 255))|0;";
+						str += "let b = Math.max(0, Math.min((" + a[3] + " * ct[2]) + ct[6], 255))|0;";
+						str += "let a = Math.max(0, Math.min((" + a[4] + " * 255 * ct[3]) + ct[7], 255)) / 255;";
 						str += "ctx.fillStyle = 'rgba('+r+', '+g+', '+b+', '+a+')';";
 						break;
 					case 6: // strokeStyle
-						str += "var r = Math.max(0, Math.min((" + a[1] + " * ct[0]) + ct[4], 255))|0;";
-						str += "var g = Math.max(0, Math.min((" + a[2] + " * ct[1]) + ct[5], 255))|0;";
-						str += "var b = Math.max(0, Math.min((" + a[3] + " * ct[2]) + ct[6], 255))|0;";
-						str += "var a = Math.max(0, Math.min((" + a[4] + " * 255 * ct[3]) + ct[7], 255)) / 255;";
+						str += "let r = Math.max(0, Math.min((" + a[1] + " * ct[0]) + ct[4], 255))|0;";
+						str += "let g = Math.max(0, Math.min((" + a[2] + " * ct[1]) + ct[5], 255))|0;";
+						str += "let b = Math.max(0, Math.min((" + a[3] + " * ct[2]) + ct[6], 255))|0;";
+						str += "let a = Math.max(0, Math.min((" + a[4] + " * 255 * ct[3]) + ct[7], 255)) / 255;";
 						str += "ctx.strokeStyle = 'rgba('+r+', '+g+', '+b+', '+a+')';";
 						break;
 					case 7: // fill
@@ -2621,12 +2622,12 @@ if (!("swf2js" in window)) {
 			return new this.FUNCTION("ctx", "ct", "isClip", str);
 		};
 
-		var vtc = new VectorToCanvas();
+		let vtc = new VectorToCanvas();
 
 		/**
 		 * @constructor
 		 */
-		var CacheStore = function()
+		let CacheStore = function()
 		{
 			this.store = {};
 			this.pool = [];
@@ -2638,13 +2639,13 @@ if (!("swf2js" in window)) {
 		 */
 		CacheStore.prototype.reset = function()
 		{
-			var _this = this;
-			var store = _this.store;
-			for (var key in store) {
+			let _this = this;
+			let store = _this.store;
+			for (let key in store) {
 				if (!store.hasOwnProperty(key)) {
 					continue;
 				}
-				var value = store[key];
+				let value = store[key];
 				if (!(value instanceof CanvasRenderingContext2D)) {
 					continue;
 				}
@@ -2659,8 +2660,8 @@ if (!("swf2js" in window)) {
 		 */
 		CacheStore.prototype.destroy = function(ctx)
 		{
-			var pool = this.pool;
-			var canvas = ctx.canvas;
+			let pool = this.pool;
+			let canvas = ctx.canvas;
 			ctx.clearRect(0, 0, canvas.width + 1, canvas.height + 1);
 			canvas.width = canvas.height = 1;
 			pool[pool.length] = canvas;
@@ -2689,9 +2690,9 @@ if (!("swf2js" in window)) {
 		 */
 		CacheStore.prototype.setCache = function(key, value)
 		{
-			var _this = this;
+			let _this = this;
 			if (value instanceof CanvasRenderingContext2D) {
-				var canvas = value.canvas;
+				let canvas = value.canvas;
 				_this.size -= (canvas.width * canvas.height);
 			}
 			this.store[key] = value;
@@ -2706,7 +2707,7 @@ if (!("swf2js" in window)) {
 		 */
 		CacheStore.prototype.generateKey = function(name, id, matrix, cxForm)
 		{
-			var key = name + "_" + id;
+			let key = name + "_" + id;
 			if (matrix instanceof Array) {
 				key += "_" + matrix.join("_");
 			}
@@ -2715,14 +2716,14 @@ if (!("swf2js" in window)) {
 			}
 			return key;
 		};
-		var cacheStore = new CacheStore();
+		let cacheStore = new CacheStore();
 
 		/**
 		 * @constructor
 		 */
-		var BitIO = function()
+		let BitIO = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.data = null;
 			_this.bit_offset = 0;
 			_this.byte_offset = 0;
@@ -2734,10 +2735,10 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.init = function(data)
 		{
-			var _this = this;
-			var length = data.length;
-			var array = _this.createArray(length);
-			var i = 0;
+			let _this = this;
+			let length = data.length;
+			let array = _this.createArray(length);
+			let i = 0;
 			while (i < length) {
 				array[i] = data.charCodeAt(i) & 0xff;
 				i++;
@@ -2754,8 +2755,8 @@ if (!("swf2js" in window)) {
 			return str.replace(/%(8[1-9A-F]|[9E][0-9A-F]|F[0-9A-C])(%[4-689A-F][0-9A-F]|%7[0-9A-E]|[@-~])|%([0-7][0-9A-F]|A[1-9A-F]|[B-D][0-9A-F])/ig,
 				function(s)
 				{
-					var c = parseInt(s.substring(1, 3), 16);
-					var l = s.length;
+					let c = parseInt(s.substring(1, 3), 16);
+					let l = s.length;
 					return 3 === l ? _fromCharCode(c < 160 ? c : c + 65216) : JCT11280.charAt((c < 160 ? c - 129 : c - 193) * 188 + (4 === l ? s.charCodeAt(3) - 64 : (c = parseInt(s.substring(4), 16)) < 127 ? c - 64 : c - 65));
 				}
 			);
@@ -2777,34 +2778,34 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.unzip = function(compressed, isDeCompress)
 		{
-			var _this = this;
-			var sym = 0;
-			var i = 0;
-			var length = 0;
-			var data = [];
-			var bitLengths = [];
-			var bitio = new BitIO();
+			let _this = this;
+			let sym = 0;
+			let i = 0;
+			let length = 0;
+			let data = [];
+			let bitLengths = [];
+			let bitio = new BitIO();
 			bitio.setData(compressed);
 
-			var ORDER =
+			let ORDER =
 				[16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15];
 
-			var LEXT = [
+			let LEXT = [
 				0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2,
 				3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0, 99, 99
 			];
 
-			var LENS = [
+			let LENS = [
 				3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
 				35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 0, 0
 			];
 
-			var DEXT = [
+			let DEXT = [
 				0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6,
 				7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13
 			];
 
-			var DISTS = [
+			let DISTS = [
 				1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
 				257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145,
 				8193, 12289, 16385, 24577
@@ -2818,19 +2819,19 @@ if (!("swf2js" in window)) {
 				DISTS = new Uint16Array(DISTS);
 			}
 
-			var startOffset = 2;
+			let startOffset = 2;
 			if (isDeCompress) {
 				startOffset = 10;
 			}
 			bitio.setOffset(startOffset, 8);
 
-			for (var flag = 0; !flag;) {
+			for (let flag = 0; !flag;) {
 				flag = bitio.readUB(1);
-				var type = bitio.readUB(2);
-				var distTable = {};
-				var litTable = {};
-				var fixedDistTable = false;
-				var fixedLitTable = false;
+				let type = bitio.readUB(2);
+				let distTable = {};
+				let litTable = {};
+				let fixedDistTable = false;
+				let fixedLitTable = false;
 
 				if (type) {
 					if (type === 1) {
@@ -2867,22 +2868,22 @@ if (!("swf2js" in window)) {
 							litTable = fixedLitTable = _this.buildHuffTable(bitLengths);
 						}
 					} else {
-						var numLitLengths = bitio.readUB(5) + 257;
-						var numDistLengths = bitio.readUB(5) + 1;
-						var numCodeLengths = bitio.readUB(4) + 4;
-						var codeLengths = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+						let numLitLengths = bitio.readUB(5) + 257;
+						let numDistLengths = bitio.readUB(5) + 1;
+						let numCodeLengths = bitio.readUB(4) + 4;
+						let codeLengths = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 						if (isArrayBuffer) {
 							codeLengths = new Uint8Array(codeLengths);
 						}
 						for (i = 0; i < numCodeLengths; i++) {
 							codeLengths[ORDER[i]] = bitio.readUB(3);
 						}
-						var codeTable = _this.buildHuffTable(codeLengths);
+						let codeTable = _this.buildHuffTable(codeLengths);
 						codeLengths = null;
 
-						var litLengths = [];
-						var prevCodeLen = 0;
-						var maxLengths = numLitLengths + numDistLengths;
+						let litLengths = [];
+						let prevCodeLen = 0;
+						let maxLengths = numLitLengths + numDistLengths;
 						while (litLengths.length < maxLengths) {
 							sym = _this.decodeSymbol(bitio, codeTable);
 							switch (sym) {
@@ -2922,10 +2923,10 @@ if (!("swf2js" in window)) {
 						if (sym < 256) {
 							data[data.length] = sym;
 						} else if (sym > 256) {
-							var mapIdx = sym - 257;
+							let mapIdx = sym - 257;
 							length = LENS[mapIdx] + bitio.readUB(LEXT[mapIdx]);
-							var distMap = _this.decodeSymbol(bitio, distTable);
-							var dist = DISTS[distMap] + bitio.readUB(DEXT[distMap]);
+							let distMap = _this.decodeSymbol(bitio, distTable);
+							let dist = DISTS[distMap] + bitio.readUB(DEXT[distMap]);
 							i = data.length - dist;
 							while (length--) {
 								data[data.length] = data[i++];
@@ -2951,25 +2952,25 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.buildHuffTable = function(data)
 		{
-			var length = data.length;
-			var blCount = [];
-			var nextCode = [];
-			var table = {};
-			var code = 0;
-			var len = 0;
-			var maxBits = 0;
-			for (var i = 0; i < length; i++) {
+			let length = data.length;
+			let blCount = [];
+			let nextCode = [];
+			let table = {};
+			let code = 0;
+			let len = 0;
+			let maxBits = 0;
+			for (let i = 0; i < length; i++) {
 				maxBits = _max(maxBits, data[i]);
 			}
 			maxBits++;
 
-			i = length;
+			let i = length;
 			while (i--) {
 				len = data[i];
 				blCount[len] = (blCount[len] || 0) + (len > 0);
 			}
 
-			for (i = 1; i < maxBits; i++) {
+			for (let i = 1; i < maxBits; i++) {
 				len = i - 1;
 				if (!(len in blCount)) {
 					blCount[len] = 0;
@@ -2978,7 +2979,7 @@ if (!("swf2js" in window)) {
 				nextCode[i] = code | 0;
 			}
 
-			for (i = 0; i < length; i++) {
+			for (let i = 0; i < length; i++) {
 				len = data[i];
 				if (len) {
 					table[nextCode[len]] = {length: len, symbol: i};
@@ -2995,15 +2996,15 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.decodeSymbol = function(bitio, table)
 		{
-			var code = 0;
-			var len = 0;
+			let code = 0;
+			let len = 0;
 			while (true) {
 				code = (code << 1) | bitio.readUB(1);
 				len++;
 				if (!(code in table)) {
 					continue;
 				}
-				var entry = table[code];
+				let entry = table[code];
 				if (entry.length === len) {
 					return entry.symbol;
 				}
@@ -3032,11 +3033,11 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getHeaderSignature = function()
 		{
-			var _this = this;
-			var str = "";
-			var count = 3;
+			let _this = this;
+			let str = "";
+			let count = 3;
 			while (count) {
-				var code = _this.getUI8();
+				let code = _this.getUI8();
 				switch (code) { // trim
 					case 32:
 					case 96:
@@ -3064,7 +3065,7 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.byteAlign = function()
 		{
-			var _this = this;
+			let _this = this;
 			if (!_this.bit_offset) {
 				return;
 			}
@@ -3077,10 +3078,10 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.readString = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.byteAlign();
-			var s = "";
-			var c;
+			let s = "";
+			let c;
 			while (true) {
 				c = _this.data[_this.byte_offset++];
 				if (c == 0) return s;
@@ -3094,12 +3095,12 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getData = function(length)
 		{
-			var _this = this;
+			let _this = this;
 			_this.byteAlign();
-			var array = _this.createArray(length);
-			var key = 0;
-			var data = _this.data;
-			var limit = length;
+			let array = _this.createArray(length);
+			let key = 0;
+			let data = _this.data;
+			let limit = length;
 			while (limit--) {
 				array[key++] = data[_this.byte_offset++];
 			}
@@ -3113,18 +3114,18 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getDataUntil = function(value, isJis)
 		{
-			var _this = this;
-			var data = _this.data;
+			let _this = this;
+			let data = _this.data;
 
 			_this.byteAlign();
-			var bo = _this.byte_offset;
-			var offset = 0;
+			let bo = _this.byte_offset;
+			let offset = 0;
 			if (value === null) {
 				offset = -1;
 			} else {
-				var length = data.length;
+				let length = data.length;
 				while (true) {
-					var val = data[bo + offset];
+					let val = data[bo + offset];
 					offset++;
 					if (val === 0 || (bo + offset) >= length) {
 						break;
@@ -3132,14 +3133,14 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var n = (offset === -1) ? data.length - bo : offset;
-			var array = [];
-			var ret = "";
-			var _join = Array.prototype.join;
-			var i = 0;
+			let n = (offset === -1) ? data.length - bo : offset;
+			let array = [];
+			let ret = "";
+			let _join = Array.prototype.join;
+			let i = 0;
 			if (value !== null) {
 				for (i = 0; i < n; i++) {
-					var code = data[bo + i];
+					let code = data[bo + i];
 					if (code === 10 || code === 13) {
 						array[array.length] = "\n";
 					}
@@ -3150,7 +3151,7 @@ if (!("swf2js" in window)) {
 				}
 
 				if (array.length) {
-					var str = _join.call(array, "");
+					let str = _join.call(array, "");
 					if (str.length > 5 && str.substr(-5) === "\n") {
 						str = str.slice(0, -5);
 					}
@@ -3179,7 +3180,7 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.byteCarry = function()
 		{
-			var _this = this;
+			let _this = this;
 			if (_this.bit_offset > 7) {
 				_this.byte_offset += ((_this.bit_offset + 7) / 8) | 0;
 				_this.bit_offset &= 0x07;
@@ -3197,9 +3198,9 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getUIBits = function(n)
 		{
-			var value = 0;
-			var _this = this;
-			var _getUIBit = _this.getUIBit;
+			let value = 0;
+			let _this = this;
+			let _getUIBit = _this.getUIBit;
 			while (n--) {
 				value <<= 1;
 				value |= _getUIBit.call(_this);
@@ -3212,7 +3213,7 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getUIBit = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.byteCarry();
 			return (_this.data[_this.byte_offset] >> (7 - _this.bit_offset++)) & 0x1;
 		};
@@ -3223,11 +3224,11 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getSIBits = function(n)
 		{
-			var _this = this;
-			var value = _this.getUIBits(n);
-			var msb = value & (0x1 << (n - 1));
+			let _this = this;
+			let value = _this.getUIBits(n);
+			let msb = value & (0x1 << (n - 1));
 			if (msb) {
-				var bitMask = (2 * msb) - 1;
+				let bitMask = (2 * msb) - 1;
 				return -(value ^ bitMask) - 1;
 			}
 			return value;
@@ -3238,7 +3239,7 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getUI8 = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.byteAlign();
 			return _this.data[_this.byte_offset++];
 		};
@@ -3248,8 +3249,8 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getUI16 = function()
 		{
-			var _this = this;
-			var data = _this.data;
+			let _this = this;
+			let data = _this.data;
 			_this.byteAlign();
 			return (data[_this.byte_offset++] | (data[_this.byte_offset++]) << 8);
 		};
@@ -3259,8 +3260,8 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getUI24 = function()
 		{
-			var _this = this;
-			var data = _this.data;
+			let _this = this;
+			let data = _this.data;
 			_this.byteAlign();
 			return (data[_this.byte_offset++] | (data[_this.byte_offset++]
 				| (data[_this.byte_offset++]) << 8) << 8);
@@ -3271,8 +3272,8 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getUI32 = function()
 		{
-			var _this = this;
-			var data = _this.data;
+			let _this = this;
+			let data = _this.data;
 			_this.byteAlign();
 			return (data[_this.byte_offset++] | (data[_this.byte_offset++]
 				| (data[_this.byte_offset++] | (data[_this.byte_offset++]) << 8) << 8) << 8);
@@ -3283,8 +3284,8 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getUI16BE = function()
 		{
-			var _this = this;
-			var data = _this.data;
+			let _this = this;
+			let data = _this.data;
 			_this.byteAlign();
 			return (((data[_this.byte_offset++]) << 8) | (data[_this.byte_offset++]));
 		};
@@ -3294,9 +3295,9 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getFloat16 = function()
 		{
-			var data = this.getData(2);
-			var float = 0;
-			for (var i = 2; i--;) {
+			let data = this.getData(2);
+			let float = 0;
+			for (let i = 2; i--;) {
 				float |= data[i] << (i * 8);
 			}
 			return float;
@@ -3308,7 +3309,7 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getFixed = function()
 		{
-			var float = this.getSI32();
+			let float = this.getSI32();
 			return float / (1 << 16);
 		};
 
@@ -3318,7 +3319,7 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getFixed8 = function()
 		{
-			var float = this.getSI16();
+			let float = this.getSI16();
 			return float / (1 << 8);
 		};
 
@@ -3327,14 +3328,14 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getFloat32 = function()
 		{
-			var data = this.getData(4);
-			var rv = 0;
-			for (var i = 4; i--;) {
+			let data = this.getData(4);
+			let rv = 0;
+			for (let i = 4; i--;) {
 				rv |= data[i] << (i * 8);
 			}
-			var sign = rv & 0x80000000;
-			var exp = (rv >> 23) & 0xff;
-			var fraction = rv & 0x7fffff;
+			let sign = rv & 0x80000000;
+			let exp = (rv >> 23) & 0xff;
+			let fraction = rv & 0x7fffff;
 			if (!rv || rv === 0x80000000) {
 				return 0;
 			}
@@ -3346,12 +3347,12 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getFloat64 = function()
 		{
-			var _this = this;
-			var upperBits = _this.getUI32();
-			var lowerBits = _this.getUI32();
-			var sign = upperBits >>> 31 & 0x1;
-			var exp = upperBits >>> 20 & 0x7FF;
-			var upperFraction = upperBits & 0xFFFFF;
+			let _this = this;
+			let upperBits = _this.getUI32();
+			let lowerBits = _this.getUI32();
+			let sign = upperBits >>> 31 & 0x1;
+			let exp = upperBits >>> 20 & 0x7FF;
+			let upperFraction = upperBits & 0xFFFFF;
 			return (!upperBits && !lowerBits) ? 0 : ((sign === 0) ? 1 : -1) *
 				(upperFraction / 1048576 + lowerBits / 4503599627370496 + 1) *
 				_pow(2, exp - 1023);
@@ -3362,30 +3363,30 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getFloat64LittleEndian = function()
 		{
-			var _this = this;
-			var signBits = 1;
-			var exponentBits = 11;
-			var fractionBits = 52;
-			var min = -1022;
-			var max = 1023;
+			let _this = this;
+			let signBits = 1;
+			let exponentBits = 11;
+			let fractionBits = 52;
+			let min = -1022;
+			let max = 1023;
 
-			var data = _this.data;
-			var str = "";
-			for (var i = 0; i < 8; i++) {
-				var bits = data[_this.byte_offset++].toString(2);
+			let data = _this.data;
+			let str = "";
+			for (let i = 0; i < 8; i++) {
+				let bits = data[_this.byte_offset++].toString(2);
 				while (bits.length < 8) {
 					bits = "0" + bits;
 				}
 				str = bits + str;
 			}
 
-			var sign = (str.charAt(0) === "1") ? -1 : 1;
-			var exponent = parseInt(str.substr(signBits, exponentBits), 2) - max;
-			var significandBase = str.substr(signBits + exponentBits, fractionBits);
-			var significandBin = "1" + significandBase;
+			let sign = (str.charAt(0) === "1") ? -1 : 1;
+			let exponent = parseInt(str.substr(signBits, exponentBits), 2) - max;
+			let significandBase = str.substr(signBits + exponentBits, fractionBits);
+			let significandBin = "1" + significandBase;
 
-			var val = 1;
-			var significand = 0;
+			let val = 1;
+			let significand = 0;
 			if (exponent === -max) {
 				if (significandBase.indexOf("1") === -1) {
 					return 0;
@@ -3395,9 +3396,9 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var l = 0;
+			let l = 0;
 			while (l < significandBin.length) {
-				var sb = significandBin.charAt(l);
+				let sb = significandBin.charAt(l);
 				significand += val * +sb;
 				val = val / 2;
 				l++;
@@ -3421,8 +3422,8 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.toSI16LE = function(data)
 		{
-			var _this = this;
-			var value = _this.toUI16(data);
+			let _this = this;
+			let value = _this.toUI16(data);
 			return (value < 0x8000) ? value : (value - 0x10000);
 		};
 
@@ -3431,8 +3432,8 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getSI8 = function()
 		{
-			var _this = this;
-			var value = _this.getUI8();
+			let _this = this;
+			let value = _this.getUI8();
 			if (value >> 7) { // nBits = 8;
 				value -= 256; // Math.pow(2, 8)
 			}
@@ -3444,8 +3445,8 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getSI16 = function()
 		{
-			var _this = this;
-			var value = _this.getUI16();
+			let _this = this;
+			let value = _this.getUI16();
 			if (value >> 15) { // nBits = 16;
 				value -= 65536; // Math.pow(2, 16)
 			}
@@ -3457,8 +3458,8 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getSI24 = function()
 		{
-			var _this = this;
-			var value = _this.getUI24();
+			let _this = this;
+			let value = _this.getUI24();
 			if (value >> 23) { // nBits = 24;
 				value -= 16777216; // Math.pow(2, 24)
 			}
@@ -3470,8 +3471,8 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getSI32 = function()
 		{
-			var _this = this;
-			var value = _this.getUI32();
+			let _this = this;
+			let value = _this.getUI32();
 			if (value >= 0x80000000) {
 				value = -(((~value) & 0xffffffff) + 1);
 			}
@@ -3484,7 +3485,7 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.incrementOffset = function(byteInt, bitInt)
 		{
-			var _this = this;
+			let _this = this;
 			_this.byte_offset += byteInt;
 			_this.bit_offset += bitInt;
 			_this.byteCarry();
@@ -3496,7 +3497,7 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.setOffset = function(byteInt, bitInt)
 		{
-			var _this = this;
+			let _this = this;
 			_this.byte_offset = byteInt;
 			_this.bit_offset = bitInt;
 		};
@@ -3506,11 +3507,11 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getU30 = function()
 		{
-			var _this = this;
-			var value = 0;
-			var data = _this.data;
-			for (var i = 0; i < 5; i++) {
-				var num = data[_this.byte_offset++];
+			let _this = this;
+			let value = 0;
+			let data = _this.data;
+			for (let i = 0; i < 5; i++) {
+				let num = data[_this.byte_offset++];
 				value |= ((num & 0x7f) << (7 * i));
 				if (!(num & 0x80)) {
 					break;
@@ -3524,10 +3525,10 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.getS30 = function()
 		{
-			var _this = this;
-			var startOffset = _this.byte_offset;
-			var value = _this.getU30();
-			var nBits = (_this.byte_offset - startOffset) * 8;
+			let _this = this;
+			let startOffset = _this.byte_offset;
+			let value = _this.getU30();
+			let nBits = (_this.byte_offset - startOffset) * 8;
 			if (value >> (nBits - 1)) {
 				value -= _pow(2, nBits);
 			}
@@ -3540,11 +3541,11 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.ReadU30 = function(offset)
 		{
-			var _this = this;
-			var value = 0;
-			var data = _this.data;
-			for (var i = 0; i < 5; i++) {
-				var num = data[offset++];
+			let _this = this;
+			let value = 0;
+			let data = _this.data;
+			for (let i = 0; i < 5; i++) {
+				let num = data[offset++];
 				value |= ((num & 0x7f) << (7 * i));
 				if (!(num & 0x80)) {
 					break;
@@ -3558,13 +3559,13 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.AbcReadString = function()
 		{
-			var _this = this;
-			var offset = _this.byte_offset;
-			var data = _this.data;
-			var length = _this.ReadU30(offset) + 1;
-			var ret = [];
-			for (var i = 0; i < length; i++) {
-				var code = data[_this.byte_offset++];
+			let _this = this;
+			let offset = _this.byte_offset;
+			let data = _this.data;
+			let length = _this.ReadU30(offset) + 1;
+			let ret = [];
+			for (let i = 0; i < length; i++) {
+				let code = data[_this.byte_offset++];
 				if (code < 33) {
 					continue;
 				}
@@ -3594,9 +3595,9 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.readUB = function(length)
 		{
-			var _this = this;
-			var value = 0;
-			for (var i = 0; i < length; i++) {
+			let _this = this;
+			let value = 0;
+			for (let i = 0; i < length; i++) {
 				if (_this.bit_offset === 8) {
 					_this.bit_buffer = _this.readNumber(1);
 					_this.bit_offset = 0;
@@ -3611,10 +3612,10 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.readNumber = function(n)
 		{
-			var _this = this;
-			var value = 0;
-			var o = _this.byte_offset;
-			var i = o + n;
+			let _this = this;
+			let value = 0;
+			let o = _this.byte_offset;
+			let i = o + n;
 			while (i > o) {
 				value = (value << 8) | _this.data[--i];
 			}
@@ -3628,17 +3629,17 @@ if (!("swf2js" in window)) {
 		 */
 		BitIO.prototype.deCompress = function(size, mode)
 		{
-			var _this = this;
-			var cacheOffset = _this.byte_offset;
+			let _this = this;
+			let cacheOffset = _this.byte_offset;
 			_this.byte_offset = 0;
 
-			var data = _this.getData(cacheOffset);
-			var deCompress = (mode === "ZLIB") ? _this.unzip(_this.data, true) : _this.unlzma(_this.data);
+			let data = _this.getData(cacheOffset);
+			let deCompress = (mode === "ZLIB") ? _this.unzip(_this.data, true) : _this.unlzma(_this.data);
 
-			var i = 0;
-			var key = 0;
-			var array = _this.createArray(size);
-			var length = data.length;
+			let i = 0;
+			let key = 0;
+			let array = _this.createArray(size);
+			let length = data.length;
 			while (i < length) {
 				array[key++] = data[i];
 				i++;
@@ -3658,13 +3659,14 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var PlaceObject = function()
+		let PlaceObject = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.matrix = _this.cloneArray([1, 0, 0, 1, 0, 0]);
 			_this.colorTransform = _this.cloneArray([1, 1, 1, 1, 0, 0, 0, 0]);
 			_this.filters = null;
 			_this.blendMode = "normal";
+			_this.visible = true;
 		};
 
 		/**
@@ -3673,9 +3675,9 @@ if (!("swf2js" in window)) {
 		 */
 		PlaceObject.prototype.cloneArray = function(src)
 		{
-			var arr = [];
-			var length = src.length;
-			for (var i = 0; i < length; i++) {
+			let arr = [];
+			let length = src.length;
+			for (let i = 0; i < length; i++) {
 				arr[i] = src[i];
 			}
 			return arr;
@@ -3687,7 +3689,7 @@ if (!("swf2js" in window)) {
 		 */
 		PlaceObject.prototype.getBlendName = function(blendMode)
 		{
-			var mode = null;
+			let mode = null;
 			switch (blendMode) {
 				case 1:
 				case "normal":
@@ -3754,8 +3756,8 @@ if (!("swf2js" in window)) {
 		 */
 		PlaceObject.prototype.clone = function()
 		{
-			var _this = this;
-			var placeObject = new PlaceObject();
+			let _this = this;
+			let placeObject = new PlaceObject();
 			placeObject.setMatrix(_this.getMatrix());
 			placeObject.setColorTransform(_this.getColorTransform());
 			placeObject.setFilters(_this.getFilters());
@@ -3776,7 +3778,7 @@ if (!("swf2js" in window)) {
 		 */
 		PlaceObject.prototype.setMatrix = function(matrix)
 		{
-			var _this = this;
+			let _this = this;
 			_this.matrix = _this.cloneArray(matrix);
 		};
 
@@ -3793,7 +3795,7 @@ if (!("swf2js" in window)) {
 		 */
 		PlaceObject.prototype.setColorTransform = function(colorTransform)
 		{
-			var _this = this;
+			let _this = this;
 			_this.colorTransform = _this.cloneArray(colorTransform);
 		};
 
@@ -3826,8 +3828,25 @@ if (!("swf2js" in window)) {
 		 */
 		PlaceObject.prototype.setBlendMode = function(blendMode)
 		{
-			var _this = this;
+			let _this = this;
 			_this.blendMode = _this.getBlendName(blendMode);
+		};
+
+		/**
+		 * @returns {Visible}
+		 */
+		PlaceObject.prototype.getVisible = function()
+		{
+			return this.visible;
+		};
+
+		/**
+		 * @param visible
+		 */
+		PlaceObject.prototype.setVisible = function(visible)
+		{
+			let _this = this;
+			_this.visible = visible;
 		};
 
 		/**
@@ -3835,9 +3854,9 @@ if (!("swf2js" in window)) {
 		 * @param bitio
 		 * @constructor
 		 */
-		var SwfTag = function(stage, bitio)
+		let SwfTag = function(stage, bitio)
 		{
-			var _this = this;
+			let _this = this;
 			_this.stage = stage;
 			_this.bitio = bitio;
 			_this.currentPosition = {x: 0, y: 0};
@@ -3850,8 +3869,8 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parse = function(mc)
 		{
-			var _this = this;
-			var length = _this.bitio.data.length;
+			let _this = this;
+			let length = _this.bitio.data.length;
 			_this.stage.tags_offset = _this.bitio.byte_offset;
 			return _this.parseTags(length, mc.characterId, 0);
 		};
@@ -3862,16 +3881,16 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.build = function(tags, parent)
 		{
-			var _this = this;
-			var length = tags.length;
+			let _this = this;
+			let length = tags.length;
 			if (length) {
-				var _showFrame = _this.showFrame;
-				var originTags = [];
-				for (var frame in tags) {
+				let _showFrame = _this.showFrame;
+				let originTags = [];
+				for (let frame in tags) {
 					if (!tags.hasOwnProperty(frame)) {
 						continue;
 					}
-					var tag = tags[frame];
+					let tag = tags[frame];
 					_showFrame.call(_this, tag, parent, originTags);
 				}
 			}
@@ -3884,13 +3903,13 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.showFrame = function(obj, mc, originTags)
 		{
-			var _this = this;
-			var _buildTag = _this.buildTag;
-			var newDepth = [];
-			var i;
-			var tag;
-			var frame = obj.frame;
-			var stage = _this.stage;
+			let _this = this;
+			let _buildTag = _this.buildTag;
+			let newDepth = [];
+			let i;
+			let tag;
+			let frame = obj.frame;
+			let stage = _this.stage;
 
 			if (!(frame in originTags)) {
 				originTags[frame] = [];
@@ -3898,7 +3917,7 @@ if (!("swf2js" in window)) {
 			mc.setTotalFrames(_max(mc.getTotalFrames(), frame));
 
 			// add ActionScript
-			var actions = obj.actionScript;
+			let actions = obj.actionScript;
 			if (actions.length) {
 				for (i in actions) {
 					if (!actions.hasOwnProperty(i)) {
@@ -3909,19 +3928,19 @@ if (!("swf2js" in window)) {
 			}
 
 			// add label
-			var labels = obj.labels;
+			let labels = obj.labels;
 			if (labels.length) {
 				for (i in labels) {
 					if (!labels.hasOwnProperty(i)) {
 						continue;
 					}
-					var label = labels[i];
+					let label = labels[i];
 					mc.addLabel(label.frame, label.name);
 				}
 			}
 
 			// add startSounds
-			var startSounds = obj.startSounds;
+			let startSounds = obj.startSounds;
 			if (startSounds.length) {
 				for (i in startSounds) {
 					if (!startSounds.hasOwnProperty(i)) {
@@ -3931,7 +3950,7 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var cTags = obj.cTags;
+			let cTags = obj.cTags;
 			if (cTags.length) {
 				for (i in cTags) {
 					if (!cTags.hasOwnProperty(i)) {
@@ -3944,32 +3963,32 @@ if (!("swf2js" in window)) {
 			}
 
 			// remove tag
-			var tags = obj.removeTags;
+			let tags = obj.removeTags;
 			if (tags.length) {
 				mc.setRemoveTag(frame, tags);
 				for (i in tags) {
 					if (!tags.hasOwnProperty(i)) {
 						continue;
 					}
-					var rTag = tags[i];
+					let rTag = tags[i];
 					newDepth[rTag.Depth] = true;
 				}
 			}
 
 			// copy
 			if (frame > 1) {
-				var prevFrame = frame - 1;
-				var container = mc.container;
+				let prevFrame = frame - 1;
+				let container = mc.container;
 				if (prevFrame in container) {
-					var prevTags = container[prevFrame];
+					let prevTags = container[prevFrame];
 					if (!(frame in container)) {
 						container[frame] = [];
 					}
 
-					var length = prevTags.length;
+					let length = prevTags.length;
 					if (length) {
-						var parentId = mc.instanceId;
-						for (var d in prevTags) {
+						let parentId = mc.instanceId;
+						for (let d in prevTags) {
 							if (!prevTags.hasOwnProperty(d)) {
 								continue;
 							}
@@ -3993,15 +4012,15 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.buildTag = function(frame, tag, parent, originTags)
 		{
-			var _this = this;
-			var container = parent.container;
+			let _this = this;
+			let container = parent.container;
 			if (!(frame in container)) {
 				container[frame] = [];
 			}
 
-			var isCopy = true;
+			let isCopy = true;
 			if (tag.PlaceFlagMove) {
-				var oTag = originTags[frame - 1][tag.Depth];
+				let oTag = originTags[frame - 1][tag.Depth];
 				if (oTag !== undefined) {
 					if (tag.PlaceFlagHasCharacter) {
 						if (tag.CharacterId !== oTag.CharacterId) {
@@ -4046,14 +4065,19 @@ if (!("swf2js" in window)) {
 						tag.PlaceFlagHasBlendMode = oTag.PlaceFlagHasBlendMode;
 						tag.BlendMode = oTag.BlendMode;
 					}
+
+					if (!tag.PlaceFlagHasVisible && oTag.PlaceFlagHasVisible) {
+						tag.PlaceFlagHasVisible = oTag.PlaceFlagHasVisible;
+						tag.Visible = oTag.Visible;
+					}
 				}
 			}
 
 			originTags[frame][tag.Depth] = tag;
-			var buildObject = _this.buildObject(tag, parent, isCopy, frame);
+			let buildObject = _this.buildObject(tag, parent, isCopy, frame);
 			if (buildObject) {
-				var stage = _this.stage;
-				var placeObject = _this.buildPlaceObject(tag);
+				let stage = _this.stage;
+				let placeObject = _this.buildPlaceObject(tag);
 				stage.setPlaceObject(placeObject, parent.instanceId, tag.Depth, frame);
 				container[frame][tag.Depth] = buildObject.instanceId;
 			}
@@ -4068,18 +4092,18 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.buildObject = function(tag, parent, isCopy, frame)
 		{
-			var _this = this;
-			var stage = _this.stage;
-			var char = stage.getCharacter(tag.CharacterId);
-			var tagType = char.tagType;
-			var isMorphShape = false;
+			let _this = this;
+			let stage = _this.stage;
+			let char = stage.getCharacter(tag.CharacterId);
+			let tagType = char.tagType;
+			let isMorphShape = false;
 			if (tagType === 46 || tagType === 84) {
 				isMorphShape = true;
 			}
 
-			var obj = {};
+			let obj = {};
 			if (!isMorphShape && tag.PlaceFlagMove && isCopy) {
-				var id = parent.container[frame - 1][tag.Depth];
+				let id = parent.container[frame - 1][tag.Depth];
 				obj = stage.getInstance(id);
 			} else {
 				if (char instanceof Array) {
@@ -4101,7 +4125,7 @@ if (!("swf2js" in window)) {
 							break;
 						case 46: // MorphShape
 						case 84: // MorphShape2
-							var MorphShape = _this.buildMorphShape(char, tag.Ratio);
+							let MorphShape = _this.buildMorphShape(char, tag.Ratio);
 							MorphShape.tagType = tagType;
 							obj = _this.buildShape(tag, MorphShape);
 							break;
@@ -4134,7 +4158,7 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.buildPlaceObject = function(tag)
 		{
-			var placeObject = new PlaceObject();
+			let placeObject = new PlaceObject();
 			// Matrix
 			if (tag.PlaceFlagHasMatrix) {
 				placeObject.setMatrix(tag.Matrix);
@@ -4151,6 +4175,10 @@ if (!("swf2js" in window)) {
 			if (tag.PlaceFlagHasBlendMode) {
 				placeObject.setBlendMode(tag.BlendMode);
 			}
+			// Visibility
+			if (tag.PlaceFlagHasVisible) {
+				placeObject.setVisible(tag.Visible);
+			}
 			return placeObject;
 		};
 
@@ -4163,12 +4191,12 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.buildMovieClip = function(tag, character, parent)
 		{
-			var _this = this;
-			var stage = _this.stage;
-			var mc = new MovieClip();
+			let _this = this;
+			let stage = _this.stage;
+			let mc = new MovieClip();
 			mc.setStage(stage);
 			mc._url = parent._url;
-			var target = "instance" + mc.instanceId;
+			let target = "instance" + mc.instanceId;
 			if (tag.PlaceFlagHasName) {
 				mc.setName(tag.Name);
 				target = tag.Name;
@@ -4177,12 +4205,12 @@ if (!("swf2js" in window)) {
 			_this.build(character, mc);
 
 			if (tag.PlaceFlagHasClipActions) {
-				var ClipActionRecords = tag.ClipActionRecords;
-				var length = ClipActionRecords.length;
-				var eventName;
-				for (var i = 0; i < length; i++) {
-					var actionRecord = ClipActionRecords[i];
-					var eventFlag = actionRecord.EventFlags;
+				let ClipActionRecords = tag.ClipActionRecords;
+				let length = ClipActionRecords.length;
+				let eventName;
+				for (let i = 0; i < length; i++) {
+					let actionRecord = ClipActionRecords[i];
+					let eventFlag = actionRecord.EventFlags;
 					for (eventName in eventFlag) {
 						if (!eventFlag.hasOwnProperty(eventName)) {
 							continue;
@@ -4190,7 +4218,7 @@ if (!("swf2js" in window)) {
 						if (!eventFlag[eventName]) {
 							continue;
 						}
-						var action = mc.createActionScript(actionRecord.Actions);
+						let action = mc.createActionScript(actionRecord.Actions);
 						mc.addEventListener(eventName, action);
 					}
 				}
@@ -4207,26 +4235,26 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.buildTextField = function(tag, character, parent)
 		{
-			var _this = this;
-			var stage = _this.stage;
+			let _this = this;
+			let stage = _this.stage;
 
-			var textField = new TextField();
+			let textField = new TextField();
 			textField.setStage(stage);
 			textField.setParent(parent);
 			textField.setInitParams();
 			textField.setTagType(character.tagType);
 			textField.setBounds(character.bounds);
-			var target = "instance" + textField.instanceId;
+			let target = "instance" + textField.instanceId;
 			if (tag.PlaceFlagHasName) {
 				textField.setName(tag.Name);
 				target = tag.Name;
 			}
 			textField.setTarget(parent.getTarget() + "/" + target);
 
-			var data = character.data;
-			var obj = {};
-			var fontData = null;
-			var fontId = data.FontID;
+			let data = character.data;
+			let obj = {};
+			let fontData = null;
+			let fontId = data.FontID;
 			if (data.HasFont) {
 				fontData = stage.getCharacter(fontId);
 			}
@@ -4264,7 +4292,7 @@ if (!("swf2js" in window)) {
 			obj.textWidth = 0;
 			obj.type = data.ReadOnly ? "dynamic" : "input";
 
-			var variable = data.VariableName;
+			let variable = data.VariableName;
 			obj.variable = variable;
 			if (variable) {
 				parent.setVariable(variable, data.InitialText);
@@ -4278,7 +4306,7 @@ if (!("swf2js" in window)) {
 
 			if (fontData) {
 				obj.bold = fontData.FontFlagsBold;
-				var font = textField.getVariable("font");
+				let font = textField.getVariable("font");
 				obj.font = "'" + fontData.FontName + "', " + font;
 				obj.italic = fontData.FontFlagsItalic;
 			}
@@ -4307,7 +4335,7 @@ if (!("swf2js" in window)) {
 			obj.underline = 0;
 			obj.url = null;
 
-			for (var name in obj) {
+			for (let name in obj) {
 				if (!obj.hasOwnProperty(name)) {
 					continue;
 				}
@@ -4328,27 +4356,27 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.buildText = function(tag, character)
 		{
-			var _this = this;
-			var stage = _this.stage;
-			var staticText = new StaticText();
+			let _this = this;
+			let stage = _this.stage;
+			let staticText = new StaticText();
 			staticText.setTagType(character.tagType);
 			staticText.setBounds(character.bounds);
 
-			var records = character.textRecords;
-			var length = records.length;
-			var offsetX = 0;
-			var offsetY = 0;
-			var scale = 1;
-			var textHeight = 0;
-			var ShapeTable = null;
-			var cMatrix = character.matrix;
-			var color = null;
-			var isZoneTable = false;
-			for (var i = 0; i < length; i++) {
-				var record = records[i];
+			let records = character.textRecords;
+			let length = records.length;
+			let offsetX = 0;
+			let offsetY = 0;
+			let scale = 1;
+			let textHeight = 0;
+			let ShapeTable = null;
+			let cMatrix = character.matrix;
+			let color = null;
+			let isZoneTable = false;
+			for (let i = 0; i < length; i++) {
+				let record = records[i];
 				if ("FontId" in record) {
-					var fontId = record.FontId;
-					var fontData = stage.getCharacter(fontId);
+					let fontId = record.FontId;
+					let fontData = stage.getCharacter(fontId);
 					ShapeTable = fontData.GlyphShapeTable;
 					isZoneTable = false;
 					if ("ZoneTable" in fontData) {
@@ -4371,15 +4399,15 @@ if (!("swf2js" in window)) {
 					}
 				}
 
-				var entries = record.GlyphEntries;
-				var count = record.GlyphCount;
+				let entries = record.GlyphEntries;
+				let count = record.GlyphCount;
 				scale = textHeight / 1024;
-				for (var idx = 0; idx < count; idx++) {
-					var entry = entries[idx];
-					var shapes = ShapeTable[entry.GlyphIndex];
-					var data = vtc.convert(shapes);
-					var matrix = [scale, cMatrix[1], cMatrix[2], scale, cMatrix[4] + offsetX, cMatrix[5] + offsetY];
-					var textRecode = new TextRecord();
+				for (let idx = 0; idx < count; idx++) {
+					let entry = entries[idx];
+					let shapes = ShapeTable[entry.GlyphIndex];
+					let data = vtc.convert(shapes);
+					let matrix = [scale, cMatrix[1], cMatrix[2], scale, cMatrix[4] + offsetX, cMatrix[5] + offsetY];
+					let textRecode = new TextRecord();
 					textRecode.setData(data);
 					textRecode.setColor(color);
 					textRecode.setMatrix(matrix);
@@ -4393,15 +4421,22 @@ if (!("swf2js" in window)) {
 
 		SwfTag.prototype.gradientSpreadMode = function(gradient)
 		{
-			var SpreadMode = gradient.SpreadMode;
-			var GradientRecords = gradient.GradientRecords;
-			var NumGradients = GradientRecords.length;
+			let SpreadMode = gradient.SpreadMode;
+			let GradientRecords = gradient.GradientRecords;
+			let NumGradients = GradientRecords.length;
 			if (SpreadMode == 1) { // reflect mode
-				var ReflectGradientRecords = [];
-				var t = 0.0, r = 0, step = 1/NumGradients*0.5; ///2.0;
+				let ReflectGradientRecords = [];
+				let t = 0.0, r = 0, step = 1/NumGradients*0.5, last = NumGradients-1; ///2.0;
 				while (t<1.0) {
+					if (GradientRecords[0].Ratio != 0) {
+						ReflectGradientRecords[r] = {
+							Ratio: 0,
+							Color: GradientRecords[0].Color
+						};
+						r++;
+					}
 					// Add the colors forward.
-					for (var i=0; i<NumGradients; i++) {
+					for (let i=0; i<NumGradients; i++) {
 						ReflectGradientRecords[r] = {
 							Ratio: t+GradientRecords[i].Ratio*step,
 							Color: GradientRecords[i].Color
@@ -4409,8 +4444,15 @@ if (!("swf2js" in window)) {
 						r++;
 					}
 					t += step;
+					if (GradientRecords[last].Ratio != 1) {
+						ReflectGradientRecords[r] = {
+							Ratio: 1,
+							Color: GradientRecords[last].Color
+						};
+						r++;
+					}
 					// Add the colors backward.
-					for (var i=NumGradients-1; i>=0; i--) {
+					for (let i=NumGradients-1; i>=0; i--) {
 						ReflectGradientRecords[r] = {
 							Ratio: t+(1-GradientRecords[i].Ratio)*step,
 							Color: GradientRecords[i].Color
@@ -4423,32 +4465,32 @@ if (!("swf2js" in window)) {
 				gradient.Adapted = true;
 
 			} else if (SpreadMode == 2) { // repeat mode
-				var RepeatGradientRecords = [];
-				var NumRepeats = 4;
-				var t = 0.0, r=0, step = 1/NumRepeats, last = NumGradients-1;
+				let RepeatGradientRecords = [];
+				let NumRepeats = 4;
+				let t = 0.0, r=0, step = 1/NumRepeats, last = NumGradients-1;
 				while (t<1.0) {
 					// Duplicate the start/end stops to ensure we don't blend between the seams.
-					/*
-					RepeatGradientRecords[r] = {
-						Ratio: t*step,
-						Color: GradientRecords[0].Color
+					if (GradientRecords[0].Ratio != 0) {
+						RepeatGradientRecords[r] = {
+							Ratio: 0,
+							Color: GradientRecords[0].Color
+						};
+						r++;
 					}
-					r++;
-					*/
-					for (var i=0; i<NumGradients; i++) {
+					for (let i=0; i<NumGradients; i++) {
 						RepeatGradientRecords[r] = {
 							Ratio: t+GradientRecords[i].Ratio*step,
 							Color: GradientRecords[i].Color
 						};
 						r++;
 					}
-					/*
-					RepeatGradientRecords[r] = {
-						Ratio: t+step,
-						Color: GradientRecords[last].Color
+					if (GradientRecords[last].Ratio != 1) {
+						RepeatGradientRecords[r] = {
+							Ratio: 1,
+							Color: GradientRecords[last].Color
+						};
+						r++;
 					}
-					r++;
-					*/
 					t += step;
 				}
 				gradient.GradientRecords = RepeatGradientRecords;
@@ -4464,8 +4506,8 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.buildShape = function(tag, character)
 		{
-			var _this = this;
-			var shape = new Shape();
+			let _this = this;
+			let shape = new Shape();
 			shape.setTagType(character.tagType);
 			shape.setBounds(character.bounds);
 			if (character.data.gradient && character.data.gradient.SpreadMode) character.data = _this.spreadMode(character.data);
@@ -4481,10 +4523,10 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.buildButton = function(character, tag, parent)
 		{
-			var _this = this;
-			var stage = _this.stage;
-			var characters = character.characters;
-			var button = new SimpleButton();
+			let _this = this;
+			let stage = _this.stage;
+			let characters = character.characters;
+			let button = new SimpleButton();
 			button.setStage(stage);
 			button.setParent(parent);
 			button.setLevel(tag.Depth);
@@ -4493,7 +4535,7 @@ if (!("swf2js" in window)) {
 				button.setActions(character.actions);
 			}
 
-			var target = "instance" + button.instanceId;
+			let target = "instance" + button.instanceId;
 			if (tag.PlaceFlagHasName) {
 				button.setName(tag.Name);
 				target = tag.Name;
@@ -4501,48 +4543,48 @@ if (!("swf2js" in window)) {
 			button.setTarget(parent.getTarget() + "/" + target);
 
 			// OverUpToOverDown : Press, down
-			var downState = button.getSprite("down");
+			let downState = button.getSprite("down");
 			if (character.ButtonStateDownSoundId) {
 				downState.soundId = character.ButtonStateDownSoundId;
 				downState.soundInfo = character.ButtonStateDownSoundInfo;
 			}
 
 			// OverDownToOverUp : Release, hit
-			var hitState = button.getSprite("hit");
+			let hitState = button.getSprite("hit");
 			if (character.ButtonStateHitTestSoundId) {
 				hitState.soundId = character.ButtonStateHitTestSoundId;
 				hitState.soundInfo = character.ButtonStateHitTestSoundInfo;
 			}
 
 			// IdleToOverUp : Roll Over, over
-			var overState = button.getSprite("over");
+			let overState = button.getSprite("over");
 			if (character.ButtonStateOverSoundId) {
 				overState.soundId = character.ButtonStateOverSoundId;
 				overState.soundInfo = character.ButtonStateOverSoundInfo;
 			}
 
 			// OverUpToIdle : Roll Out, up
-			var upState = button.getSprite("up");
+			let upState = button.getSprite("up");
 			if (character.ButtonStateUpSoundId) {
 				upState.soundId = character.ButtonStateUpSoundId;
 				upState.soundInfo = character.ButtonStateUpSoundInfo;
 			}
 
-			for (var depth in characters) {
+			for (let depth in characters) {
 				if (!characters.hasOwnProperty(depth)) {
 					continue;
 				}
 
-				var tags = characters[depth];
-				for (var idx in tags) {
+				let tags = characters[depth];
+				for (let idx in tags) {
 					if (!tags.hasOwnProperty(idx)) {
 						continue;
 					}
 
-					var bTag = tags[idx];
-					var obj = _this.buildObject(bTag, button, false, 1);
-					var placeObject = _this.buildPlaceObject(bTag);
-					var Depth = bTag.Depth;
+					let bTag = tags[idx];
+					let obj = _this.buildObject(bTag, button, false, 1);
+					let placeObject = _this.buildPlaceObject(bTag);
+					let Depth = bTag.Depth;
 					if (bTag.ButtonStateDown) {
 						downState.addTag(Depth, obj);
 						stage.setPlaceObject(placeObject, downState.instanceId, Depth, 0);
@@ -4587,7 +4629,7 @@ if (!("swf2js" in window)) {
 				startSounds: []
 			};
 		};
-		var TagTypes = [
+		let TagTypes = [
 			[ 0, "End"],
 			[ 1, "ShowFrame"],
 			[ 2, "DefineShape"],
@@ -4679,34 +4721,34 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseTags = function(dataLength, characterId, tagLevel)
 		{
-			var _this = this;
+			let _this = this;
 			_this.tagLevel = tagLevel;
-			var _parseTag = _this.parseTag;
-			var _addTag = _this.addTag;
-			var _generateDefaultTagObj = _this.generateDefaultTagObj;
-			var frame = 1;
-			var stage = _this.stage;
+			let _parseTag = _this.parseTag;
+			let _addTag = _this.addTag;
+			let _generateDefaultTagObj = _this.generateDefaultTagObj;
+			let frame = 1;
+			let stage = _this.stage;
 			_this.lastFrame = -1;
 			stage.currentFrame = frame;
-			var tags = [];
-			var tagType = 0;
-			var bitio = _this.bitio;
+			let tags = [];
+			let tagType = 0;
+			let bitio = _this.bitio;
 
 			// default set
 			tags[frame] = _generateDefaultTagObj.call(_this, frame, characterId);
 
 			while (bitio.byte_offset < dataLength) {
-				var tagStartOffset = bitio.byte_offset;
+				let tagStartOffset = bitio.byte_offset;
 				if (tagStartOffset + 2 > dataLength) {
 					break;
 				}
 
-				var pos = { byte: bitio.byte_offset, bit: bitio.bit_offset, value: bitio.data[bitio.byte_offset]};
-				var tagLength = bitio.getUI16();
+				let pos = { byte: bitio.byte_offset, bit: bitio.bit_offset, value: bitio.data[bitio.byte_offset]};
+				let tagLength = bitio.getUI16();
 				tagType = tagLength >> 6;
 
 				// long
-				var length = tagLength & 0x3f;
+				let length = tagLength & 0x3f;
 				if (length === 0x3f) {
 					if (tagStartOffset + 6 > dataLength) {
 						bitio.byte_offset = tagStartOffset;
@@ -4716,7 +4758,7 @@ if (!("swf2js" in window)) {
 					length = bitio.getUI32();
 				}
 
-				var tagDataStartOffset = bitio.byte_offset;
+				let tagDataStartOffset = bitio.byte_offset;
 				// ShowFrame
 				if (tagType === 1) {
 					frame++;
@@ -4738,27 +4780,27 @@ if (!("swf2js" in window)) {
 						tt);
 				}
 
-				var tag = _parseTag.call(_this, tagType, length, _this.tagLevel);
+				let tag = _parseTag.call(_this, tagType, length, _this.tagLevel);
 
-				var o = bitio.byte_offset - tagDataStartOffset;
+				let o = bitio.byte_offset - tagDataStartOffset;
 				if (o !== length) {
 					if (o < length) {
-						var b = bitio.bit_offset>0?1:0;
+						let b = bitio.bit_offset>0?1:0;
 						if (o+b<length) {
 							const t = TagTypes.filter(element => element[0] == tagType);
 							const tt = t.length==0?' Unknown tag '+tagType.toString():' '+t[0][1];
-							var cid = tag?(tag.CharacterId?' CharacterId: '+tag.CharacterId:''):'';
+							let cid = tag?(tag.CharacterId?' CharacterId: '+tag.CharacterId:''):'';
 							console.log('Bitio: offset: '+pos.byte+' length: '+length+' read: '+o+'  tagType: '+tagType+tt+' '+cid);
 							console.log(JSON.stringify(tag,null,' '));
 						}
-						var eat = (length - o);
+						let eat = (length - o);
 						if (eat > 0) {
 							bitio.byte_offset += eat;
 						}
 					} else {
 						const t = TagTypes.filter(element => element[0] == tagType);
 						const tt = t.length==0?' Unknown tag '+tagType.toString():' '+t[0][1];
-						var cid = tag?(tag.CharacterId?' CharacterId: '+tag.CharacterId:''):'';
+						let cid = tag?(tag.CharacterId?' CharacterId: '+tag.CharacterId:''):'';
 						console.log('Error bitio: offset: '+pos.byte+' length: '+length+' read: '+o+'  tagType: '+tagType+' '+TagTypes[tagType]+tt+' '+cid);
 					}
 				}
@@ -4779,10 +4821,10 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseTag = function(tagType, length, tagLevel)
 		{
-			var _this = this;
-			var obj = null;
-			var bitio = _this.bitio;
-			var stage = _this.stage;
+			let _this = this;
+			let obj = null;
+			let bitio = _this.bitio;
+			let stage = _this.stage;
 
 			switch (tagType) {
 				case 0: // End
@@ -4826,6 +4868,7 @@ if (!("swf2js" in window)) {
 				case 4: // PlaceObject
 				case 26: // PlaceObject2
 				case 70: // PlaceObject3
+				case 94: // PlaceObject4
 					obj = _this.parsePlaceObject(tagType, length);
 					break;
 				case 37: // DefineEditText
@@ -5009,31 +5052,32 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.addTag = function(tagType, tags, tag, frame)
 		{
-			var tagsArray = tags[frame];
+			let tagsArray = tags[frame];
 			switch (tagType) {
 				case 4: // PlaceObject
 				case 26: // PlaceObject2
 				case 70: // PlaceObject3
-					var cTags = tagsArray.cTags;
+				case 94: // PlaceObject4
+					let cTags = tagsArray.cTags;
 					tagsArray.cTags[cTags.length] = tag;
 					break;
 				case 12: // DoAction
-					var as = tagsArray.actionScript;
+					let as = tagsArray.actionScript;
 					tagsArray.actionScript[as.length] = tag;
 					break;
 				case 5: // RemoveObject
 				case 28: // RemoveObject2
-					var removeTags = tagsArray.removeTags;
+					let removeTags = tagsArray.removeTags;
 					tagsArray.removeTags[removeTags.length] = tag;
 					break;
 				case 43: // FrameLabel
-					var labels = tagsArray.labels;
+					let labels = tagsArray.labels;
 					tag.frame = frame;
 					tagsArray.labels[labels.length] = tag;
 					break;
 				case 15: // StartSound
 				case 89: // StartSound2
-					var startSounds = tagsArray.startSounds;
+					let startSounds = tagsArray.startSounds;
 					tagsArray.startSounds[startSounds.length] = tag;
 					break;
 			}
@@ -5046,13 +5090,13 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDefineShape = function(tagType)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var characterId = bitio.getUI16();
-			var bounds = _this.rect();
+			let _this = this;
+			let bitio = _this.bitio;
+			let characterId = bitio.getUI16();
+			let bounds = _this.rect();
 
 			if (tagType === 83) {
-				var obj = {};
+				let obj = {};
 				obj.EdgeBounds = _this.rect();
 				bitio.getUIBits(5); // Reserved
 				obj.UsesFillWindingRule = bitio.getUIBits(1);
@@ -5060,7 +5104,7 @@ if (!("swf2js" in window)) {
 				obj.UsesScalingStrokes = bitio.getUIBits(1);
 			}
 
-			var shapes = _this.shapeWithStyle(tagType);
+			let shapes = _this.shapeWithStyle(tagType);
 			_this.appendShapeTag(characterId, bounds, shapes, tagType);
 		};
 
@@ -5069,10 +5113,10 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.rect = function()
 		{
-			var bitio = this.bitio;
+			let bitio = this.bitio;
 
-			var nBits = bitio.getUIBits(5);
-			var ret = {
+			let nBits = bitio.getUIBits(5);
+			let ret = {
 				xMin: bitio.getSIBits(nBits),
 				xMax: bitio.getSIBits(nBits),
 				yMin: bitio.getSIBits(nBits),
@@ -5088,10 +5132,10 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.shapeWithStyle = function(tagType)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var fillStyles;
-			var lineStyles;
+			let _this = this;
+			let bitio = _this.bitio;
+			let fillStyles;
+			let lineStyles;
 
 			if (tagType === 46 || tagType === 84) {
 				fillStyles = {fillStyleCount: 0, fillStyles: []};
@@ -5101,12 +5145,12 @@ if (!("swf2js" in window)) {
 				lineStyles = _this.lineStyleArray(tagType);
 			}
 
-			//var numBits = bitio.getUI8();
-			//var NumFillBits = numBits >> 4;
-			//var NumLineBits = numBits & 0x0f;
-			var NumFillBits = bitio.getUIBits(4);
-			var NumLineBits = bitio.getUIBits(4);
-			var ShapeRecords = _this.shapeRecords(tagType, {
+			//let numBits = bitio.getUI8();
+			//let NumFillBits = numBits >> 4;
+			//let NumLineBits = numBits & 0x0f;
+			let NumFillBits = bitio.getUIBits(4);
+			let NumLineBits = bitio.getUIBits(4);
+			let ShapeRecords = _this.shapeRecords(tagType, {
 				FillBits: NumFillBits,
 				LineBits: NumLineBits
 			});
@@ -5124,15 +5168,15 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.fillStyleArray = function(tagType)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var fillStyleCount = bitio.getUI8();
+			let _this = this;
+			let bitio = _this.bitio;
+			let fillStyleCount = bitio.getUI8();
 			if ((tagType > 2) && (fillStyleCount === 0xff)) {
 				fillStyleCount = bitio.getUI16();
 			}
 
-			var fillStyles = [];
-			for (var i = fillStyleCount; i--;) {
+			let fillStyles = [];
+			for (let i = fillStyleCount; i--;) {
 				fillStyles[fillStyles.length] = _this.fillStyle(tagType);
 			}
 
@@ -5148,10 +5192,10 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.fillStyle = function(tagType)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var obj = {};
-			var bitType = bitio.getUI8();
+			let _this = this;
+			let bitio = _this.bitio;
+			let obj = {};
+			let bitType = bitio.getUI8();
 			obj.fillStyleType = bitType;
 			switch (bitType) {
 				case 0x00: // solid fill
@@ -5208,7 +5252,7 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.rgb = function()
 		{
-			var bitio = this.bitio;
+			let bitio = this.bitio;
 			return {
 				R: bitio.getUI8(),
 				G: bitio.getUI8(),
@@ -5222,7 +5266,7 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.rgba = function()
 		{
-			var bitio = this.bitio;
+			let bitio = this.bitio;
 			return {
 				R: bitio.getUI8(),
 				G: bitio.getUI8(),
@@ -5236,22 +5280,22 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.matrix = function()
 		{
-			var bitio = this.bitio;
+			let bitio = this.bitio;
 
-			var result = [1, 0, 0, 1, 0, 0];
+			let result = [1, 0, 0, 1, 0, 0];
 			if (bitio.getUIBit()) {
-				var nScaleBits = bitio.getUIBits(5);
+				let nScaleBits = bitio.getUIBits(5);
 				result[0] = bitio.getSIBits(nScaleBits) / 0x10000;
 				result[3] = bitio.getSIBits(nScaleBits) / 0x10000;
 			}
 
 			if (bitio.getUIBit()) {
-				var nRotateBits = bitio.getUIBits(5);
+				let nRotateBits = bitio.getUIBits(5);
 				result[1] = bitio.getSIBits(nRotateBits) / 0x10000;
 				result[2] = bitio.getSIBits(nRotateBits) / 0x10000;
 			}
 
-			var nTranslateBits = bitio.getUIBits(5);
+			let nTranslateBits = bitio.getUIBits(5);
 			result[4] = bitio.getSIBits(nTranslateBits);
 			result[5] = bitio.getSIBits(nTranslateBits);
 
@@ -5267,11 +5311,11 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.gradient = function(tagType)
 		{
-			var _this = this;
-			var SpreadMode = 0;
-			var InterpolationMode = 0;
-			var NumGradients;
-			var bitio = this.bitio;
+			let _this = this;
+			let SpreadMode = 0;
+			let InterpolationMode = 0;
+			let NumGradients;
+			let bitio = this.bitio;
 
 			bitio.byteAlign();
 
@@ -5287,8 +5331,8 @@ if (!("swf2js" in window)) {
 				NumGradients = bitio.getUIBits(4);
 			}
 
-			var GradientRecords = [];
-			for (var i = NumGradients; i--;) {
+			let GradientRecords = [];
+			for (let i = NumGradients; i--;) {
 				GradientRecords[GradientRecords.length] = _this.gradientRecord(tagType);
 			}
 
@@ -5305,8 +5349,8 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.gradientRecord = function(tagType)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
+			let _this = this;
+			let bitio = _this.bitio;
 			if (tagType === 46 || tagType === 84) {
 				return {
 					StartRatio: bitio.getUI8() / 255,
@@ -5315,8 +5359,8 @@ if (!("swf2js" in window)) {
 					EndColor: _this.rgba()
 				};
 			} else {
-				var Ratio = bitio.getUI8();
-				var Color = (tagType < 32) ? _this.rgb() : _this.rgba();
+				let Ratio = bitio.getUI8();
+				let Color = (tagType < 32) ? _this.rgb() : _this.rgba();
 				return {Ratio: Ratio / 255, Color: Color};
 			}
 		};
@@ -5327,21 +5371,21 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.focalGradient = function(tagType)
 		{
-			var bitio = this.bitio;
+			let bitio = this.bitio;
 			bitio.byteAlign();
-			var _this = this;
-			var SpreadMode = bitio.getUIBits(2);
-			var InterpolationMode = bitio.getUIBits(2);
-			var numGradients = bitio.getUIBits(4);
+			let _this = this;
+			let SpreadMode = bitio.getUIBits(2);
+			let InterpolationMode = bitio.getUIBits(2);
+			let numGradients = bitio.getUIBits(4);
 
-			var gradientRecords = [];
-			for (var i = numGradients; i--;) {
+			let gradientRecords = [];
+			for (let i = numGradients; i--;) {
 				gradientRecords[gradientRecords.length] =
 					_this.gradientRecord(tagType);
 			}
-			var FocalPoint = bitio.getFixed8();
+			let FocalPoint = bitio.getFixed8();
 			if (tagType === 46 || tagType === 84) {
-				var EndFocalPoint = bitio.getFixed8();
+				let EndFocalPoint = bitio.getFixed8();
 				return {
 					SpreadMode: SpreadMode,
 					InterpolationMode: InterpolationMode,
@@ -5365,15 +5409,15 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.lineStyleArray = function(tagType)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var lineStyleCount = bitio.getUI8();
+			let _this = this;
+			let bitio = _this.bitio;
+			let lineStyleCount = bitio.getUI8();
 			if ((tagType > 2) && (lineStyleCount === 0xff)) {
 				lineStyleCount = bitio.getUI16();
 			}
 
-			var array = [];
-			for (var i = lineStyleCount; i--;) {
+			let array = [];
+			for (let i = lineStyleCount; i--;) {
 				array[array.length] = _this.lineStyles(tagType);
 			}
 
@@ -5389,9 +5433,9 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.lineStyles = function(tagType)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var obj = {};
+			let _this = this;
+			let bitio = _this.bitio;
+			let obj = {};
 
 			obj.fillStyleType = 0;
 			if (tagType === 46) {
@@ -5467,19 +5511,19 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.shapeRecords = function(tagType, currentNumBits)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var shapeRecords = [];
+			let _this = this;
+			let bitio = _this.bitio;
+			let shapeRecords = [];
 			_this.currentPosition = {x: 0, y: 0};
-			var _straightEdgeRecord = _this.straightEdgeRecord;
-			var _curvedEdgeRecord = _this.curvedEdgeRecord;
-			var _styleChangeRecord = _this.styleChangeRecord;
+			let _straightEdgeRecord = _this.straightEdgeRecord;
+			let _curvedEdgeRecord = _this.curvedEdgeRecord;
+			let _styleChangeRecord = _this.styleChangeRecord;
 
 			while (true) {
-				var first6Bits = bitio.getUIBits(6);
-				var shape = 0;
+				let first6Bits = bitio.getUIBits(6);
+				let shape = 0;
 				if (first6Bits & 0x20) { // typeFlag === 1
-					var numBits = first6Bits & 0x0f;
+					let numBits = first6Bits & 0x0f;
 					if (first6Bits & 0x10) { // straightFlag === 1
 						shape = _straightEdgeRecord.call(_this, tagType, numBits);
 					} else {
@@ -5506,16 +5550,16 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.straightEdgeRecord = function(tagType, numBits)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var deltaX = 0;
-			var deltaY = 0;
-			var GeneralLineFlag = bitio.getUIBit();
+			let _this = this;
+			let bitio = _this.bitio;
+			let deltaX = 0;
+			let deltaY = 0;
+			let GeneralLineFlag = bitio.getUIBit();
 			if (GeneralLineFlag) {
 				deltaX = bitio.getSIBits(numBits + 2);
 				deltaY = bitio.getSIBits(numBits + 2);
 			} else {
-				var VertLineFlag = bitio.getUIBit();
+				let VertLineFlag = bitio.getUIBit();
 				if (VertLineFlag) {
 					deltaX = 0;
 					deltaY = bitio.getSIBits(numBits + 2);
@@ -5525,8 +5569,8 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var AnchorX = deltaX;
-			var AnchorY = deltaY;
+			let AnchorX = deltaX;
+			let AnchorY = deltaY;
 			if (tagType !== 46 && tagType !== 84) {
 				AnchorX = _this.currentPosition.x + deltaX;
 				AnchorY = _this.currentPosition.y + deltaY;
@@ -5551,17 +5595,17 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.curvedEdgeRecord = function(tagType, numBits)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var controlDeltaX = bitio.getSIBits(numBits + 2);
-			var controlDeltaY = bitio.getSIBits(numBits + 2);
-			var anchorDeltaX = bitio.getSIBits(numBits + 2);
-			var anchorDeltaY = bitio.getSIBits(numBits + 2);
+			let _this = this;
+			let bitio = _this.bitio;
+			let controlDeltaX = bitio.getSIBits(numBits + 2);
+			let controlDeltaY = bitio.getSIBits(numBits + 2);
+			let anchorDeltaX = bitio.getSIBits(numBits + 2);
+			let anchorDeltaY = bitio.getSIBits(numBits + 2);
 
-			var ControlX = controlDeltaX;
-			var ControlY = controlDeltaY;
-			var AnchorX = anchorDeltaX;
-			var AnchorY = anchorDeltaY;
+			let ControlX = controlDeltaX;
+			let ControlY = controlDeltaY;
+			let AnchorX = anchorDeltaX;
+			let AnchorY = anchorDeltaY;
 			if (tagType !== 46 && tagType !== 84) {
 				ControlX = _this.currentPosition.x + controlDeltaX;
 				ControlY = _this.currentPosition.y + controlDeltaY;
@@ -5590,9 +5634,9 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.styleChangeRecord = function(tagType, changeFlag, currentNumBits)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var obj = {};
+			let _this = this;
+			let bitio = _this.bitio;
+			let obj = {};
 			obj.StateNewStyles = (changeFlag >> 4) & 1;
 			obj.StateLineStyle = (changeFlag >> 3) & 1;
 			obj.StateFillStyle1 = (changeFlag >> 2) & 1;
@@ -5600,7 +5644,7 @@ if (!("swf2js" in window)) {
 			obj.StateMoveTo = changeFlag & 1;
 
 			if (obj.StateMoveTo) {
-				var moveBits = bitio.getUIBits(5);
+				let moveBits = bitio.getUIBits(5);
 				obj.MoveX = bitio.getSIBits(moveBits);
 				obj.MoveY = bitio.getSIBits(moveBits);
 				_this.currentPosition.x = obj.MoveX;
@@ -5625,7 +5669,7 @@ if (!("swf2js" in window)) {
 			if (obj.StateNewStyles) {
 				obj.FillStyles = _this.fillStyleArray(tagType);
 				obj.LineStyles = _this.lineStyleArray(tagType);
-				var numBits = bitio.getUI8();
+				let numBits = bitio.getUI8();
 				currentNumBits.FillBits = obj.NumFillBits = numBits >> 4;
 				currentNumBits.LineBits = obj.NumLineBits = numBits & 0x0f;
 			}
@@ -5641,7 +5685,7 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.appendShapeTag = function(characterId, bounds, shapes, tagType)
 		{
-			var stage = this.stage;
+			let stage = this.stage;
 			stage.setCharacter(characterId, {
 				tagType: tagType,
 				data: vtc.convert(shapes, false),
@@ -5655,38 +5699,38 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDefineBitsLossLess = function(tagType, length)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var stage = _this.stage;
-			var startOffset = bitio.byte_offset;
-			var CharacterId = bitio.getUI16();
-			var format = bitio.getUI8();
-			var width = bitio.getUI16();
-			var height = bitio.getUI16();
+			let _this = this;
+			let bitio = _this.bitio;
+			let stage = _this.stage;
+			let startOffset = bitio.byte_offset;
+			let CharacterId = bitio.getUI16();
+			let format = bitio.getUI8();
+			let width = bitio.getUI16();
+			let height = bitio.getUI16();
 
-			var isAlpha = (tagType === 36);
-			var colorTableSize = 0;
+			let isAlpha = (tagType === 36);
+			let colorTableSize = 0;
 			if (format === 3) {
 				colorTableSize = bitio.getUI8() + 1;
 			}
 
 			// unCompress
-			var sub = bitio.byte_offset - startOffset;
-			var compressed = bitio.getData(length - sub);
-			var data = bitio.unzip(compressed, false);
+			let sub = bitio.byte_offset - startOffset;
+			let compressed = bitio.getData(length - sub);
+			let data = bitio.unzip(compressed, false);
 
 			// canvas
-			var canvas = cacheStore.getCanvas();
+			let canvas = cacheStore.getCanvas();
 			canvas.width = width;
 			canvas.height = height;
-			var imageContext = canvas.getContext("2d");
-			var imgData = imageContext.createImageData(width, height);
-			var pxData = imgData.data;
+			let imageContext = canvas.getContext("2d");
+			let imgData = imageContext.createImageData(width, height);
+			let pxData = imgData.data;
 
-			var idx = 0;
-			var pxIdx = 0;
-			var x = width;
-			var y = height;
+			let idx = 0;
+			let pxIdx = 0;
+			let x = width;
+			let y = height;
 			if (format === 5 && !isAlpha) {
 				idx = 0;
 				pxIdx = 0;
@@ -5700,9 +5744,9 @@ if (!("swf2js" in window)) {
 					}
 				}
 			} else {
-				var bpp = (isAlpha) ? 4 : 3;
-				var cmIdx = colorTableSize * bpp;
-				var pad = 0;
+				let bpp = (isAlpha) ? 4 : 3;
+				let cmIdx = colorTableSize * bpp;
+				let pad = 0;
 				if (colorTableSize) {
 					pad = ((width + 3) & ~3) - width;
 				}
@@ -5717,7 +5761,7 @@ if (!("swf2js" in window)) {
 							idx++;
 							pxData[pxIdx++] = 255;
 						} else {
-							var alpha = (format === 3) ? data[idx + 3] : data[idx++];
+							let alpha = (format === 3) ? data[idx + 3] : data[idx++];
 							if (!isAlphaBug) {
 								pxData[pxIdx++] = data[idx++] * 255 / alpha;
 								pxData[pxIdx++] = data[idx++] * 255 / alpha;
@@ -5747,16 +5791,16 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseExportAssets = function()
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var stage = _this.stage;
-			var count = bitio.getUI16();
+			let _this = this;
+			let bitio = _this.bitio;
+			let stage = _this.stage;
+			let count = bitio.getUI16();
 
-			var exportAssets = stage.exportAssets;
-			var packages = stage.packages;
+			let exportAssets = stage.exportAssets;
+			let packages = stage.packages;
 			while (count--) {
-				var id = bitio.getUI16();
-				var name = bitio.getDataUntil("\0");
+				let id = bitio.getUI16();
+				let name = bitio.getDataUntil("\0");
 				if (name.substr(0, 10) === "__Packages") {
 					packages[id] = 1;
 				}
@@ -5803,25 +5847,25 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDefineBits = function(tagType, length, jpegTables)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var startOffset = bitio.byte_offset;
-			var CharacterId = bitio.getUI16();
-			var sub = bitio.byte_offset - startOffset;
+			let _this = this;
+			let bitio = _this.bitio;
+			let startOffset = bitio.byte_offset;
+			let CharacterId = bitio.getUI16();
+			let sub = bitio.byte_offset - startOffset;
 
-			var ImageDataLen = length - sub;
+			let ImageDataLen = length - sub;
 			if (tagType === 35 || tagType === 90) {
 				ImageDataLen = bitio.getUI32(); // alphaDataOffset
 			}
 
 			if (tagType === 90) {
-				var DeblockParam = bitio.getUI16();
+				let DeblockParam = bitio.getUI16();
 				console.log("DeblockParam", DeblockParam);
 			}
 
-			var JPEGData = bitio.getData(ImageDataLen);
-			var imageMimeType = _this.getImageMimeType(JPEGData);
-			var BitmapAlphaData = false;
+			let JPEGData = bitio.getData(ImageDataLen);
+			let imageMimeType = _this.getImageMimeType(JPEGData);
+			let BitmapAlphaData = false;
 			if (tagType === 35 || tagType === 90) {
 				BitmapAlphaData =
 					bitio.getData(length - sub - ImageDataLen);
@@ -5829,28 +5873,28 @@ if (!("swf2js" in window)) {
 			bitio.byte_offset = startOffset + length;
 
 			// render
-			var stage = _this.stage;
+			let stage = _this.stage;
 			stage.imgUnloadCount++;
 			stage.imageCount++;
-			var image = _document.createElement("img");
+			let image = _document.createElement("img");
 
 			image.addEventListener("load", function()
 			{
-				var width = this.width;
-				var height = this.height;
-				var canvas = cacheStore.getCanvas();
+				let width = this.width;
+				let height = this.height;
+				let canvas = cacheStore.getCanvas();
 				canvas.width = width;
 				canvas.height = height;
-				var imageContext = canvas.getContext("2d");
+				let imageContext = canvas.getContext("2d");
 				imageContext.drawImage(this, 0, 0, width, height);
 
 				if (BitmapAlphaData) {
-					var data = bitio.unzip(BitmapAlphaData, false);
-					var imgData = imageContext.getImageData(0, 0, width, height);
-					var pxData = imgData.data;
-					var pxIdx = 3;
-					var len = width * height;
-					for (var i = 0; i < len; i++) {
+					let data = bitio.unzip(BitmapAlphaData, false);
+					let imgData = imageContext.getImageData(0, 0, width, height);
+					let pxData = imgData.data;
+					let pxIdx = 3;
+					let len = width * height;
+					for (let i = 0; i < len; i++) {
 						pxData[pxIdx] = data[i];
 						pxIdx += 4;
 					}
@@ -5862,14 +5906,14 @@ if (!("swf2js" in window)) {
 			});
 
 			if (jpegTables !== null && jpegTables.length > 4) {
-				var margeData = [];
-				var len = jpegTables.length - 2;
-				for (var idx = 0; idx < len; idx++) {
+				let margeData = [];
+				let len = jpegTables.length - 2;
+				for (let idx = 0; idx < len; idx++) {
 					margeData[margeData.length] = jpegTables[idx];
 				}
 
 				len = JPEGData.length;
-				for (idx = 2; idx < len; idx++) {
+				for (let idx = 2; idx < len; idx++) {
 					margeData[margeData.length] = JPEGData[idx];
 				}
 
@@ -5985,16 +6029,17 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseJpegData = function(JPEGData)
 		{
-			var _this = this;
+			let _this = this;
 			const SOI = 0xD8; // 216
 			const EOI = 0xD9; // 217
-			var prevEoi = false;
-			var data = [];
-			var i = 0;
-			var p = 0;
-			var length = JPEGData.length;
-			var val = i<length?val=JPEGData[i++]:-1;
-			var val2;
+			let prevEoi = false;
+			let data = [];
+			let i = 0;
+			let p = 0;
+			let length = JPEGData.length;
+			let val;
+			val = i<length?val=JPEGData[i++]:-1;
+			let val2;
 			if (val == -1) return data;
 
 			if (val == 0xFF) {
@@ -6092,19 +6137,19 @@ if (!("swf2js" in window)) {
 						}
 					}
 					if ((val != -1) && _this.markerHasLength(val)) {
-						var len1 = i<length?JPEGData[i++]:-1;
+						let len1 = i<length?JPEGData[i++]:-1;
 						if (len1 == -1) {
 							break;
 						}
-						var len2 = i<length?JPEGData[i++]:-1;
+						let len2 = i<length?JPEGData[i++]:-1;
 						if (len2 == -1) {
 							data[p++] = len1;
 							break;
 						}
 						data[p++] = len1;
 						data[p++] = len2;
-						var len = (len1 << 8) + len2;
-						for (var k = 0; k < len - 2; k++) {
+						let len = (len1 << 8) + len2;
+						for (let k = 0; k < len - 2; k++) {
 							val2 = i<length?JPEGData[i++]:-1;
 							if (val2 == -1) {
 								break loopread;
@@ -6134,14 +6179,14 @@ if (!("swf2js" in window)) {
 			//if (isBtoa) {
 			//	return window.btoa(data);
 			//}
-			var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-			var out = [];
-			var i = 0;
-			var len = data.length;
+			let base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+			let out = [];
+			let i = 0;
+			let len = data.length;
 
 			while (i < len) {
-				//var c1 = data.charCodeAt(i++) & 0xff;
-				var c1 = data[i++] & 0xff;
+				//let c1 = data.charCodeAt(i++) & 0xff;
+				let c1 = data[i++] & 0xff;
 				if (i === len) {
 					out[out.length] = base64EncodeChars.charAt(c1 >> 2);
 					out[out.length] = base64EncodeChars.charAt((c1 & 0x3) << 4);
@@ -6149,8 +6194,8 @@ if (!("swf2js" in window)) {
 					break;
 				}
 
-				//var c2 = data.charCodeAt(i++);
-				var c2 = data[i++];
+				//let c2 = data.charCodeAt(i++);
+				let c2 = data[i++];
 				if (i === len) {
 					out[out.length] = base64EncodeChars.charAt(c1 >> 2);
 					out[out.length] = base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
@@ -6159,8 +6204,8 @@ if (!("swf2js" in window)) {
 					break;
 				}
 
-				//var c3 = data.charCodeAt(i++);
-				var c3 = data[i++];
+				//let c3 = data.charCodeAt(i++);
+				let c3 = data[i++];
 				out[out.length] = base64EncodeChars.charAt(c1 >> 2);
 				out[out.length] = base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
 				out[out.length] = base64EncodeChars.charAt(((c2 & 0xF) << 2) | ((c3 & 0xC0) >> 6));
@@ -6169,8 +6214,8 @@ if (!("swf2js" in window)) {
 			return out.join("");
 /*
 			// oneliner
-			//var c = "";for (var a=e=b=0;a<4*data.length/3;f=b>>2*(++a&3)&63,c+=String.fromCharCode(f+71-(f<26?6:f<52?0:f<62?75:f^63?90:87)))a&3^3&&(b=b<<8^data[e++]);for(;a++&3;)c+="=";return c;
-			var c = "";for (var a=e=b=0;a<4*data.length/3;f=b>>2*(++a&3)&63,c+=String.fromCharCode(f+71-(f<26?6:f<52?0:f<62?75:f^63?90:87)))a&3^3&&(b=b<<8^data[e++]);for(;a++&3;)c+="=";
+			//let c = "";for (let a=e=b=0;a<4*data.length/3;f=b>>2*(++a&3)&63,c+=String.fromCharCode(f+71-(f<26?6:f<52?0:f<62?75:f^63?90:87)))a&3^3&&(b=b<<8^data[e++]);for(;a++&3;)c+="=";return c;
+			let c = "";for (let a=e=b=0;a<4*data.length/3;f=b>>2*(++a&3)&63,c+=String.fromCharCode(f+71-(f<26?6:f<52?0:f<62?75:f^63?90:87)))a&3^3&&(b=b<<8^data[e++]);for(;a++&3;)c+="=";
 			console.log('base64 '+(c == out.join("")));
 			*/
 		};
@@ -6181,19 +6226,19 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDefineFont = function(tagType, length)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var stage = _this.stage;
-			var endOffset = bitio.byte_offset + length;
-			var i = 0;
-			var len = 0;
-			var obj = {};
+			let _this = this;
+			let bitio = _this.bitio;
+			let stage = _this.stage;
+			let endOffset = bitio.byte_offset + length;
+			let i = 0;
+			let len = 0;
+			let obj = {};
 			obj.tagType = tagType;
 			obj.FontId = bitio.getUI16();
 
-			var numGlyphs = 0;
+			let numGlyphs = 0;
 			if (tagType === 48 || tagType === 75) {
-				var fontFlags = bitio.getUI8();
+				let fontFlags = bitio.getUI8();
 				obj.FontFlagsHasLayout = (fontFlags >>> 7) & 1;
 				obj.FontFlagsShiftJIS = (fontFlags >>> 6) & 1;
 				obj.FontFlagsSmallText = (fontFlags >>> 5) & 1;
@@ -6207,9 +6252,9 @@ if (!("swf2js" in window)) {
 				obj.LanguageCode = bitio.getUI8();
 				obj.FontNameLen = bitio.getUI8();
 				if (obj.FontNameLen) {
-					var startOffset = bitio.byte_offset;
-					var data = bitio.getData(obj.FontNameLen);
-					var str = "";
+					let startOffset = bitio.byte_offset;
+					let data = bitio.getData(obj.FontNameLen);
+					let str = "";
 					len = obj.FontNameLen;
 					for (i = 0; i < len; i++) {
 						if (data[i] > 127) {
@@ -6218,7 +6263,7 @@ if (!("swf2js" in window)) {
 						str += _fromCharCode(data[i]);
 					}
 
-					var fontName;
+					let fontName;
 					if (obj.FontFlagsShiftJIS || obj.LanguageCode === 2) {
 						fontName = bitio.decodeToShiftJis(str);
 					} else {
@@ -6234,13 +6279,13 @@ if (!("swf2js" in window)) {
 			}
 
 			// offset
-			var offset = bitio.byte_offset;
+			let offset = bitio.byte_offset;
 			if (tagType === 10) {
 				numGlyphs = bitio.getUI16();
 			}
 
 			if (numGlyphs) {
-				var OffsetTable = [];
+				let OffsetTable = [];
 				if (tagType === 10) {
 					OffsetTable[0] = numGlyphs;
 					numGlyphs /= 2;
@@ -6264,7 +6309,7 @@ if (!("swf2js" in window)) {
 				}
 
 				// Shape
-				var GlyphShapeTable = [];
+				let GlyphShapeTable = [];
 				if (tagType === 10) {
 					numGlyphs++;
 				}
@@ -6272,16 +6317,16 @@ if (!("swf2js" in window)) {
 				for (i = 0; i < numGlyphs; i++) {
 					bitio.setOffset(OffsetTable[i] + offset, 0);
 
-					var numBits = bitio.getUI8();
-					var NumFillBits = numBits >> 4;
-					var NumLineBits = numBits & 0x0f;
+					let numBits = bitio.getUI8();
+					let NumFillBits = numBits >> 4;
+					let NumLineBits = numBits & 0x0f;
 
-					var currentNumBits = {
+					let currentNumBits = {
 						FillBits: NumFillBits,
 						LineBits: NumLineBits
 					};
 
-					var shapes = {};
+					let shapes = {};
 					shapes.ShapeRecords = _this.shapeRecords(tagType, currentNumBits);
 					shapes.lineStyles = {
 						lineStyles: [{
@@ -6302,7 +6347,7 @@ if (!("swf2js" in window)) {
 
 				if (tagType === 48 || tagType === 75) {
 					bitio.setOffset(obj.CodeTableOffset + offset, 0);
-					var CodeTable = [];
+					let CodeTable = [];
 					if (obj.FontFlagsWideCodes) {
 						for (i = numGlyphs; i--;) {
 							CodeTable[CodeTable.length] = bitio.getUI16();
@@ -6319,13 +6364,13 @@ if (!("swf2js" in window)) {
 						obj.FontDescent = bitio.getUI16();
 						obj.FontLeading = bitio.getUI16();
 
-						var FontAdvanceTable = [];
+						let FontAdvanceTable = [];
 						for (i = numGlyphs; i--;) {
 							FontAdvanceTable[FontAdvanceTable.length] = bitio.getUI16();
 						}
 						obj.FontAdvanceTable = FontAdvanceTable;
 
-						var FontBoundsTable = [];
+						let FontBoundsTable = [];
 						for (i = numGlyphs; i--;) {
 							FontBoundsTable[FontBoundsTable.length] = _this.rect();
 						}
@@ -6335,9 +6380,9 @@ if (!("swf2js" in window)) {
 							obj.KerningCount = bitio.getUI16();
 							obj.KerningRecord = [];
 							for (i = obj.KerningCount; i--;) {
-								var FontKerningCode1 = (obj.FontFlagsWideCodes) ? bitio.getUI16() : bitio.getUI8();
-								var FontKerningCode2 = (obj.FontFlagsWideCodes) ? bitio.getUI16() : bitio.getUI8();
-								var FontKerningAdjustment = bitio.getSIBits(16);
+								let FontKerningCode1 = (obj.FontFlagsWideCodes) ? bitio.getUI16() : bitio.getUI8();
+								let FontKerningCode2 = (obj.FontFlagsWideCodes) ? bitio.getUI16() : bitio.getUI8();
+								let FontKerningAdjustment = bitio.getSIBits(16);
 								obj.KerningRecord[obj.KerningRecord.length] = {
 									FontKerningCode1: FontKerningCode1,
 									FontKerningCode2: FontKerningCode2,
@@ -6360,17 +6405,17 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDefineFontInfo = function(tagType, length)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var endOffset = bitio.byte_offset + length;
+			let _this = this;
+			let bitio = _this.bitio;
+			let endOffset = bitio.byte_offset + length;
 
-			var obj = {};
+			let obj = {};
 			obj.tagType = tagType;
 			obj.FontId = bitio.getUI16();
-			var len = bitio.getUI8();
-			var data = bitio.getData(len);
-			var str = "";
-			for (var i = 0; i < len; i++) {
+			let len = bitio.getUI8();
+			let data = bitio.getData(len);
+			let str = "";
+			for (let i = 0; i < len; i++) {
 				if (data[i] > 127) {
 					continue;
 				}
@@ -6388,7 +6433,7 @@ if (!("swf2js" in window)) {
 				obj.LanguageCode = bitio.getUI8();
 			}
 
-			var fontName;
+			let fontName;
 			if (obj.FontFlagsShiftJIS || obj.LanguageCode === 2) {
 				fontName = bitio.decodeToShiftJis(str);
 			} else {
@@ -6396,9 +6441,9 @@ if (!("swf2js" in window)) {
 			}
 			obj.FontName = _this.getFontName(fontName);
 
-			var CodeTable = [];
+			let CodeTable = [];
 			bitio.byteAlign();
-			var tLen = endOffset - bitio.byte_offset;
+			let tLen = endOffset - bitio.byte_offset;
 			if (obj.FontFlagsWideCodes || tagType === 62) {
 				while (tLen) {
 					CodeTable[CodeTable.length] = bitio.getUI16();
@@ -6419,8 +6464,8 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.getFontName = function(fontName)
 		{
-			var length = fontName.length;
-			var str = fontName.substr(length - 1);
+			let length = fontName.length;
+			let str = fontName.substr(length - 1);
 			if (str.charCodeAt(0) === 0) {
 				fontName = fontName.slice(0, -1);
 			}
@@ -6433,7 +6478,7 @@ if (!("swf2js" in window)) {
 				case "_typewriter":
 					return "monospace";
 				default:
-					var ander = fontName.substr(0, 1);
+					let ander = fontName.substr(0, 1);
 					if (ander === "_") {
 						return "sans-serif";
 					}
@@ -6446,7 +6491,7 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDefineFontName = function()
 		{
-			var bitio = this.bitio;
+			let bitio = this.bitio;
 			bitio.getUI16(); // FontId
 			bitio.getDataUntil("\0"); // FontName
 			bitio.getDataUntil("\0"); // FontCopyright
@@ -6457,16 +6502,16 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDefineText = function(tagType)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var stage = _this.stage;
-			var obj = {};
-			var characterId = bitio.getUI16();
+			let _this = this;
+			let bitio = _this.bitio;
+			let stage = _this.stage;
+			let obj = {};
+			let characterId = bitio.getUI16();
 			obj.tagType = tagType;
 			obj.bounds = _this.rect();
 			obj.matrix = _this.matrix();
-			var GlyphBits = bitio.getUI8();
-			var AdvanceBits = bitio.getUI8();
+			let GlyphBits = bitio.getUI8();
+			let AdvanceBits = bitio.getUI8();
 			obj.textRecords = _this.getTextRecords(tagType, GlyphBits, AdvanceBits);
 			stage.setCharacter(characterId, obj);
 		};
@@ -6479,13 +6524,13 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.getTextRecords = function(tagType, GlyphBits, AdvanceBits)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var array = [];
+			let _this = this;
+			let bitio = _this.bitio;
+			let array = [];
 			while (bitio.getUI8() !== 0) {
 				bitio.incrementOffset(-1, 0);
 
-				var obj = {};
+				let obj = {};
 				obj.TextRecordType = bitio.getUIBits(1);
 				obj.StyleFlagsReserved = bitio.getUIBits(3);
 				obj.StyleFlagsHasFont = bitio.getUIBits(1);
@@ -6535,9 +6580,9 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.getGlyphEntries = function(count, GlyphBits, AdvanceBits)
 		{
-			var bitio = this.bitio;
-			var array = [];
-			for (var i = count; i--;) {
+			let bitio = this.bitio;
+			let array = [];
+			for (let i = count; i--;) {
 				array[array.length] = {
 					GlyphIndex: bitio.getUIBits(GlyphBits),
 					GlyphAdvance: bitio.getSIBits(AdvanceBits)
@@ -6551,16 +6596,16 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDefineEditText = function(tagType)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var stage = _this.stage;
-			var obj = {};
-			var isJis = false;
+			let _this = this;
+			let bitio = _this.bitio;
+			let stage = _this.stage;
+			let obj = {};
+			let isJis = false;
 
 			obj.CharacterId = bitio.getUI16();
-			var bounds = _this.rect();
+			let bounds = _this.rect();
 
-			var flag1 = bitio.getUI8();
+			let flag1 = bitio.getUI8();
 			obj.HasText = (flag1 >>> 7) & 1;
 			obj.WordWrap = (flag1 >>> 6) & 1;
 			obj.Multiline = (flag1 >>> 5) & 1;
@@ -6570,7 +6615,7 @@ if (!("swf2js" in window)) {
 			obj.HasMaxLength = (flag1 >>> 1) & 1;
 			obj.HasFont = flag1 & 1;
 
-			var flag2 = bitio.getUI8();
+			let flag2 = bitio.getUI8();
 			obj.HasFontClass = (flag2 >>> 7) & 1;
 			obj.AutoSize = (flag2 >>> 6) & 1;
 			obj.HasLayout = (flag2 >>> 5) & 1;
@@ -6582,7 +6627,7 @@ if (!("swf2js" in window)) {
 
 			if (obj.HasFont) {
 				obj.FontID = bitio.getUI16();
-				var fontData = stage.getCharacter(obj.FontID);
+				let fontData = stage.getCharacter(obj.FontID);
 				isJis = (fontData.FontFlagsShiftJIS) ? true : false;
 				if (obj.HasFontClass) {
 					obj.FontClass = bitio.getDataUntil("\0");
@@ -6606,11 +6651,11 @@ if (!("swf2js" in window)) {
 				obj.Leading = bitio.getUI16();
 			}
 
-			var VariableName = bitio.getDataUntil("\0", isJis) + "";
+			let VariableName = bitio.getDataUntil("\0", isJis) + "";
 			obj.VariableName = (VariableName === "") ? null : VariableName;
 			obj.InitialText = "";
 			if (obj.HasText) {
-				var text = bitio.getDataUntil("\0", isJis);
+				let text = bitio.getDataUntil("\0", isJis);
 				if (obj.HTML) {
 					if (text.indexOf("<sbr />") !== -1) {
 						text = text.replace(new RegExp("<sbr />", "gi"), "\n");
@@ -6620,13 +6665,13 @@ if (!("swf2js" in window)) {
 						text = text.replace(new RegExp("</b>", "gi"), "");
 					}
 
-					var span = _document.createElement("span");
+					let span = _document.createElement("span");
 					span.innerHTML = text;
 
-					var tags = span.getElementsByTagName("p");
-					var length = tags.length;
-					var tagData = [];
-					for (var i = 0; i < length; i++) {
+					let tags = span.getElementsByTagName("p");
+					let length = tags.length;
+					let tagData = [];
+					for (let i = 0; i < length; i++) {
 						tagData[i] = tags[i];
 					}
 					obj.InitialText = tagData;
@@ -6647,10 +6692,10 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDefineMorphShape = function(tagType)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var stage = _this.stage;
-			var obj = {};
+			let _this = this;
+			let bitio = _this.bitio;
+			let stage = _this.stage;
+			let obj = {};
 			obj.tagType = tagType;
 			obj.CharacterId = bitio.getUI16();
 
@@ -6665,8 +6710,8 @@ if (!("swf2js" in window)) {
 				obj.UsesScalingStrokes = bitio.getUIBits(1);
 			}
 
-			var offset = bitio.getUI32();
-			var endOffset = bitio.byte_offset + offset;
+			let offset = bitio.getUI32();
+			// let endOffset = bitio.byte_offset + offset;
 
 			obj.MorphFillStyles = _this.fillStyleArray(tagType);
 			obj.MorphLineStyles = _this.lineStyleArray(tagType);
@@ -6675,17 +6720,17 @@ if (!("swf2js" in window)) {
 			// Ignore endOffset
 			obj.EndEdges = _this.shapeWithStyle(tagType);
 
-			var startPosition = {x: 0, y: 0};
-			var endPosition = {x: 0, y: 0};
-			var StartRecords = obj.StartEdges.ShapeRecords;
-			var EndRecords = obj.EndEdges.ShapeRecords;
-			var StartRecordLength = StartRecords.length;
-			var EndRecordLength = EndRecords.length;
-			var length = _max(StartRecordLength, EndRecordLength);
-			for (var i = 0; i < length; i++) {
-				var addRecode = {};
-				var StartRecord = StartRecords[i];
-				var EndRecord = EndRecords[i];
+			let startPosition = {x: 0, y: 0};
+			let endPosition = {x: 0, y: 0};
+			let StartRecords = obj.StartEdges.ShapeRecords;
+			let EndRecords = obj.EndEdges.ShapeRecords;
+			let StartRecordLength = StartRecords.length;
+			let EndRecordLength = EndRecords.length;
+			let length = _max(StartRecordLength, EndRecordLength);
+			for (let i = 0; i < length; i++) {
+				let addRecode = {};
+				let StartRecord = StartRecords[i];
+				let EndRecord = EndRecords[i];
 				if (!StartRecord && !EndRecord) {
 					continue;
 				}
@@ -6764,11 +6809,11 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var FillType = 0;
-			var FillStyle = 0;
+			let FillType = 0;
+			let FillStyle = 0;
 			length = obj.StartEdges.ShapeRecords.length;
-			for (i = 0; i < length; i++) {
-				var record = StartRecords[i];
+			for (let i = 0; i < length; i++) {
+				let record = StartRecords[i];
 				if (!record.isChange) {
 					continue;
 				}
@@ -6804,25 +6849,25 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.buildMorphShape = function(char, ratio)
 		{
-			var per = (ratio === undefined) ? 0 : ratio / 65535;
-			var startPer = 1 - per;
-			var newShapeRecords = [];
+			let per = (ratio === undefined) ? 0 : ratio / 65535;
+			let startPer = 1 - per;
+			let newShapeRecords = [];
 
-			var morphLineStyles = char.MorphLineStyles;
-			var lineStyles = morphLineStyles.lineStyles;
-			var lineStyleCount = morphLineStyles.lineStyleCount;
+			let morphLineStyles = char.MorphLineStyles;
+			let lineStyles = morphLineStyles.lineStyles;
+			let lineStyleCount = morphLineStyles.lineStyleCount;
 
-			var morphFillStyles = char.MorphFillStyles;
-			var fillStyles = morphFillStyles.fillStyles;
-			var fillStyleCount = morphFillStyles.fillStyleCount;
+			let morphFillStyles = char.MorphFillStyles;
+			let fillStyles = morphFillStyles.fillStyles;
+			let fillStyleCount = morphFillStyles.fillStyleCount;
 
-			var StartEdges = char.StartEdges;
-			var StartShapeRecords = StartEdges.ShapeRecords;
+			let StartEdges = char.StartEdges;
+			let StartShapeRecords = StartEdges.ShapeRecords;
 
-			var EndEdges = char.EndEdges;
-			var EndShapeRecords = EndEdges.ShapeRecords;
+			let EndEdges = char.EndEdges;
+			let EndShapeRecords = EndEdges.ShapeRecords;
 
-			var shapes = {
+			let shapes = {
 				lineStyles: {
 					lineStyleCount: lineStyleCount,
 					lineStyles: []
@@ -6834,19 +6879,19 @@ if (!("swf2js" in window)) {
 				ShapeRecords: []
 			};
 
-			var position = { x: 0, y: 0};
-			var len = StartShapeRecords.length;
-			for (var i = 0; i < len; i++) {
-				var StartRecord = StartShapeRecords[i];
+			let position = { x: 0, y: 0};
+			let len = StartShapeRecords.length;
+			for (let i = 0; i < len; i++) {
+				let StartRecord = StartShapeRecords[i];
 				if (!StartRecord) {
 					continue;
 				}
 
-				var newRecord = {};
-				var EndRecord = EndShapeRecords[i];
+				let newRecord = {};
+				let EndRecord = EndShapeRecords[i];
 				if (StartRecord.isChange) {
-					var MoveX = 0;
-					var MoveY = 0;
+					let MoveX = 0;
+					let MoveY = 0;
 
 					if (StartRecord.StateMoveTo === 1) {
 						MoveX = StartRecord.MoveX * startPer + EndRecord.MoveX * per;
@@ -6869,20 +6914,20 @@ if (!("swf2js" in window)) {
 						isChange: true
 					};
 				} else {
-					var AnchorX = 0;
-					var AnchorY = 0;
-					var ControlX = 0;
-					var ControlY = 0;
+					let AnchorX = 0;
+					let AnchorY = 0;
+					let ControlX = 0;
+					let ControlY = 0;
 
-					var startAnchorX = StartRecord.AnchorX;
-					var startAnchorY = StartRecord.AnchorY;
-					var endAnchorX = EndRecord.AnchorX;
-					var endAnchorY = EndRecord.AnchorY;
+					let startAnchorX = StartRecord.AnchorX;
+					let startAnchorY = StartRecord.AnchorY;
+					let endAnchorX = EndRecord.AnchorX;
+					let endAnchorY = EndRecord.AnchorY;
 
-					var startControlX = StartRecord.ControlX;
-					var startControlY = StartRecord.ControlY;
-					var endControlX = EndRecord.ControlX;
-					var endControlY = EndRecord.ControlY;
+					let startControlX = StartRecord.ControlX;
+					let startControlY = StartRecord.ControlY;
+					let endControlX = EndRecord.ControlX;
+					let endControlY = EndRecord.ControlY;
 
 					if (per > 0 && per < 1 && StartRecord.isCurved !== EndRecord.isCurved) {
 						if (!StartRecord.isCurved) {
@@ -6922,16 +6967,15 @@ if (!("swf2js" in window)) {
 			newShapeRecords[newShapeRecords.length] = 0;
 			shapes.ShapeRecords = newShapeRecords;
 
-			var EndColor;
-			var StartColor;
-			var color;
-			var ls=-1;
-			for (i = 0; i < lineStyleCount; i++) {
-				var lineStyle = lineStyles[i];
-				var EndWidth = lineStyles.EndWidth;
-				var StartWidth = lineStyles.StartWidth;
-				var EndWidth = Number(lineStyle.EndWidth);
-				var StartWidth = Number(lineStyle.StartWidth);
+			let EndColor;
+			let StartColor;
+			let color;
+			let matrix;
+			let ls=-1;
+			for (let i = 0; i < lineStyleCount; i++) {
+				let lineStyle = lineStyles[i];
+				let EndWidth = lineStyle.EndWidth;
+				let StartWidth = lineStyle.StartWidth;
 				if (StartWidth==0 && EndWidth==0) {
 					continue;
 				}
@@ -6952,7 +6996,7 @@ if (!("swf2js" in window)) {
 						fillStyleType: 0
 					};
 				} else {
-					var fillStyleType = lineStyle.FillType.fillStyleType;
+					let fillStyleType = lineStyle.FillType.fillStyleType;
 					switch(fillStyleType) {
 						case 0x00: // solid fill
 							EndColor = lineStyle.EndColor;
@@ -6973,9 +7017,9 @@ if (!("swf2js" in window)) {
 						case 0x10: // linear gradient fill
 						case 0x12: // radial gradient fill
 						case 0x13: // focal radial gradient fill (SWF 8 file format and later only)
-							var EndGradientMatrix = lineStyle.FillType.endGradientMatrix;
-							var StartGradientMatrix = lineStyle.FillType.startGradientMatrix;
-							var matrix = [
+							let EndGradientMatrix = lineStyle.FillType.endGradientMatrix;
+							let StartGradientMatrix = lineStyle.FillType.startGradientMatrix;
+							matrix = [
 								StartGradientMatrix[0] * startPer + EndGradientMatrix[0] * per,
 								StartGradientMatrix[1] * startPer + EndGradientMatrix[1] * per,
 								StartGradientMatrix[2] * startPer + EndGradientMatrix[2] * per,
@@ -6984,13 +7028,12 @@ if (!("swf2js" in window)) {
 								StartGradientMatrix[5] * startPer + EndGradientMatrix[5] * per
 							];
 
-							var gRecords = [];
-							var gradient = lineStyle.FillType.gradient;
-							var GradientRecords = gradient.GradientRecords;
-							var gLen = GradientRecords.length;
-							var gLen = GradientRecords.length;
-							for (var gIdx = 0; gIdx < gLen; gIdx++) {
-								var gRecord = GradientRecords[gIdx];
+							let gRecords = [];
+							let gradient = lineStyle.FillType.gradient;
+							let GradientRecords = gradient.GradientRecords;
+							let gLen = GradientRecords.length;
+							for (let gIdx = 0; gIdx < gLen; gIdx++) {
+								let gRecord = GradientRecords[gIdx];
 								EndColor = gRecord.EndColor;
 								StartColor = gRecord.StartColor;
 								color = {
@@ -7005,10 +7048,10 @@ if (!("swf2js" in window)) {
 									Ratio: gRecord.StartRatio * startPer + gRecord.EndRatio * per
 								};
 							}
-							var FocalPoint = 0;
+							let FocalPoint = 0;
 							if (fillStyleType == 0x13) FocalPoint = gradient.StartFocalPoint * startPer + gradient.EndFocalPoint * per;
 
-							var shapeGradient = {
+							let shapeGradient = {
 								SpreadMode: lineStyle.FillType.SpreadMode,
 								InterpolationMode: lineStyle.FillType.InterpolationMode,
 								GradientRecords: gRecords
@@ -7029,10 +7072,10 @@ if (!("swf2js" in window)) {
 						case 0x41: // clipped bitmap fill
 						case 0x42: // non-smoothed repeating bitmap
 						case 0x43: // non-smoothed clipped bitmap
-							var EndBitmapMatrix = lineStyle.FillType.endBitmapMatrix;
-							var StartBitmapMatrix = lineStyle.FillType.startBitmapMatrix;
-							var bitmapId = lineStyle.FillType.bitmapId;
-							var matrix = [
+							let EndBitmapMatrix = lineStyle.FillType.endBitmapMatrix;
+							let StartBitmapMatrix = lineStyle.FillType.startBitmapMatrix;
+							let bitmapId = lineStyle.FillType.bitmapId;
+							matrix = [
 								StartBitmapMatrix[0] * startPer + EndBitmapMatrix[0] * per,
 								StartBitmapMatrix[1] * startPer + EndBitmapMatrix[1] * per,
 								StartBitmapMatrix[2] * startPer + EndBitmapMatrix[2] * per,
@@ -7051,9 +7094,9 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			for (i = 0; i < fillStyleCount; i++) {
-				var fillStyle = fillStyles[i];
-				var fillStyleType = fillStyle.fillStyleType;
+			for (let i = 0; i < fillStyleCount; i++) {
+				let fillStyle = fillStyles[i];
+				let fillStyleType = fillStyle.fillStyleType;
 
 				switch(fillStyleType) {
 					case 0x00: // solid fill
@@ -7074,9 +7117,9 @@ if (!("swf2js" in window)) {
 					case 0x10: // linear gradient fill
 					case 0x12: // radial gradient fill
 					case 0x13: // focal radial gradient fill (SWF 8 file format and later only)
-						var EndGradientMatrix = fillStyle.endGradientMatrix;
-						var StartGradientMatrix = fillStyle.startGradientMatrix;
-						var matrix = [
+						let EndGradientMatrix = fillStyle.endGradientMatrix;
+						let StartGradientMatrix = fillStyle.startGradientMatrix;
+						matrix = [
 							StartGradientMatrix[0] * startPer + EndGradientMatrix[0] * per,
 							StartGradientMatrix[1] * startPer + EndGradientMatrix[1] * per,
 							StartGradientMatrix[2] * startPer + EndGradientMatrix[2] * per,
@@ -7085,12 +7128,12 @@ if (!("swf2js" in window)) {
 							StartGradientMatrix[5] * startPer + EndGradientMatrix[5] * per
 						];
 
-						var gRecords = [];
-						var gradient = fillStyle.gradient;
-						var GradientRecords = gradient.GradientRecords;
-						var gLen = GradientRecords.length;
-						for (var gIdx = 0; gIdx < gLen; gIdx++) {
-							var gRecord = GradientRecords[gIdx];
+						let gRecords = [];
+						let gradient = fillStyle.gradient;
+						let GradientRecords = gradient.GradientRecords;
+						let gLen = GradientRecords.length;
+						for (let gIdx = 0; gIdx < gLen; gIdx++) {
+							let gRecord = GradientRecords[gIdx];
 							EndColor = gRecord.EndColor;
 							StartColor = gRecord.StartColor;
 							color = {
@@ -7105,9 +7148,9 @@ if (!("swf2js" in window)) {
 								Ratio: gRecord.StartRatio * startPer + gRecord.EndRatio * per
 							};
 						}
-						var FocalPoint = 0;
+						let FocalPoint = 0;
 						if (fillStyleType == 0x13) FocalPoint = gradient.StartFocalPoint * startPer + gradient.EndFocalPoint * per;
-						var shapeGradient = { GradientRecords: gRecords};
+						let shapeGradient = { GradientRecords: gRecords};
 						if (fillStyleType == 0x13)  shapeGradient = {
 							SpreadMode: fillStyle.SpreadMode,
 							InterpolationMode: fillStyle.InterpolationMode,
@@ -7125,10 +7168,10 @@ if (!("swf2js" in window)) {
 					case 0x41: // clipped bitmap fill
 					case 0x42: // non-smoothed repeating bitmap
 					case 0x43: // non-smoothed clipped bitmap
-						var EndBitmapMatrix = fillStyle.endBitmapMatrix;
-						var StartBitmapMatrix = fillStyle.startBitmapMatrix;
-						var bitmapId = fillStyle.bitmapId;
-						var matrix = [
+						let EndBitmapMatrix = fillStyle.endBitmapMatrix;
+						let StartBitmapMatrix = fillStyle.startBitmapMatrix;
+						let bitmapId = fillStyle.bitmapId;
+						matrix = [
 							StartBitmapMatrix[0] * startPer + EndBitmapMatrix[0] * per,
 							StartBitmapMatrix[1] * startPer + EndBitmapMatrix[1] * per,
 							StartBitmapMatrix[2] * startPer + EndBitmapMatrix[2] * per,
@@ -7145,9 +7188,9 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var EndBounds = char.EndBounds;
-			var StartBounds = char.StartBounds;
-			var bounds = {
+			let EndBounds = char.EndBounds;
+			let StartBounds = char.StartBounds;
+			let bounds = {
 				xMax: StartBounds.xMax * startPer + EndBounds.xMax * per,
 				xMin: StartBounds.xMin * startPer + EndBounds.xMin * per,
 				yMax: StartBounds.yMax * startPer + EndBounds.yMax * per,
@@ -7177,7 +7220,7 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseRemoveObject = function(tagType)
 		{
-			var bitio = this.bitio;
+			let bitio = this.bitio;
 			if (tagType === 5) {
 				return {
 					CharacterId: bitio.getUI16(),
@@ -7194,16 +7237,16 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDefineButton = function(tagType, length)
 		{
-			var obj = {};
+			let obj = {};
 			obj.tagType = tagType;
 
-			var _this = this;
-			var bitio = _this.bitio;
-			var stage = _this.stage;
-			var endOffset = bitio.byte_offset + length;
+			let _this = this;
+			let bitio = _this.bitio;
+			let stage = _this.stage;
+			let endOffset = bitio.byte_offset + length;
 			obj.ButtonId = bitio.getUI16();
 
-			var ActionOffset = 0;
+			let ActionOffset = 0;
 			if (tagType !== 7) {
 				obj.ReservedFlags = bitio.getUIBits(7);
 				obj.TrackAsMenu = bitio.getUIBits(1);
@@ -7233,13 +7276,13 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.buttonCharacters = function(tagType)
 		{
-			var characters = [];
-			var _this = this;
-			var bitio = _this.bitio;
+			let characters = [];
+			let _this = this;
+			let bitio = _this.bitio;
 			while (bitio.getUI8() !== 0) {
 				bitio.incrementOffset(-1, 0);
-				var record = _this.buttonRecord(tagType);
-				var depth = record.Depth;
+				let record = _this.buttonRecord(tagType);
+				let depth = record.Depth;
 				if (!(record.Depth in characters)) {
 					characters[depth] = [];
 				}
@@ -7253,11 +7296,11 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.buttonRecord = function(tagType)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var obj = {};
+			let _this = this;
+			let bitio = _this.bitio;
+			let obj = {};
 
-			var reserved = bitio.getUIBits(2); // Reserved
+			let reserved = bitio.getUIBits(2); // Reserved
 			obj.PlaceFlagHasBlendMode = bitio.getUIBits(1);
 			obj.PlaceFlagHasFilterList = bitio.getUIBits(1);
 			obj.ButtonStateHitTest = bitio.getUIBits(1);
@@ -7292,14 +7335,14 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.buttonActions = function(endOffset)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var results = [];
+			let _this = this;
+			let bitio = _this.bitio;
+			let results = [];
 
 			while (true) {
-				var obj = {};
-				var startOffset = bitio.byte_offset;
-				var CondActionSize = bitio.getUI16();
+				let obj = {};
+				let startOffset = bitio.byte_offset;
+				let CondActionSize = bitio.getUI16();
 				obj.CondIdleToOverDown = bitio.getUIBits(1);
 				obj.CondOutDownToIdle = bitio.getUIBits(1);
 				obj.CondOutDownToOverDown = bitio.getUIBits(1);
@@ -7312,7 +7355,7 @@ if (!("swf2js" in window)) {
 				obj.CondOverDownToIdle = bitio.getUIBits(1);
 
 				// ActionScript
-				var length = endOffset - bitio.byte_offset + 1;
+				let length = endOffset - bitio.byte_offset + 1;
 				obj.ActionScript = _this.parseDoAction(length);
 				results[results.length] = obj;
 
@@ -7332,12 +7375,12 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parsePlaceObject = function(tagType, length)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var stage = _this.stage;
-			var obj = {};
+			let _this = this;
+			let bitio = _this.bitio;
+			let stage = _this.stage;
+			let obj = {};
 			obj.tagType = tagType;
-			var startOffset = bitio.byte_offset;
+			let startOffset = bitio.byte_offset;
 
 			// 4 PlaceObject, 26 PlaceObject2, 70 PlaceObject3, 94 PlaceObject4
 			if (tagType === 4) { // PlaceObject
@@ -7350,7 +7393,7 @@ if (!("swf2js" in window)) {
 					obj.ColorTransform = _this.colorTransform();
 					obj.PlaceFlagHasColorTransform = 1;
 				}
-			} else { // 26 PlaceObject2, 70 PlaceObject3
+			} else { // 26 PlaceObject2, 70 PlaceObject3, 94 PlaceObject4
 				obj.PlaceFlagHasClipActions = bitio.getUIBits(1);
 				if (stage.getVersion() < 5) {
 					obj.PlaceFlagHasClipActions = 0;
@@ -7364,7 +7407,7 @@ if (!("swf2js" in window)) {
 				obj.PlaceFlagMove = bitio.getUIBits(1);
 
 				// PlaceObject3
-				if (tagType === 70) {
+				if (tagType === 70 || tagType === 94) {
 					bitio.getUIBits(1); // Reserved
 					obj.PlaceFlagOpaqueBackground = bitio.getUIBits(1);
 					obj.PlaceFlagHasVisible = bitio.getUIBits(1);
@@ -7401,13 +7444,14 @@ if (!("swf2js" in window)) {
 					obj.ClipDepth = bitio.getUI16();
 				}
 
-				if (tagType === 70) {
+				if (tagType === 70 || tagType === 94) {
 					if (obj.PlaceFlagHasFilterList) {
 						obj.SurfaceFilterList = _this.getFilterList();
 					}
 					if (obj.PlaceFlagHasBlendMode) {
 						obj.BlendMode = bitio.getUI8();
 					}
+					// bitmapCacheBug ?
 					if (obj.PlaceFlagHasCacheAsBitmap) {
 						obj.BitmapCache = bitio.getUI8();
 					}
@@ -7424,6 +7468,11 @@ if (!("swf2js" in window)) {
 					obj.AllEventFlags = _this.parseClipEventFlags();
 					obj.ClipActionRecords = _this.parseClipActionRecords();
 				}
+
+				// AMF3 encoded value
+				if (tagType === 94 && this.byte_offset < startOffset+length-1) {
+					window.alert('PlaceObject4: AMF3 encoded value not supported');
+				}
 			}
 
 			return obj;
@@ -7434,10 +7483,10 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseClipEventFlags = function()
 		{
-			var _this = this;
-			var obj = {};
-			var bitio = _this.bitio;
-			var stage = _this.stage;
+			let _this = this;
+			let obj = {};
+			let bitio = _this.bitio;
+			let stage = _this.stage;
 
 			obj.keyUp = bitio.getUIBits(1);
 			obj.keyDown = bitio.getUIBits(1);
@@ -7507,16 +7556,16 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseClipActionRecords = function()
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var ClipActionRecords = [];
-			var r = 0;
+			let _this = this;
+			let bitio = _this.bitio;
+			let ClipActionRecords = [];
+			let r = 0;
 			while (true) {
-				var EventFlags = _this.parseClipEventFlags();
+				let EventFlags = _this.parseClipEventFlags();
 				if (_this.clipEventFlagsIsClear(EventFlags)) break;
 				ClipActionRecords[r] = {};
 				ClipActionRecords[r].EventFlags = EventFlags;
-				var ActionRecordSize = bitio.getUI32();
+				let ActionRecordSize = bitio.getUI32();
 				if (EventFlags.keyPress) {
 					ClipActionRecords[r].KeyCode = bitio.getUI8();
 				}
@@ -7531,13 +7580,13 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.getFilterList = function()
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var result = [];
-			var _getFilter = _this.getFilter;
-			var NumberOfFilters = bitio.getUI8();
-			for (var i = 0; i < NumberOfFilters; i++) {
-				var filter = _getFilter.call(_this);
+			let _this = this;
+			let bitio = _this.bitio;
+			let result = [];
+			let _getFilter = _this.getFilter;
+			let NumberOfFilters = bitio.getUI8();
+			for (let i = 0; i < NumberOfFilters; i++) {
+				let filter = _getFilter.call(_this);
 				if (filter) {
 					result[result.length] = filter;
 				}
@@ -7550,10 +7599,10 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.getFilter = function()
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var filterId = bitio.getUI8();
-			var filter;
+			let _this = this;
+			let bitio = _this.bitio;
+			let filterId = bitio.getUI8();
+			let filter;
 			switch (filterId) {
 				case 0:
 					filter = _this.dropShadowFilter();
@@ -7588,22 +7637,22 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.dropShadowFilter = function()
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var rgba = _this.rgba();
-			var alpha = rgba.A;
-			var color = rgba.R << 16 | rgba.G << 8 | rgba.B;
-			var blurX = bitio.getFixed();
-			var blurY = bitio.getFixed();
-			var angle = bitio.getFixed() * 180 / _PI;
-			var distance = bitio.getUI32() / 0x10000;
-			var strength = bitio.getFixed8();
-			var inner = (bitio.getUIBits(1)) ? true : false;
-			var knockout = (bitio.getUIBits(1)) ? true : false;
+			let _this = this;
+			let bitio = _this.bitio;
+			let rgba = _this.rgba();
+			let alpha = rgba.A;
+			let color = rgba.R << 16 | rgba.G << 8 | rgba.B;
+			let blurX = bitio.getFixed();
+			let blurY = bitio.getFixed();
+			let angle = bitio.getFixed() * 180 / _PI;
+			let distance = bitio.getUI32() / 0x10000;
+			let strength = bitio.getFixed8();
+			let inner = (bitio.getUIBits(1)) ? true : false;
+			let knockout = (bitio.getUIBits(1)) ? true : false;
 			// CompositeSource:  Always 1
-			var hideObject = (bitio.getUIBits(1)) ? false : true;
+			let hideObject = (bitio.getUIBits(1)) ? false : true;
 			// passes: Number of blur passes
-			var quality = bitio.getUIBits(5);
+			let quality = bitio.getUIBits(5);
 
 			if (!strength) {
 				return null;
@@ -7620,11 +7669,11 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.blurFilter = function()
 		{
-			var bitio = this.bitio;
-			var blurX = bitio.getFixed();
-			var blurY = bitio.getFixed();
+			let bitio = this.bitio;
+			let blurX = bitio.getFixed();
+			let blurY = bitio.getFixed();
 			// passes
-			var quality = bitio.getUIBits(5);
+			let quality = bitio.getUIBits(5);
 			bitio.getUIBits(3); // Reserved
 
 			return new BlurFilter(blurX, blurY, quality);
@@ -7635,22 +7684,22 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.glowFilter = function()
 		{
-			var _this = this;
-			var bitio = _this.bitio;
+			let _this = this;
+			let bitio = _this.bitio;
 			// glowcolor
-			var rgba = _this.rgba();
-			var alpha = rgba.A;
-			var color = rgba.R << 16 | rgba.G << 8 | rgba.B;
-			var blurX = bitio.getFixed();
-			var blurY = bitio.getFixed();
-			var strength = bitio.getFixed8() / 256;
+			let rgba = _this.rgba();
+			let alpha = rgba.A;
+			let color = rgba.R << 16 | rgba.G << 8 | rgba.B;
+			let blurX = bitio.getFixed();
+			let blurY = bitio.getFixed();
+			let strength = bitio.getFixed8() / 256;
 			// innerGlow
-			var inner = (bitio.getUIBits(1)) ? true : false;
-			var knockout = (bitio.getUIBits(1)) ? true : false;
+			let inner = (bitio.getUIBits(1)) ? true : false;
+			let knockout = (bitio.getUIBits(1)) ? true : false;
 			// compositeSource
 			bitio.getUIBits(1);
 			// passes
-			var quality = bitio.getUIBits(5);
+			let quality = bitio.getUIBits(5);
 
 			if (!strength) {
 				return null;
@@ -7667,32 +7716,32 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.bevelFilter = function()
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var rgba;
+			let _this = this;
+			let bitio = _this.bitio;
+			let rgba;
 			// highlightColor
 			rgba = _this.rgba();
-			var highlightAlpha = rgba.A;
-			var highlightColor = rgba.R << 16 | rgba.G << 8 | rgba.B;
+			let highlightAlpha = rgba.A;
+			let highlightColor = rgba.R << 16 | rgba.G << 8 | rgba.B;
 			// shadowColor
 			rgba = _this.rgba();
-			var shadowAlpha = rgba.A;
-			var shadowColor = rgba.R << 16 | rgba.G << 8 | rgba.B;
+			let shadowAlpha = rgba.A;
+			let shadowColor = rgba.R << 16 | rgba.G << 8 | rgba.B;
 
-			var blurX = bitio.getFixed();
-			var blurY = bitio.getFixed();
-			var angle = bitio.getFixed() * 180 / _PI;
-			var distance = bitio.getFixed();
-			var strength = bitio.getFixed8();
+			let blurX = bitio.getFixed();
+			let blurY = bitio.getFixed();
+			let angle = bitio.getFixed() * 180 / _PI;
+			let distance = bitio.getFixed();
+			let strength = bitio.getFixed8();
 			// innerShadow
-			var inner = (bitio.getUIBits(1)) ? true : false;
-			var knockout = (bitio.getUIBits(1)) ? true : false;
+			let inner = (bitio.getUIBits(1)) ? true : false;
+			let knockout = (bitio.getUIBits(1)) ? true : false;
 			bitio.getUIBits(1); // CompositeSource
-			var OnTop = bitio.getUIBits(1);
+			let OnTop = bitio.getUIBits(1);
 			// passes
-			var quality = bitio.getUIBits(4);
+			let quality = bitio.getUIBits(4);
 
-			var type = "inner";
+			let type = "inner";
 			if (!inner) {
 				if (OnTop) {
 					type = "full";
@@ -7717,41 +7766,41 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.gradientGlowFilter = function()
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var i;
-			var NumColors = bitio.getUI8();
+			let _this = this;
+			let bitio = _this.bitio;
+			let i;
+			let NumColors = bitio.getUI8();
 
 			// gradientColors
-			var colors = [];
-			var alphas = [];
+			let colors = [];
+			let alphas = [];
 			for (i = 0; i < NumColors; i++) {
-				var rgba = _this.rgba();
+				let rgba = _this.rgba();
 				alphas[alphas.length] = rgba.A;
 				colors[colors.length] = rgba.R << 16 | rgba.G << 8 | rgba.B;
 			}
 
 			// gradientRatio
-			var ratios = [];
+			let ratios = [];
 			for (i = 0; i < NumColors; i++) {
 				ratios[ratios.length] = bitio.getUI8();
 			}
 
-			var blurX = bitio.getFixed();
-			var blurY = bitio.getFixed();
-			var angle = bitio.getFixed() * 180 / _PI;
-			var distance = bitio.getFixed();
-			var strength = bitio.getFixed8();
+			let blurX = bitio.getFixed();
+			let blurY = bitio.getFixed();
+			let angle = bitio.getFixed() * 180 / _PI;
+			let distance = bitio.getFixed();
+			let strength = bitio.getFixed8();
 			// innerShadow
-			var inner = (bitio.getUIBits(1)) ? true : false;
-			var knockout = (bitio.getUIBits(1)) ? true : false;
+			let inner = (bitio.getUIBits(1)) ? true : false;
+			let knockout = (bitio.getUIBits(1)) ? true : false;
 			// compositeSource
 			bitio.getUIBits(1);
-			var OnTop = bitio.getUIBits(1);
+			let OnTop = bitio.getUIBits(1);
 			// passes
-			var quality = bitio.getUIBits(4);
+			let quality = bitio.getUIBits(4);
 
-			var type = "inner";
+			let type = "inner";
 			if (!inner) {
 				if (OnTop) {
 					type = "full";
@@ -7775,17 +7824,17 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.convolutionFilter = function()
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var obj = {};
+			let _this = this;
+			let bitio = _this.bitio;
+			let obj = {};
 
 			obj.MatrixX = bitio.getUI8();
 			obj.MatrixY = bitio.getUI8();
 			obj.Divisor = bitio.getFloat16(); // | bitio.getFloat16();
 			obj.Bias = bitio.getFloat16(); // | bitio.getFloat16();
 
-			var count = obj.MatrixX * obj.MatrixY;
-			var MatrixArr = [];
+			let count = obj.MatrixX * obj.MatrixY;
+			let MatrixArr = [];
 			while (count--) {
 				MatrixArr[MatrixArr.length] = bitio.getFloat16(); // bitio.getUI32();
 			}
@@ -7803,39 +7852,39 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.gradientBevelFilter = function()
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var NumColors = bitio.getUI8();
+			let _this = this;
+			let bitio = _this.bitio;
+			let NumColors = bitio.getUI8();
 
-			var i;
+			let i;
 			// gradientColors
-			var colors = [];
-			var alphas = [];
+			let colors = [];
+			let alphas = [];
 			for (i = 0; i < NumColors; i++) {
-				var rgba = _this.rgba();
+				let rgba = _this.rgba();
 				alphas[alphas.length] = rgba.A;
 				colors[colors.length] = rgba.R << 16 | rgba.G << 8 | rgba.B;
 			}
 			// gradientRatio
-			var ratios = [];
+			let ratios = [];
 			for (i = 0; i < NumColors; i++) {
 				ratios[ratios.length] = bitio.getUI8();
 			}
 
-			var blurX = bitio.getFixed();
-			var blurY = bitio.getFixed();
-			var angle = bitio.getFixed() * 180 / _PI;
-			var distance = bitio.getFixed();
-			var strength = bitio.getFixed8();
+			let blurX = bitio.getFixed();
+			let blurY = bitio.getFixed();
+			let angle = bitio.getFixed() * 180 / _PI;
+			let distance = bitio.getFixed();
+			let strength = bitio.getFixed8();
 			// innerShadow
-			var inner = (bitio.getUIBits(1)) ? true : false;
-			var knockout = (bitio.getUIBits(1)) ? true : false;
+			let inner = (bitio.getUIBits(1)) ? true : false;
+			let knockout = (bitio.getUIBits(1)) ? true : false;
 			bitio.getUIBits(1); // CompositeSource
-			var OnTop = bitio.getUIBits(1);
+			let OnTop = bitio.getUIBits(1);
 			// passes: Number of blur passes
-			var quality = bitio.getUIBits(4);
+			let quality = bitio.getUIBits(4);
 
-			var type = "inner";
+			let type = "inner";
 			if (!inner) {
 				if (OnTop) {
 					type = "full";
@@ -7859,9 +7908,9 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.colorMatrixFilter = function()
 		{
-			var bitio = this.bitio;
-			var MatrixArr = [];
-			for (var i = 0; i < 20; i++) {
+			let bitio = this.bitio;
+			let MatrixArr = [];
+			for (let i = 0; i < 20; i++) {
 				MatrixArr[MatrixArr.length] = bitio.getFloat32();
 			}
 			return new ColorMatrixFilter(
@@ -7874,16 +7923,16 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.colorTransform = function()
 		{
-			var bitio = this.bitio;
+			let bitio = this.bitio;
 
-			var result = [1, 1, 1, 1, 0, 0, 0, 0];
-			// var first6bits = bitio.getUIBits(6);
+			let result = [1, 1, 1, 1, 0, 0, 0, 0];
+			// let first6bits = bitio.getUIBits(6);
 			// first6bits >> 5;
-			// var HasMultiTerms = (first6bits >> 4) & 1;
-			// var nbits = first6bits & 0x0f;
-			var HasAddTerms = bitio.getUIBit();
-			var HasMultiTerms = bitio.getUIBit();
-			var nbits = bitio.getUIBits(4);
+			// let HasMultiTerms = (first6bits >> 4) & 1;
+			// let nbits = first6bits & 0x0f;
+			let HasAddTerms = bitio.getUIBit();
+			let HasMultiTerms = bitio.getUIBit();
+			let nbits = bitio.getUIBits(4);
 
 			if (HasMultiTerms) {
 				result[0] = bitio.getSIBits(nbits) / 256;
@@ -7906,12 +7955,12 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.colorTransformWithAlpha = function()
 		{
-			var bitio = this.bitio;
+			let bitio = this.bitio;
 
-			var result = [1, 1, 1, 1, 0, 0, 0, 0];
-			var HasAddTerms = bitio.getUIBit();
-			var HasMultiTerms = bitio.getUIBit();
-			var nbits = bitio.getUIBits(4);
+			let result = [1, 1, 1, 1, 0, 0, 0, 0];
+			let HasAddTerms = bitio.getUIBit();
+			let HasMultiTerms = bitio.getUIBit();
+			let nbits = bitio.getUIBits(4);
 
 			if (HasMultiTerms) {
 				result[0] = bitio.getSIBits(nbits) / 256;
@@ -7936,11 +7985,11 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDefineSprite = function(dataLength,tagLevel)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var characterId = bitio.getUI16();
-			var frameCount = bitio.getUI16();
-			var stage = _this.stage;
+			let _this = this;
+			let bitio = _this.bitio;
+			let characterId = bitio.getUI16();
+			let frameCount = bitio.getUI16();
+			let stage = _this.stage;
 			_this.tagLevel = tagLevel;
 			//stage.soundStreamLevels[_this.tagLevel].currentSoundStream = stage.currentSoundStream;
 			stage.soundStreamLevels[stage.soundStreamLevels.length-1].currentFrame = stage.currentFrame;
@@ -7957,9 +8006,9 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDoAction = function(length)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var data = bitio.getData(length);
+			let _this = this;
+			let bitio = _this.bitio;
+			let data = bitio.getData(length);
 			return new ActionScript(data);
 		};
 
@@ -7968,16 +8017,16 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDoInitAction = function(length)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var stage = _this.stage;
-			var spriteId = bitio.getUI16();
+			let _this = this;
+			let bitio = _this.bitio;
+			let stage = _this.stage;
+			let spriteId = bitio.getUI16();
 
-			var as = new ActionScript(bitio.getData(length - 2), undefined, undefined, true);
-			var mc = stage.getParent();
+			let as = new ActionScript(bitio.getData(length - 2), undefined, undefined, true);
+			let mc = stage.getParent();
 			mc.variables = {};
-			var action = mc.createActionScript2(as);
-			var packages = stage.packages;
+			let action = mc.createActionScript2(as);
+			let packages = stage.packages;
 			if (spriteId in packages) {
 				mc.active = true;
 				action.apply(mc);
@@ -7991,9 +8040,9 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDefineSceneAndFrameLabelData = function()
 		{
-			var i;
-			var bitio = this.bitio;
-			var obj = {};
+			let i;
+			let bitio = this.bitio;
+			let obj = {};
 			obj.SceneCount = bitio.getU30();
 			obj.sceneInfo = [];
 			for (i = 0; i < obj.SceneCount; i++) {
@@ -8020,11 +8069,11 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseSoundStreamHead = function(tagType)
 		{
-			var obj = {};
+			let obj = {};
 			obj.tagType = tagType;
-			var _this = this;
-			var stage = _this.stage;
-			var bitio = this.bitio;
+			let _this = this;
+			let stage = _this.stage;
+			let bitio = this.bitio;
 			bitio.getUIBits(4); // Reserved
 
 			// 0 = 5.5kHz, 1 = 11kHz, 2 = 22kHz, 3 = 44kHz
@@ -8081,19 +8130,19 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDoABC = function(tagType, length)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var stage = _this.stage;
+			let _this = this;
+			let bitio = _this.bitio;
+			let stage = _this.stage;
 			stage.abcFlag = true;
-			var startOffset = bitio.byte_offset;
+			let startOffset = bitio.byte_offset;
 
-			var obj = {};
+			let obj = {};
 			obj.tagType = tagType;
 			obj.Flags = bitio.getUI32();
 			obj.Name = bitio.getDataUntil("\0");
-			var offset = length - (bitio.byte_offset - startOffset);
-			var ABCData = bitio.getData(offset);
-			var ABCBitIO = new BitIO();
+			let offset = length - (bitio.byte_offset - startOffset);
+			let ABCData = bitio.getData(offset);
+			let ABCBitIO = new BitIO();
 			ABCBitIO.setData(ABCData);
 
 			// version
@@ -8121,13 +8170,13 @@ if (!("swf2js" in window)) {
 			// multiname_info;
 			obj.multiname_info = _this.ABCMultiNameInfo(ABCBitIO);
 
-			var i = 0;
+			let i = 0;
 
 			// method_info
 			obj.method = [];
-			var methodCount = ABCBitIO.getU30();
+			let methodCount = ABCBitIO.getU30();
 			if (methodCount) {
-				var method = [];
+				let method = [];
 				for (i = 0; i < methodCount; i++) {
 					method[i] = _this.ABCMethodInfo(ABCBitIO);
 				}
@@ -8136,28 +8185,28 @@ if (!("swf2js" in window)) {
 
 			// metadata_info
 			obj.metadata = [];
-			var metadataCount = ABCBitIO.getU30();
+			let metadataCount = ABCBitIO.getU30();
 			if (metadataCount) {
-				var metadataInfo = [];
+				let metadataInfo = [];
 				for (i = 0; i < metadataCount; i++) {
 					metadataInfo[i] = _this.ABCMetadataInfo(ABCBitIO);
 				}
 				obj.metadata = metadataInfo;
 			}
 
-			var classCount = ABCBitIO.getU30();
+			let classCount = ABCBitIO.getU30();
 			obj.instance = [];
 			obj.class = [];
 			if (classCount) {
 				// instance_info
-				var instance = [];
+				let instance = [];
 				for (i = 0; i < classCount; i++) {
 					instance[i] = _this.ABCInstanceInfo(ABCBitIO);
 				}
 				obj.instance = instance;
 
 				// class_info
-				var classInfo = [];
+				let classInfo = [];
 				for (i = 0; i < classCount; i++) {
 					classInfo[i] = _this.ABCClassInfo(ABCBitIO);
 				}
@@ -8166,9 +8215,9 @@ if (!("swf2js" in window)) {
 
 			// script_info
 			obj.script = [];
-			var scriptCount = ABCBitIO.getU30();
+			let scriptCount = ABCBitIO.getU30();
 			if (scriptCount) {
-				var script = [];
+				let script = [];
 				for (i = 0; i < scriptCount; i++) {
 					script[i] = _this.ABCScriptInfo(ABCBitIO);
 				}
@@ -8177,11 +8226,11 @@ if (!("swf2js" in window)) {
 
 			// method_body_info
 			obj.methodBody = [];
-			var methodBodyCount = ABCBitIO.getU30();
+			let methodBodyCount = ABCBitIO.getU30();
 			if (methodBodyCount) {
-				var methodBody = [];
+				let methodBody = [];
 				for (i = 0; i < methodBodyCount; i++) {
-					var mBody = _this.ABCMethodBodyInfo(ABCBitIO);
+					let mBody = _this.ABCMethodBodyInfo(ABCBitIO);
 					methodBody[mBody.method] = mBody;
 				}
 				obj.methodBody = methodBody;
@@ -8199,55 +8248,55 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCBuildInstance = function(obj)
 		{
-			var _this = this;
-			var instances = obj.instance;
-			var length = instances.length;
-			var namespaces = obj.namespace;
-			var string = obj.string;
-			var stage = _this.stage;
-			var names = obj.names;
-			for (var i = 0; i < length; i++) {
-				var instance = instances[i];
-				var flag = instance.flags;
+			let _this = this;
+			let instances = obj.instance;
+			let length = instances.length;
+			let namespaces = obj.namespace;
+			let string = obj.string;
+			let stage = _this.stage;
+			let names = obj.names;
+			for (let i = 0; i < length; i++) {
+				let instance = instances[i];
+				let flag = instance.flags;
 
-				var nsIndex = null;
+				let nsIndex = null;
 				if (flag & 0x08) {
 					nsIndex = instance.protectedNs;
 				}
 
-				var object = {};
+				let object = {};
 				if (nsIndex) {
-					var nObj = namespaces[nsIndex];
+					let nObj = namespaces[nsIndex];
 					object = string[nObj.name];
 				} else {
 					object = names[instance.name];
 				}
 
-				var values = object.split(":");
-				var className = values.pop();
-				var ns = values.pop();
+				let values = object.split(":");
+				let className = values.pop();
+				let ns = values.pop();
 
 				// build parent
-				var AVM2 = function (mc) { this["__swf2js__::builder"] = mc; };
-				var prop = AVM2.prototype;
+				let AVM2 = function (mc) { this["__swf2js__::builder"] = mc; };
+				let prop = AVM2.prototype;
 
 				// constructor
 				prop[className] = _this.ABCCreateActionScript3(obj, instance.iinit, object);
 
 				// prototype
-				var traits = instance.trait;
-				var tLength = traits.length;
-				var register = [];
-				var rCount = 1;
+				let traits = instance.trait;
+				let tLength = traits.length;
+				let register = [];
+				let rCount = 1;
 				if (tLength) {
-					for (var idx = 0; idx < tLength; idx++) {
-						var trait = traits[idx];
-						var tName = names[trait.name];
-						var tNames = tName.split("::");
-						var pName = tNames.pop();
-						var kind = trait.kind;
+					for (let idx = 0; idx < tLength; idx++) {
+						let trait = traits[idx];
+						let tName = names[trait.name];
+						let tNames = tName.split("::");
+						let pName = tNames.pop();
+						let kind = trait.kind;
 
-						var val = undefined;
+						let val;
 						switch (kind) {
 							case 0: // Slot
 								register[rCount++] = pName;
@@ -8271,23 +8320,23 @@ if (!("swf2js" in window)) {
 					}
 				}
 
-				var localName = "__swf2js__:" + object;
+				let localName = "__swf2js__:" + object;
 				prop[localName] = {};
 
 				// extends
-				var superName = instance.superName;
+				let superName = instance.superName;
 				prop[localName].extends = names[superName];
 
 				// register
 				prop[localName].register = register;
 
 				// build
-				var abc = stage.abc;
-				var classObj = stage.avm2;
+				let abc = stage.abc;
+				let classObj = stage.avm2;
 				if (ns) {
-					var nss = ns.split(".");
-					var nLen = nss.length;
-					for (var nIdx = 0; nIdx < nLen; nIdx++) {
+					let nss = ns.split(".");
+					let nLen = nss.length;
+					for (let nIdx = 0; nIdx < nLen; nIdx++) {
 						if (!(nss[nIdx] in classObj)) {
 							classObj[nss[nIdx]] = {};
 							abc[nss[nIdx]] = {};
@@ -8309,12 +8358,12 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCCreateActionScript3 = function(obj, methodId, abcKey)
 		{
-			var stage = this.stage;
+			let stage = this.stage;
 			return (function(data, id, ns, stage)
 			{
 				return function()
 				{
-					var as3 = new ActionScript3(data, id, ns, stage);
+					let as3 = new ActionScript3(data, id, ns, stage);
 					as3.caller = this;
 					as3.args = arguments;
 					return as3.execute();
@@ -8328,19 +8377,19 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCMultinameToString = function(obj)
 		{
-			var multinames = obj.multiname_info;
-			var length = multinames.length;
-			var string = obj.string;
-			var ns = obj.namespace;
-			var names = [];
-			for (var i = 1; i < length; i++) {
-				var info = multinames[i];
-				var str = "";
+			let multinames = obj.multiname_info;
+			let length = multinames.length;
+			let string = obj.string;
+			let ns = obj.namespace;
+			let names = [];
+			for (let i = 1; i < length; i++) {
+				let info = multinames[i];
+				let str = "";
 
 				switch (info.kind) {
 					case 0x07: // QName
 					case 0x0D: // QNameA
-						var namespace_info = ns[info.ns];
+						let namespace_info = ns[info.ns];
 						switch (namespace_info.kind) {
 							default:
 								str += string[namespace_info.name];
@@ -8386,10 +8435,10 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCInteger = function(ABCBitIO)
 		{
-			var array = [];
-			var count = ABCBitIO.getU30();
+			let array = [];
+			let count = ABCBitIO.getU30();
 			if (count) {
-				for (var i = 1; i < count; i++) {
+				for (let i = 1; i < count; i++) {
 					array[i] = ABCBitIO.getS30();
 				}
 			}
@@ -8402,10 +8451,10 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCUinteger = function(ABCBitIO)
 		{
-			var array = [];
-			var count = ABCBitIO.getU30();
+			let array = [];
+			let count = ABCBitIO.getU30();
 			if (count) {
-				for (var i = 1; i < count; i++) {
+				for (let i = 1; i < count; i++) {
 					array[i] = ABCBitIO.getU30();
 				}
 			}
@@ -8418,10 +8467,10 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCDouble = function(ABCBitIO)
 		{
-			var array = [];
-			var count = ABCBitIO.getU30();
+			let array = [];
+			let count = ABCBitIO.getU30();
 			if (count) {
-				for (var i = 1; i < count; i++) {
+				for (let i = 1; i < count; i++) {
 					array[i] = ABCBitIO.getFloat64LittleEndian();
 				}
 			}
@@ -8434,10 +8483,10 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCStringInfo = function(ABCBitIO)
 		{
-			var array = [];
-			var count = ABCBitIO.getU30();
+			let array = [];
+			let count = ABCBitIO.getU30();
 			if (count) {
-				for (var i = 1; i < count; i++) {
+				for (let i = 1; i < count; i++) {
 					array[i] = ABCBitIO.AbcReadString();
 				}
 			}
@@ -8450,10 +8499,10 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCNameSpaceInfo = function(ABCBitIO)
 		{
-			var array = [];
-			var count = ABCBitIO.getU30();
+			let array = [];
+			let count = ABCBitIO.getU30();
 			if (count) {
-				for (var i = 1; i < count; i++) {
+				for (let i = 1; i < count; i++) {
 					array[i] =
 					{
 						kind: ABCBitIO.getUI8(),
@@ -8470,14 +8519,14 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCNsSetInfo = function(ABCBitIO)
 		{
-			var array = [];
-			var count = ABCBitIO.getU30();
+			let array = [];
+			let count = ABCBitIO.getU30();
 			if (count) {
-				for (var i = 1; i < count; i++) {
-					var nsCount = ABCBitIO.getU30();
-					var ns = [];
+				for (let i = 1; i < count; i++) {
+					let nsCount = ABCBitIO.getU30();
+					let ns = [];
 					if (nsCount) {
-						for (var j = 0; j < nsCount; j++) {
+						for (let j = 0; j < nsCount; j++) {
 							ns[j] = ABCBitIO.getU30();
 						}
 					}
@@ -8493,11 +8542,11 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCMultiNameInfo = function(ABCBitIO)
 		{
-			var array = [];
-			var count = ABCBitIO.getU30();
+			let array = [];
+			let count = ABCBitIO.getU30();
 			if (count) {
-				for (var i = 1; i < count; i++) {
-					var obj = {};
+				for (let i = 1; i < count; i++) {
+					let obj = {};
 					obj.kind = ABCBitIO.getUI8();
 					switch (obj.kind) {
 						case 0x07: // QName
@@ -8534,14 +8583,14 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCMethodInfo = function(ABCBitIO)
 		{
-			var obj = {};
-			var i;
-			var count = ABCBitIO.getU30();
+			let obj = {};
+			let i;
+			let count = ABCBitIO.getU30();
 			obj.paramCount = count;
 			obj.returnType = ABCBitIO.getU30();
 			obj.paramType = [];
 			if (count) {
-				var paramType = [];
+				let paramType = [];
 				for (i = 0; i < count; i++) {
 					paramType[paramType.length] = ABCBitIO.getU30();
 				}
@@ -8553,8 +8602,8 @@ if (!("swf2js" in window)) {
 
 			obj.options = [];
 			if (obj.flags === 0x08) {
-				var options = [];
-				var optionCount = ABCBitIO.getU30();
+				let options = [];
+				let optionCount = ABCBitIO.getU30();
 				if (optionCount) {
 					for (i = 0; i < optionCount; i++) {
 						options[options.length] = {
@@ -8568,7 +8617,7 @@ if (!("swf2js" in window)) {
 
 			obj.paramName = [];
 			if (obj.flags === 0x80) {
-				var paramName = [];
+				let paramName = [];
 				if (count) {
 					for (i = 0; i < count; i++) {
 						paramName[paramName.length] = ABCBitIO.getU30();
@@ -8586,14 +8635,14 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCMetadataInfo = function(ABCBitIO)
 		{
-			var obj = {};
+			let obj = {};
 			obj.name = ABCBitIO.getU30();
 			obj.items = [];
 
-			var count = ABCBitIO.getU30();
+			let count = ABCBitIO.getU30();
 			if (count) {
-				var items = [];
-				for (var i = 0; i < count; i++) {
+				let items = [];
+				for (let i = 0; i < count; i++) {
 					items[items.length] = {
 						key: ABCBitIO.getU30(),
 						value: ABCBitIO.getU30()
@@ -8611,7 +8660,7 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCInstanceInfo = function(ABCBitIO)
 		{
-			var obj = {};
+			let obj = {};
 			obj.name = ABCBitIO.getU30();
 			obj.superName = ABCBitIO.getU30();
 			obj.flags = ABCBitIO.getUI8();
@@ -8619,11 +8668,11 @@ if (!("swf2js" in window)) {
 				obj.protectedNs = ABCBitIO.getU30();
 			}
 
-			var count = ABCBitIO.getU30();
+			let count = ABCBitIO.getU30();
 			obj.interfaces = [];
 			if (count) {
-				var interfaces = [];
-				for (var i = 0; i < count; i++) {
+				let interfaces = [];
+				for (let i = 0; i < count; i++) {
 					interfaces[interfaces.length] = ABCBitIO.getU30();
 				}
 				obj.interfaces = interfaces;
@@ -8641,7 +8690,7 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCClassInfo = function(ABCBitIO)
 		{
-			var obj = {};
+			let obj = {};
 			obj.cinit = ABCBitIO.getU30();
 			obj.trait = this.ABCTrait(ABCBitIO);
 			return obj;
@@ -8652,7 +8701,7 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCScriptInfo = function(ABCBitIO)
 		{
-			var obj = {};
+			let obj = {};
 			obj.init = ABCBitIO.getU30();
 			obj.trait = this.ABCTrait(ABCBitIO);
 			return obj;
@@ -8664,23 +8713,23 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCMethodBodyInfo = function(ABCBitIO)
 		{
-			var _this = this;
-			var obj = {};
+			let _this = this;
+			let obj = {};
 			obj.method = ABCBitIO.getU30();
 			obj.maxStack = ABCBitIO.getU30();
 			obj.localCount = ABCBitIO.getU30();
 			obj.initScopeDepth = ABCBitIO.getU30();
 			obj.maxScopeDepth = ABCBitIO.getU30();
-			var i;
-			var count = ABCBitIO.getU30();
-			var codes = [];
+			let i;
+			let count = ABCBitIO.getU30();
+			let codes = [];
 			if (count) {
 				codes = _this.ABCBuildCode(ABCBitIO, count);
 			}
 			obj.codes = codes;
 
 			count = ABCBitIO.getU30();
-			var exceptions = [];
+			let exceptions = [];
 			if (count) {
 				for (i = 0; i < count; i++) {
 					exceptions[exceptions.length] = _this.ABCException(ABCBitIO);
@@ -8698,13 +8747,13 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCBuildCode = function(ABCBitIO, count)
 		{
-			var array = [];
-			var cacheOffset;
-			for (var i = 0; i < count; i++) {
-				var obj = {};
-				var offset = 0;
+			let array = [];
+			let cacheOffset;
+			for (let i = 0; i < count; i++) {
+				let obj = {};
+				let offset = 0;
 
-				var code = ABCBitIO.getUI8();
+				let code = ABCBitIO.getUI8();
 				obj.code = code;
 				switch (code) {
 					case 0x86: // astype
@@ -8822,7 +8871,7 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCException = function(ABCBitIO)
 		{
-			var obj = {};
+			let obj = {};
 			obj.from = ABCBitIO.getU30();
 			obj.to = ABCBitIO.getU30();
 			obj.target = ABCBitIO.getU30();
@@ -8837,17 +8886,17 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.ABCTrait = function(ABCBitIO)
 		{
-			var count = ABCBitIO.getU30();
-			var trait = [];
+			let count = ABCBitIO.getU30();
+			let trait = [];
 			if (count) {
-				for (var i = 0; i < count; i++) {
-					var tObj = {};
+				for (let i = 0; i < count; i++) {
+					let tObj = {};
 					tObj.name = ABCBitIO.getU30();
-					var tag = ABCBitIO.getUI8();
-					var kind = tag & 0x0f;
-					var attributes = (kind >> 4) & 0x0f;
+					let tag = ABCBitIO.getUI8();
+					let kind = tag & 0x0f;
+					let attributes = (kind >> 4) & 0x0f;
 
-					var data = {};
+					let data = {};
 					switch (kind) {
 						default:
 							console.log("ERROR:" + kind);
@@ -8881,10 +8930,10 @@ if (!("swf2js" in window)) {
 					tObj.data = data;
 
 					if (attributes & 0x04) {
-						var metadataCount = ABCBitIO.getU30();
-						var metadata = [];
+						let metadataCount = ABCBitIO.getU30();
+						let metadata = [];
 						if (metadataCount) {
-							for (var j = 0; j < metadataCount; j++) {
+							for (let j = 0; j < metadataCount; j++) {
 								metadata[metadata.length] = ABCBitIO.getU30();
 							}
 						}
@@ -8903,13 +8952,13 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseSymbolClass = function()
 		{
-			var bitio = this.bitio;
-			var stage = this.stage;
-			var symbols = stage.symbols;
-			var count = bitio.getUI16();
+			let bitio = this.bitio;
+			let stage = this.stage;
+			let symbols = stage.symbols;
+			let count = bitio.getUI16();
 			if (count) {
 				while (count--) {
-					var tagId = bitio.getUI16();
+					let tagId = bitio.getUI16();
 					symbols[tagId] = bitio.getDataUntil("\0");
 				}
 			}
@@ -8921,11 +8970,11 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDefineSound = function(tagType, length)
 		{
-			var obj = {};
-			var _this = this;
-			var bitio = _this.bitio;
-			var stage = _this.stage;
-			var startOffset = bitio.byte_offset;
+			let obj = {};
+			let _this = this;
+			let bitio = _this.bitio;
+			let stage = _this.stage;
+			let startOffset = bitio.byte_offset;
 
 			obj.tagType = tagType;
 			obj.SoundId = bitio.getUI16();
@@ -8937,12 +8986,12 @@ if (!("swf2js" in window)) {
 			obj.SoundSampleCount = bitio.getUI32();
 			obj.Duration = obj.SoundSampleCount / soundRates[obj.SoundRate];
 
-			var sub = bitio.byte_offset - startOffset;
-			var dataLength = length - sub;
-			var data = bitio.getData(dataLength);
+			let sub = bitio.byte_offset - startOffset;
+			let dataLength = length - sub;
+			let data = bitio.getData(dataLength);
 			bitio.byte_offset = startOffset + length;
 
-			var mimeType = "";
+			let mimeType = "";
 			switch (obj.SoundFormat) {
 				case 0: // Uncompressed native-endian
 				case 3: // Uncompressed little-endian
@@ -8967,15 +9016,15 @@ if (!("swf2js" in window)) {
 					break;
 			}
 			if (obj.SoundFormat == 0 || obj.SoundFormat == 3) {
-				var pcmOutput = new PcmOutput(obj.SoundType, obj.SoundSize, obj.SoundRate, data);
+				let pcmOutput = new PcmOutput(obj.SoundType, obj.SoundSize, obj.SoundRate, data);
 				obj.bytes = pcmOutput.createWave();
 				mimeType = "wave";
 			} else if (obj.SoundFormat == 1) {
-				var adpcmOutput = new AdpcmOutput();
+				let adpcmOutput = new AdpcmOutput();
 				obj.bytes = adpcmOutput.convertADPCMtoWave(false, obj.SoundType, obj.SoundSize, obj.SoundRate, data);
 				mimeType = "wave";
 			} else if (obj.SoundFormat == 4 || obj.SoundFormat == 5 || obj.SoundFormat == 6) {
-				var nellyMoserDecoder = new NellyMoserDecoder(obj.SoundType, obj.SoundSize, obj.SoundRate, data);
+				let nellyMoserDecoder = new NellyMoserDecoder(obj.SoundType, obj.SoundSize, obj.SoundRate, data);
 				obj.bytes = nellyMoserDecoder.toWave();
 				mimeType = "wave";
 			} else if (obj.SoundFormat == 2) {
@@ -8997,10 +9046,10 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseStartSound = function(tagType)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var obj = {};
-			var stage = _this.stage;
+			let _this = this;
+			let bitio = _this.bitio;
+			let obj = {};
+			let stage = _this.stage;
 
 			obj.tagType = tagType;
 			obj.SoundId = bitio.getUI16();
@@ -9011,7 +9060,6 @@ if (!("swf2js" in window)) {
 			obj.SoundInfo = _this.parseSoundInfo();
 			stage.setCharacter(obj.SoundId, obj);
 
-			var sound = stage.sounds[obj.SoundId];
 			return {
 				SoundId: obj.SoundId,
 				SoundInfo: obj.SoundInfo,
@@ -9024,15 +9072,15 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDefineButtonSound = function()
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var stage = _this.stage;
-			var buttonId = bitio.getUI16();
-			var btnObj = stage.getCharacter(buttonId);
-			for (var i = 0; i < 4; i++) {
-				var soundId = bitio.getUI16();
+			let _this = this;
+			let bitio = _this.bitio;
+			let stage = _this.stage;
+			let buttonId = bitio.getUI16();
+			let btnObj = stage.getCharacter(buttonId);
+			for (let i = 0; i < 4; i++) {
+				let soundId = bitio.getUI16();
 				if (soundId) {
-					var soundInfo = _this.parseSoundInfo();
+					let soundInfo = _this.parseSoundInfo();
 					switch (i) {
 						case 0: // OverUpToIdle : Roll Out, up
 							btnObj.ButtonStateUpSoundInfo = soundInfo;
@@ -9061,8 +9109,8 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseSoundInfo = function()
 		{
-			var obj = {};
-			var bitio = this.bitio;
+			let obj = {};
+			let bitio = this.bitio;
 			bitio.getUIBits(2); // Reserved
 			obj.SyncStop = bitio.getUIBit();
 			obj.SyncNoMultiple = bitio.getUIBit();
@@ -9083,7 +9131,7 @@ if (!("swf2js" in window)) {
 			if (obj.HasEnvelope) {
 				obj.EnvPoints = bitio.getUI8();
 				obj.EnvelopeRecords = [];
-				for (var i = 0; i < obj.EnvPoints; i++) {
+				for (let i = 0; i < obj.EnvPoints; i++) {
 					// SoundEnvelope
 					obj.EnvelopeRecords[i] = {
 						Pos44: bitio.getUI32(),
@@ -9101,19 +9149,19 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDefineFontAlignZones = function()
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var stage = _this.stage;
-			var FontId = bitio.getUI16();
-			var tag = stage.getCharacter(FontId);
+			let _this = this;
+			let bitio = _this.bitio;
+			let stage = _this.stage;
+			let FontId = bitio.getUI16();
+			let tag = stage.getCharacter(FontId);
 			tag.CSMTableHint = bitio.getUIBits(2);
 			bitio.getUIBits(6); // Reserved
-			var NumGlyphs = tag.NumGlyphs;
-			var ZoneTable = [];
-			for (var i = 0; i < NumGlyphs; i++) {
-				var NumZoneData = bitio.getUI8();
-				var ZoneData = [];
-				for (var idx = 0; idx < NumZoneData; idx++) {
+			let NumGlyphs = tag.NumGlyphs;
+			let ZoneTable = [];
+			for (let i = 0; i < NumGlyphs; i++) {
+				let NumZoneData = bitio.getUI8();
+				let ZoneData = [];
+				for (let idx = 0; idx < NumZoneData; idx++) {
 					ZoneData[idx] = bitio.getUI32();
 				}
 				ZoneTable[i] = {
@@ -9132,9 +9180,9 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseCSMTextSettings = function(tagType)
 		{
-			var _this = this;
-			var obj = {};
-			var bitio = _this.bitio;
+			let _this = this;
+			let obj = {};
+			let bitio = _this.bitio;
 			obj.tagType = tagType;
 			obj.TextID = bitio.getUI16();
 			obj.UseFlashType = bitio.getUIBits(2);
@@ -9152,16 +9200,16 @@ if (!("swf2js" in window)) {
 		 * @param length
 		 */
 		SwfTag.prototype.parseSoundStreamBlock = function(tagType, length) {
-			var _this = this;
-			var bitio = _this.bitio;
-			var obj = {};
+			let _this = this;
+			let bitio = _this.bitio;
+			let obj = {};
 			obj.tagType = tagType;
 			obj.compressed = bitio.getData(length);
-			var sampleCount = 0;
-			var seekSamples = 0;
-			var stage = _this.stage;
-			var soundStreamFirstBlock = false;
-			var i, cid;
+			let sampleCount = 0;
+			let seekSamples = 0;
+			let stage = _this.stage;
+			let soundStreamFirstBlock = false;
+			let i, cid;
 			if (stage.soundStreamLevels[this.tagLevel].SoundStreamFirstBlock) {
 				cid = stage.soundStreamLevels[this.tagLevel].CharacterId;
 				for (i=0; i<stage.soundStreams.length; i++) {
@@ -9205,8 +9253,8 @@ if (!("swf2js" in window)) {
 				}
 			}
 			if (stage.currentSoundStream == -1) console.log('Error SoundStreamBlock, not found corresponding SoundStreamHead');
-			var s = stage.soundStreams[stage.currentSoundStream];
-			var fr = s.FrameRanges[stage.currentFrameRange];
+			let s = stage.soundStreams[stage.currentSoundStream];
+			let fr = s.FrameRanges[stage.currentFrameRange];
 
 			if (fr && fr.endFrame != -1 && stage.currentFrame - fr.lastFrame > MIN_NUM_FRAMES_NO_SOUND) {
 				stage.currentFrameRange++;
@@ -9260,10 +9308,10 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDefineVideoStream = function(tagType)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var stage = _this.stage;
-			var obj = {};
+			let _this = this;
+			let bitio = _this.bitio;
+			let stage = _this.stage;
+			let obj = {};
 			obj.tagType = tagType;
 			obj.CharacterId = bitio.getUI16();
 			obj.NumFrames = bitio.getUI16();
@@ -9286,17 +9334,17 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseVideoFrame = function(tagType, length)
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var stage = _this.stage;
-			var startOffset = bitio.byte_offset;
-			var obj = {};
+			let _this = this;
+			let bitio = _this.bitio;
+			let stage = _this.stage;
+			let startOffset = bitio.byte_offset;
+			let obj = {};
 			obj.tagType = tagType;
 			obj.StreamID = bitio.getUI16();
 			obj.FrameNum = bitio.getUI16();
-			var videoStream = stage.getCharacter(obj.StreamID);
-			var sub = bitio.byte_offset - startOffset;
-			var dataLength = length - sub;
+			let videoStream = stage.getCharacter(obj.StreamID);
+			let sub = bitio.byte_offset - startOffset;
+			let dataLength = length - sub;
 			obj.VideoData = bitio.getData(dataLength);
 			/*
 					switch (StreamData.CodecID) {
@@ -9317,10 +9365,10 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseFileAttributes = function()
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var obj = {};
-			var stage = this.stage;
+			let _this = this;
+			let bitio = _this.bitio;
+			let obj = {};
+			let stage = this.stage;
 			bitio.getUIBit(); // Reserved
 			obj.UseDirectBlit = bitio.getUIBit();
 			obj.UseGPU = bitio.getUIBit();
@@ -9337,9 +9385,9 @@ if (!("swf2js" in window)) {
 		 */
 		SwfTag.prototype.parseDefineScalingGrid = function()
 		{
-			var _this = this;
-			var bitio = _this.bitio;
-			var obj = {};
+			let _this = this;
+			let bitio = _this.bitio;
+			let obj = {};
 			obj.CharacterId = bitio.getUI16();
 			obj.Splitter = _this.rect();
 		};
@@ -9347,7 +9395,7 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var Activation = function() {};
+		let Activation = function() {};
 
 
 		/**
@@ -9357,9 +9405,9 @@ if (!("swf2js" in window)) {
 		 * @param stage
 		 * @constructor
 		 */
-		var ActionScript3 = function(data, id, ns, stage)
+		let ActionScript3 = function(data, id, ns, stage)
 		{
-			var _this = this;
+			let _this = this;
 
 			// params
 			_this.id = id;
@@ -9373,7 +9421,7 @@ if (!("swf2js" in window)) {
 			_this.variables = {};
 
 			// ABC code and info
-			var methodBody = data.methodBody[id];
+			let methodBody = data.methodBody[id];
 			_this.body = methodBody;
 			_this.codes = methodBody.codes;
 			_this.info = data.method[methodBody.method];
@@ -9391,14 +9439,14 @@ if (!("swf2js" in window)) {
 			_this.register[0] = _this.AVM2;
 
 			// trait
-			var trait = methodBody.trait;
-			var length = trait.length;
-			for (var i = 0; i < length; i++) {
-				var obj = trait[i];
-				var kind = obj.kind;
+			let trait = methodBody.trait;
+			let length = trait.length;
+			for (let i = 0; i < length; i++) {
+				let obj = trait[i];
+				let kind = obj.kind;
 				switch (kind) {
 					case 0:
-						// var key = _this.names[obj.name];
+						// let key = _this.names[obj.name];
 
 						break;
 				}
@@ -9492,14 +9540,14 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.getAVM2 = function()
 		{
-			var _this = this;
-			var ns = _this.ns;
-			var stage = _this.stage;
-			var values = ns.split(":");
-			var className = values.pop();
-			var nLen = values.length;
-			var classObj = stage.avm2;
-			for (var i = 0; i < nLen; i++) {
+			let _this = this;
+			let ns = _this.ns;
+			let stage = _this.stage;
+			let values = ns.split(":");
+			let className = values.pop();
+			let nLen = values.length;
+			let classObj = stage.avm2;
+			for (let i = 0; i < nLen; i++) {
 				classObj = classObj[values[i]];
 			}
 			return classObj[className];
@@ -9518,7 +9566,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.getSuperClass = function()
 		{
-			var _this = this;
+			let _this = this;
 			return _this.AVM2["__swf2js__:" + _this.ns].superClass;
 		};
 
@@ -9527,7 +9575,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.setSuperClass = function(superClass)
 		{
-			var _this = this;
+			let _this = this;
 			_this.AVM2["__swf2js__:" + _this.ns].superClass = superClass;
 		};
 
@@ -9545,9 +9593,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.getProperty = function(name)
 		{
-			var _this = this;
-			var stage = _this.stage;
-			var value;
+			let _this = this;
+			let stage = _this.stage;
+			let value;
 
 			// local1
 			if (_this.activation) {
@@ -9556,7 +9604,7 @@ if (!("swf2js" in window)) {
 
 			// parent
 			if (value === undefined) {
-				var parent = _this.getParent();
+				let parent = _this.getParent();
 				if (parent) {
 					value = parent.getProperty(name);
 				}
@@ -9564,7 +9612,7 @@ if (!("swf2js" in window)) {
 
 			// property
 			if (value === undefined) {
-				var builder = _this.getBuilder();
+				let builder = _this.getBuilder();
 				if (builder) {
 					if (name in _this.methods) {
 						value = builder[name];
@@ -9577,14 +9625,14 @@ if (!("swf2js" in window)) {
 
 			// local2
 			if (value === undefined && name.indexOf("::") !== -1) {
-				var values = name.split("::");
-				var className = values.pop();
-				var path = values.pop();
+				let values = name.split("::");
+				let className = values.pop();
+				let path = values.pop();
 				if (path !== "private") {
-					var pathArr = path.split(".");
-					var pLen = pathArr.length;
-					var classObj = stage.avm2;
-					for (var pIdx = 0; pIdx < pLen; pIdx++) {
+					let pathArr = path.split(".");
+					let pLen = pathArr.length;
+					let classObj = stage.avm2;
+					for (let pIdx = 0; pIdx < pLen; pIdx++) {
 						classObj = classObj[pathArr[pIdx]];
 					}
 					value = classObj[className];
@@ -9610,21 +9658,21 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.setOptions = function()
 		{
-			var _this = this;
-			var info = _this.info;
-			var paramCount = info.paramCount;
+			let _this = this;
+			let info = _this.info;
+			let paramCount = info.paramCount;
 			if (paramCount) {
-				var data = _this.data;
-				var options = info.options;
-				var paramType = info.paramType;
-				var stage = _this.stage;
+				let data = _this.data;
+				let options = info.options;
+				let paramType = info.paramType;
+				let stage = _this.stage;
 
-				for (var i = 0; i < paramCount; i++) {
-					var value = undefined;
+				for (let i = 0; i < paramCount; i++) {
+					let value;
 
 					if (i in options) {
-						var option = options[i];
-						var val = option.val;
+						let option = options[i];
+						let val = option.val;
 						switch (option.kind) {
 							case 0x01: // string
 								value = data.string[val];
@@ -9636,14 +9684,14 @@ if (!("swf2js" in window)) {
 					}
 
 					if (i in paramType) {
-						var pType = paramType[i];
+						let pType = paramType[i];
 						if (pType) {
-							var mName = data.multiname_info[pType];
-							var className = null;
-							var path = "";
+							let mName = data.multiname_info[pType];
+							let className = null;
+							let path = "";
 							switch (mName.kind) {
 								case 0x07: // QName
-									var ns = data.namespace[mName.ns];
+									let ns = data.namespace[mName.ns];
 									switch (ns.kind) {
 										case 0x16:
 											path = data.string[ns.name];
@@ -9658,10 +9706,10 @@ if (!("swf2js" in window)) {
 							}
 
 							if (path) {
-								var values = path.split(".");
-								var pLen = values.length;
-								var classObj = stage.avm2;
-								for (var idx = 0; idx < pLen; idx++) {
+								let values = path.split(".");
+								let pLen = values.length;
+								let classObj = stage.avm2;
+								for (let idx = 0; idx < pLen; idx++) {
 									classObj = classObj[values[idx]];
 								}
 								value = classObj[className];
@@ -9681,19 +9729,19 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.execute = function()
 		{
-			var _this = this;
-			var stack = [];
+			let _this = this;
+			let stack = [];
 			_this.scopeStack = [];
 
-			var i = 0;
-			var offset = 0;
-			var codes = _this.codes;
-			var length = codes.length;
+			let i = 0;
+			let offset = 0;
+			let codes = _this.codes;
+			let length = codes.length;
 
 			_this.setOptions();
 
 			while (i < length) {
-				var obj = codes[i];
+				let obj = codes[i];
 				switch (obj.code) {
 					case 0xa0:
 						_this.ActionAdd(stack);
@@ -10145,8 +10193,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionAdd = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			stack[stack.length] = value1 + value2;
 		};
 
@@ -10155,8 +10203,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionAddI = function(stack)
 		{
-			var value2 = +stack.pop();
-			var value1 = +stack.pop();
+			let value2 = +stack.pop();
+			let value1 = +stack.pop();
 			stack[stack.length] = value1 + value2;
 		};
 
@@ -10166,8 +10214,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionAsType = function(stack, index)
 		{
-			var type = this.names[index];
-			var value = stack.pop();
+			let type = this.names[index];
+			let value = stack.pop();
 			stack[stack.length] = (typeof value === type) ? true : null;
 		};
 
@@ -10176,8 +10224,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionAsTypeLate = function(stack)
 		{
-			var cValue = stack.pop(); // class
-			var value = stack.pop();
+			let cValue = stack.pop(); // class
+			let value = stack.pop();
 			stack[stack.length] = (typeof cValue === value) ? true : null;
 		};
 
@@ -10186,8 +10234,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionBitAnd = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 /*jshint bitwise: false*/
 			stack[stack.length] = value1 & value2;
 /*jshint bitwise: true*/
@@ -10198,7 +10246,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionBitNot = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 /*jshint bitwise: false*/
 			stack[stack.length] = ~value;
 /*jshint bitwise: true*/
@@ -10209,8 +10257,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionBitOr = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 /*jshint bitwise: false*/
 			stack[stack.length] = value1 | value2;
 /*jshint bitwise: true*/
@@ -10221,8 +10269,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionBitXOr = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 /*jshint bitwise: false*/
 			stack[stack.length] = value1 ^ value2;
 /*jshint bitwise: true*/
@@ -10234,14 +10282,14 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionCall = function(stack, argCount)
 		{
-			var params = [];
-			for (var i = argCount; i--;) {
+			let params = [];
+			for (let i = argCount; i--;) {
 				params[i] = stack.pop();
 			}
-			var receiver = stack.pop();
-			var func = stack.pop();
+			let receiver = stack.pop();
+			let func = stack.pop();
 
-			var value;
+			let value;
 			if (typeof func === "function") {
 				value = func.apply(receiver, params);
 			}
@@ -10255,12 +10303,12 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionCallMethod = function(stack, index, argCount)
 		{
-			var params = [];
-			for (var i = 0; i < argCount; i++) {
+			let params = [];
+			for (let i = 0; i < argCount; i++) {
 				params[params.length] = stack.pop();
 			}
-			var receiver = stack.pop();
-			var value;
+			let receiver = stack.pop();
+			let value;
 			if (typeof receiver === "function") {
 				value = receiver.apply(this.caller, params);
 			}
@@ -10274,17 +10322,17 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionCallProperty = function(stack, index, argCount)
 		{
-			var _this = this;
-			var params = [];
-			for (var i = argCount; i--;) {
+			let _this = this;
+			let params = [];
+			for (let i = argCount; i--;) {
 				params[params.length] = stack.pop();
 			}
-			var prop = _this.names[index];
-			var obj = stack.pop();
+			let prop = _this.names[index];
+			let obj = stack.pop();
 
-			var value;
+			let value;
 			if (obj) {
-				var func = null;
+				let func = null;
 				if (obj instanceof DisplayObject) {
 					if (prop in _this.methods) {
 						func = obj[prop];
@@ -10312,16 +10360,16 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionCallPropLex = function(stack, index, argCount)
 		{
-			var _this = this;
-			var params = [];
-			for (var i = argCount; i--;) {
+			let _this = this;
+			let params = [];
+			for (let i = argCount; i--;) {
 				params[params.length] = stack.pop();
 			}
 
-			var prop = _this.names[index];
-			var obj = stack.pop();
+			let prop = _this.names[index];
+			let obj = stack.pop();
 
-			var value;
+			let value;
 			if (obj) {
 				value = obj[prop].apply(_this.getBuilder(), params);
 			}
@@ -10335,36 +10383,36 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionCallPropVoid = function(stack, index, argCount)
 		{
-			var _this = this;
-			var params = [];
-			for (var i = argCount; i--;) {
+			let _this = this;
+			let params = [];
+			for (let i = argCount; i--;) {
 				params[i] = stack.pop();
 			}
 
-			var obj = stack.pop();
-			var name = _this.names[index];
+			let obj = stack.pop();
+			let name = _this.names[index];
 
-			var values = name.split("::"); // implements
-			var prop = values.pop();
-			var ns = values.pop();
+			let values = name.split("::"); // implements
+			let prop = values.pop();
+			let ns = values.pop();
 			if (ns) {
 			}
 
-			var func = obj[prop];
+			let func = obj[prop];
 			if (!func && obj instanceof MovieClip) {
-				var stage = obj.getStage();
-				var symbol = stage.symbols[obj.getCharacterId()];
+				let stage = obj.getStage();
+				let symbol = stage.symbols[obj.getCharacterId()];
 				if (symbol) {
-					var names = symbol.split(".");
-					var classMethod = names.pop();
-					var length = names.length;
-					var classObj = stage.avm2;
-					for (i = 0; i < length; i++) {
+					let names = symbol.split(".");
+					let classMethod = names.pop();
+					let length = names.length;
+					let classObj = stage.avm2;
+					for (let i = 0; i < length; i++) {
 						classObj = classObj[names[i]];
 					}
 
 					if (classObj) {
-						var AVM2 = classObj[classMethod];
+						let AVM2 = classObj[classMethod];
 						while (true) {
 							func = AVM2[prop];
 							if (func) {
@@ -10381,7 +10429,7 @@ if (!("swf2js" in window)) {
 
 			if (!func) {
 				while (true) {
-					var SuperClass = obj.super;
+					let SuperClass = obj.super;
 					if (!SuperClass) {
 						break;
 					}
@@ -10419,12 +10467,12 @@ if (!("swf2js" in window)) {
 		ActionScript3.prototype.ActionCallStatic = function(stack, index, argCount)
 		{
 			console.log("ActionCallStatic");
-			var params = [];
-			for (var i = argCount; i--;) {
+			let params = [];
+			for (let i = argCount; i--;) {
 				params[params.length] = stack.pop();
 			}
-			var receiver = stack.pop();
-			var value;
+			let receiver = stack.pop();
+			let value;
 			stack[stack.length] = value;
 		};
 
@@ -10435,12 +10483,12 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionCallSuper = function(stack, index, argCount)
 		{
-			var params = [];
-			for (var i = argCount; i--;) {
+			let params = [];
+			for (let i = argCount; i--;) {
 				params[params.length] = stack.pop();
 			}
-			var porp = this.names[index];
-			var receiver = stack.pop();
+			let porp = this.names[index];
+			let receiver = stack.pop();
 
 		};
 
@@ -10451,12 +10499,12 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionCallSuperVoid = function(stack, index, argCount)
 		{
-			var params = [];
-			for (var i = argCount; i--;) {
+			let params = [];
+			for (let i = argCount; i--;) {
 				params[params.length] = stack.pop();
 			}
-			var porp = this.names[index];
-			var receiver = stack.pop();
+			let porp = this.names[index];
+			let receiver = stack.pop();
 		};
 
 		/**
@@ -10464,7 +10512,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionCheckFilter = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = value;
 		};
 
@@ -10474,8 +10522,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionCoerce = function(stack, index)
 		{
-			var value = stack.pop();
-			var str = this.names[index];
+			let value = stack.pop();
+			let str = this.names[index];
 			stack[stack.length] = str;
 		};
 
@@ -10484,7 +10532,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionCoerceA = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = value;
 		};
 
@@ -10493,7 +10541,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionCoerceS = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = String(value);
 		};
 
@@ -10503,11 +10551,11 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionConstruct = function(stack, argCount)
 		{
-			var params = [];
-			for (var i = argCount; i--;) {
+			let params = [];
+			for (let i = argCount; i--;) {
 				params[params.length] = stack.pop();
 			}
-			var obj = stack.pop();
+			let obj = stack.pop();
 			stack[stack.length] = obj.construct.apply(obj, params);
 		};
 
@@ -10518,21 +10566,21 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionConstructProp = function(stack, index, argCount)
 		{
-			var _this = this;
-			var params = [];
-			for (var i = argCount; i--;) {
+			let _this = this;
+			let params = [];
+			for (let i = argCount; i--;) {
 				params[params.length] = stack.pop();
 			}
 
-			var prop = _this.names[index];
-			var obj = stack.pop();
+			let prop = _this.names[index];
+			let obj = stack.pop();
 
-			var value;
-			var stage = _this.stage;
-			var DoABC = stage.abc[prop];
+			let value;
+			let stage = _this.stage;
+			let DoABC = stage.abc[prop];
 			if (DoABC) {
-				var builder = _this.getBuilder();
-				var AVM2 = new DoABC(builder);
+				let builder = _this.getBuilder();
+				let AVM2 = new DoABC(builder);
 				stage.avm2[prop] = AVM2;
 				AVM2[prop].apply(builder, params);
 				value = AVM2;
@@ -10549,33 +10597,33 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionConstructSuper = function(stack, argCount)
 		{
-			var _this = this;
-			var params = [];
-			for (var i = argCount; i--;) {
+			let _this = this;
+			let params = [];
+			for (let i = argCount; i--;) {
 				params[i] = stack.pop();
 			}
 
-			var obj = stack.pop();
-			var SuperClassName = obj["__swf2js__:" + _this.ns].extends;
-			var values = SuperClassName.split("::");
-			var prop = values.pop();
-			var ns = values.pop();
-			var stage = _this.stage;
-			var abcObj = stage.abc;
-			var avmObj = stage.avm2;
+			let obj = stack.pop();
+			let SuperClassName = obj["__swf2js__:" + _this.ns].extends;
+			let values = SuperClassName.split("::");
+			let prop = values.pop();
+			let ns = values.pop();
+			let stage = _this.stage;
+			let abcObj = stage.abc;
+			let avmObj = stage.avm2;
 
 			if (ns) {
-				var names = ns.split(".");
-				var length = names.length;
-				for (i = 0; i < length; i++) {
+				let names = ns.split(".");
+				let length = names.length;
+				for (let i = 0; i < length; i++) {
 					abcObj = abcObj[names[i]];
 					avmObj = avmObj[names[i]];
 				}
 			}
 
-			var sClass = null;
-			var SuperClass = abcObj[prop];
-			var builder = _this.getBuilder();
+			let sClass = null;
+			let SuperClass = abcObj[prop];
+			let builder = _this.getBuilder();
 			switch (SuperClass) {
 				case MovieClip:
 					sClass = new MovieClip();
@@ -10606,7 +10654,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionConvertB = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = (value) ? true : false;
 		};
 
@@ -10615,7 +10663,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionConvertI = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 /*jshint bitwise: false*/
 			stack[stack.length] = value | 0;
 /*jshint bitwise: true*/
@@ -10626,7 +10674,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionConvertD = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = +value;
 		};
 
@@ -10635,7 +10683,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionConvertO = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = (typeof value === "object") ? value : null;
 		};
 
@@ -10644,7 +10692,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionConvertU = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 /*jshint bitwise: false*/
 			value = value | 0;
 /*jshint bitwise: true*/
@@ -10659,7 +10707,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionConvertS = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = String(value);
 		};
 
@@ -10718,7 +10766,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionDecrement = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			value -= 1;
 			stack[stack.length] = value;
 		};
@@ -10728,7 +10776,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionDecrementI = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			value -= 1;
 			stack[stack.length] = value;
 		};
@@ -10739,8 +10787,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionDeleteProperty = function(stack, index)
 		{
-			var prop = this.name[index];
-			var obj = stack.pop();
+			let prop = this.name[index];
+			let obj = stack.pop();
 			if (obj) {
 				if (prop in obj) {
 					delete obj[prop];
@@ -10757,8 +10805,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionDivide = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			stack[stack.length] = value1 / value2;
 		};
 
@@ -10767,7 +10815,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionDup = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = value;
 			stack[stack.length] = value;
 		};
@@ -10786,7 +10834,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionDxnsLate = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 		};
 
 		/**
@@ -10794,8 +10842,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionEquals = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			stack[stack.length] = (value1 == value2);
 		};
 
@@ -10804,7 +10852,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionEscXAttr = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = String(value);
 		};
 
@@ -10813,7 +10861,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionEscXElem = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = String(value);
 		};
 
@@ -10823,8 +10871,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionFindProperty = function(stack, index)
 		{
-			var prop = this.names[index];
-			var obj;
+			let prop = this.names[index];
+			let obj;
 			stack[stack.length] = obj;
 		};
 
@@ -10834,15 +10882,15 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionFindPropStrict = function(stack, index)
 		{
-			var _this = this;
-			var name = _this.names[index];
-			var values = name.split("::");
-			var prop = values.pop();
-			var ns = values.pop();
-			var obj = null;
-
+			let _this = this;
+			let name = _this.names[index];
+			let values = name.split("::");
+			let prop = values.pop();
+			let ns = values.pop();
+			let obj = null;
+			let AVM2;
 			// caller
-			var caller = _this.caller;
+			let caller = _this.caller;
 			if (caller && !(caller instanceof MovieClip)) {
 				if (name in caller) {
 					obj = caller;
@@ -10850,13 +10898,13 @@ if (!("swf2js" in window)) {
 			}
 
 			if (!obj) {
-				var AVM2 = _this.AVM2;
+				AVM2 = _this.AVM2;
 				if (ns) {
-					var names = ns.split(".");
-					var length = names.length;
+					let names = ns.split(".");
+					let length = names.length;
 					if (length > 1) {
-						var avmObj = _this.stage.avm2;
-						for (var i = 0; i < length; i++) {
+						let avmObj = _this.stage.avm2;
+						for (let i = 0; i < length; i++) {
 							avmObj = avmObj[names[i]];
 						}
 						AVM2 = avmObj;
@@ -10871,7 +10919,7 @@ if (!("swf2js" in window)) {
 
 			// find avm
 			if (!obj) {
-				var avm2s = _this.stage.avm2;
+				let avm2s = _this.stage.avm2;
 				if (prop in avm2s) {
 					obj = avm2s[prop];
 				}
@@ -10879,7 +10927,7 @@ if (!("swf2js" in window)) {
 
 			// builder
 			if (!obj) {
-				var builder = _this.getBuilder();
+				let builder = _this.getBuilder();
 				if (builder) {
 					if (builder instanceof MovieClip) {
 						if (prop in _this.methods) {
@@ -10907,8 +10955,8 @@ if (!("swf2js" in window)) {
 		ActionScript3.prototype.ActionGetDescendAnts = function(stack, index)
 		{
 			console.log("ActionGetDescendAnts");
-			var porp = this.names[index];
-			var obj;
+			let porp = this.names[index];
+			let obj;
 			stack[stack.length] = obj;
 		};
 
@@ -10917,8 +10965,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionGetGlobalScope = function(stack)
 		{
-			var _this = this;
-			var scopeStack = _this.scopeStack;
+			let _this = this;
+			let scopeStack = _this.scopeStack;
 			stack[stack.length] = scopeStack[scopeStack.length - 1];
 		};
 
@@ -10929,7 +10977,7 @@ if (!("swf2js" in window)) {
 		ActionScript3.prototype.ActionGetGlobalsLot = function(stack, index)
 		{
 			console.log("ActionGetGlobalsLot");
-			var value;
+			let value;
 			stack[stack.length] = value;
 		};
 
@@ -10939,8 +10987,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionGetLex = function(stack, index)
 		{
-			var _this = this;
-			var name = _this.names[index];
+			let _this = this;
+			let name = _this.names[index];
 			stack[stack.length] = _this.getProperty(name);
 		};
 
@@ -10950,8 +10998,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionGetLocal = function(stack, index)
 		{
-			var _this = this;
-			var value = _this.args[index - 1];
+			let _this = this;
+			let value = _this.args[index - 1];
 			if (value === undefined) {
 				value = _this.register[index];
 			}
@@ -10971,8 +11019,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionGetLocal1 = function(stack)
 		{
-			var _this = this;
-			var value = _this.args[0];
+			let _this = this;
+			let value = _this.args[0];
 			if (value === undefined) {
 				value = _this.register[1];
 			}
@@ -10984,8 +11032,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionGetLocal2 = function(stack)
 		{
-			var _this = this;
-			var value = _this.args[1];
+			let _this = this;
+			let value = _this.args[1];
 			if (value === undefined) {
 				value = _this.register[2];
 			}
@@ -10997,8 +11045,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionGetLocal3 = function(stack)
 		{
-			var _this = this;
-			var value = _this.args[2];
+			let _this = this;
+			let value = _this.args[2];
 			if (value === undefined) {
 				value = _this.register[3];
 			}
@@ -11011,14 +11059,14 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionGetProperty = function(stack, index)
 		{
-			var _this = this;
-			var prop = _this.names[index];
+			let _this = this;
+			let prop = _this.names[index];
 			if (prop === null) {
 				prop = stack.pop();
 			}
-			var obj = stack.pop();
+			let obj = stack.pop();
 
-			var value;
+			let value;
 			if (obj && prop) {
 				if (obj instanceof DisplayObject) {
 					if (prop in _this.methods) {
@@ -11047,7 +11095,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionGetScopeObject = function(stack, index)
 		{
-			var activation = this.activation;
+			let activation = this.activation;
 			if (!index) {
 				stack[stack.length] = activation;
 			} else {
@@ -11061,8 +11109,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionGetSlot = function(stack, index)
 		{
-			var obj = stack.pop();
-			var name = obj[index];
+			let obj = stack.pop();
+			let name = obj[index];
 			stack[stack.length] = this.activation[name];
 		};
 
@@ -11072,9 +11120,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionGetSuper = function(stack, index)
 		{
-			var prop = this.prop;
-			var obj = stack.pop();
-			var value;
+			let prop = this.prop;
+			let obj = stack.pop();
+			let value;
 			stack[stack.length] = value;
 		};
 
@@ -11083,8 +11131,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionGreaterEquals = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			stack[stack.length] = (value1 >= value2);
 		};
 
@@ -11093,8 +11141,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionGreaterThan = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			stack[stack.length] = (value1 > value2);
 		};
 
@@ -11103,14 +11151,14 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionHasNext = function(stack)
 		{
-			var currentIndex = stack.pop();
-			var obj = stack.pop();
+			let currentIndex = stack.pop();
+			let obj = stack.pop();
 
 			currentIndex++;
-			var result = 0;
+			let result = 0;
 			if (obj) {
-				var index = 0;
-				for (var key in obj) {
+				let index = 0;
+				for (let key in obj) {
 					if (!obj.hasOwnProperty(key)) {
 						continue;
 					}
@@ -11133,14 +11181,14 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionHasNext2 = function(stack, objectReg, indexReg)
 		{
-			var _this = this;
-			var obj = _this.register[objectReg];
-			var currentIndex = _this.currentIndex;
+			let _this = this;
+			let obj = _this.register[objectReg];
+			let currentIndex = _this.currentIndex;
 
-			var value = false;
-			var index = 0;
+			let value = false;
+			let index = 0;
 			if (obj) {
-				for (var key in obj) {
+				for (let key in obj) {
 					if (!obj.hasOwnProperty(key)) {
 						continue;
 					}
@@ -11171,7 +11219,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIfFalse = function(stack, index)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			return (value === false) ? index : 0;
 		};
 
@@ -11182,8 +11230,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIfGe = function(stack, index)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			return (value1 < value2) ? index : 0;
 		};
 
@@ -11194,8 +11242,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIfGt = function(stack, index)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			return (value1 > value2) ? index : 0;
 		};
 
@@ -11206,8 +11254,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIfLe = function(stack, index)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			return (value2 < value1) ? index : 0;
 		};
 
@@ -11218,8 +11266,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIfLt = function(stack, index)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			return (value1 < value2) ? index : 0;
 		};
 
@@ -11230,8 +11278,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIfNge = function(stack, index)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			return (value1 < value2) ? index : 0;
 		};
 
@@ -11242,8 +11290,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIfNgt = function(stack, index)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			return (value2 < value1) ? index : 0;
 		};
 
@@ -11254,8 +11302,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIfNle = function(stack, index)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			return (value2 < value1) ? index : 0;
 		};
 
@@ -11266,8 +11314,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIfNlt = function(stack, index)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			return (value1 < value2) ? index : 0;
 		};
 
@@ -11278,8 +11326,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIfNe = function(stack, index)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			return (value1 == value2) ? 0 : index;
 		};
 
@@ -11290,8 +11338,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIfStrictEq = function(stack, index)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			return (value1 === value2) ? index : 0;
 		};
 
@@ -11302,8 +11350,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIfStrictNe = function(stack, index)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			return (value1 === value2) ? 0 : index;
 		};
 
@@ -11314,7 +11362,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIfTrue = function(stack, index)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			return (value === true) ? index : 0;
 		};
 
@@ -11324,8 +11372,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIn = function(stack)
 		{
-			var obj = stack.pop();
-			var name = stack.pop();
+			let obj = stack.pop();
+			let name = stack.pop();
 			stack[stack.length] = (name in obj);
 		};
 
@@ -11352,7 +11400,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIncrement = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			value++;
 			stack[stack.length] = value;
 		};
@@ -11362,7 +11410,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIncrementI = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			value++;
 			stack[stack.length] = value;
 		};
@@ -11373,9 +11421,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionInitProperty = function(stack, index)
 		{
-			var value = stack.pop();
-			var prop = this.names[index];
-			var obj = stack.pop();
+			let value = stack.pop();
+			let prop = this.names[index];
+			let obj = stack.pop();
 			if (obj) {
 				if (obj instanceof DisplayObject) {
 					obj.setProperty(prop, value);
@@ -11390,8 +11438,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionInstanceOf = function(stack)
 		{
-			var type = stack.pop();
-			var value = stack.pop();
+			let type = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = (value instanceof type);
 		};
 
@@ -11401,8 +11449,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIsType = function(stack, index)
 		{
-			var value = stack.pop();
-			var type = this.name[index];
+			let value = stack.pop();
+			let type = this.name[index];
 			stack[stack.length] = (value == type);
 		};
 
@@ -11411,8 +11459,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionIsTypeLate = function(stack)
 		{
-			var type = stack.pop();
-			var value = stack.pop();
+			let type = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = (value == type);
 		};
 
@@ -11438,8 +11486,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionLessEquals = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			stack[stack.length] = (value1 <= value2);
 		};
 
@@ -11448,8 +11496,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionLessThan = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			stack[stack.length] = (value1 < value2);
 		};
 
@@ -11461,7 +11509,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionLookupSwitch = function(stack, offset, count, array)
 		{
-			var index = stack.pop();
+			let index = stack.pop();
 		};
 
 		/**
@@ -11469,8 +11517,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionLShift = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 /*jshint bitwise: false*/
 			stack[stack.length] = value1 << value2;
 /*jshint bitwise: true*/
@@ -11481,8 +11529,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionModulo = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			stack[stack.length] = value1 % value2;
 		};
 
@@ -11491,8 +11539,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionMultiply = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			stack[stack.length] = value1 * value2;
 		};
 
@@ -11501,8 +11549,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionMultiplyI = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			stack[stack.length] = value1 * value2;
 		};
 
@@ -11511,7 +11559,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionNeGate = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = -value;
 		};
 
@@ -11520,7 +11568,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionNeGateI = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = -value;
 		};
 
@@ -11529,13 +11577,13 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionNewActivation = function(stack)
 		{
-			var _this = this;
-			var trait = _this.body.trait;
-			var length = trait.length;
-			var activation = new Activation();
-			for (var i = 0; i < length; i++) {
-				var obj = trait[i];
-				var kind = obj.kind;
+			let _this = this;
+			let trait = _this.body.trait;
+			let length = trait.length;
+			let activation = new Activation();
+			for (let i = 0; i < length; i++) {
+				let obj = trait[i];
+				let kind = obj.kind;
 				switch (kind) {
 					case 0:
 						activation[i + 1] = _this.names[obj.name];
@@ -11553,8 +11601,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionNewArray = function(stack, argCount)
 		{
-			var array = [];
-			for (var i = argCount; i--;) {
+			let array = [];
+			for (let i = argCount; i--;) {
 				array[i] = stack.pop();
 			}
 			stack[stack.length] = array;
@@ -11566,7 +11614,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionNewCatch = function(stack, index)
 		{
-			var catchScope;
+			let catchScope;
 			stack[stack.length] = catchScope;
 		};
 
@@ -11576,10 +11624,10 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionNewClass = function(stack, index)
 		{
-			var basetype = stack.pop();
-			var data = this.data;
-			var classInfo = data.class[index];
-			var id = classInfo.cinit;
+			let basetype = stack.pop();
+			let data = this.data;
+			let classInfo = data.class[index];
+			let id = classInfo.cinit;
 
 			stack[stack.length] = basetype;
 		};
@@ -11594,7 +11642,7 @@ if (!("swf2js" in window)) {
 			{
 				return function()
 				{
-					var as3 = new ActionScript3(self.data, id, self.ns, self.stage);
+					let as3 = new ActionScript3(self.data, id, self.ns, self.stage);
 					as3.caller = this;
 					as3.parent = self;
 					as3.args = arguments;
@@ -11609,10 +11657,10 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionNewObject = function(stack, argCount)
 		{
-			var obj = {};
-			for (var i = argCount; i--;) {
-				var value = stack.pop();
-				var prop = stack.pop();
+			let obj = {};
+			for (let i = argCount; i--;) {
+				let value = stack.pop();
+				let prop = stack.pop();
 				obj[prop] = value;
 			}
 			stack[stack.length] = obj;
@@ -11623,13 +11671,13 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionNextName = function(stack)
 		{
-			var index = +stack.pop();
-			var obj = stack.pop();
+			let index = +stack.pop();
+			let obj = stack.pop();
 
-			var name;
+			let name;
 			if (obj) {
-				var count = 0;
-				for (var prop in obj) {
+				let count = 0;
+				for (let prop in obj) {
 					if (!obj.hasOwnProperty(prop)) {
 						continue;
 					}
@@ -11649,9 +11697,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionNextValue = function(stack)
 		{
-			var index = stack.pop();
-			var obj = stack.pop();
-			var value;
+			let index = stack.pop();
+			let obj = stack.pop();
+			let value;
 			stack[stack.length] = value;
 		};
 
@@ -11669,7 +11717,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionNot = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = (!value);
 		};
 
@@ -11706,9 +11754,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionPushDouble = function(stack, index)
 		{
-			var data = this.data;
-			var double = data.double;
-			var value = double[index];
+			let data = this.data;
+			let double = data.double;
+			let value = double[index];
 			stack[stack.length] = +value;
 		};
 
@@ -11726,9 +11774,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionPushInt = function(stack, index)
 		{
-			var data = this.data;
-			var integer = data.integer;
-			var value = integer[index];
+			let data = this.data;
+			let integer = data.integer;
+			let value = integer[index];
 			stack[stack.length] = +value;
 		};
 
@@ -11738,9 +11786,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionPushNameSpace = function(stack, index)
 		{
-			var data = this.data;
-			var names = data.names;
-			var value = names[index];
+			let data = this.data;
+			let names = data.names;
+			let value = names[index];
 			stack[stack.length] = +value;
 		};
 
@@ -11765,9 +11813,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionPushScope = function(stack)
 		{
-			var scope = stack.pop();
+			let scope = stack.pop();
 			if (scope) {
-				var scopeStack = this.scopeStack;
+				let scopeStack = this.scopeStack;
 				scopeStack[scopeStack.length] = scope;
 			}
 		};
@@ -11787,8 +11835,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionPushString = function(stack, index)
 		{
-			var data = this.data;
-			var string = data.string;
+			let data = this.data;
+			let string = data.string;
 			stack[stack.length] = "" + string[index];
 		};
 
@@ -11806,8 +11854,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionPushUInt = function(stack, index)
 		{
-			var data = this.data;
-			var uinteger = data.uinteger;
+			let data = this.data;
+			let uinteger = data.uinteger;
 			stack[stack.length] = uinteger[index];
 		};
 
@@ -11824,7 +11872,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionPushWith = function(stack)
 		{
-			var obj = stack.pop();
+			let obj = stack.pop();
 		};
 
 		/**
@@ -11832,8 +11880,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionRShift = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 /*jshint bitwise: false*/
 			stack[stack.length] = value1 >> value2;
 /*jshint bitwise: true*/
@@ -11887,7 +11935,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionSetGlobalSlot = function(stack, index)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 		};
 
 		/**
@@ -11896,10 +11944,10 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionSetProperty = function(stack, index)
 		{
-			var _this = this;
-			var value = stack.pop();
-			var prop = _this.names[index];
-			var obj = stack.pop();
+			let _this = this;
+			let value = stack.pop();
+			let prop = _this.names[index];
+			let obj = stack.pop();
 
 			if (obj) {
 				if (obj instanceof DisplayObject) {
@@ -11911,8 +11959,8 @@ if (!("swf2js" in window)) {
 				} else if (prop in obj) {
 					obj[prop] = value;
 				} else {
-					var builder = _this.getBuilder();
-					var caller = _this.caller;
+					let builder = _this.getBuilder();
+					let caller = _this.caller;
 					if (caller instanceof MovieClip) {
 						builder = caller;
 					}
@@ -11934,9 +11982,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionSetSlot = function(stack, index)
 		{
-			var value = stack.pop();
-			var obj = stack.pop();
-			var name = obj[index];
+			let value = stack.pop();
+			let obj = stack.pop();
+			let name = obj[index];
 			this.activation[name] = value;
 		};
 
@@ -11946,9 +11994,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionSetSuper = function(stack, index)
 		{
-			var value = stack.pop();
-			var prop = this.names[index];
-			var obj = stack.pop();
+			let value = stack.pop();
+			let prop = this.names[index];
+			let obj = stack.pop();
 
 		};
 
@@ -11957,8 +12005,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionStrictEquals = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			stack[stack.length] = (value1 === value2);
 		};
 
@@ -11967,8 +12015,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionSubtract = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			stack[stack.length] = value1 - value2;
 		};
 
@@ -11977,8 +12025,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionSubtractI = function(stack)
 		{
-			var value2 = +stack.pop();
-			var value1 = +stack.pop();
+			let value2 = +stack.pop();
+			let value1 = +stack.pop();
 			stack[stack.length] = value1 - value2;
 		};
 
@@ -11987,8 +12035,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionSwap = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 			stack[stack.length] = value2;
 			stack[stack.length] = value1;
 		};
@@ -11998,7 +12046,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionThrow = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			console.log(value);
 		};
 
@@ -12007,7 +12055,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionTypeof = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = typeof value;
 		};
 
@@ -12016,13 +12064,13 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript3.prototype.ActionURShift = function(stack)
 		{
-			var value2 = stack.pop();
-			var value1 = stack.pop();
+			let value2 = stack.pop();
+			let value1 = stack.pop();
 /*jshint bitwise:false*/
 			stack[stack.length] = value2 >> value1;
 /*jshint bitwise:true*/
 		};
-		var ActionCodes = [
+		let ActionCodes = [
 			[  45, "ActionFSCommand2" ], // 0x2D
 			[ 137, "ActionStrictMode" ], // 0x89
 			// SWF3 Actions
@@ -12148,7 +12196,7 @@ if (!("swf2js" in window)) {
 			[   0, "Action End of Actions"]
 		];
 
-		var BitmapData = function()
+		let BitmapData = function()
 		{
 		};
 
@@ -12165,9 +12213,9 @@ if (!("swf2js" in window)) {
 		 * @param initAction
 		 * @constructor
 		 */
-		var ActionScript = function(data, constantPool, register, initAction)
+		let ActionScript = function(data, constantPool, register, initAction)
 		{
-			var _this = this;
+			let _this = this;
 			_this.cache = [];
 			_this.params = [];
 			_this.constantPool = constantPool || [];
@@ -12190,7 +12238,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.reset = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.arg = null;
 			_this.variables = {};
 			_this.initParam();
@@ -12201,12 +12249,12 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.initParam = function()
 		{
-			var _this = this;
-			var register = _this.register;
-			var length = register.length;
-			var params = [];
-			for (var i = 0; i < length; i++) {
-				var obj = register[i];
+			let _this = this;
+			let register = _this.register;
+			let length = register.length;
+			let params = [];
+			for (let i = 0; i < length; i++) {
+				let obj = register[i];
 				if (obj.name === null) {
 					params[obj.register] = obj.value;
 				} else {
@@ -12221,14 +12269,14 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.initVariable = function(values)
 		{
-			var _this = this;
+			let _this = this;
 			_this.arg = values;
-			var register = _this.register;
-			var length = register.length;
-			var variables = _this.variables;
-			var key = 0;
-			for (var i = 0; i < length; i++) {
-				var obj = register[i];
+			let register = _this.register;
+			let length = register.length;
+			let variables = _this.variables;
+			let key = 0;
+			for (let i = 0; i < length; i++) {
+				let obj = register[i];
 				if (obj.name === null) {
 					continue;
 				}
@@ -12243,10 +12291,10 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.getSuperClass = function()
 		{
-			var _this = this;
-			var superClass = _this.superClass;
+			let _this = this;
+			let superClass = _this.superClass;
 			if (!superClass) {
-				var parent = _this.parent;
+				let parent = _this.parent;
 				if (parent) {
 					superClass = parent.getSuperClass();
 				}
@@ -12260,14 +12308,14 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.setVariable = function(name, value)
 		{
-			var _this = this;
-			var finish = false;
+			let _this = this;
+			let finish = false;
 			if (name in _this.variables) {
 				_this.variables[name] = value;
 				finish = true;
 			}
 			if (!finish) {
-				var parent = _this.parent;
+				let parent = _this.parent;
 				if (parent) {
 					finish = parent.setVariable(name, value);
 				}
@@ -12281,8 +12329,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.getVariable = function(name)
 		{
-			var _this = this;
-			var value, parent;
+			let _this = this;
+			let value, parent;
 			switch (name) {
 				case "this":
 					value = _this.variables["this"];
@@ -12322,7 +12370,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.stringToObject = function(str, mc)
 		{
-			var object = this.getVariable(str);
+			let object = this.getVariable(str);
 			if (object === undefined) {
 				object = mc.getProperty(str);
 			}
@@ -12334,28 +12382,28 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.initialize = function(data)
 		{
-			var _this = this;
-			var isEnd = false;
-			var obj = {};
-			var i = 0;
-			var idx = 0;
-			var cache = [];
-			var indexes = [];
-			var asData;
-			var register;
-			var values;
-			var NumParams;
-			var payloadLength;
-			var withEndPoint = 0;
-			var bitio = new BitIO();
+			let _this = this;
+			let isEnd = false;
+			let obj = {};
+			let i = 0;
+			let idx = 0;
+			let cache = [];
+			let indexes = [];
+			let asData;
+			let register;
+			let values;
+			let NumParams;
+			let payloadLength;
+			let withEndPoint = 0;
+			let bitio = new BitIO();
 			bitio.setData(data);
 
-			var pBitio = new BitIO();
-			var endPoint = data.length;
+			let pBitio = new BitIO();
+			let endPoint = data.length;
 
 			_this.initParam();
 			while (bitio.byte_offset < endPoint) {
-				var startOffset = bitio.byte_offset;
+				let startOffset = bitio.byte_offset;
 				obj = {};
 
 				if (withEndPoint && withEndPoint === bitio.byte_offset) {
@@ -12366,10 +12414,10 @@ if (!("swf2js" in window)) {
 					continue;
 				}
 
-				var actionCode = bitio.getUI8();
+				let actionCode = bitio.getUI8();
 				obj.actionCode = actionCode;
 
-				var payload = null;
+				let payload = null;
 				if (actionCode >= 0x80) {
 					payloadLength = bitio.getUI16();
 					payload = bitio.getData(payloadLength);
@@ -12398,11 +12446,11 @@ if (!("swf2js" in window)) {
 						obj.label = pBitio.getDataUntil("\0");
 						break;
 					case 0x83: // 131
-						var len = payload.length - 1;
-						var urls = [[]];
+						let len = payload.length - 1;
+						let urls = [[]];
 						idx = 0;
 						for (i = 0; i < len; i++) {
-							var str = _fromCharCode(payload[i]);
+							let str = _fromCharCode(payload[i]);
 							if (payload[i] === 0) {
 								idx++;
 								urls[idx] = [];
@@ -12411,13 +12459,13 @@ if (!("swf2js" in window)) {
 							urls[idx] += str;
 						}
 
-						var urlString = urls[0];
+						let urlString = urls[0];
 						if (typeof urlString === "string") {
-							var splitUrl = urlString.split("?");
+							let splitUrl = urlString.split("?");
 							if (2 in splitUrl) {
 								urlString = splitUrl[0];
 								urlString += "?" + splitUrl[1];
-								var paramLength = splitUrl.length;
+								let paramLength = splitUrl.length;
 								for (i = 2; i < paramLength; i++) {
 									urlString += "&" + splitUrl[i];
 								}
@@ -12431,7 +12479,7 @@ if (!("swf2js" in window)) {
 					case 0x96: // 150
 						values = [];
 						while (pBitio.byte_offset < payloadLength) {
-							var type = pBitio.getUI8();
+							let type = pBitio.getUI8();
 							switch (type) {
 								case 0: // String
 									values[values.length] = String(pBitio.getDataUntil("\0"));
@@ -12499,8 +12547,8 @@ if (!("swf2js" in window)) {
 						break;
 						// ConstantPool
 					case 0x88: // 136
-						var count = pBitio.getUI16();
-						var constantPool = [];
+						let count = pBitio.getUI16();
+						let constantPool = [];
 						if (count > 0) {
 							while (count--) {
 								constantPool[constantPool.length] = pBitio.getDataUntil("\0");
@@ -12545,7 +12593,7 @@ if (!("swf2js" in window)) {
 
 						obj.FunctionName = pBitio.getDataUntil("\0");
 						NumParams = pBitio.getUI16();
-						var RegisterCount = pBitio.getUI8();
+						let RegisterCount = pBitio.getUI8();
 						obj.PreloadParentFlag = pBitio.getUIBits(1);
 						obj.PreloadRootFlag = pBitio.getUIBits(1);
 						obj.SuppressSuperFlag = pBitio.getUIBits(1);
@@ -12576,7 +12624,7 @@ if (!("swf2js" in window)) {
 							values[values.length] = "_global";
 						}
 						for (idx = 1; idx < RegisterCount; idx++) {
-							var rIdx = idx - 1;
+							let rIdx = idx - 1;
 							if (!(rIdx in values)) {
 								continue;
 							}
@@ -12589,8 +12637,8 @@ if (!("swf2js" in window)) {
 
 						if (NumParams > 0) {
 							while (NumParams--) {
-								var Register = pBitio.getUI8();
-								var ParamName = pBitio.getDataUntil("\0");
+								let Register = pBitio.getUI8();
+								let ParamName = pBitio.getDataUntil("\0");
 								register[register.length] = {
 									register: Register,
 									name: ParamName,
@@ -12605,14 +12653,14 @@ if (!("swf2js" in window)) {
 						// ActionTry
 					case 0x8f: // 143
 						pBitio.getUIBits(5); // Reserved
-						var CatchInRegisterFlag = pBitio.getUIBits(1);
+						let CatchInRegisterFlag = pBitio.getUIBits(1);
 						obj.FinallyBlockFlag = pBitio.getUIBits(1);
 						obj.CatchBlockFlag = pBitio.getUIBits(1);
-						var TrySize = pBitio.getUI16();
-						var CatchSize = pBitio.getUI16();
-						var FinallySize = pBitio.getUI16();
+						let TrySize = pBitio.getUI16();
+						let CatchSize = pBitio.getUI16();
+						let FinallySize = pBitio.getUI16();
 
-						var CatchName;
+						let CatchName;
 						if (!CatchInRegisterFlag) {
 							CatchName = pBitio.getDataUntil("\0");
 						} else {
@@ -12620,7 +12668,7 @@ if (!("swf2js" in window)) {
 						}
 
 						i = 0;
-						var TryBody = [];
+						let TryBody = [];
 						if (TrySize) {
 							while (TrySize) {
 								TryBody[TryBody.length] = bitio.getUI8();
@@ -12630,7 +12678,7 @@ if (!("swf2js" in window)) {
 
 						obj.try = (function(data)
 						{
-							var as = new ActionScript(data);
+							let as = new ActionScript(data);
 							return function()
 							{
 								as.reset();
@@ -12640,7 +12688,7 @@ if (!("swf2js" in window)) {
 						})(TryBody);
 
 						if (obj.CatchBlockFlag) {
-							var CatchBody = [];
+							let CatchBody = [];
 							if (CatchSize) {
 								while (CatchSize) {
 									CatchBody[CatchBody.length] = bitio.getUI8();
@@ -12650,7 +12698,7 @@ if (!("swf2js" in window)) {
 
 							obj.catch = (function(data, catchName)
 							{
-								var as = new ActionScript(data);
+								let as = new ActionScript(data);
 								return function()
 								{
 									as.reset();
@@ -12662,7 +12710,7 @@ if (!("swf2js" in window)) {
 						}
 
 						if (obj.FinallyBlockFlag) {
-							var FinallyBody = [];
+							let FinallyBody = [];
 							if (FinallySize) {
 								while (FinallySize) {
 									FinallyBody[FinallyBody.length] = bitio.getUI8();
@@ -12672,7 +12720,7 @@ if (!("swf2js" in window)) {
 
 							obj.finally = (function(data)
 							{
-								var as = new ActionScript(data);
+								let as = new ActionScript(data);
 								return function()
 								{
 									as.reset();
@@ -12697,12 +12745,12 @@ if (!("swf2js" in window)) {
 			}
 
 			// If and Jump
-			var length = cache.length;
+			let length = cache.length;
 			for (i = 0; i < length; i++) {
 				obj = cache[i];
-				var code = obj.actionCode;
+				let code = obj.actionCode;
 				if (code === 0x9D || code === 0x99) {
-					var index = indexes[obj.offset];
+					let index = indexes[obj.offset];
 					if (index !== undefined) {
 						obj.offset = index - 1;
 					} else {
@@ -12719,7 +12767,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.calc = function(value)
 		{
-			var calc;
+			let calc;
 			switch (typeof value) {
 				case "boolean":
 					calc = (value) ? 1 : 0;
@@ -12751,7 +12799,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.logicValue = function(value)
 		{
-			var calc;
+			let calc;
 			switch (typeof value) {
 				case "boolean":
 					calc = (value) ? 1 : 0;
@@ -12791,7 +12839,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.operationValue = function(stack)
 		{
-			var value = +stack.pop();
+			let value = +stack.pop();
 			if (_isNaN(value)) {
 				value = 0;
 			}
@@ -12804,29 +12852,29 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.execute = function(mc)
 		{
-			var _this = this;
-			var scope = _this.scope;
-			var movieClip = (scope instanceof MovieClip) ? scope : mc;
+			let _this = this;
+			let scope = _this.scope;
+			let movieClip = (scope instanceof MovieClip) ? scope : mc;
 			if (!movieClip.active) {
 				return undefined;
 			}
-			var stage = movieClip.getStage();
+			let stage = movieClip.getStage();
 			if (stage) {
 				_this.version = stage.getVersion();
 			}
 
-			var stack = [];
-			var cache = _this.cache;
-			var cLength = cache.length;
-			var cIdx = 0;
+			let stack = [];
+			let cache = _this.cache;
+			let cLength = cache.length;
+			let cIdx = 0;
 			while (cIdx < cLength) {
 				if (!(cIdx in cache)) {
 					cIdx++;
 					continue;
 				}
 
-				var aScript = cache[cIdx];
-				var actionCode = aScript.actionCode;
+				let aScript = cache[cIdx];
+				let actionCode = aScript.actionCode;
 
 				if (actionCode === 0) {
 					break;
@@ -13220,7 +13268,7 @@ if (!("swf2js" in window)) {
 			if (!method || typeof method !== "string") {
 				return method;
 			}
-			var lowerMethod = method.toLowerCase();
+			let lowerMethod = method.toLowerCase();
 			return this.methods[lowerMethod] || null;
 		};
 
@@ -13295,7 +13343,7 @@ if (!("swf2js" in window)) {
 		ActionScript.prototype.ActionSetTarget = function(movieClip, mc, target)
 		{
 			if (target !== "") {
-				var targetMc = movieClip;
+				let targetMc = movieClip;
 				if (!targetMc) {
 					targetMc = mc;
 				}
@@ -13316,7 +13364,7 @@ if (!("swf2js" in window)) {
 		ActionScript.prototype.ActionGoToLabel = function(mc, label)
 		{
 			if (mc instanceof MovieClip) {
-				var frame = mc.getLabel(label);
+				let frame = mc.getLabel(label);
 				mc.stop();
 				if (typeof frame === "number" && frame) {
 					mc.setNextFrame(frame);
@@ -13342,10 +13390,10 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionOperation = function(stack, operation)
 		{
-			var _this = this;
-			var a = _this.operationValue(stack);
-			var b = _this.operationValue(stack);
-			var value;
+			let _this = this;
+			let a = _this.operationValue(stack);
+			let b = _this.operationValue(stack);
+			let value;
 			switch (operation) {
 				case 0:
 					value = b + a;
@@ -13368,9 +13416,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionEquals = function(stack)
 		{
-			var _this = this;
-			var a = _this.calc(stack.pop());
-			var b = _this.calc(stack.pop());
+			let _this = this;
+			let a = _this.calc(stack.pop());
+			let b = _this.calc(stack.pop());
 			if (_this.version > 4) {
 				stack[stack.length] = (a === b);
 			} else {
@@ -13383,9 +13431,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionLess = function(stack)
 		{
-			var _this = this;
-			var a = _this.calc(stack.pop());
-			var b = _this.calc(stack.pop());
+			let _this = this;
+			let a = _this.calc(stack.pop());
+			let b = _this.calc(stack.pop());
 			if (_this.version > 4) {
 				stack[stack.length] = (b < a);
 			} else {
@@ -13398,9 +13446,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionAnd = function(stack)
 		{
-			var _this = this;
-			var a = stack.pop();
-			var b = stack.pop();
+			let _this = this;
+			let a = stack.pop();
+			let b = stack.pop();
 			if (_this.version > 4) {
 				a = _this.logicValue(a);
 				b = _this.logicValue(b);
@@ -13417,9 +13465,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionOr = function(stack)
 		{
-			var _this = this;
-			var a = stack.pop();
-			var b = stack.pop();
+			let _this = this;
+			let a = stack.pop();
+			let b = stack.pop();
 			if (_this.version > 4) {
 				a = _this.logicValue(a);
 				b = _this.logicValue(b);
@@ -13436,8 +13484,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionNot = function(stack)
 		{
-			var _this = this;
-			var a = stack.pop();
+			let _this = this;
+			let a = stack.pop();
 			if (_this.version > 4) {
 				a = _this.logicValue(a);
 				stack[stack.length] = (a === 0);
@@ -13452,8 +13500,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionStringEquals = function(stack)
 		{
-			var a = stack.pop();
-			var b = stack.pop();
+			let a = stack.pop();
+			let b = stack.pop();
 
 			if (a instanceof MovieClip) {
 				a = a.getTarget();
@@ -13479,12 +13527,12 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionStringLength = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			value = this.valueToString(value);
-			var length = 0;
-			var sLen = value.length;
-			for (var i = 0; i < sLen; i++, length++) {
-				var code = value.charCodeAt(i);
+			let length = 0;
+			let sLen = value.length;
+			for (let i = 0; i < sLen; i++, length++) {
+				let code = value.charCodeAt(i);
 				if (code < 255) {
 					continue;
 				}
@@ -13498,8 +13546,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionStringAdd = function(stack)
 		{
-			var a = stack.pop();
-			var b = stack.pop();
+			let a = stack.pop();
+			let b = stack.pop();
 			if (a === null || a === undefined) {
 				a = "";
 			}
@@ -13514,9 +13562,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionStringExtract = function(stack)
 		{
-			var count = stack.pop();
-			var index = stack.pop();
-			var string = stack.pop();
+			let count = stack.pop();
+			let index = stack.pop();
+			let string = stack.pop();
 			string = this.valueToString(string);
 			index--;
 			if (index < 0) {
@@ -13530,8 +13578,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionStringLess = function(stack)
 		{
-			var a = stack.pop();
-			var b = stack.pop();
+			let a = stack.pop();
+			let b = stack.pop();
 			if (this.version > 4) {
 				stack[stack.length] = (b < a);
 			} else {
@@ -13546,16 +13594,16 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionPush = function(stack, mc, values)
 		{
-			var _this = this;
-			var length = values.length;
-			var params = _this.params;
-			for (var i = 0; i < length; i++) {
-				var value = values[i];
+			let _this = this;
+			let length = values.length;
+			let params = _this.params;
+			for (let i = 0; i < length; i++) {
+				let value = values[i];
 				if (value instanceof Object) {
-					var key = value.key;
+					let key = value.key;
 					value = undefined;
 					if (key in params) {
-						var name = params[key];
+						let name = params[key];
 						if (typeof name === "string") {
 							value = _this.getVariable(name);
 							if (value === undefined && !(name in _this.variables)) {
@@ -13575,7 +13623,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionAsciiToChar = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = _fromCharCode(value);
 		};
 
@@ -13584,7 +13632,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionCharToAscii = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			value = this.valueToString(value);
 			stack[stack.length] = value.charCodeAt(0);
 		};
@@ -13594,7 +13642,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionToInteger = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			stack[stack.length] = value | 0;
 		};
 
@@ -13604,13 +13652,13 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionCall = function(stack, mc)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			if (mc) {
 				value = this.valueToString(value);
-				var splitData = value.split(":");
-				var frame;
-				var label = splitData[0];
-				var targetMc = mc;
+				let splitData = value.split(":");
+				let frame;
+				let label = splitData[0];
+				let targetMc = mc;
 				if (splitData.length > 1) {
 					targetMc = mc.getDisplayObject(splitData[0]);
 					label = splitData[1];
@@ -13630,7 +13678,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionIf = function(stack, offset, index)
 		{
-			var condition = stack.pop();
+			let condition = stack.pop();
 			switch (typeof condition) {
 				case "boolean":
 					break;
@@ -13653,9 +13701,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionGetVariable = function(stack, mc)
 		{
-			var _this = this;
-			var name = stack.pop();
-			var value;
+			let _this = this;
+			let name = stack.pop();
+			let value;
 			if (name instanceof MovieClip) {
 				value = name;
 			} else {
@@ -13676,8 +13724,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionSetVariable = function(stack, mc)
 		{
-			var value = stack.pop();
-			var name = stack.pop();
+			let value = stack.pop();
+			let name = stack.pop();
 			if (!this.setVariable(name, value)) {
 				mc.setProperty(name, value);
 			}
@@ -13690,23 +13738,23 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionGetURL2 = function(stack, aScript, mc)
 		{
-			var target = stack.pop();
-			var value = stack.pop();
-			var LoadVariablesFlag = aScript.LoadVariablesFlag; // 0=none, 1=LoadVariables
-			var LoadTargetFlag = aScript.LoadTargetFlag; // 0=web, 1=Sprite
-			var SendVarsMethod = aScript.SendVarsMethod; // 0=NONE, 1=GET, 2=POST
-			var method = "GET";
+			let target = stack.pop();
+			let value = stack.pop();
+			let LoadVariablesFlag = aScript.LoadVariablesFlag; // 0=none, 1=LoadVariables
+			let LoadTargetFlag = aScript.LoadTargetFlag; // 0=web, 1=Sprite
+			let SendVarsMethod = aScript.SendVarsMethod; // 0=NONE, 1=GET, 2=POST
+			let method = "GET";
 			if (SendVarsMethod === 2) {
 				method = "POST";
 			}
 
-			var url;
+			let url;
 			if (mc instanceof MovieClip) {
 				if (value) {
 					value = this.valueToString(value);
-					var urls = value.split("?");
-					var uLen = urls.length;
-					var query = "";
+					let urls = value.split("?");
+					let uLen = urls.length;
+					let query = "";
 					if (uLen === 1) {
 						query = "?";
 					}
@@ -13714,8 +13762,8 @@ if (!("swf2js" in window)) {
 					if (uLen > 2) {
 						url = urls[0] + "?";
 						url = url + urls[1];
-						for (var u = 2; u < uLen; u++) {
-							var params = urls[u];
+						for (let u = 2; u < uLen; u++) {
+							let params = urls[u];
 							url = url + "&" + params;
 						}
 					} else {
@@ -13724,18 +13772,18 @@ if (!("swf2js" in window)) {
 
 					// local variables
 					if (SendVarsMethod) {
-						var variables = mc.variables;
-						var queryString = "";
-						for (var key in variables) {
+						let variables = mc.variables;
+						let queryString = "";
+						for (let key in variables) {
 							if (!variables.hasOwnProperty(key)) {
 								continue;
 							}
-							var val = variables[key];
+							let val = variables[key];
 							if (val === null) {
 								val = "";
 							}
 							if (typeof val !== "string") {
-								var typeText = typeof val;
+								let typeText = typeof val;
 								typeText = typeText.replace(/^[a-z]/g, function(str)
 								{
 									return str.toUpperCase();
@@ -13775,16 +13823,16 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionGetProperty = function(stack, mc)
 		{
-			var index = stack.pop();
-			var target = stack.pop();
+			let index = stack.pop();
+			let target = stack.pop();
 			if (!_isNaN(index)) {
 				index = _floor(index);
 			}
 
-			var _this = this;
-			var value = _this.getVariable(index);
+			let _this = this;
+			let value = _this.getVariable(index);
 			if (value === undefined && mc) {
-				var targetMc = mc;
+				let targetMc = mc;
 				if (target) {
 					if (typeof target !== "string") {
 						target += "";
@@ -13805,19 +13853,19 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionGoToFrame2 = function(stack, aScript, mc)
 		{
-			var SceneBiasFlag = aScript.SceneBiasFlag;
-			var PlayFlag = aScript.PlayFlag; // 0=stop, 1=play
+			let SceneBiasFlag = aScript.SceneBiasFlag;
+			let PlayFlag = aScript.PlayFlag; // 0=stop, 1=play
 			if (SceneBiasFlag === 1) {
-				var SceneBias = aScript.SceneBias;
+				let SceneBias = aScript.SceneBias;
 				console.log("SceneBias", SceneBias);
 			}
 
-			var frame = stack.pop();
+			let frame = stack.pop();
 			if (frame && mc) {
 				if (_isNaN(frame)) {
-					var splitData = frame.split(":");
+					let splitData = frame.split(":");
 					if (splitData.length > 1) {
-						var targetMc = mc.getDisplayObject(splitData[0]);
+						let targetMc = mc.getDisplayObject(splitData[0]);
 						if (targetMc) {
 							if (_isNaN(splitData[1]))
 								frame = targetMc.getLabel(splitData[1]);
@@ -13853,7 +13901,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionSetTarget2 = function(stack, movieClip, mc)
 		{
-			var target = stack.pop();
+			let target = stack.pop();
 			if (!movieClip) {
 				movieClip = mc;
 			}
@@ -13866,15 +13914,15 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionSetProperty = function(stack, mc)
 		{
-			var value = stack.pop();
-			var index = stack.pop();
-			var target = stack.pop();
+			let value = stack.pop();
+			let index = stack.pop();
+			let target = stack.pop();
 			if (!_isNaN(index)) {
 				index = _floor(index);
 			}
 
 			if (mc) {
-				var targetMc = mc;
+				let targetMc = mc;
 				if (target !== undefined) {
 					targetMc = mc.getDisplayObject(target);
 				}
@@ -13890,13 +13938,13 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionStartDrag = function(stack, mc)
 		{
-			var target = stack.pop();
-			var lock = stack.pop();
-			var constrain = stack.pop();
-			var y2 = null;
-			var x2 = null;
-			var y1 = null;
-			var x1 = null;
+			let target = stack.pop();
+			let lock = stack.pop();
+			let constrain = stack.pop();
+			let y2 = null;
+			let x2 = null;
+			let y1 = null;
+			let x1 = null;
 			if (constrain) {
 				y2 = stack.pop();
 				x2 = stack.pop();
@@ -13904,7 +13952,7 @@ if (!("swf2js" in window)) {
 				x1 = stack.pop();
 			}
 
-			var targetMc = mc;
+			let targetMc = mc;
 			if (target instanceof MovieClip) {
 				targetMc = target;
 			}
@@ -13924,9 +13972,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionCloneSprite = function(stack, mc)
 		{
-			var depth = +stack.pop();
-			var target = stack.pop();
-			var source = stack.pop();
+			let depth = +stack.pop();
+			let target = stack.pop();
+			let source = stack.pop();
 			if (mc) {
 				mc.duplicateMovieClip(target, source, depth);
 			}
@@ -13938,7 +13986,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionRemoveSprite = function(stack, mc)
 		{
-			var target = stack.pop();
+			let target = stack.pop();
 			if (mc) {
 				mc.removeMovieClip(target);
 			}
@@ -13959,7 +14007,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionGetTime = function(stack)
 		{
-			var now = new Date();
+			let now = new Date();
 			stack[stack.length] = now.getTime() - StartDate.getTime();
 		};
 
@@ -13968,7 +14016,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionRandomNumber = function(stack)
 		{
-			var maximum = stack.pop();
+			let maximum = stack.pop();
 			stack[stack.length] = _floor(_random() * maximum);
 		};
 
@@ -13977,7 +14025,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionTrace = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			if (value instanceof DisplayObject && value.removeFlag) {
 				value = "";
 			}
@@ -13997,8 +14045,8 @@ if (!("swf2js" in window)) {
 		ActionScript.prototype.ActionFsCommand2 = function(stack, mc)
 		{
 			stack.pop(); // count
-			var method = stack.pop();
-			var now = new Date();
+			let method = stack.pop();
+			let now = new Date();
 			switch (method.toLowerCase()) {
 				case "getdateyear":
 					stack[stack.length] = now.getFullYear();
@@ -14050,7 +14098,7 @@ if (!("swf2js" in window)) {
 					mc.setVariable(stack.pop(), -1);
 					break;
 				case "getlanguage":
-					var language = _navigator.userLanguage ||
+					let language = _navigator.userLanguage ||
 						_navigator.language ||
 						_navigator.browserLanguage ||
 						"ja-JP";
@@ -14084,15 +14132,15 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionCallMethod = function(stack, mc)
 		{
-			var _this = this;
-			var method = stack.pop();
-			var object = stack.pop();
-			var count = +stack.pop();
-			var params = [];
+			let _this = this;
+			let method = stack.pop();
+			let object = stack.pop();
+			let count = +stack.pop();
+			let params = [];
 			if (count > 0) {
 				while (count) {
 					count--;
-					var param = stack.pop();
+					let param = stack.pop();
 					if (param && typeof param === "object" && "callee" in param) {
 						param = Array.prototype.slice.call(param);
 					}
@@ -14101,26 +14149,26 @@ if (!("swf2js" in window)) {
 			}
 
 			if (typeof object === "string" && object[method] === undefined) {
-				var target = _this.stringToObject(object, mc);
+				let target = _this.stringToObject(object, mc);
 				if (target) {
 					object = target;
 				}
 
 				if (object === "super") {
-					var caller = _this.variables["this"];
-					var SuperClass = _this.getSuperClass();
+					let caller = _this.variables["this"];
+					let SuperClass = _this.getSuperClass();
 					if (!method && SuperClass) {
-						var sc = new SuperClass();
+						let sc = new SuperClass();
 						switch (SuperClass) {
 							case MovieClip:
-								var loadStage = mc.getStage();
+								let loadStage = mc.getStage();
 								sc.setStage(loadStage);
 								sc.setParent(mc);
 								sc._extend = true;
 								break;
 						}
 
-						var proto = Object.getPrototypeOf(caller);
+						let proto = Object.getPrototypeOf(caller);
 						proto.constructor = SuperClass;
 						Object.setPrototypeOf(proto, sc);
 						Object.setPrototypeOf(caller, proto);
@@ -14130,11 +14178,11 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var value;
+			let value;
 			if (object && method) {
-				var func;
+				let func;
 				if (typeof object === "object") {
-					var variables = object.variables;
+					let variables = object.variables;
 					if (variables) {
 						func = variables[method];
 						if (!func && variables.registerClass) {
@@ -14144,7 +14192,7 @@ if (!("swf2js" in window)) {
 				}
 
 				if (!func) {
-					var originMethod = _this.checkMethod(method);
+					let originMethod = _this.checkMethod(method);
 					if (originMethod) {
 						func = object[originMethod];
 					}
@@ -14170,7 +14218,7 @@ if (!("swf2js" in window)) {
 					func = object;
 					object = params.shift();
 					if (method === "apply") {
-						var args = params.shift();
+						let args = params.shift();
 						params = [];
 						if (args) {
 							params = Array.prototype.slice.call(args);
@@ -14182,7 +14230,7 @@ if (!("swf2js" in window)) {
 					switch (true) {
 						case object instanceof MovieClipLoader:
 							if (method === "loadClip" && typeof params[1] === "string") {
-								var targetStr = params[1];
+								let targetStr = params[1];
 								params[1] = mc.getDisplayObject(targetStr);
 							}
 							break;
@@ -14194,9 +14242,9 @@ if (!("swf2js" in window)) {
 					switch (method.toLowerCase()) {
 						case "registerclass":
 							value = false;
-							var _root = mc.getDisplayObject("_root");
-							var stage = _root.getStage();
-							var characterId = stage.exportAssets[params[0]];
+							let _root = mc.getDisplayObject("_root");
+							let stage = _root.getStage();
+							let characterId = stage.exportAssets[params[0]];
 							if (characterId) {
 								stage.registerClass[characterId] = params[1];
 								value = true;
@@ -14223,16 +14271,16 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.addProperty = function(target, params)
 		{
-			var property = params[0];
+			let property = params[0];
 			if (typeof property !== "string" || property === "") {
 				return false;
 			}
 
-			var getter = params[1];
+			let getter = params[1];
 			if (!getter) {
 				getter = function() {};
 			}
-			var setter = params[2];
+			let setter = params[2];
 			if (!setter) {
 				setter = function() {};
 			}
@@ -14257,14 +14305,14 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionNativeFunction = function(args, mc)
 		{
-			var targetMc = mc;
-			var params = args;
+			let targetMc = mc;
+			let params = args;
 			if (args[0] instanceof MovieClip) {
 				// setInterval, setTimeout
 				targetMc = args.shift();
 				if (args.length > 0) {
-					var obj = args.shift();
-					var as;
+					let obj = args.shift();
+					let as;
 					if (typeof obj === "string") {
 						as = this.getVariable(obj);
 						if (typeof as !== "function") {
@@ -14272,8 +14320,8 @@ if (!("swf2js" in window)) {
 						}
 					}
 					if (typeof as === "function") {
-						var time = args.shift();
-						var action = (function(script, mc, args)
+						let time = args.shift();
+						let action = (function(script, mc, args)
 						{
 							return function()
 							{
@@ -14299,14 +14347,14 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionCallFunction = function(stack, mc)
 		{
-			var _this = this;
-			var name = stack.pop();
-			var count = +stack.pop();
-			var params = [];
+			let _this = this;
+			let name = stack.pop();
+			let count = +stack.pop();
+			let params = [];
 			if (count > 0) {
 				while (count) {
 					count--;
-					var param = stack.pop();
+					let param = stack.pop();
 					if (param && typeof param === "object" && "callee" in param) {
 						param = Array.prototype.slice.call(param);
 					}
@@ -14315,15 +14363,15 @@ if (!("swf2js" in window)) {
 			}
 
 			if (mc) {
-				var caller = mc;
-				var func;
-				var method = _this.checkMethod(name);
+				let caller = mc;
+				let func;
+				let method = _this.checkMethod(name);
 				if (method) {
 					func = mc[method];
 				} else {
 					func = mc.variables[name];
 					if (!func) {
-						var registerClass = mc.variables.registerClass;
+						let registerClass = mc.variables.registerClass;
 						if (registerClass && typeof registerClass === "object") {
 							func = registerClass[name];
 						}
@@ -14350,9 +14398,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionDefineFunction = function(stack, aScript, mc)
 		{
-			//var action = mc.createActionScript2(aScript.ActionScript, this);
-			var action = mc.createActionScript(aScript.ActionScript, this);
-			var name = aScript.FunctionName;
+			let action = mc.createActionScript2(aScript.ActionScript, this);
+			let name = aScript.FunctionName;
 			if (name !== "") {
 				mc.setVariable(name, action);
 			} else {
@@ -14366,9 +14413,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionDefineLocal = function(stack, mc)
 		{
-			var _this = this;
-			var value = stack.pop();
-			var name = stack.pop();
+			let _this = this;
+			let value = stack.pop();
+			let name = stack.pop();
 			if (_this.parent) {
 				_this.variables[name] = value;
 			} else {
@@ -14382,8 +14429,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionDefineLocal2 = function(stack, mc)
 		{
-			var _this = this;
-			var name = stack.pop();
+			let _this = this;
+			let name = stack.pop();
 			if (_this.parent) {
 				_this.variables[name] = undefined;
 			} else {
@@ -14397,11 +14444,11 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionDelete = function(stack, mc)
 		{
-			var name = stack.pop();
-			var object = stack.pop();
+			let name = stack.pop();
+			let object = stack.pop();
 
 			if (typeof object === "string") {
-				var target = this.stringToObject(object, mc);
+				let target = this.stringToObject(object, mc);
 				if (target) {
 					object = target;
 				}
@@ -14418,7 +14465,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionDelete2 = function(stack, mc)
 		{
-			var name = stack.pop();
+			let name = stack.pop();
 			if (mc) {
 				mc.setVariable(name, undefined);
 			}
@@ -14430,7 +14477,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionEnumerate = function(stack, mc)
 		{
-			var object = stack.pop();
+			let object = stack.pop();
 			stack[stack.length] = null;
 
 			if (typeof object === "string") {
@@ -14438,24 +14485,24 @@ if (!("swf2js" in window)) {
 			}
 
 			if (object instanceof Object) {
-				var name;
+				let name;
 				switch (true) {
 					case object instanceof DisplayObject:
-						var container = object.getTags();
-						var stage = object.getStage();
+						let container = object.getTags();
+						let stage = object.getStage();
 						for (name in container) {
 							if (!container.hasOwnProperty(name)) {
 								continue;
 							}
-							var id = container[name];
-							var instance = stage.getInstance(id);
-							var prop = "instance" + id;
+							let id = container[name];
+							let instance = stage.getInstance(id);
+							let prop = "instance" + id;
 							if (instance.getName()) {
 								prop = instance.getName();
 							}
 							stack[stack.length] = prop;
 						}
-						var variables = object.variables;
+						let variables = object.variables;
 						for (name in variables) {
 							if (!variables.hasOwnProperty(name)) {
 								continue;
@@ -14480,10 +14527,10 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionEquals2 = function(stack)
 		{
-			var a = stack.pop();
-			var b = stack.pop();
-			var A = a;
-			var B = b;
+			let a = stack.pop();
+			let b = stack.pop();
+			let A = a;
+			let B = b;
 			if (a instanceof MovieClip) {
 				A = a.getTarget();
 			}
@@ -14499,12 +14546,12 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionGetMember = function(stack, mc)
 		{
-			var _this = this;
-			var property;
-			var name = stack.pop();
-			var object = stack.pop();
+			let _this = this;
+			let property;
+			let name = stack.pop();
+			let object = stack.pop();
 			if (typeof object === "string") {
-				var target = _this.stringToObject(object, mc);
+				let target = _this.stringToObject(object, mc);
 				if (target) {
 					object = target;
 				}
@@ -14523,8 +14570,8 @@ if (!("swf2js" in window)) {
 								typeof name === "string" &&
 								name.substr(0, 8) === "instance"
 							) {
-								var stage = object.getStage();
-								var id = name.split("instance")[1];
+								let stage = object.getStage();
+								let id = name.split("instance")[1];
 								property = stage.getInstance(id);
 							}
 
@@ -14537,12 +14584,12 @@ if (!("swf2js" in window)) {
 						}
 						break;
 					case object instanceof Element && name === "childNodes":
-						var childNodes = object[name];
-						var length = childNodes.length;
+						let childNodes = object[name];
+						let length = childNodes.length;
 						property = [];
 						if (length) {
-							for (var i = 0; i < length; i++) {
-								var node = childNodes[i];
+							for (let i = 0; i < length; i++) {
+								let node = childNodes[i];
 								if (node.nodeType !== 1) {
 									continue;
 								}
@@ -14551,7 +14598,7 @@ if (!("swf2js" in window)) {
 						}
 						break;
 					case object instanceof window.NamedNodeMap:
-						var item = object.getNamedItem(name);
+						let item = object.getNamedItem(name);
 						property = item.value;
 						break;
 				}
@@ -14564,8 +14611,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionInitArray = function(stack)
 		{
-			var number = stack.pop();
-			var array = [];
+			let number = stack.pop();
+			let array = [];
 			if (number > 0) {
 				while (number--) {
 					array[array.length] = stack.pop();
@@ -14579,12 +14626,12 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionInitObject = function(stack)
 		{
-			var number = stack.pop();
-			var object = {};
+			let number = stack.pop();
+			let object = {};
 			if (number > 0) {
 				while (number--) {
-					var value = stack.pop();
-					var property = stack.pop();
+					let value = stack.pop();
+					let property = stack.pop();
 					object[property] = value;
 				}
 			}
@@ -14597,13 +14644,13 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionNewMethod = function(stack, mc)
 		{
-			var method = stack.pop();
-			var object = stack.pop();
-			var number = stack.pop();
-			var params = [];
+			let method = stack.pop();
+			let object = stack.pop();
+			let number = stack.pop();
+			let params = [];
 			if (number > 0) {
 				while (number--) {
-					var param = stack.pop();
+					let param = stack.pop();
 					if (param && typeof param === "object" && "callee" in param) {
 						param = Array.prototype.slice.call(param);
 					}
@@ -14611,7 +14658,7 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var constructor;
+			let constructor;
 			if (method === "") {
 				constructor = object.apply(object, params);
 			}
@@ -14634,13 +14681,13 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionNewObject = function(stack, mc)
 		{
-			var object = stack.pop();
-			var numArgs = +stack.pop();
-			var params = [];
+			let object = stack.pop();
+			let numArgs = +stack.pop();
+			let params = [];
 			if (numArgs > 0) {
 				while (numArgs) {
 					numArgs--;
-					var param = stack.pop();
+					let param = stack.pop();
 					if (param && typeof param === "object" && "callee" in param) {
 						param = Array.prototype.slice.call(param);
 					}
@@ -14648,7 +14695,7 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var obj = {};
+			let obj = {};
 			if (object in window) {
 				params.unshift(window[object]);
 				obj = new(Function.prototype.bind.apply(window[object], params))();
@@ -14659,7 +14706,7 @@ if (!("swf2js" in window)) {
 						break;
 					case "MovieClip":
 						obj = new MovieClip();
-						var stage = mc.getStage();
+						let stage = mc.getStage();
 						obj.setStage(stage);
 						obj.setParent(mc);
 						break;
@@ -14684,8 +14731,8 @@ if (!("swf2js" in window)) {
 						break;
 					default:
 						if (mc) {
-							var _this = this;
-							var func = _this.getVariable(object) || mc.getVariable(object);
+							let _this = this;
+							let func = _this.getVariable(object) || mc.getVariable(object);
 							obj = _this.CreateNewActionScript(func, mc, params);
 						}
 						break;
@@ -14700,7 +14747,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.getNativeClass = function(name)
 		{
-			var value;
+			let value;
 			switch (name) {
 				case "MovieClip":
 					value = MovieClip;
@@ -14760,13 +14807,13 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionSetMember = function(stack, mc)
 		{
-			var value = stack.pop();
-			var name = stack.pop();
-			var object = stack.pop();
+			let value = stack.pop();
+			let name = stack.pop();
+			let object = stack.pop();
 
 			if (object) {
 				if (typeof object === "string") {
-					var target = this.stringToObject(object, mc);
+					let target = this.stringToObject(object, mc);
 					if (target) {
 						object = target;
 					}
@@ -14800,20 +14847,19 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionTargetPath = function(stack)
 		{
-			console.log("ActionTargetPath");
-			var object = stack.pop();
-			var path = null;
+			let object = stack.pop();
+			let path = null;
 			if (object instanceof MovieClip) {
 				path = object.getName();
 				if (path !== null) {
 					while (true) {
-						var parent = object.getParent();
+						let parent = object.getParent();
 						if (parent === null) {
 							path = "/" + path;
 							break;
 						}
 
-						var name = parent.getName();
+						let name = parent.getName();
 						if (name === null) {
 							path = null;
 							break;
@@ -14834,7 +14880,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionWith = function(stack, size, mc)
 		{
-			var object = mc;
+			let object = mc;
 			if (size) {
 				object = stack.pop();
 			}
@@ -14846,7 +14892,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionToNumber = function(stack)
 		{
-			var object = +stack.pop();
+			let object = +stack.pop();
 			stack[stack.length] = object;
 		};
 
@@ -14855,7 +14901,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionToString = function(stack)
 		{
-			var object = stack.pop();
+			let object = stack.pop();
 			stack[stack.length] = this.valueToString(object);
 		};
 
@@ -14864,8 +14910,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionTypeOf = function(stack)
 		{
-			var object = stack.pop();
-			var str = "";
+			let object = stack.pop();
+			let str = "";
 			switch (true) {
 				case object instanceof MovieClip:
 					str = "movieclip";
@@ -14882,8 +14928,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionAdd2 = function(stack)
 		{
-			var a = stack.pop();
-			var b = stack.pop();
+			let a = stack.pop();
+			let b = stack.pop();
 			stack[stack.length] = b + a;
 		};
 
@@ -14892,8 +14938,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionLess2 = function(stack)
 		{
-			var a = stack.pop();
-			var b = stack.pop();
+			let a = stack.pop();
+			let b = stack.pop();
 			stack[stack.length] = (b < a);
 		};
 
@@ -14902,8 +14948,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionModulo = function(stack)
 		{
-			var y = stack.pop();
-			var x = stack.pop();
+			let y = stack.pop();
+			let x = stack.pop();
 			stack[stack.length] = x % y;
 		};
 
@@ -14912,8 +14958,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionBitAnd = function(stack)
 		{
-			var a = stack.pop();
-			var b = stack.pop();
+			let a = stack.pop();
+			let b = stack.pop();
 			stack[stack.length] = b & a;
 		};
 
@@ -14922,8 +14968,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionBitLShift = function(stack)
 		{
-			var a = stack.pop();
-			var b = stack.pop();
+			let a = stack.pop();
+			let b = stack.pop();
 			stack[stack.length] = b << a;
 		};
 
@@ -14932,8 +14978,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionBitOr = function(stack)
 		{
-			var a = stack.pop();
-			var b = stack.pop();
+			let a = stack.pop();
+			let b = stack.pop();
 			stack[stack.length] = b | a;
 		};
 
@@ -14942,8 +14988,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionBitRShift = function(stack)
 		{
-			var a = stack.pop();
-			var b = stack.pop();
+			let a = stack.pop();
+			let b = stack.pop();
 			stack[stack.length] = b >> a;
 		};
 
@@ -14952,8 +14998,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionBitURShift = function(stack)
 		{
-			var a = stack.pop();
-			var b = stack.pop();
+			let a = stack.pop();
+			let b = stack.pop();
 			stack[stack.length] = b >> a;
 		};
 
@@ -14962,8 +15008,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionBitXor = function(stack)
 		{
-			var a = stack.pop();
-			var b = stack.pop();
+			let a = stack.pop();
+			let b = stack.pop();
 			stack[stack.length] = a ^ b;
 		};
 
@@ -14972,7 +15018,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionDecrement = function(stack)
 		{
-			var value = +stack.pop();
+			let value = +stack.pop();
 			value--;
 			stack[stack.length] = value;
 		};
@@ -14982,7 +15028,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionIncrement = function(stack)
 		{
-			var value = +stack.pop();
+			let value = +stack.pop();
 			if (_isNaN(value)) value = 0;
 			value++;
 			stack[stack.length] = value;
@@ -14993,7 +15039,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionPushDuplicate = function(stack)
 		{
-			var length = stack.length;
+			let length = stack.length;
 			stack[length] = stack[length - 1];
 		};
 
@@ -15002,8 +15048,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionStackSwap = function(stack)
 		{
-			var a = stack.pop();
-			var b = stack.pop();
+			let a = stack.pop();
+			let b = stack.pop();
 			stack[stack.length] = a;
 			stack[stack.length] = b;
 		};
@@ -15022,8 +15068,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionInstanceOf = function(stack)
 		{
-			var constr = stack.pop();
-			var object = stack.pop();
+			let constr = stack.pop();
+			let object = stack.pop();
 			stack[stack.length] = (object instanceof constr);
 		};
 
@@ -15032,8 +15078,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionStrictEquals = function(stack)
 		{
-			var a = stack.pop();
-			var b = stack.pop();
+			let a = stack.pop();
+			let b = stack.pop();
 			stack[stack.length] = (b === a);
 		};
 
@@ -15042,8 +15088,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionGreater = function(stack)
 		{
-			var a = stack.pop();
-			var b = stack.pop();
+			let a = stack.pop();
+			let b = stack.pop();
 			stack[stack.length] = (b > a);
 		};
 
@@ -15052,8 +15098,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionExtends = function(stack)
 		{
-			var SuperClass = stack.pop();
-			var SubClass = stack.pop();
+			let SuperClass = stack.pop();
+			let SubClass = stack.pop();
 			if (SuperClass && SubClass) {
 				this.superClass = SuperClass;
 			}
@@ -15064,8 +15110,8 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionCastOp = function(stack)
 		{
-			var object = stack.pop();
-			var func = stack.pop();
+			let object = stack.pop();
+			let func = stack.pop();
 			stack[stack.length] = (typeof func === "function" &&
 				object instanceof func.prototype.constructor) ? object : null;
 		};
@@ -15075,11 +15121,9 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionImplementsOp = function(stack)
 		{
-			console.log("ActionImplementsOp");
-			var func = stack.pop();
-			console.log(func);
-			var count = stack.pop();
-			var params = [];
+			let func = stack.pop();
+			let count = stack.pop();
+			let params = [];
 			if (count > 0) {
 				while (count--) {
 					params[params.length] = stack.pop();
@@ -15113,7 +15157,7 @@ if (!("swf2js" in window)) {
 		 */
 		ActionScript.prototype.ActionThrow = function(stack)
 		{
-			var value = stack.pop();
+			let value = stack.pop();
 			throw value.message;
 		};
 
@@ -15122,7 +15166,7 @@ if (!("swf2js" in window)) {
 		 *
 		 * @constructor
 		 */
-		var BitmapFilter = function() {};
+		let BitmapFilter = function() {};
 
 		/**
 		 * @param color
@@ -15163,7 +15207,7 @@ if (!("swf2js" in window)) {
 		 */
 		BitmapFilter.prototype.filterOperation = function(inner, knockout, hideObject)
 		{
-			var operation = "source-over";
+			let operation = "source-over";
 			if (knockout === true) {
 				if (inner) {
 					operation = "source-in";
@@ -15197,18 +15241,18 @@ if (!("swf2js" in window)) {
 		 */
 		BitmapFilter.prototype.coatOfColor = function(ctx, color, inner, strength)
 		{
-			var canvas = ctx.canvas;
-			var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+			let canvas = ctx.canvas;
+			let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-			var i = 0;
-			var pxData = imgData.data;
-			var R = color.R;
-			var G = color.G;
-			var B = color.B;
-			var length = pxData.length;
+			let i = 0;
+			let pxData = imgData.data;
+			let R = color.R;
+			let G = color.G;
+			let B = color.B;
+			let length = pxData.length;
 			for (; i < length; i += 4) {
-				var aKey = i + 3;
-				var alpha = pxData[aKey];
+				let aKey = i + 3;
+				let alpha = pxData[aKey];
 				if (!inner) {
 					if (alpha !== 0) {
 						pxData[i] = R | 0;
@@ -15240,17 +15284,17 @@ if (!("swf2js" in window)) {
 		 */
 		BitmapFilter.prototype.clone = function()
 		{
-			var _this = this;
-			var args = [];
-			for (var prop in _this) {
+			let _this = this;
+			let args = [];
+			for (let prop in _this) {
 				if (!_this.hasOwnProperty(prop)) {
 					continue;
 				}
 				args[args.length] = _this[prop];
 			}
 
-			var type = _this.filterId;
-			var filter = _this;
+			let type = _this.filterId;
+			let filter = _this;
 			switch (type) {
 				case 0: // DropShadowFilter
 					filter = new(Function.prototype.bind.apply(DropShadowFilter, args))();
@@ -15287,10 +15331,10 @@ if (!("swf2js" in window)) {
 		BitmapFilter.prototype.toColorInt = function(rgb)
 		{
 			if (typeof rgb === "string") {
-				var canvas = cacheStore.getCanvas();
+				let canvas = cacheStore.getCanvas();
 				canvas.width = 1;
 				canvas.height = 1;
-				var ctx = canvas.getContext("2d");
+				let ctx = canvas.getContext("2d");
 				ctx.fillStyle = rgb;
 				rgb = "0x" + ctx.fillStyle.substr(1);
 				cacheStore.destroy(ctx);
@@ -15301,9 +15345,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var BlurFilter = function()
+		let BlurFilter = function()
 		{
-			var _this = this;
+			let _this = this;
 			BitmapFilter.call(_this);
 
 			_this.filterId = 1;
@@ -15311,18 +15355,18 @@ if (!("swf2js" in window)) {
 			_this.blurY = 4;
 			_this.quality = 1;
 
-			var arg = arguments;
-			var blurX = arg[0] | 0;
+			let arg = arguments;
+			let blurX = arg[0] | 0;
 			if (!_isNaN(blurX) && 0 <= blurX && 255 >= blurX) {
 				_this.blurX = blurX;
 			}
 
-			var blurY = arg[1] | 0;
+			let blurY = arg[1] | 0;
 			if (!_isNaN(blurY) && 0 <= blurY && 255 >= blurY) {
 				_this.blurY = blurY;
 			}
 
-			var quality = arg[2] | 0;
+			let quality = arg[2] | 0;
 			if (!_isNaN(quality) && 1 <= quality && 15 >= quality) {
 				_this.quality = quality;
 			}
@@ -15344,11 +15388,11 @@ if (!("swf2js" in window)) {
 		 */
 		BlurFilter.prototype.render = function(cache, matrix, colorTransform, stage)
 		{
-			var cacheCanvas = cache.canvas;
-			var canvas = cacheStore.getCanvas();
+			let cacheCanvas = cache.canvas;
+			let canvas = cacheStore.getCanvas();
 			canvas.width = cacheCanvas.width;
 			canvas.height = cacheCanvas.height;
-			var ctx = canvas.getContext("2d");
+			let ctx = canvas.getContext("2d");
 			ctx.drawImage(cacheCanvas, 0, 0);
 			ctx._offsetX = cache._offsetX;
 			ctx._offsetY = cache._offsetY;
@@ -15362,10 +15406,10 @@ if (!("swf2js" in window)) {
 		 */
 		BlurFilter.prototype.executeFilter = function(ctx, stage)
 		{
-			var _this = this;
+			let _this = this;
 
-			var _blurX = _this.blurX;
-			var _blurY = _this.blurY;
+			let _blurX = _this.blurX;
+			let _blurY = _this.blurY;
 			if (_blurX === 0 && _blurY === 0) {
 				return ctx;
 			}
@@ -15378,89 +15422,89 @@ if (!("swf2js" in window)) {
 				_blurY = 4;
 			}
 
-			var _quality = _this.quality;
-			var scale = stage.getScale();
+			let _quality = _this.quality;
+			let scale = stage.getScale();
 
-			var STEP = [0.5, 1.05, 1.35, 1.55, 1.75, 1.9, 2, 2.1, 2.2, 2.3, 2.5, 3, 3, 3.5, 3.5];
-			var stepNo = STEP[_quality - 1];
-			var blurX = _ceil(_blurX * stepNo * scale * devicePixelRatio);
-			var blurY = _ceil(_blurY * stepNo * scale * devicePixelRatio);
+			let STEP = [0.5, 1.05, 1.35, 1.55, 1.75, 1.9, 2, 2.1, 2.2, 2.3, 2.5, 3, 3, 3.5, 3.5];
+			let stepNo = STEP[_quality - 1];
+			let blurX = _ceil(_blurX * stepNo * scale * devicePixelRatio);
+			let blurY = _ceil(_blurY * stepNo * scale * devicePixelRatio);
 
-			var canvas = ctx.canvas;
-			var width = _ceil(canvas.width + (blurX * 2) + 1);
-			var height = _ceil(canvas.height + (blurY * 2) + 1);
+			let canvas = ctx.canvas;
+			let width = _ceil(canvas.width + (blurX * 2) + 1);
+			let height = _ceil(canvas.height + (blurY * 2) + 1);
 
-			var blurCanvas = cacheStore.getCanvas();
+			let blurCanvas = cacheStore.getCanvas();
 			blurCanvas.width = width;
 			blurCanvas.height = height;
-			var blurCtx = blurCanvas.getContext("2d");
-			var offsetX = blurX;
-			var offsetY = blurY;
+			let blurCtx = blurCanvas.getContext("2d");
+			let offsetX = blurX;
+			let offsetY = blurY;
 
 			blurCtx._offsetX = blurX + ctx._offsetX;
 			blurCtx._offsetY = blurY + ctx._offsetY;
 			blurCtx.drawImage(canvas, offsetX, offsetY);
 
-			var imgData = blurCtx.getImageData(0, 0, width, height);
-			var px = imgData.data;
+			let imgData = blurCtx.getImageData(0, 0, width, height);
+			let px = imgData.data;
 
-			var radiusX = (offsetX) >> 1;
-			var radiusY = (offsetY) >> 1;
+			let radiusX = (offsetX) >> 1;
+			let radiusY = (offsetY) >> 1;
 
-			var MUL = [1, 171, 205, 293, 57, 373, 79, 137, 241, 27, 391, 357, 41, 19, 283, 265, 497, 469, 443, 421, 25, 191, 365, 349, 335, 161, 155, 149, 9, 278, 269, 261, 505, 245, 475, 231, 449, 437, 213, 415, 405, 395, 193, 377, 369, 361, 353, 345, 169, 331, 325, 319, 313, 307, 301, 37, 145, 285, 281, 69, 271, 267, 263, 259, 509, 501, 493, 243, 479, 118, 465, 459, 113, 446, 55, 435, 429, 423, 209, 413, 51, 403, 199, 393, 97, 3, 379, 375, 371, 367, 363, 359, 355, 351, 347, 43, 85, 337, 333, 165, 327, 323, 5, 317, 157, 311, 77, 305, 303, 75, 297, 294, 73, 289, 287, 71, 141, 279, 277, 275, 68, 135, 67, 133, 33, 262, 260, 129, 511, 507, 503, 499, 495, 491, 61, 121, 481, 477, 237, 235, 467, 232, 115, 457, 227, 451, 7, 445, 221, 439, 218, 433, 215, 427, 425, 211, 419, 417, 207, 411, 409, 203, 202, 401, 399, 396, 197, 49, 389, 387, 385, 383, 95, 189, 47, 187, 93, 185, 23, 183, 91, 181, 45, 179, 89, 177, 11, 175, 87, 173, 345, 343, 341, 339, 337, 21, 167, 83, 331, 329, 327, 163, 81, 323, 321, 319, 159, 79, 315, 313, 39, 155, 309, 307, 153, 305, 303, 151, 75, 299, 149, 37, 295, 147, 73, 291, 145, 289, 287, 143, 285, 71, 141, 281, 35, 279, 139, 69, 275, 137, 273, 17, 271, 135, 269, 267, 133, 265, 33, 263, 131, 261, 130, 259, 129, 257, 1];
+			let MUL = [1, 171, 205, 293, 57, 373, 79, 137, 241, 27, 391, 357, 41, 19, 283, 265, 497, 469, 443, 421, 25, 191, 365, 349, 335, 161, 155, 149, 9, 278, 269, 261, 505, 245, 475, 231, 449, 437, 213, 415, 405, 395, 193, 377, 369, 361, 353, 345, 169, 331, 325, 319, 313, 307, 301, 37, 145, 285, 281, 69, 271, 267, 263, 259, 509, 501, 493, 243, 479, 118, 465, 459, 113, 446, 55, 435, 429, 423, 209, 413, 51, 403, 199, 393, 97, 3, 379, 375, 371, 367, 363, 359, 355, 351, 347, 43, 85, 337, 333, 165, 327, 323, 5, 317, 157, 311, 77, 305, 303, 75, 297, 294, 73, 289, 287, 71, 141, 279, 277, 275, 68, 135, 67, 133, 33, 262, 260, 129, 511, 507, 503, 499, 495, 491, 61, 121, 481, 477, 237, 235, 467, 232, 115, 457, 227, 451, 7, 445, 221, 439, 218, 433, 215, 427, 425, 211, 419, 417, 207, 411, 409, 203, 202, 401, 399, 396, 197, 49, 389, 387, 385, 383, 95, 189, 47, 187, 93, 185, 23, 183, 91, 181, 45, 179, 89, 177, 11, 175, 87, 173, 345, 343, 341, 339, 337, 21, 167, 83, 331, 329, 327, 163, 81, 323, 321, 319, 159, 79, 315, 313, 39, 155, 309, 307, 153, 305, 303, 151, 75, 299, 149, 37, 295, 147, 73, 291, 145, 289, 287, 143, 285, 71, 141, 281, 35, 279, 139, 69, 275, 137, 273, 17, 271, 135, 269, 267, 133, 265, 33, 263, 131, 261, 130, 259, 129, 257, 1];
 
-			var SHG = [0, 9, 10, 11, 9, 12, 10, 11, 12, 9, 13, 13, 10, 9, 13, 13, 14, 14, 14, 14, 10, 13, 14, 14, 14, 13, 13, 13, 9, 14, 14, 14, 15, 14, 15, 14, 15, 15, 14, 15, 15, 15, 14, 15, 15, 15, 15, 15, 14, 15, 15, 15, 15, 15, 15, 12, 14, 15, 15, 13, 15, 15, 15, 15, 16, 16, 16, 15, 16, 14, 16, 16, 14, 16, 13, 16, 16, 16, 15, 16, 13, 16, 15, 16, 14, 9, 16, 16, 16, 16, 16, 16, 16, 16, 16, 13, 14, 16, 16, 15, 16, 16, 10, 16, 15, 16, 14, 16, 16, 14, 16, 16, 14, 16, 16, 14, 15, 16, 16, 16, 14, 15, 14, 15, 13, 16, 16, 15, 17, 17, 17, 17, 17, 17, 14, 15, 17, 17, 16, 16, 17, 16, 15, 17, 16, 17, 11, 17, 16, 17, 16, 17, 16, 17, 17, 16, 17, 17, 16, 17, 17, 16, 16, 17, 17, 17, 16, 14, 17, 17, 17, 17, 15, 16, 14, 16, 15, 16, 13, 16, 15, 16, 14, 16, 15, 16, 12, 16, 15, 16, 17, 17, 17, 17, 17, 13, 16, 15, 17, 17, 17, 16, 15, 17, 17, 17, 16, 15, 17, 17, 14, 16, 17, 17, 16, 17, 17, 16, 15, 17, 16, 14, 17, 16, 15, 17, 16, 17, 17, 16, 17, 15, 16, 17, 14, 17, 16, 15, 17, 16, 17, 13, 17, 16, 17, 17, 16, 17, 14, 17, 16, 17, 16, 17, 16, 17, 9];
+			let SHG = [0, 9, 10, 11, 9, 12, 10, 11, 12, 9, 13, 13, 10, 9, 13, 13, 14, 14, 14, 14, 10, 13, 14, 14, 14, 13, 13, 13, 9, 14, 14, 14, 15, 14, 15, 14, 15, 15, 14, 15, 15, 15, 14, 15, 15, 15, 15, 15, 14, 15, 15, 15, 15, 15, 15, 12, 14, 15, 15, 13, 15, 15, 15, 15, 16, 16, 16, 15, 16, 14, 16, 16, 14, 16, 13, 16, 16, 16, 15, 16, 13, 16, 15, 16, 14, 9, 16, 16, 16, 16, 16, 16, 16, 16, 16, 13, 14, 16, 16, 15, 16, 16, 10, 16, 15, 16, 14, 16, 16, 14, 16, 16, 14, 16, 16, 14, 15, 16, 16, 16, 14, 15, 14, 15, 13, 16, 16, 15, 17, 17, 17, 17, 17, 17, 14, 15, 17, 17, 16, 16, 17, 16, 15, 17, 16, 17, 11, 17, 16, 17, 16, 17, 16, 17, 17, 16, 17, 17, 16, 17, 17, 16, 16, 17, 17, 17, 16, 14, 17, 17, 17, 17, 15, 16, 14, 16, 15, 16, 13, 16, 15, 16, 14, 16, 15, 16, 12, 16, 15, 16, 17, 17, 17, 17, 17, 13, 16, 15, 17, 17, 17, 16, 15, 17, 17, 17, 16, 15, 17, 17, 14, 16, 17, 17, 16, 17, 17, 16, 15, 17, 16, 14, 17, 16, 15, 17, 16, 17, 17, 16, 17, 15, 16, 17, 14, 17, 16, 15, 17, 16, 17, 13, 17, 16, 17, 17, 16, 17, 14, 17, 16, 17, 16, 17, 16, 17, 9];
 
-			var mtx = MUL[radiusX];
-			var stx = SHG[radiusX];
-			var mty = MUL[radiusY];
-			var sty = SHG[radiusY];
+			let mtx = MUL[radiusX];
+			let stx = SHG[radiusX];
+			let mty = MUL[radiusY];
+			let sty = SHG[radiusY];
 
-			var x = 0;
-			var y = 0;
-			var p = 0;
-			var yp = 0;
-			var yi = 0;
-			var yw = 0;
-			var r = 0;
-			var g = 0;
-			var b = 0;
-			var a = 0;
-			var pr = 0;
-			var pg = 0;
-			var pb = 0;
-			var pa = 0;
+			let x = 0;
+			let y = 0;
+			let p = 0;
+			let yp = 0;
+			let yi = 0;
+			let yw = 0;
+			let r = 0;
+			let g = 0;
+			let b = 0;
+			let a = 0;
+			let pr = 0;
+			let pg = 0;
+			let pb = 0;
+			let pa = 0;
 
-			var divx = radiusX + radiusX + 1;
-			var divy = radiusY + radiusY + 1;
-			var w = imgData.width;
-			var h = imgData.height;
+			let divx = radiusX + radiusX + 1;
+			let divy = radiusY + radiusY + 1;
+			let w = imgData.width;
+			let h = imgData.height;
 
-			var w1 = w - 1;
-			var h1 = h - 1;
-			var rxp1 = radiusX + 1;
-			var ryp1 = radiusY + 1;
+			let w1 = w - 1;
+			let h1 = h - 1;
+			let rxp1 = radiusX + 1;
+			let ryp1 = radiusY + 1;
 
-			var ssx = {r: 0, b: 0, g: 0, a: 0};
-			var sx = ssx;
-			for (var i = 1; i < divx; i++) {
+			let ssx = {r: 0, b: 0, g: 0, a: 0};
+			let sx = ssx;
+			for (let i = 1; i < divx; i++) {
 				sx = sx.n = {r: 0, b: 0, g: 0, a: 0};
 			}
 			sx.n = ssx;
 
-			var ssy = {r: 0, b: 0, g: 0, a: 0};
-			var sy = ssy;
-			for (i = 1; i < divy; i++) {
+			let ssy = {r: 0, b: 0, g: 0, a: 0};
+			let sy = ssy;
+			for (let i = 1; i < divy; i++) {
 				sy = sy.n = {r: 0, b: 0, g: 0, a: 0};
 			}
 			sy.n = ssy;
 
-			var si = null;
+			let si = null;
 			while (_quality-- > 0) {
 
 				yw = yi = 0;
-				var ms = mtx | 0;
-				var ss = stx | 0;
+				let ms = mtx | 0;
+				let ss = stx | 0;
 				for (y = h; --y > -1;) {
 					pr = px[yi];
 					pg = px[yi + 1];
@@ -15473,7 +15517,7 @@ if (!("swf2js" in window)) {
 
 					sx = ssx;
 
-					for (i = rxp1; --i > -1;) {
+					for (let i = rxp1; --i > -1;) {
 						sx.r = pr;
 						sx.g = pg;
 						sx.b = pb;
@@ -15481,7 +15525,7 @@ if (!("swf2js" in window)) {
 						sx = sx.n;
 					}
 
-					for (i = 1; i < rxp1; i++) {
+					for (let i = 1; i < rxp1; i++) {
 						p = (yi + ((w1 < i ? w1 : i) << 2)) | 0;
 						r += (sx.r = px[p]);
 						g += (sx.g = px[p + 1]);
@@ -15521,7 +15565,7 @@ if (!("swf2js" in window)) {
 					a = (ryp1 * (pa = px[(yi + 3) | 0])) | 0;
 
 					sy = ssy;
-					for (i = 0; i < ryp1; i++) {
+					for (let i = 0; i < ryp1; i++) {
 						sy.r = pr;
 						sy.g = pg;
 						sy.b = pb;
@@ -15531,7 +15575,7 @@ if (!("swf2js" in window)) {
 
 					yp = w;
 
-					for (i = 1; i <= radiusY; i++) {
+					for (let i = 1; i <= radiusY; i++) {
 						yi = (yp + x) << 2;
 
 						r += (sy.r = px[yi]);
@@ -15607,9 +15651,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var DropShadowFilter = function()
+		let DropShadowFilter = function()
 		{
-			var _this = this;
+			let _this = this;
 			BitmapFilter.call(_this);
 
 			_this.filterId = 0;
@@ -15625,58 +15669,58 @@ if (!("swf2js" in window)) {
 			_this.knockout = false;
 			_this.hideObject = false;
 
-			var arg = arguments;
-			var distance = arg[0] | 0;
+			let arg = arguments;
+			let distance = arg[0] | 0;
 			if (!_isNaN(distance)) {
 				_this.distance = distance;
 			}
 
-			var angle = +arg[1];
+			let angle = +arg[1];
 			if (!_isNaN(angle) && 0 <= angle && 360 >= angle) {
 				_this.angle = angle;
 			}
 
-			var color = _this.toColorInt(arg[2]);
+			let color = _this.toColorInt(arg[2]);
 			if (!_isNaN(color)) {
 				_this.color = color;
 			}
 
-			var alpha = +arg[3];
+			let alpha = +arg[3];
 			if (!_isNaN(alpha) && 0 <= alpha && 1 >= alpha) {
 				_this.alpha = alpha;
 			}
 
-			var blurX = arg[4] | 0;
+			let blurX = arg[4] | 0;
 			if (!_isNaN(blurX) && 0 <= blurX && 255 >= blurX) {
 				_this.blurX = blurX;
 			}
 
-			var blurY = arg[5] | 0;
+			let blurY = arg[5] | 0;
 			if (!_isNaN(blurY) && 0 <= blurY && 255 >= blurY) {
 				_this.blurY = blurY;
 			}
 
-			var strength = +arg[6];
+			let strength = +arg[6];
 			if (!_isNaN(strength) && 0 <= strength && 255 >= strength) {
 				_this.strength = strength;
 			}
 
-			var quality = arg[7] | 0;
+			let quality = arg[7] | 0;
 			if (!_isNaN(quality) && 1 <= quality && 15 >= quality) {
 				_this.quality = quality;
 			}
 
-			var inner = arg[8];
+			let inner = arg[8];
 			if (typeof inner === "boolean") {
 				_this.inner = inner;
 			}
 
-			var knockout = arg[9];
+			let knockout = arg[9];
 			if (typeof knockout === "boolean") {
 				_this.knockout = knockout;
 			}
 
-			var hideObject = arg[10];
+			let hideObject = arg[10];
 			if (typeof hideObject === "boolean") {
 				_this.hideObject = hideObject;
 			}
@@ -15697,47 +15741,47 @@ if (!("swf2js" in window)) {
 		 */
 		DropShadowFilter.prototype.render = function(cache, matrix, colorTransform, stage)
 		{
-			var _this = this;
-			var strength = _this.strength;
+			let _this = this;
+			let strength = _this.strength;
 			if (strength === 0) {
 				return cache;
 			}
 
-			var quality = _this.quality;
-			var inner = _this.inner;
-			var r = _this.angle * _PI / 180;
-			var blurX = _this.blurX;
-			var blurY = _this.blurY;
+			let quality = _this.quality;
+			let inner = _this.inner;
+			let r = _this.angle * _PI / 180;
+			let blurX = _this.blurX;
+			let blurY = _this.blurY;
 
 			// blur
-			var blurFilter = new BlurFilter(blurX, blurY, quality);
-			var ctx = blurFilter.render(cache, matrix, colorTransform, stage);
+			let blurFilter = new BlurFilter(blurX, blurY, quality);
+			let ctx = blurFilter.render(cache, matrix, colorTransform, stage);
 
 			// dropShadow
-			var intColor = _this.toColorInt(_this.color);
-			var filterColor = _this.intToRGBA(intColor);
-			var color = _this.generateColorTransform(filterColor, colorTransform);
+			let intColor = _this.toColorInt(_this.color);
+			let filterColor = _this.intToRGBA(intColor);
+			let color = _this.generateColorTransform(filterColor, colorTransform);
 			ctx = _this.coatOfColor(ctx, color, inner, strength);
 
 			// synthesis
-			var cacheOffsetX = cache._offsetX;
-			var cacheOffsetY = cache._offsetY;
-			var _offsetX = ctx._offsetX;
-			var _offsetY = ctx._offsetY;
+			let cacheOffsetX = cache._offsetX;
+			let cacheOffsetY = cache._offsetY;
+			let _offsetX = ctx._offsetX;
+			let _offsetY = ctx._offsetY;
 
-			var canvas = ctx.canvas;
-			var synCanvas = cacheStore.getCanvas();
-			var width = canvas.width + cacheOffsetX;
-			var height = canvas.height + cacheOffsetY;
-			var ox = 0;
-			var oy = 0;
-			var dx = 0;
-			var dy = 0;
+			let canvas = ctx.canvas;
+			let synCanvas = cacheStore.getCanvas();
+			let width = canvas.width + cacheOffsetX;
+			let height = canvas.height + cacheOffsetY;
+			let ox = 0;
+			let oy = 0;
+			let dx = 0;
+			let dy = 0;
 
-			var distance = _this.distance;
-			var scale = stage.getScale();
-			var x = _ceil(_cos(r) * distance * scale);
-			var y = _ceil(_sin(r) * distance * scale);
+			let distance = _this.distance;
+			let scale = stage.getScale();
+			let x = _ceil(_cos(r) * distance * scale);
+			let y = _ceil(_sin(r) * distance * scale);
 
 			if (x !== 0) {
 				width += _abs(x);
@@ -15759,15 +15803,15 @@ if (!("swf2js" in window)) {
 
 			synCanvas.width = width;
 			synCanvas.height = height;
-			var synCtx = synCanvas.getContext("2d");
+			let synCtx = synCanvas.getContext("2d");
 			synCtx.drawImage(cache.canvas, _offsetX + ox, _offsetY + oy);
 			synCtx.globalAlpha = _this.alpha;
 			if (strength < 1) {
 				synCtx.globalAlpha *= strength;
 			}
 
-			var knockout = _this.knockout;
-			var hideObject = _this.hideObject;
+			let knockout = _this.knockout;
+			let hideObject = _this.hideObject;
 			synCtx.globalCompositeOperation = _this.filterOperation(inner, knockout, hideObject);
 			synCtx.drawImage(canvas, cacheOffsetX + dx, cacheOffsetY + dy);
 
@@ -15782,9 +15826,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var GlowFilter = function()
+		let GlowFilter = function()
 		{
-			var _this = this;
+			let _this = this;
 			BitmapFilter.call(_this);
 
 			_this.filterId = 2;
@@ -15797,43 +15841,43 @@ if (!("swf2js" in window)) {
 			_this.inner = false;
 			_this.knockout = false;
 
-			var arg = arguments;
-			var color = _this.toColorInt(arg[0]);
+			let arg = arguments;
+			let color = _this.toColorInt(arg[0]);
 			if (!_isNaN(color)) {
 				_this.color = color;
 			}
 
-			var alpha = +arg[1];
+			let alpha = +arg[1];
 			if (!_isNaN(alpha) && 0 <= alpha && 1 >= alpha) {
 				_this.alpha = alpha;
 			}
 
-			var blurX = arg[2] | 0;
+			let blurX = arg[2] | 0;
 			if (!_isNaN(blurX) && 0 <= blurX && 255 >= blurX) {
 				_this.blurX = blurX;
 			}
 
-			var blurY = arg[3] | 0;
+			let blurY = arg[3] | 0;
 			if (!_isNaN(blurY) && 0 <= blurY && 255 >= blurY) {
 				_this.blurY = blurY;
 			}
 
-			var strength = +arg[4];
+			let strength = +arg[4];
 			if (!_isNaN(strength) && 0 <= strength && 255 >= strength) {
 				_this.strength = strength;
 			}
 
-			var quality = arg[5] | 0;
+			let quality = arg[5] | 0;
 			if (!_isNaN(quality) && 1 <= quality && 15 >= quality) {
 				_this.quality = quality;
 			}
 
-			var inner = arg[6];
+			let inner = arg[6];
 			if (typeof inner === "boolean") {
 				_this.inner = inner;
 			}
 
-			var knockout = arg[7];
+			let knockout = arg[7];
 			if (typeof knockout === "boolean") {
 				_this.knockout = knockout;
 			}
@@ -15855,31 +15899,31 @@ if (!("swf2js" in window)) {
 		 */
 		GlowFilter.prototype.render = function(cache, matrix, colorTransform, stage)
 		{
-			var _this = this;
-			var strength = _this.strength;
+			let _this = this;
+			let strength = _this.strength;
 			if (strength === 0) {
 				return cache;
 			}
 
-			var inner = _this.inner;
-			var blurX = _this.blurX;
-			var blurY = _this.blurY;
+			let inner = _this.inner;
+			let blurX = _this.blurX;
+			let blurY = _this.blurY;
 
-			var blurFilter = new BlurFilter(blurX, blurY, _this.quality);
-			var ctx = blurFilter.render(cache, matrix, colorTransform, stage);
+			let blurFilter = new BlurFilter(blurX, blurY, _this.quality);
+			let ctx = blurFilter.render(cache, matrix, colorTransform, stage);
 
-			var width = ctx.canvas.width + cache._offsetX;
-			var height = ctx.canvas.height + cache._offsetY;
+			let width = ctx.canvas.width + cache._offsetX;
+			let height = ctx.canvas.height + cache._offsetY;
 
-			var intColor = _this.toColorInt(_this.color);
-			var filterColor = _this.intToRGBA(intColor);
-			var color = _this.generateColorTransform(filterColor, colorTransform);
+			let intColor = _this.toColorInt(_this.color);
+			let filterColor = _this.intToRGBA(intColor);
+			let color = _this.generateColorTransform(filterColor, colorTransform);
 			ctx = _this.coatOfColor(ctx, color, inner, strength);
 
-			var synCanvas = cacheStore.getCanvas();
+			let synCanvas = cacheStore.getCanvas();
 			synCanvas.width = width;
 			synCanvas.height = height;
-			var synCtx = synCanvas.getContext("2d");
+			let synCtx = synCanvas.getContext("2d");
 
 			synCtx.drawImage(cache.canvas, ctx._offsetX, ctx._offsetY);
 			synCtx.globalAlpha = _this.alpha;
@@ -15887,7 +15931,7 @@ if (!("swf2js" in window)) {
 				synCtx.globalAlpha *= strength;
 			}
 
-			var operation = "source-over";
+			let operation = "source-over";
 			if (_this.knockout) {
 				if (inner) {
 					operation = "source-in";
@@ -15915,9 +15959,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var BevelFilter = function()
+		let BevelFilter = function()
 		{
-			var _this = this;
+			let _this = this;
 			BitmapFilter.call(_this);
 
 			_this.filterId = 3;
@@ -15934,64 +15978,64 @@ if (!("swf2js" in window)) {
 			_this.type = "inner";
 			_this.knockout = false;
 
-			var arg = arguments;
+			let arg = arguments;
 
-			var distance = arg[0] | 0;
+			let distance = arg[0] | 0;
 			if (!_isNaN(distance)) {
 				_this.distance = distance;
 			}
 
-			var angle = +arg[1];
+			let angle = +arg[1];
 			if (!_isNaN(angle) && 0 <= angle && 360 >= angle) {
 				_this.angle = angle;
 			}
 
-			var highlightColor = _this.toColorInt(arg[2]);
+			let highlightColor = _this.toColorInt(arg[2]);
 			if (!_isNaN(highlightColor)) {
 				_this.highlightColor = highlightColor;
 			}
 
-			var highlightAlpha = +arg[3];
+			let highlightAlpha = +arg[3];
 			if (!_isNaN(highlightAlpha) && 0 <= highlightAlpha && 1 >= highlightAlpha) {
 				_this.highlightAlpha = highlightAlpha;
 			}
 
-			var shadowColor = _this.toColorInt(arg[4]);
+			let shadowColor = _this.toColorInt(arg[4]);
 			if (!_isNaN(shadowColor)) {
 				_this.shadowColor = shadowColor;
 			}
 
-			var shadowAlpha = +arg[5];
+			let shadowAlpha = +arg[5];
 			if (!_isNaN(shadowAlpha) && 0 <= shadowAlpha && 1 >= shadowAlpha) {
 				_this.shadowAlpha = shadowAlpha;
 			}
 
-			var blurX = arg[6] | 0;
+			let blurX = arg[6] | 0;
 			if (!_isNaN(blurX) && 0 <= blurX && 255 >= blurX) {
 				_this.blurX = blurX;
 			}
 
-			var blurY = arg[7] | 0;
+			let blurY = arg[7] | 0;
 			if (!_isNaN(blurY) && 0 <= blurY && 255 >= blurY) {
 				_this.blurY = blurY;
 			}
 
-			var strength = +arg[8];
+			let strength = +arg[8];
 			if (!_isNaN(strength) && 0 <= strength && 255 >= strength) {
 				_this.strength = strength;
 			}
 
-			var quality = arg[9] | 0;
+			let quality = arg[9] | 0;
 			if (!_isNaN(quality) && 1 <= quality && 15 >= quality) {
 				_this.quality = quality;
 			}
 
-			var type = arg[10];
+			let type = arg[10];
 			if (typeof type === "string") {
 				_this.type = type;
 			}
 
-			var knockout = arg[11];
+			let knockout = arg[11];
 			if (typeof knockout === "boolean") {
 				_this.knockout = knockout;
 			}
@@ -16013,65 +16057,65 @@ if (!("swf2js" in window)) {
 		 */
 		BevelFilter.prototype.render = function(cache, matrix, colorTransform, stage)
 		{
-			var _this = this;
-			var distance = _this.distance;
-			var angle = _this.angle;
-			var shadowColor = _this.shadowColor;
-			var shadowAlpha = _this.shadowAlpha;
-			var highlightColor = _this.highlightColor;
-			var highlightAlpha = _this.highlightAlpha;
-			var blurX = _this.blurX;
-			var blurY = _this.blurY;
-			var strength = _this.strength;
-			var quality = _this.quality;
-			var knockout = _this.knockout;
-			var r = angle * _PI / 180;
-			var filterColor, color;
-			var type = _this.type;
+			let _this = this;
+			let distance = _this.distance;
+			let angle = _this.angle;
+			let shadowColor = _this.shadowColor;
+			let shadowAlpha = _this.shadowAlpha;
+			let highlightColor = _this.highlightColor;
+			let highlightAlpha = _this.highlightAlpha;
+			let blurX = _this.blurX;
+			let blurY = _this.blurY;
+			let strength = _this.strength;
+			let quality = _this.quality;
+			let knockout = _this.knockout;
+			let r = angle * _PI / 180;
+			let filterColor, color;
+			let type = _this.type;
 
 			// blur
-			var blurFilter = new BlurFilter(blurX, blurY, quality);
-			var ctx = blurFilter.render(cache, matrix, colorTransform, stage);
-			var canvas = ctx.canvas;
-			var _offsetX = ctx._offsetX;
-			var _offsetY = ctx._offsetY;
+			let blurFilter = new BlurFilter(blurX, blurY, quality);
+			let ctx = blurFilter.render(cache, matrix, colorTransform, stage);
+			let canvas = ctx.canvas;
+			let _offsetX = ctx._offsetX;
+			let _offsetY = ctx._offsetY;
 
 			// shadow
-			var shadowCanvas = cacheStore.getCanvas();
+			let shadowCanvas = cacheStore.getCanvas();
 			shadowCanvas.width = canvas.width;
 			shadowCanvas.height = canvas.height;
-			var shadowCtx = shadowCanvas.getContext("2d");
+			let shadowCtx = shadowCanvas.getContext("2d");
 			shadowCtx.drawImage(canvas, 0, 0);
-			var intShadowColor = _this.toColorInt(shadowColor);
+			let intShadowColor = _this.toColorInt(shadowColor);
 			filterColor = _this.intToRGBA(intShadowColor);
 			color = _this.generateColorTransform(filterColor, colorTransform);
 			shadowCtx = _this.coatOfColor(shadowCtx, color, false, strength);
 
 			// shadow
-			var highlightCanvas = cacheStore.getCanvas();
+			let highlightCanvas = cacheStore.getCanvas();
 			highlightCanvas.width = canvas.width;
 			highlightCanvas.height = canvas.height;
-			var highlightCtx = highlightCanvas.getContext("2d");
+			let highlightCtx = highlightCanvas.getContext("2d");
 			highlightCtx.drawImage(canvas, 0, 0);
-			var intHighlightColor = _this.toColorInt(highlightColor);
+			let intHighlightColor = _this.toColorInt(highlightColor);
 			filterColor = _this.intToRGBA(intHighlightColor);
 			color = _this.generateColorTransform(filterColor, colorTransform);
 			highlightCtx = _this.coatOfColor(highlightCtx, color, false, strength);
 
-			var isInner = (type === "inner" || type === "full");
-			var isOuter = (type === "outer" || type === "full");
+			let isInner = (type === "inner" || type === "full");
+			let isOuter = (type === "outer" || type === "full");
 
-			var cacheOffsetX = cache._offsetX;
-			var cacheOffsetY = cache._offsetY;
-			var synCanvas = cacheStore.getCanvas();
-			var width = canvas.width + cacheOffsetX;
-			var height = canvas.height + cacheOffsetY;
-			var ox = 0;
-			var oy = 0;
+			let cacheOffsetX = cache._offsetX;
+			let cacheOffsetY = cache._offsetY;
+			let synCanvas = cacheStore.getCanvas();
+			let width = canvas.width + cacheOffsetX;
+			let height = canvas.height + cacheOffsetY;
+			let ox = 0;
+			let oy = 0;
 
-			var scale = stage.getScale();
-			var x = _ceil(_cos(r) * distance * scale);
-			var y = _ceil(_sin(r) * distance * scale);
+			let scale = stage.getScale();
+			let x = _ceil(_cos(r) * distance * scale);
+			let y = _ceil(_sin(r) * distance * scale);
 
 			if (x !== 0) {
 				width += _abs(x);
@@ -16089,7 +16133,7 @@ if (!("swf2js" in window)) {
 
 			synCanvas.width = width;
 			synCanvas.height = height;
-			var synCtx = synCanvas.getContext("2d");
+			let synCtx = synCanvas.getContext("2d");
 			if (!knockout) {
 				synCtx.drawImage(cache.canvas, _offsetX + ox, _offsetY + oy);
 			}
@@ -16099,10 +16143,10 @@ if (!("swf2js" in window)) {
 			synCtx._offsetX = cacheOffsetX + _offsetX;
 			synCtx._offsetY = cacheOffsetY + _offsetY;
 
-			var xorCanvas = cacheStore.getCanvas();
+			let xorCanvas = cacheStore.getCanvas();
 			xorCanvas.width = width + _offsetX;
 			xorCanvas.height = height + _offsetY;
-			var xorCtx = xorCanvas.getContext("2d");
+			let xorCtx = xorCanvas.getContext("2d");
 
 			xorCtx.globalCompositeOperation = "xor";
 			xorCtx.globalAlpha = highlightAlpha;
@@ -16110,7 +16154,7 @@ if (!("swf2js" in window)) {
 			xorCtx.globalAlpha = shadowAlpha;
 			xorCtx.drawImage(shadowCtx.canvas, x, y);
 
-			var operation;
+			let operation;
 			if (isInner && isOuter) {
 				operation = "source-over";
 			} else if (isInner) {
@@ -16138,9 +16182,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var GradientGlowFilter = function()
+		let GradientGlowFilter = function()
 		{
-			var _this = this;
+			let _this = this;
 			BitmapFilter.call(_this);
 
 			_this.filterId = 4;
@@ -16156,14 +16200,14 @@ if (!("swf2js" in window)) {
 			_this.type = "inner";
 			_this.knockout = false;
 
-			var arg = arguments;
+			let arg = arguments;
 
-			var distance = arg[0] | 0;
+			let distance = arg[0] | 0;
 			if (!_isNaN(distance)) {
 				_this.distance = distance;
 			}
 
-			var angle = +arg[1];
+			let angle = +arg[1];
 			if (!_isNaN(angle) && 0 <= angle && 360 >= angle) {
 				_this.angle = angle;
 			}
@@ -16172,32 +16216,32 @@ if (!("swf2js" in window)) {
 			_this.alphas = arg[3];
 			_this.ratios = arg[4];
 
-			var blurX = arg[5] | 0;
+			let blurX = arg[5] | 0;
 			if (!_isNaN(blurX) && 0 <= blurX && 255 >= blurX) {
 				_this.blurX = blurX;
 			}
 
-			var blurY = arg[6] | 0;
+			let blurY = arg[6] | 0;
 			if (!_isNaN(blurY) && 0 <= blurY && 255 >= blurY) {
 				_this.blurY = blurY;
 			}
 
-			var strength = +arg[7];
+			let strength = +arg[7];
 			if (!_isNaN(strength) && 0 <= strength && 255 >= strength) {
 				_this.strength = strength;
 			}
 
-			var quality = arg[8] | 0;
+			let quality = arg[8] | 0;
 			if (!_isNaN(quality) && 1 <= quality && 15 >= quality) {
 				_this.quality = quality;
 			}
 
-			var type = arg[9];
+			let type = arg[9];
 			if (typeof type === "string") {
 				_this.type = type;
 			}
 
-			var knockout = arg[10];
+			let knockout = arg[10];
 			if (typeof knockout === "boolean") {
 				_this.knockout = knockout;
 			}
@@ -16219,43 +16263,43 @@ if (!("swf2js" in window)) {
 		 */
 		GradientGlowFilter.prototype.render = function(cache, matrix, colorTransform, stage)
 		{
-			var _this = this;
-			var strength = _this.strength;
+			let _this = this;
+			let strength = _this.strength;
 			if (strength === 0) {
 				return cache;
 			}
 
-			var type = _this.type;
-			var blurX = _this.blurX;
-			var blurY = _this.blurY;
-			var isInner = (type === "inner" || type === "full");
-			var isOuter = (type === "outer" || type === "full");
-			var knockout = _this.knockout;
-			var angle = _this.angle;
-			var r = angle * _PI / 180;
+			let type = _this.type;
+			let blurX = _this.blurX;
+			let blurY = _this.blurY;
+			let isInner = (type === "inner" || type === "full");
+			let isOuter = (type === "outer" || type === "full");
+			let knockout = _this.knockout;
+			let angle = _this.angle;
+			let r = angle * _PI / 180;
 
-			var blurFilter = new BlurFilter(blurX, blurY, _this.quality);
-			var ctx = blurFilter.render(cache, matrix, colorTransform, stage);
+			let blurFilter = new BlurFilter(blurX, blurY, _this.quality);
+			let ctx = blurFilter.render(cache, matrix, colorTransform, stage);
 
 			// synthesis
-			var cacheOffsetX = cache._offsetX;
-			var cacheOffsetY = cache._offsetY;
-			var _offsetX = ctx._offsetX;
-			var _offsetY = ctx._offsetY;
+			let cacheOffsetX = cache._offsetX;
+			let cacheOffsetY = cache._offsetY;
+			let _offsetX = ctx._offsetX;
+			let _offsetY = ctx._offsetY;
 
-			var canvas = ctx.canvas;
-			var synCanvas = cacheStore.getCanvas();
-			var width = canvas.width + cacheOffsetX;
-			var height = canvas.height + cacheOffsetY;
-			var ox = 0;
-			var oy = 0;
-			var dx = 0;
-			var dy = 0;
+			let canvas = ctx.canvas;
+			let synCanvas = cacheStore.getCanvas();
+			let width = canvas.width + cacheOffsetX;
+			let height = canvas.height + cacheOffsetY;
+			let ox = 0;
+			let oy = 0;
+			let dx = 0;
+			let dy = 0;
 
-			var distance = _this.distance;
-			var scale = stage.getScale();
-			var x = _ceil(_cos(r) * distance * scale);
-			var y = _ceil(_sin(r) * distance * scale);
+			let distance = _this.distance;
+			let scale = stage.getScale();
+			let x = _ceil(_cos(r) * distance * scale);
+			let y = _ceil(_sin(r) * distance * scale);
 
 			if (x !== 0) {
 				width += _abs(x);
@@ -16277,7 +16321,7 @@ if (!("swf2js" in window)) {
 
 			synCanvas.width = width;
 			synCanvas.height = height;
-			var synCtx = synCanvas.getContext("2d");
+			let synCtx = synCanvas.getContext("2d");
 			if (!knockout) {
 				synCtx.drawImage(cache.canvas, _offsetX + ox, _offsetY + oy);
 			}
@@ -16286,7 +16330,7 @@ if (!("swf2js" in window)) {
 				synCtx.globalAlpha *= strength;
 			}
 
-			var operation;
+			let operation;
 			if (isInner && isOuter) {
 				operation = "source-over";
 			} else {
@@ -16310,9 +16354,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var ConvolutionFilter = function()
+		let ConvolutionFilter = function()
 		{
-			var _this = this;
+			let _this = this;
 			BitmapFilter.call(_this);
 
 			_this.filterId = 5;
@@ -16340,18 +16384,18 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var ColorMatrixFilter = function()
+		let ColorMatrixFilter = function()
 		{
-			var _this = this;
+			let _this = this;
 			BitmapFilter.call(_this);
 
-			var arg = arguments;
+			let arg = arguments;
 
-			var matrix = arg[0] | 0;
-			var matrix2 = new Array(4);
-			for (var i = 0; i < 4; i++) {
+			let matrix = arg[0] | 0;
+			let matrix2 = new Array(4);
+			for (let i = 0; i < 4; i++) {
 				matrix2[i] =  new Array(5);
-				for (var j = 0; j < 5; j++) {
+				for (let j = 0; j < 5; j++) {
 					matrix2[i][j] = matrix[i * 5 + j];
 				}
 			}
@@ -16369,7 +16413,7 @@ if (!("swf2js" in window)) {
 		ColorMatrixFilter.prototype.cut = function(color)
 		{
 			// get integer from float
-			var c;
+			let c;
 			if (color < 0) c = Math.ceil(color);
 			else c = Math.floor(color);
 			if (c<0) c= 0;
@@ -16386,27 +16430,27 @@ if (!("swf2js" in window)) {
 		 */
 		ColorMatrixFilter.prototype.render = function(cache, matrix, colorTransform, stage)
 		{
-			var _this = this;
-			var _cut = _this.cut;
-			//var cacheCanvas = cache.canvas;
-			//var canvas = cacheStore.getCanvas();
-			var cmCanvas = cacheStore.getCanvas();
-			var width = cmCanvas.width;
-			var height = cmCanvas.height;
+			let _this = this;
+			let _cut = _this.cut;
+			//let cacheCanvas = cache.canvas;
+			//let canvas = cacheStore.getCanvas();
+			let cmCanvas = cacheStore.getCanvas();
+			let width = cmCanvas.width;
+			let height = cmCanvas.height;
 			//cmCanvas.width = width;
 			//cmCanvas.height = height;
-			var cmCtx = cmCanvas.getContext("2d");
-			var imgData = cmCtx.getImageData(0, 0, width, height);
-			var pxData = imgData.data;
-			var length = width * height;
-			var idx = 0;
-			var m = _this.matrix;
+			let cmCtx = cmCanvas.getContext("2d");
+			let imgData = cmCtx.getImageData(0, 0, width, height);
+			let pxData = imgData.data;
+			let length = width * height;
+			let idx = 0;
+			let m = _this.matrix;
 			if (length > 0) {
 				while (length--) {
-					var r = pxData[idx++];
-					var g = pxData[idx++];
-					var b = pxData[idx++];
-					var a = pxData[idx++];
+					let r = pxData[idx++];
+					let g = pxData[idx++];
+					let b = pxData[idx++];
+					let a = pxData[idx++];
 					pxData[idx - 4] = _cut(m[0]*r+m[1]*g+m[2]*b+m[3]*a);
 					pxData[idx - 3] = _cut(m[4]*r+m[5]*g+m[6]*b+m[7]*a);
 					pxData[idx - 2] = _cut(m[8]*r+m[9]*g+m[10]*b+m[11]*a);
@@ -16421,9 +16465,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var GradientBevelFilter = function()
+		let GradientBevelFilter = function()
 		{
-			var _this = this;
+			let _this = this;
 			BitmapFilter.call(_this);
 
 			_this.filterId = 7;
@@ -16454,7 +16498,7 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var Graphics = function()
+		let Graphics = function()
 		{
 			this.clear();
 		};
@@ -16582,8 +16626,8 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.clear = function()
 		{
-			var _this = this;
-			var no = _Number.MAX_VALUE;
+			let _this = this;
+			let no = _Number.MAX_VALUE;
 			_this.bounds = {xMin: no, xMax: -no, yMin: no, yMax: -no};
 			_this.maxWidth = 0;
 			_this.cmd = null;
@@ -16609,12 +16653,12 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.addCacheKey = function()
 		{
-			var args = arguments;
-			var cacheKey = "";
-			var length = args.length;
+			let args = arguments;
+			let cacheKey = "";
+			let length = args.length;
 			if (length) {
-				for (var i = 0; i < length; i++) {
-					var value = args[i];
+				for (let i = 0; i < length; i++) {
+					let value = args[i];
 					cacheKey += "_" + value;
 				}
 			}
@@ -16635,7 +16679,7 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.setBounds = function(x, y)
 		{
-			var bounds = this.bounds;
+			let bounds = this.bounds;
 			bounds.xMin = _min(bounds.xMin, x);
 			bounds.xMax = _max(bounds.xMax, x);
 			bounds.yMin = _min(bounds.yMin, y);
@@ -16648,10 +16692,10 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.colorStringToInt = function(str)
 		{
-			var canvas = cacheStore.getCanvas();
-			var ctx = canvas.getContext("2d");
+			let canvas = cacheStore.getCanvas();
+			let ctx = canvas.getContext("2d");
 			ctx.fillStyle = str;
-			var color = "0x" + ctx.fillStyle.substr(1);
+			let color = "0x" + ctx.fillStyle.substr(1);
 			cacheStore.destroy(ctx);
 			return color;
 		};
@@ -16663,7 +16707,7 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.beginFill = function(rgb, alpha)
 		{
-			var _this = this;
+			let _this = this;
 			if (typeof rgb === "string") {
 				rgb = _this.colorStringToInt(rgb);
 			}
@@ -16676,8 +16720,8 @@ if (!("swf2js" in window)) {
 				alpha *= 100;
 			}
 
-			var color = _this.intToRGBA(rgb, alpha);
-			var recodes = _this.recodes;
+			let color = _this.intToRGBA(rgb, alpha);
+			let recodes = _this.recodes;
 			if (!_this.isFillDraw) {
 				recodes[recodes.length] = [_this.BEGIN_PATH];
 			}
@@ -16702,8 +16746,8 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.lineStyle = function(width, rgb, alpha, pixelHinting, noScale, capsStyle, jointStyle, miterLimit)
 		{
-			var _this = this;
-			var lineRecodes = _this.lineRecodes;
+			let _this = this;
+			let lineRecodes = _this.lineRecodes;
 
 			width = +width;
 			if (!_isNaN(width)) {
@@ -16730,7 +16774,7 @@ if (!("swf2js" in window)) {
 					alpha *= 100;
 				}
 
-				var color = _this.intToRGBA(rgb, alpha);
+				let color = _this.intToRGBA(rgb, alpha);
 				if (width < 0.5) {
 					width += 0.2;
 				}
@@ -16752,9 +16796,9 @@ if (!("swf2js" in window)) {
 			} else if (_this.isLineDraw) {
 				_this.isLineDraw = false;
 				lineRecodes[lineRecodes.length] = [_this.STROKE];
-				var length = lineRecodes.length;
-				var recodes = _this.recodes;
-				for (var i = 0; i < length; i++) {
+				let length = lineRecodes.length;
+				let recodes = _this.recodes;
+				for (let i = 0; i < length; i++) {
 					recodes[recodes.length] = lineRecodes[i];
 				}
 				_this.lineRecodes = [];
@@ -16769,8 +16813,8 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.moveTo = function(x, y)
 		{
-			var _this = this;
-			var recodes = _this.recodes;
+			let _this = this;
+			let recodes = _this.recodes;
 			x *= 20;
 			y *= 20;
 
@@ -16779,7 +16823,7 @@ if (!("swf2js" in window)) {
 			}
 
 			if (_this.isLineDraw) {
-				var lineRecodes = _this.lineRecodes;
+				let lineRecodes = _this.lineRecodes;
 				lineRecodes[lineRecodes.length] = [_this.MOVE_TO, x, y];
 			}
 
@@ -16797,8 +16841,8 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.lineTo = function(x, y)
 		{
-			var _this = this;
-			var recodes = _this.recodes;
+			let _this = this;
+			let recodes = _this.recodes;
 			x *= 20;
 			y *= 20;
 
@@ -16807,7 +16851,7 @@ if (!("swf2js" in window)) {
 			}
 
 			if (_this.isLineDraw) {
-				var lineRecodes = _this.lineRecodes;
+				let lineRecodes = _this.lineRecodes;
 				lineRecodes[lineRecodes.length] = [_this.LINE_TO, x, y];
 			}
 
@@ -16827,8 +16871,8 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.curveTo = function(cx, cy, dx, dy)
 		{
-			var _this = this;
-			var recodes = _this.recodes;
+			let _this = this;
+			let recodes = _this.recodes;
 			cx *= 20;
 			cy *= 20;
 			dx *= 20;
@@ -16839,7 +16883,7 @@ if (!("swf2js" in window)) {
 			}
 
 			if (_this.isLineDraw) {
-				var lineRecodes = _this.lineRecodes;
+				let lineRecodes = _this.lineRecodes;
 				lineRecodes[lineRecodes.length] = [_this.CURVE_TO, cx, cy, dx, dy];
 			}
 
@@ -16862,8 +16906,8 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.cubicCurveTo = function(cp1x, cp1y, cp2x, cp2y, x, y)
 		{
-			var _this = this;
-			var recodes = _this.recodes;
+			let _this = this;
+			let recodes = _this.recodes;
 			cp1x *= 20;
 			cp1y *= 20;
 			cp2x *= 20;
@@ -16876,7 +16920,7 @@ if (!("swf2js" in window)) {
 			}
 
 			if (_this.isLineDraw) {
-				var lineRecodes = _this.lineRecodes;
+				let lineRecodes = _this.lineRecodes;
 				lineRecodes[lineRecodes.length] = [_this.CUBIC, cp1x, cp1y, cp2x, cp2y, x, y];
 			}
 
@@ -16897,8 +16941,8 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.drawCircle = function(x, y, radius)
 		{
-			var _this = this;
-			var recodes = _this.recodes;
+			let _this = this;
+			let recodes = _this.recodes;
 			x *= 20;
 			y *= 20;
 			radius *= 20;
@@ -16908,7 +16952,7 @@ if (!("swf2js" in window)) {
 			}
 
 			if (_this.isLineDraw) {
-				var lineRecodes = _this.lineRecodes;
+				let lineRecodes = _this.lineRecodes;
 				lineRecodes[lineRecodes.length] = [_this.ARC, x, y, radius];
 			}
 
@@ -16929,15 +16973,15 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.drawEllipse = function(x, y, width, height)
 		{
-			var _this = this;
-			var hw = width / 2;
-			var hh = height / 2;
-			var x0 = x + hw;
-			var x1 = x + width;
-			var y0 = y + hh;
-			var y1 = y + height;
-			var cw = 4 / 3 * (_SQRT2 - 1) * hw;
-			var ch = 4 / 3 * (_SQRT2 - 1) * hh;
+			let _this = this;
+			let hw = width / 2;
+			let hh = height / 2;
+			let x0 = x + hw;
+			let x1 = x + width;
+			let y0 = y + hh;
+			let y1 = y + height;
+			let cw = 4 / 3 * (_SQRT2 - 1) * hw;
+			let ch = 4 / 3 * (_SQRT2 - 1) * hh;
 			_this.moveTo(x0, y);
 			_this.cubicCurveTo(x0 + cw, y, x1, y0 - ch, x1, y0);
 			_this.cubicCurveTo(x1, y0 + ch, x0 + cw, y1, x0, y1);
@@ -16955,7 +16999,7 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.drawRect = function(x, y, width, height)
 		{
-			var _this = this;
+			let _this = this;
 			_this.moveTo(x, y);
 			_this.lineTo(x + width, y);
 			_this.lineTo(x + width, y + height);
@@ -16975,19 +17019,19 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.drawRoundRect = function(x, y, width, height, ellipseWidth, ellipseHeight)
 		{
-			var _this = this;
-			var hew = ellipseWidth / 2;
-			var heh = ellipseHeight / 2;
-			var cw = 4 / 3 * (_SQRT2 - 1) * hew;
-			var ch = 4 / 3 * (_SQRT2 - 1) * heh;
+			let _this = this;
+			let hew = ellipseWidth / 2;
+			let heh = ellipseHeight / 2;
+			let cw = 4 / 3 * (_SQRT2 - 1) * hew;
+			let ch = 4 / 3 * (_SQRT2 - 1) * heh;
 
-			var dx0 = x + hew;
-			var dx1 = x + width;
-			var dx2 = dx1 - hew;
+			let dx0 = x + hew;
+			let dx1 = x + width;
+			let dx2 = dx1 - hew;
 
-			var dy0 = y + heh;
-			var dy1 = y + height;
-			var dy2 = dy1 - heh;
+			let dy0 = y + heh;
+			let dy1 = y + height;
+			let dy2 = dy1 - heh;
 
 			_this.moveTo(dx0, y);
 			_this.lineTo(dx2, y);
@@ -17011,16 +17055,16 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.drawTriangles = function(vertices, indices, uvtData, culling)
 		{
-			var _this = this;
-			var length = vertices.length;
+			let _this = this;
+			let length = vertices.length;
 			if (length && length % 3 === 0) {
-				var i = 0;
-				var count = 0;
+				let i = 0;
+				let count = 0;
 				if (indices) {
 					length = indices.length;
 					if (length && length % 3 === 0) {
 						for (i = 0; i < length; i++) {
-							var idx = indices[i];
+							let idx = indices[i];
 							if (count === 0) {
 								_this.moveTo(vertices[idx], vertices[idx + 1]);
 							} else {
@@ -17054,9 +17098,9 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.endFill = function()
 		{
-			var _this = this;
+			let _this = this;
 			if (_this.isFillDraw) {
-				var recodes = _this.recodes;
+				let recodes = _this.recodes;
 				recodes[recodes.length] = [_this.FILL];
 			}
 			_this.isFillDraw = false;
@@ -17072,36 +17116,36 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.render = function(ctx, matrix, colorTransform, stage)
 		{
-			var _this = this;
-			var cacheKey = "";
-			var alpha = colorTransform[3] + (colorTransform[7] / 255);
+			let _this = this;
+			let cacheKey = "";
+			let alpha = colorTransform[3] + (colorTransform[7] / 255);
 			if (!alpha) {
 				return cacheKey;
 			}
 
-			var rMatrix = _this.multiplicationMatrix(stage.getMatrix(), matrix);
-			var xScale = _sqrt(rMatrix[0] * rMatrix[0] + rMatrix[1] * rMatrix[1]);
-			var yScale = _sqrt(rMatrix[2] * rMatrix[2] + rMatrix[3] * rMatrix[3]);
+			let rMatrix = _this.multiplicationMatrix(stage.getMatrix(), matrix);
+			let xScale = _sqrt(rMatrix[0] * rMatrix[0] + rMatrix[1] * rMatrix[1]);
+			let yScale = _sqrt(rMatrix[2] * rMatrix[2] + rMatrix[3] * rMatrix[3]);
 			xScale = _pow(_SQRT2, _ceil(_log(xScale) / _LN2_2 - _LOG1P));
 			yScale = _pow(_SQRT2, _ceil(_log(yScale) / _LN2_2 - _LOG1P));
 
-			var maxWidth = _this.maxWidth;
-			var halfWidth = maxWidth / 2;
-			var bounds = _this.getBounds();
-			var xMax = bounds.xMax;
-			var xMin = bounds.xMin;
-			var yMax = bounds.yMax;
-			var yMin = bounds.yMin;
+			let maxWidth = _this.maxWidth;
+			let halfWidth = maxWidth / 2;
+			let bounds = _this.getBounds();
+			let xMax = bounds.xMax;
+			let xMin = bounds.xMin;
+			let yMax = bounds.yMax;
+			let yMin = bounds.yMin;
 
-			var W = _abs(_ceil((xMax - xMin + maxWidth) * xScale));
-			var H = _abs(_ceil((yMax - yMin + maxWidth) * yScale));
+			let W = _abs(_ceil((xMax - xMin + maxWidth) * xScale));
+			let H = _abs(_ceil((yMax - yMin + maxWidth) * yScale));
 			if (W <= 0 || H <= 0) {
 				return cacheKey;
 			}
 
-			var cache;
-			var canvas;
-			var isClipDepth = stage.clipMc || _this.isClipDepth;
+			let cache;
+			let canvas;
+			let isClipDepth = stage.clipMc || _this.isClipDepth;
 			if (!isClipDepth) {
 				cacheKey = cacheStore.generateKey("Graphics", 0, [xScale, yScale], colorTransform);
 				cacheKey += _this.getCacheKey();
@@ -17111,7 +17155,7 @@ if (!("swf2js" in window)) {
 					canvas.width = W;
 					canvas.height = H;
 					cache = canvas.getContext("2d");
-					var cMatrix = [xScale, 0, 0, yScale, (-xMin + halfWidth) * xScale, (-yMin + halfWidth) * yScale];
+					let cMatrix = [xScale, 0, 0, yScale, (-xMin + halfWidth) * xScale, (-yMin + halfWidth) * yScale];
 					cache.setTransform(cMatrix[0], cMatrix[1], cMatrix[2], cMatrix[3], cMatrix[4], cMatrix[5]);
 					cache = _this.executeRender(cache, _min(xScale, yScale), colorTransform, false);
 					cacheStore.setCache(cacheKey, cache);
@@ -17120,8 +17164,8 @@ if (!("swf2js" in window)) {
 
 			if (cache) {
 				canvas = cache.canvas;
-				var sMatrix = [1 / xScale, 0, 0, 1 / yScale, xMin - halfWidth, yMin - halfWidth];
-				var m2 = _this.multiplicationMatrix(rMatrix, sMatrix);
+				let sMatrix = [1 / xScale, 0, 0, 1 / yScale, xMin - halfWidth, yMin - halfWidth];
+				let m2 = _this.multiplicationMatrix(rMatrix, sMatrix);
 				ctx.setTransform(m2[0], m2[1], m2[2], m2[3], m2[4], m2[5]);
 				if (isAndroid4x && !isChrome) {
 					ctx.fillStyle = stage.context.createPattern(cache.canvas, "no-repeat");
@@ -17145,17 +17189,17 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.executeRender = function(ctx, minScale, colorTransform, isClip)
 		{
-			var _this = this;
-			var recodes = _this.recodes;
-			var length = recodes.length;
-			var lineRecodes = _this.lineRecodes;
+			let _this = this;
+			let recodes = _this.recodes;
+			let length = recodes.length;
+			let lineRecodes = _this.lineRecodes;
 
 			if (length || lineRecodes) {
-				var cmd = _this.cmd;
+				let cmd = _this.cmd;
 				if (!cmd) {
-					var lLen = lineRecodes.length;
+					let lLen = lineRecodes.length;
 					if (lLen) {
-						for (var i = 0; i < lLen; i++) {
+						for (let i = 0; i < lLen; i++) {
 							recodes[recodes.length] = lineRecodes[i];
 						}
 						_this.lineRecodes = [];
@@ -17178,7 +17222,7 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var resetCss = "rgba(0,0,0,1)";
+			let resetCss = "rgba(0,0,0,1)";
 			ctx.strokeStyle = resetCss;
 			ctx.fillStyle = resetCss;
 			ctx.globalAlpha = 1;
@@ -17196,22 +17240,22 @@ if (!("swf2js" in window)) {
 		 */
 		Graphics.prototype.renderHitTest = function(ctx, matrix, stage, x, y)
 		{
-			var _this = this;
+			let _this = this;
 
-			var cmd = _this.cmd;
+			let cmd = _this.cmd;
 			if (!cmd) {
-				var recodes = _this.recodes;
+				let recodes = _this.recodes;
 				cmd = vtc.buildCommand(recodes);
 				_this.cmd = cmd;
 			}
 
-			var rMatrix = _this.multiplicationMatrix(stage.getMatrix(), matrix);
+			let rMatrix = _this.multiplicationMatrix(stage.getMatrix(), matrix);
 			ctx.setTransform(rMatrix[0], rMatrix[1], rMatrix[2], rMatrix[3], rMatrix[4], rMatrix[5]);
 
 			ctx.beginPath();
 			cmd(ctx, [1, 1, 1, 1, 0, 0, 0, 0], true);
 
-			var hit = ctx.isPointInPath(x, y);
+			let hit = ctx.isPointInPath(x, y);
 			if (hit) {
 				return hit;
 			}
@@ -17229,9 +17273,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var SoundTransform = function()
+		let SoundTransform = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this._leftToLeft = 0;
 			_this._leftToRight = 1;
 			_this._pan = 0;
@@ -17397,7 +17441,7 @@ if (!("swf2js" in window)) {
 		 */
 		SoundTransform.prototype.SoundTransform = function(vol, panning)
 		{
-			var _this = this;
+			let _this = this;
 			_this.volume = vol | 0;
 			_this.pan = panning | 0;
 		};
@@ -17405,9 +17449,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var Swf2jsEvent = function()
+		let Swf2jsEvent = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.target = {};
 			_this.bubbles = true;
 			_this.cancelable = true;
@@ -17442,9 +17486,9 @@ if (!("swf2js" in window)) {
 		 * @param target
 		 * @constructor
 		 */
-		var ClipEvent = function(type)
+		let ClipEvent = function(type)
 		{
-			var _this = this;
+			let _this = this;
 			_this.type = type;
 			_this.target = null;
 			Swf2jsEvent.call(this);
@@ -17457,14 +17501,14 @@ if (!("swf2js" in window)) {
 		ClipEvent.prototype = Object.create(Swf2jsEvent.prototype);
 		ClipEvent.prototype.constructor = ClipEvent;
 
-		var clipEvent = new ClipEvent();
+		let clipEvent = new ClipEvent();
 
 		/**
 		 * @constructor
 		 */
-		var EventDispatcher = function()
+		let EventDispatcher = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.events = {};
 			_this.isLoad = false;
 			_this.active = false;
@@ -17632,11 +17676,11 @@ if (!("swf2js" in window)) {
 		 */
 		EventDispatcher.prototype.addEventListener = function(type, listener, useCapture, priority, useWeakReference)
 		{
-			var events = this.events;
+			let events = this.events;
 			if (!(type in events)) {
 				events[type] = [];
 			}
-			var event = events[type];
+			let event = events[type];
 			event[event.length] = listener;
 		};
 
@@ -17646,14 +17690,14 @@ if (!("swf2js" in window)) {
 		 */
 		EventDispatcher.prototype.dispatchEvent = function(event, stage)
 		{
-			var _this = this;
-			var type = event.type;
+			let _this = this;
+			let type = event.type;
 			if (_this.hasEventListener(type)) {
-				var events = _this.events[type];
-				var cEvent = new ClipEvent();
+				let events = _this.events[type];
+				let cEvent = new ClipEvent();
 				cEvent.type = type;
 				cEvent.target = this;
-				var args = [cEvent];
+				let args = [cEvent];
 				_this.setActionQueue(events, stage, args);
 			}
 		};
@@ -17674,12 +17718,12 @@ if (!("swf2js" in window)) {
 		 */
 		EventDispatcher.prototype.removeEventListener = function(type, listener, useCapture)
 		{
-			var _this = this;
+			let _this = this;
 			if (_this.hasEventListener(type)) {
-				var events = _this.events;
-				var listeners = events[type];
-				var length = listeners.length;
-				for (var i = 0; i < length; i++) {
+				let events = _this.events;
+				let listeners = events[type];
+				let length = listeners.length;
+				for (let i = 0; i < length; i++) {
 					if (listeners[i] !== listener) {
 						continue;
 					}
@@ -17704,21 +17748,21 @@ if (!("swf2js" in window)) {
 		 */
 		EventDispatcher.prototype.setActionQueue = function(as, stage, args)
 		{
-			var actions = stage.actions;
+			let actions = stage.actions;
 			actions[actions.length] = {as: as, mc: this, args: args};
 		};
 
 		/**
 		 * @constructor
 		 */
-		var AccessibilityProperties = function() {};
+		let AccessibilityProperties = function() {};
 
 		/**
 		 * @constructor
 		 */
-		var DisplayObject = function()
+		let DisplayObject = function()
 		{
-			var _this = this;
+			let _this = this;
 			EventDispatcher.call(_this);
 			_this.initialize();
 		};
@@ -17981,7 +18025,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.initialize = function()
 		{
-			var _this = this;
+			let _this = this;
 
 			// common
 			_this.instanceId = instanceId++;
@@ -18051,9 +18095,9 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.toString = function()
 		{
-			var target = this.getTarget();
-			var str = "_level0";
-			var array = target.split("/");
+			let target = this.getTarget();
+			let str = "_level0";
+			let array = target.split("/");
 			str += array.join(".");
 			return str;
 		};
@@ -18203,11 +18247,11 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.boundsMatrix = function(bounds, matrix, object)
 		{
-			var no = _Number.MAX_VALUE;
-			var xMax = -no;
-			var yMax = -no;
-			var xMin = no;
-			var yMin = no;
+			let no = _Number.MAX_VALUE;
+			let xMax = -no;
+			let yMax = -no;
+			let xMin = no;
+			let yMin = no;
 
 			if (object) {
 				xMin = object.xMin;
@@ -18216,14 +18260,14 @@ if (!("swf2js" in window)) {
 				yMax = object.yMax;
 			}
 
-			var x0 = bounds.xMax * matrix[0] + bounds.yMax * matrix[2] + matrix[4];
-			var x1 = bounds.xMax * matrix[0] + bounds.yMin * matrix[2] + matrix[4];
-			var x2 = bounds.xMin * matrix[0] + bounds.yMax * matrix[2] + matrix[4];
-			var x3 = bounds.xMin * matrix[0] + bounds.yMin * matrix[2] + matrix[4];
-			var y0 = bounds.xMax * matrix[1] + bounds.yMax * matrix[3] + matrix[5];
-			var y1 = bounds.xMax * matrix[1] + bounds.yMin * matrix[3] + matrix[5];
-			var y2 = bounds.xMin * matrix[1] + bounds.yMax * matrix[3] + matrix[5];
-			var y3 = bounds.xMin * matrix[1] + bounds.yMin * matrix[3] + matrix[5];
+			let x0 = bounds.xMax * matrix[0] + bounds.yMax * matrix[2] + matrix[4];
+			let x1 = bounds.xMax * matrix[0] + bounds.yMin * matrix[2] + matrix[4];
+			let x2 = bounds.xMin * matrix[0] + bounds.yMax * matrix[2] + matrix[4];
+			let x3 = bounds.xMin * matrix[0] + bounds.yMin * matrix[2] + matrix[4];
+			let y0 = bounds.xMax * matrix[1] + bounds.yMax * matrix[3] + matrix[5];
+			let y1 = bounds.xMax * matrix[1] + bounds.yMin * matrix[3] + matrix[5];
+			let y2 = bounds.xMin * matrix[1] + bounds.yMax * matrix[3] + matrix[5];
+			let y3 = bounds.xMin * matrix[1] + bounds.yMin * matrix[3] + matrix[5];
 
 			xMax = _max(_max(_max(_max(xMax, x0), x1), x2), x3);
 			xMin = _min(_min(_min(_min(xMin, x0), x1), x2), x3);
@@ -18254,9 +18298,9 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.cloneArray = function(src)
 		{
-			var arr = [];
-			var length = src.length;
-			for (var i = 0; i < length; i++) {
+			let arr = [];
+			let length = src.length;
+			for (let i = 0; i < length; i++) {
 				arr[i] = src[i];
 			}
 			return arr;
@@ -18268,7 +18312,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getBlendName = function(blendMode)
 		{
-			var mode = null;
+			let mode = null;
 			switch (blendMode) {
 				case 1:
 				case "normal":
@@ -18335,16 +18379,16 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.setStage = function(stage)
 		{
-			var _this = this;
+			let _this = this;
 			_this.stageId = stage.getId();
 			if (_this instanceof SimpleButton) {
-				var upState = _this.getSprite("up");
+				let upState = _this.getSprite("up");
 				upState.setStage(stage);
-				var downState = _this.getSprite("down");
+				let downState = _this.getSprite("down");
 				downState.setStage(stage);
-				var hitState = _this.getSprite("hit");
+				let hitState = _this.getSprite("hit");
 				hitState.setStage(stage);
-				var overState = _this.getSprite("over");
+				let overState = _this.getSprite("over");
 				overState.setStage(stage);
 			}
 			stage.setInstance(_this);
@@ -18355,8 +18399,8 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getStage = function()
 		{
-			var _this = this;
-			var stage = _this.getLoadStage();
+			let _this = this;
+			let stage = _this.getLoadStage();
 			if (!stage) {
 				stage = _this.getParentStage();
 			}
@@ -18368,7 +18412,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getParentStage = function()
 		{
-			var stageId = this.stageId;
+			let stageId = this.stageId;
 			if (stageId !== null) {
 				if (stageId in stages) {
 					return stages[stageId];
@@ -18383,7 +18427,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getLoadStage = function()
 		{
-			var loadStageId = this.loadStageId;
+			let loadStageId = this.loadStageId;
 			if (loadStageId !== null) {
 				if (loadStageId in stages) {
 					return stages[loadStageId];
@@ -18398,7 +18442,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.setLoadStage = function(stage)
 		{
-			var _this = this;
+			let _this = this;
 			_this.loadStageId = null;
 			if (stage !== null) {
 				stage.setInstance(_this);
@@ -18459,10 +18503,10 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getParent = function()
 		{
-			var _this = this;
-			var stage = _this.getLoadStage();
-			var parent;
-			var pId = _this.parentId;
+			let _this = this;
+			let stage = _this.getLoadStage();
+			let parent;
+			let pId = _this.parentId;
 			if (stage) {
 				parent = stage.getInstance(pId);
 			}
@@ -18478,7 +18522,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.setParent = function(parent)
 		{
-			var _this = this;
+			let _this = this;
 			if (parent instanceof DisplayObjectContainer) {
 				parent.setInstance(_this);
 			}
@@ -18490,8 +18534,8 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getParentSprite = function()
 		{
-			var _this = this;
-			var stage = _this.getStage();
+			let _this = this;
+			let stage = _this.getStage();
 			return stage.getInstance(_this._sprite);
 		};
 
@@ -18532,8 +18576,8 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.setMask = function(obj)
 		{
-			var _this = this;
-			var maskMc = _this._mask;
+			let _this = this;
+			let maskMc = _this._mask;
 			if (maskMc) {
 				maskMc.isMask = false;
 			}
@@ -18595,11 +18639,11 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.splitPath = function(path)
 		{
-			var _this = this;
-			var scope = _this;
-			var target = path;
-			var split;
-			var targetPath = "";
+			let _this = this;
+			let scope = _this;
+			let target = path;
+			let split;
+			let targetPath = "";
 			if (typeof path === "string") {
 				if (path.indexOf("::") !== -1) {
 					scope = _this;
@@ -18615,7 +18659,7 @@ if (!("swf2js" in window)) {
 				}
 
 				if (targetPath !== "") {
-					var mc = _this.getDisplayObject(targetPath);
+					let mc = _this.getDisplayObject(targetPath);
 					if (mc) {
 						scope = mc;
 					}
@@ -18635,10 +18679,10 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getProperty = function(name, parse)
 		{
-			var _this = this;
-			var target = name;
+			let _this = this;
+			let target = name;
 			if (parse !== false) {
-				var obj = _this.splitPath(name);
+				let obj = _this.splitPath(name);
 				_this = obj.scope;
 				target = obj.target;
 			}
@@ -18647,8 +18691,8 @@ if (!("swf2js" in window)) {
 				return undefined;
 			}
 
-			var value;
-			var prop = (typeof target === "string") ? target.toLowerCase() : target;
+			let value;
+			let prop = (typeof target === "string") ? target.toLowerCase() : target;
 			switch (prop) {
 				case 0:
 				case "_x":
@@ -18747,9 +18791,9 @@ if (!("swf2js" in window)) {
 				case "text":
 				case "htmltext":
 					if (_this instanceof TextField) {
-						var variable = _this.getVariable("variable");
+						let variable = _this.getVariable("variable");
 						if (variable) {
-							var mc = _this.getParent();
+							let mc = _this.getParent();
 							value = mc.getProperty(variable);
 						} else {
 							value = _this.getVariable("text");
@@ -18774,8 +18818,8 @@ if (!("swf2js" in window)) {
 					value = keyClass;
 					break;
 				case "mouse":
-					var _root = _this.getDisplayObject("_root");
-					var rootStage = _root.getStage();
+					let _root = _this.getDisplayObject("_root");
+					let rootStage = _root.getStage();
 					value = rootStage.mouse;
 					break;
 				default:
@@ -18796,15 +18840,15 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.setProperty = function(name, value, parse)
 		{
-			var _this = this;
-			var target = name;
+			let _this = this;
+			let target = name;
 			if (parse !== false) {
-				var obj = _this.splitPath(name);
+				let obj = _this.splitPath(name);
 				_this = obj.scope;
 				target = obj.target;
 			}
 
-			var prop = (typeof target === "string") ? target.toLowerCase() : target;
+			let prop = (typeof target === "string") ? target.toLowerCase() : target;
 			switch (prop) {
 				case 0:
 				case "_x":
@@ -18883,14 +18927,14 @@ if (!("swf2js" in window)) {
 				case "text":
 				case "htmltext":
 					if (_this instanceof TextField) {
-						var variable = _this.getVariable("variable");
+						let variable = _this.getVariable("variable");
 						if (variable) {
-							var mc = _this.getParent();
+							let mc = _this.getParent();
 							mc.setProperty(variable, value);
 						} else {
 							_this.setVariable("text", value);
 						}
-						var input = _this.input;
+						let input = _this.input;
 						if (input) {
 							input.value = value;
 						}
@@ -18918,9 +18962,9 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getDepth = function()
 		{
-			var _this = this;
-			var _depth = _this._depth;
-			var depth = (_depth !== null) ? _depth : _this.getLevel();
+			let _this = this;
+			let _depth = _this._depth;
+			let depth = (_depth !== null) ? _depth : _this.getLevel();
 			return depth - 16384;
 		};
 
@@ -18931,11 +18975,11 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.setDepth = function(depth, swapDepth, swapMc)
 		{
-			var _this = this;
-			var parent = _this.getParent();
-			var _depth = _this._depth;
-			var level = (_depth !== null) ? _depth : _this.getLevel();
-			var totalFrame = parent.getTotalFrames() + 1;
+			let _this = this;
+			let parent = _this.getParent();
+			let _depth = _this._depth;
+			let level = (_depth !== null) ? _depth : _this.getLevel();
+			let totalFrame = parent.getTotalFrames() + 1;
 
 			if (!swapMc) {
 				_this._depth = depth;
@@ -18944,14 +18988,14 @@ if (!("swf2js" in window)) {
 				swapMc._depth = depth;
 			}
 
-			var container = parent.container;
-			var instanceId = _this.instanceId;
-			for (var frame = 1; frame < totalFrame; frame++) {
+			let container = parent.container;
+			let instanceId = _this.instanceId;
+			for (let frame = 1; frame < totalFrame; frame++) {
 				if (!(frame in container)) {
 					container[frame] = [];
 				}
 
-				var tags = container[frame];
+				let tags = container[frame];
 				if (swapMc) {
 					if (level in tags && tags[level] === instanceId) {
 						tags[depth] = swapMc.instanceId;
@@ -18980,7 +19024,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getX = function()
 		{
-			var matrix = this.getMatrix();
+			let matrix = this.getMatrix();
 			return (matrix) ? matrix[4] / 20 : undefined;
 		};
 
@@ -18991,9 +19035,9 @@ if (!("swf2js" in window)) {
 		{
 			x = +x;
 			if (!_isNaN(x)) {
-				var _this = this;
-				var _matrix = _this.getMatrix();
-				var matrix = _this.cloneArray(_matrix);
+				let _this = this;
+				let _matrix = _this.getMatrix();
+				let matrix = _this.cloneArray(_matrix);
 				matrix[4] = x * 20;
 				_this.setMatrix(matrix);
 			}
@@ -19004,7 +19048,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getY = function()
 		{
-			var matrix = this.getMatrix();
+			let matrix = this.getMatrix();
 			return (matrix) ? matrix[5] / 20 : undefined;
 		};
 
@@ -19015,9 +19059,9 @@ if (!("swf2js" in window)) {
 		{
 			y = +y;
 			if (!_isNaN(y)) {
-				var _this = this;
-				var _matrix = _this.getMatrix();
-				var matrix = _this.cloneArray(_matrix);
+				let _this = this;
+				let _matrix = _this.getMatrix();
+				let matrix = _this.cloneArray(_matrix);
 				matrix[5] = y * 20;
 				_this.setMatrix(matrix);
 			}
@@ -19032,8 +19076,8 @@ if (!("swf2js" in window)) {
 			return this._viewXScale;
 		}
 
-			var matrix = this.getMatrix();
-			var xScale = _sqrt(matrix[0] * matrix[0] + matrix[1] * matrix[1]) * 100;
+			let matrix = this.getMatrix();
+			let xScale = _sqrt(matrix[0] * matrix[0] + matrix[1] * matrix[1]) * 100;
 			if (0 > matrix[0]) {
 				xScale *= -1;
 			}
@@ -19047,10 +19091,10 @@ if (!("swf2js" in window)) {
 		{
 			xscale = +xscale;
 			if (!_isNaN(xscale) && this._viewXScale !== xscale) {
-				var _this = this;
-				var _matrix = _this.getMatrix();
-				var matrix = _this.cloneArray(_matrix);
-				var radianX = _atan2(matrix[1], matrix[0]);
+				let _this = this;
+				let _matrix = _this.getMatrix();
+				let matrix = _this.cloneArray(_matrix);
+				let radianX = _atan2(matrix[1], matrix[0]);
 				if (radianX === -_PI) {
 					radianX = 0;
 				}
@@ -19071,8 +19115,8 @@ if (!("swf2js" in window)) {
 				return this._viewYScale;
 			}
 
-			var matrix = this.getMatrix();
-			var yScale = _sqrt(matrix[2] * matrix[2] + matrix[3] * matrix[3]) * 100;
+			let matrix = this.getMatrix();
+			let yScale = _sqrt(matrix[2] * matrix[2] + matrix[3] * matrix[3]) * 100;
 			if (0 > matrix[3]) {
 				yScale *= -1;
 			}
@@ -19086,10 +19130,10 @@ if (!("swf2js" in window)) {
 		{
 			yscale = +yscale;
 			if (!_isNaN(yscale) && this._viewYScale !== yscale) {
-				var _this = this;
-				var _matrix = _this.getMatrix();
-				var matrix = _this.cloneArray(_matrix);
-				var radianY = _atan2(-matrix[2], matrix[3]);
+				let _this = this;
+				let _matrix = _this.getMatrix();
+				let matrix = _this.cloneArray(_matrix);
+				let radianY = _atan2(-matrix[2], matrix[3]);
 				if (radianY === -_PI) {
 					radianY = 0;
 				}
@@ -19106,8 +19150,8 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getAlpha = function()
 		{
-			var colorTransform = this.getColorTransform();
-			var alpha = colorTransform[3] + (colorTransform[7] / 255);
+			let colorTransform = this.getColorTransform();
+			let alpha = colorTransform[3] + (colorTransform[7] / 255);
 			return alpha * 100;
 		};
 
@@ -19118,9 +19162,9 @@ if (!("swf2js" in window)) {
 		{
 			alpha = +alpha;
 			if (!_isNaN(alpha)) {
-				var _this = this;
-				var _colorTransform = _this.getColorTransform();
-				var colorTransform = _this.cloneArray(_colorTransform);
+				let _this = this;
+				let _colorTransform = _this.getColorTransform();
+				let colorTransform = _this.cloneArray(_colorTransform);
 				colorTransform[3] = alpha / 100;
 				colorTransform[7] = 0;
 				_this.setColorTransform(colorTransform);
@@ -19132,9 +19176,9 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getVisible = function()
 		{
-			var _this = this;
-			var stage = _this.getStage();
-			var version = stage.getVersion();
+			let _this = this;
+			let stage = _this.getStage();
+			let version = stage.getVersion();
 			if (version > 4) {
 				return _this.__visible;
 			}
@@ -19146,7 +19190,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.setVisible = function(visible)
 		{
-			var _this = this;
+			let _this = this;
 			if (typeof visible === "boolean") {
 				_this.__visible = visible;
 			} else {
@@ -19198,8 +19242,8 @@ if (!("swf2js" in window)) {
 				return this._viewRotation * 180 / _PI;
 			}
 
-			var matrix = this.getMatrix();
-			var rotation = _atan2(matrix[1], matrix[0]) * 180 / _PI;
+			let matrix = this.getMatrix();
+			let rotation = _atan2(matrix[1], matrix[0]) * 180 / _PI;
 			switch (rotation) {
 				case -90.00000000000001:
 					rotation = -90;
@@ -19218,13 +19262,13 @@ if (!("swf2js" in window)) {
 		{
 			rotation = +rotation;
 			if (!_isNaN(rotation)) {
-				var _this = this;
-				var _matrix = _this.getMatrix();
-				var matrix = _this.cloneArray(_matrix);
-				var radianX = _atan2(matrix[1], matrix[0]);
-				var radianY = _atan2(-matrix[2], matrix[3]);
-				var ScaleX = _sqrt(matrix[0] * matrix[0] + matrix[1] * matrix[1]);
-				var ScaleY = _sqrt(matrix[2] * matrix[2] + matrix[3] * matrix[3]);
+				let _this = this;
+				let _matrix = _this.getMatrix();
+				let matrix = _this.cloneArray(_matrix);
+				let radianX = _atan2(matrix[1], matrix[0]);
+				let radianY = _atan2(-matrix[2], matrix[3]);
+				let ScaleX = _sqrt(matrix[0] * matrix[0] + matrix[1] * matrix[1]);
+				let ScaleY = _sqrt(matrix[2] * matrix[2] + matrix[3] * matrix[3]);
 				rotation *= _PI / 180;
 				radianY += rotation - radianX;
 				radianX = rotation;
@@ -19242,9 +19286,9 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getWidth = function()
 		{
-			var _this = this;
-			var matrix = _this.getMatrix();
-			var bounds = _this.getBounds(matrix);
+			let _this = this;
+			let matrix = _this.getMatrix();
+			let bounds = _this.getBounds(matrix);
 			return _abs(bounds.xMax - bounds.xMin);
 		};
 
@@ -19255,16 +19299,16 @@ if (!("swf2js" in window)) {
 		{
 			width = +width;
 			if (!_isNaN(width)) {
-				var _this = this;
-				var _matrix = _this.getOriginMatrix();
-				var bounds = _this.getBounds(_matrix);
-				var _width = _abs(bounds.xMax - bounds.xMin);
-				var xScale = width * _matrix[0] / _width;
+				let _this = this;
+				let _matrix = _this.getOriginMatrix();
+				let bounds = _this.getBounds(_matrix);
+				let _width = _abs(bounds.xMax - bounds.xMin);
+				let xScale = width * _matrix[0] / _width;
 				if (_isNaN(xScale)) {
 					xScale = 0;
 				}
 				_matrix = _this.getMatrix();
-				var matrix = _this.cloneArray(_matrix);
+				let matrix = _this.cloneArray(_matrix);
 				matrix[0] = xScale;
 				_this.setMatrix(matrix);
 			}
@@ -19275,9 +19319,9 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getHeight = function()
 		{
-			var _this = this;
-			var matrix = _this.getMatrix();
-			var bounds = _this.getBounds(matrix);
+			let _this = this;
+			let matrix = _this.getMatrix();
+			let bounds = _this.getBounds(matrix);
 			return _abs(bounds.yMax - bounds.yMin);
 		};
 
@@ -19288,16 +19332,16 @@ if (!("swf2js" in window)) {
 		{
 			height = +height;
 			if (!_isNaN(height)) {
-				var _this = this;
-				var _matrix = _this.getOriginMatrix();
-				var bounds = _this.getBounds(_matrix);
-				var _height = _abs(bounds.yMax - bounds.yMin);
-				var yScale = height * _matrix[3] / _height;
+				let _this = this;
+				let _matrix = _this.getOriginMatrix();
+				let bounds = _this.getBounds(_matrix);
+				let _height = _abs(bounds.yMax - bounds.yMin);
+				let yScale = height * _matrix[3] / _height;
 				if (_isNaN(yScale)) {
 					yScale = 0;
 				}
 				_matrix = _this.getMatrix();
-				var matrix = _this.cloneArray(_matrix);
+				let matrix = _this.cloneArray(_matrix);
 				matrix[3] = yScale;
 				_this.setMatrix(matrix);
 			}
@@ -19311,24 +19355,24 @@ if (!("swf2js" in window)) {
 			if (!_event) {
 				return null;
 			}
-			var _this = this;
-			var _root = _this.getDisplayObject("_root");
-			var stage = _root.getStage();
-			var div = _document.getElementById(stage.getName());
-			var bounds = div.getBoundingClientRect();
-			var x = window.pageXOffset + bounds.left;
-			var touchX = 0;
+			let _this = this;
+			let _root = _this.getDisplayObject("_root");
+			let stage = _root.getStage();
+			let div = _document.getElementById(stage.getName());
+			let bounds = div.getBoundingClientRect();
+			let x = window.pageXOffset + bounds.left;
+			let touchX = 0;
 			if (_isTouchEvent) {
-				var changedTouche = _event.changedTouches[0];
+				let changedTouche = _event.changedTouches[0];
 				touchX = changedTouche.pageX;
 			} else {
 				touchX = _event.pageX;
 			}
 
-			var mc = _this;
-			var matrix = _this.getMatrix();
+			let mc = _this;
+			let matrix = _this.getMatrix();
 			while (true) {
-				var parent = mc.getParent();
+				let parent = mc.getParent();
 				if (!parent) {
 					break;
 				}
@@ -19336,7 +19380,7 @@ if (!("swf2js" in window)) {
 				mc = parent;
 			}
 
-			var scale = stage.getScale();
+			let scale = stage.getScale();
 			touchX -= x;
 			touchX /= scale;
 			touchX -= matrix[4] / 20;
@@ -19351,24 +19395,24 @@ if (!("swf2js" in window)) {
 			if (!_event) {
 				return null;
 			}
-			var _this = this;
-			var _root = _this.getDisplayObject("_root");
-			var stage = _root.getStage();
-			var div = _document.getElementById(stage.getName());
-			var bounds = div.getBoundingClientRect();
-			var y = window.pageYOffset + bounds.top;
-			var touchY = 0;
+			let _this = this;
+			let _root = _this.getDisplayObject("_root");
+			let stage = _root.getStage();
+			let div = _document.getElementById(stage.getName());
+			let bounds = div.getBoundingClientRect();
+			let y = window.pageYOffset + bounds.top;
+			let touchY = 0;
 			if (_isTouchEvent) {
-				var changedTouche = _event.changedTouches[0];
+				let changedTouche = _event.changedTouches[0];
 				touchY = changedTouche.pageY;
 			} else {
 				touchY = _event.pageY;
 			}
 
-			var mc = _this;
-			var matrix = _this.getMatrix();
+			let mc = _this;
+			let matrix = _this.getMatrix();
 			while (true) {
-				var parent = mc.getParent();
+				let parent = mc.getParent();
 				if (!parent) {
 					break;
 				}
@@ -19376,7 +19420,7 @@ if (!("swf2js" in window)) {
 				mc = parent;
 			}
 
-			var scale = stage.getScale();
+			let scale = stage.getScale();
 			touchY -= y;
 			touchY /= scale;
 			touchY -= matrix[5] / 20;
@@ -19390,12 +19434,12 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getVariable = function(name, parse)
 		{
-			var _this = this;
+			let _this = this;
 			if (name === undefined) {
 				return name;
 			}
 
-			var variables = _this.variables;
+			let variables = _this.variables;
 			if (!variables) {
 				return undefined;
 			}
@@ -19404,10 +19448,10 @@ if (!("swf2js" in window)) {
 				return variables[name];
 			}
 
-			var stage = _this.getStage();
-			var version = stage.getVersion();
+			let stage = _this.getStage();
+			let version = stage.getVersion();
 			if (version < 7) {
-				for (var key in variables) {
+				for (let key in variables) {
 					if (!variables.hasOwnProperty(key)) {
 						continue;
 					}
@@ -19417,9 +19461,9 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var value;
+			let value;
 			if (version > 4) {
-				var registerClass = variables.registerClass;
+				let registerClass = variables.registerClass;
 				if (registerClass &&
 					typeof registerClass === "object" &&
 					name in registerClass
@@ -19435,25 +19479,25 @@ if (!("swf2js" in window)) {
 				}
 
 				// avm2
-				var cId = _this.getCharacterId();
-				var symbol = stage.symbols[cId];
+				let cId = _this.getCharacterId();
+				let symbol = stage.symbols[cId];
 				if (symbol) {
-					var symbols = symbol.split(".");
-					var classMethod = symbols.pop();
-					var sLen = symbols.length;
-					var classObj = stage.avm2;
-					for (var sIdx = 0; sIdx < sLen; sIdx++) {
+					let symbols = symbol.split(".");
+					let classMethod = symbols.pop();
+					let sLen = symbols.length;
+					let classObj = stage.avm2;
+					for (let sIdx = 0; sIdx < sLen; sIdx++) {
 						classObj = classObj[symbols[sIdx]];
 					}
 
-					var AVM2 = classObj[classMethod];
+					let AVM2 = classObj[classMethod];
 					value = AVM2[name];
 					if (value) {
 						return value;
 					}
 				}
 
-				var _global = stage.getGlobal();
+				let _global = stage.getGlobal();
 				value = _global.getVariable(name);
 				if (value) {
 					return value;
@@ -19474,15 +19518,15 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.setVariable = function(name, value)
 		{
-			var _this = this;
-			var variables = _this.variables;
-			var stage = _this.getStage();
+			let _this = this;
+			let variables = _this.variables;
+			let stage = _this.getStage();
 			if (typeof name !== "string") {
 				name += "";
 			}
 
 			if (stage.getVersion() < 7) {
-				for (var key in variables) {
+				for (let key in variables) {
 					if (!variables.hasOwnProperty(key)) {
 						continue;
 					}
@@ -19502,27 +19546,27 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getGlobalVariable = function(path)
 		{
-			var _this = this;
-			var stage = _this.getStage();
-			var version = stage.getVersion();
+			let _this = this;
+			let stage = _this.getStage();
+			let version = stage.getVersion();
 			if (version < 5) {
 				return undefined;
 			}
 
-			var splitData = null;
+			let splitData = null;
 			if (path.indexOf(".") !== -1) {
 				splitData = path.split(".");
 			}
 
-			var value;
+			let value;
 			if (splitData) {
-				var _global = stage.getGlobal();
-				var variables = _global.variables;
-				var length = splitData.length;
-				for (var i = 0; i < length; i++) {
-					var name = splitData[i];
+				let _global = stage.getGlobal();
+				let variables = _global.variables;
+				let length = splitData.length;
+				for (let i = 0; i < length; i++) {
+					let name = splitData[i];
 					if (version < 7) {
-						for (var key in variables) {
+						for (let key in variables) {
 							if (!variables.hasOwnProperty(key)) {
 								continue;
 							}
@@ -19552,10 +19596,10 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getDisplayObject = function(path, parse)
 		{
-			var _this = this;
-			var mc = _this;
-			var _root = mc;
-			var tags, tag, stage, parent;
+			let _this = this;
+			let mc = _this;
+			let _root = mc;
+			let tags, tag, stage, parent;
 
 			if (!_this._lockroot) {
 				while (true) {
@@ -19589,8 +19633,8 @@ if (!("swf2js" in window)) {
 				return (parent !== null) ? parent : undefined;
 			}
 
-			var len = 1;
-			var splitData = [path];
+			let len = 1;
+			let splitData = [path];
 			if (parse !== false) {
 				if (path.indexOf("/") !== -1) {
 					splitData = path.split("/");
@@ -19605,7 +19649,7 @@ if (!("swf2js" in window)) {
 						mc = _root;
 					}
 				} else if (path.substr(0, 6) === "_level") {
-					var level = path.substr(6);
+					let level = path.substr(6);
 					level = +level;
 					if (level === 0) {
 						return _root;
@@ -19615,7 +19659,7 @@ if (!("swf2js" in window)) {
 					}
 					tags = parent.getTags();
 					if (level in tags) {
-						var tId = tags[level];
+						let tId = tags[level];
 						tag = stage.getInstance(tId);
 						if (tag instanceof MovieClip) {
 							return tag;
@@ -19625,9 +19669,9 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var version = stage.getVersion();
-			for (var i = 0; i < len; i++) {
-				var name = splitData[i];
+			let version = stage.getVersion();
+			for (let i = 0; i < len; i++) {
+				let name = splitData[i];
 				if (name === "") {
 					continue;
 				}
@@ -19661,22 +19705,22 @@ if (!("swf2js" in window)) {
 					return undefined;
 				}
 
-				var tagLength = tags.length;
-				var setTarget = false;
+				let tagLength = tags.length;
+				let setTarget = false;
 				if (tagLength > 0) {
-					for (var idx in tags) {
+					for (let idx in tags) {
 						if (!tags.hasOwnProperty(idx)) {
 							continue;
 						}
 
-						var instanceId = tags[idx];
-						var loadStage = mc.getStage();
+						let instanceId = tags[idx];
+						let loadStage = mc.getStage();
 						tag = loadStage.getInstance(instanceId);
 						if (!tag || tag.removeFlag) {
 							continue;
 						}
 
-						var tagName = tag.getName();
+						let tagName = tag.getName();
 						if (!tagName) {
 							continue;
 						}
@@ -19713,32 +19757,32 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.preRender = function(ctx, matrix, colorTransform, stage, visible)
 		{
-			var _this = this;
+			let _this = this;
 			_this.isLoad = true;
 
-			var cacheKey = "";
-			var preCtx = ctx;
-			var preMatrix = matrix;
+			let cacheKey = "";
+			let preCtx = ctx;
+			let preMatrix = matrix;
 
-			var isFilter = false;
-			var isBlend = false;
-			var cache, rMatrix, xScale, yScale, xMin, yMin, xMax, yMax;
+			let isFilter = false;
+			let isBlend = false;
+			let cache, rMatrix, xScale, yScale, xMin, yMin, xMax, yMax;
 
 			// mask
-			var maskObj = _this.getMask();
+			let maskObj = _this.getMask();
 			if (maskObj) {
 				_this.renderMask(ctx, stage);
 			}
 
 			// filter
 			if (visible && !stage.clipMc) {
-				var filters = _this.getFilters();
+				let filters = _this.getFilters();
 				if (filters !== null && filters.length) {
 					isFilter = true;
 				}
 
 				// blend
-				var blendMode = _this.getBlendMode();
+				let blendMode = _this.getBlendMode();
 				if (blendMode !== null && blendMode !== "normal") {
 					isBlend = true;
 				}
@@ -19748,8 +19792,8 @@ if (!("swf2js" in window)) {
 			if (isFilter || isBlend) {
 				rMatrix = _this.multiplicationMatrix(stage.getMatrix(), matrix);
 
-				var bounds;
-				var twips = 1;
+				let bounds;
+				let twips = 1;
 				if (_this instanceof Shape || _this instanceof StaticText) {
 					bounds = _this.getBounds();
 					xScale = _sqrt(rMatrix[0] * rMatrix[0] + rMatrix[1] * rMatrix[1]);
@@ -19766,18 +19810,18 @@ if (!("swf2js" in window)) {
 				xMax = bounds.xMax;
 				yMax = bounds.yMax;
 
-				var width = _abs(_ceil((xMax - xMin) * xScale));
-				var height = _abs(_ceil((yMax - yMin) * yScale));
+				let width = _abs(_ceil((xMax - xMin) * xScale));
+				let height = _abs(_ceil((yMax - yMin) * yScale));
 
-				var canvas = cacheStore.getCanvas();
+				let canvas = cacheStore.getCanvas();
 				canvas.width = width;
 				canvas.height = height;
 				cache = canvas.getContext("2d");
 				cache._offsetX = 0;
 				cache._offsetY = 0;
 
-				var m2 = [1, 0, 0, 1, -xMin * twips, -yMin * twips];
-				var m3 = [matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]];
+				let m2 = [1, 0, 0, 1, -xMin * twips, -yMin * twips];
+				let m3 = [matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]];
 				if (_this instanceof Shape) {
 					m3[4] = 0;
 					m3[5] = 0;
@@ -19812,16 +19856,16 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.postRender = function(ctx, matrix, colorTransform, stage, obj)
 		{
-			var _this = this;
-			var cache = obj.preCtx;
-			var isFilter = obj.isFilter;
-			var cacheKey = obj.cacheKey;
+			let _this = this;
+			let cache = obj.preCtx;
+			let isFilter = obj.isFilter;
+			let cacheKey = obj.cacheKey;
 			if (isFilter && cacheKey !== "") {
 				cache = _this.renderFilter(cache, matrix, colorTransform, stage, cacheKey);
 			}
 
-			var xMin = obj.xMin;
-			var yMin = obj.yMin;
+			let xMin = obj.xMin;
+			let yMin = obj.yMin;
 			if (_this instanceof Shape) {
 				xMin += obj.rMatrix[4];
 				yMin += obj.rMatrix[5];
@@ -19844,8 +19888,8 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.renderGraphics = function(ctx, matrix, colorTransform, stage)
 		{
-			var graphics = this.graphics;
-			var cacheKey = "";
+			let graphics = this.graphics;
+			let cacheKey = "";
 			if (graphics && graphics.isDraw) {
 				cacheKey = graphics.render(ctx, matrix, colorTransform, stage);
 			}
@@ -19858,18 +19902,18 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.renderMask = function(ctx, stage)
 		{
-			var _this = this;
-			var maskObj = _this.getMask();
+			let _this = this;
+			let maskObj = _this.getMask();
 			if (maskObj) {
 				ctx.save();
 				ctx.beginPath();
 				stage.clipMc = true;
 
-				var mc = maskObj;
-				var matrix = [1, 0, 0, 1, 0, 0];
-				var _multiplicationMatrix = _this.multiplicationMatrix;
+				let mc = maskObj;
+				let matrix = [1, 0, 0, 1, 0, 0];
+				let _multiplicationMatrix = _this.multiplicationMatrix;
 				while (true) {
-					var parent = mc.getParent();
+					let parent = mc.getParent();
 					if (!parent.getParent()) {
 						break;
 					}
@@ -19888,11 +19932,11 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getFilterKey = function(filters)
 		{
-			var keys = [];
-			var length = filters.length;
-			for (var i = 0; i < length; i++) {
-				var filter = filters[i];
-				for (var prop in filter) {
+			let keys = [];
+			let length = filters.length;
+			for (let i = 0; i < length; i++) {
+				let filter = filters[i];
+				for (let prop in filter) {
 					if (!filter.hasOwnProperty(prop)) {
 						continue;
 					}
@@ -19912,24 +19956,24 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.renderFilter = function(ctx, matrix, colorTransform, stage, cacheKey)
 		{
-			var _this = this;
-			var filters = _this.getFilters();
+			let _this = this;
+			let filters = _this.getFilters();
 			if (stage.clipMc || !filters || !filters.length) {
 				return ctx;
 			}
 
 			cacheKey += "_" + _this.getFilterKey(filters);
-			var cacheStoreKey = "Filter_" + _this.instanceId;
+			let cacheStoreKey = "Filter_" + _this.instanceId;
 
-			var cache;
+			let cache;
 			if (_this._filterCacheKey === cacheKey) {
 				cache = cacheStore.getCache(cacheStoreKey);
 			}
 
 			if (!cache) {
-				var fLength = filters.length;
-				for (var i = 0; i < fLength; i++) {
-					var filter = filters[i];
+				let fLength = filters.length;
+				for (let i = 0; i < fLength; i++) {
+					let filter = filters[i];
 					cache = filter.render(ctx, matrix, colorTransform, stage);
 				}
 				_this._filterCacheKey = cacheKey;
@@ -19950,12 +19994,12 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.renderBlend = function(ctx, cache, xMin, yMin, isFilter)
 		{
-			var _this = this;
-			var mode = _this.getBlendMode();
-			var operation = "source-over";
-			var canvas = cache.canvas;
-			var width = canvas.width;
-			var height = canvas.height;
+			let _this = this;
+			let mode = _this.getBlendMode();
+			let operation = "source-over";
+			let canvas = cache.canvas;
+			let width = canvas.width;
+			let height = canvas.height;
 			if (!width || !height) {
 				return ;
 			}
@@ -20028,8 +20072,8 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getOriginMatrix = function()
 		{
-			var _this = this;
-			var controller = _this.getController();
+			let _this = this;
+			let controller = _this.getController();
 			return controller.getMatrix();
 		};
 
@@ -20046,7 +20090,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.setMatrix = function(matrix)
 		{
-			var _this = this;
+			let _this = this;
 			_this._matrix = matrix;
 			_this.setController(true, false, false, false);
 		};
@@ -20056,8 +20100,8 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getOriginColorTransform = function()
 		{
-			var _this = this;
-			var controller = _this.getController();
+			let _this = this;
+			let controller = _this.getController();
 			return controller.getColorTransform();
 		};
 
@@ -20074,7 +20118,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.setColorTransform = function(colorTransform)
 		{
-			var _this = this;
+			let _this = this;
 			_this._colorTransform = colorTransform;
 			_this.setController(false, true, false, false);
 		};
@@ -20084,8 +20128,8 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getOriginBlendMode = function()
 		{
-			var _this = this;
-			var controller = _this.getController();
+			let _this = this;
+			let controller = _this.getController();
 			return controller.getBlendMode();
 		};
 
@@ -20102,8 +20146,8 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.setBlendMode = function(blendMode)
 		{
-			var _this = this;
-			var mode = _this.getBlendName(blendMode);
+			let _this = this;
+			let mode = _this.getBlendName(blendMode);
 			if (mode !== null) {
 				_this._blendMode = mode;
 				_this.setController(false, false, false, true);
@@ -20115,8 +20159,8 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getOriginFilters = function()
 		{
-			var _this = this;
-			var controller = _this.getController();
+			let _this = this;
+			let controller = _this.getController();
 			return controller.getFilters();
 		};
 
@@ -20133,7 +20177,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.setFilters = function(filters)
 		{
-			var _this = this;
+			let _this = this;
 			_this._filterCacheKey = null;
 			_this._filters = filters;
 			_this.setController(false, false, true, false);
@@ -20147,10 +20191,10 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.setController = function(isMatrix, isColorTransform, isFilters, isBlend)
 		{
-			var _this = this;
+			let _this = this;
 
 			if (!isMatrix) {
-				var _matrix = _this._matrix;
+				let _matrix = _this._matrix;
 				if (_matrix === null) {
 					_matrix = _this.getMatrix();
 					_this._matrix = _this.cloneArray(_matrix);
@@ -20158,7 +20202,7 @@ if (!("swf2js" in window)) {
 			}
 
 			if (!isColorTransform) {
-				var _colorTransform = _this._colorTransform;
+				let _colorTransform = _this._colorTransform;
 				if (_colorTransform === null) {
 					_colorTransform = _this.getColorTransform();
 					_this._colorTransform = _this.cloneArray(_colorTransform);
@@ -20166,7 +20210,7 @@ if (!("swf2js" in window)) {
 			}
 
 			if (!isFilters) {
-				var _filters = _this._filters;
+				let _filters = _this._filters;
 				if (_filters === null) {
 					_filters = _this.getFilters();
 					if (_filters === null) {
@@ -20177,7 +20221,7 @@ if (!("swf2js" in window)) {
 			}
 
 			if (!isBlend) {
-				var _blendMode = _this._blendMode;
+				let _blendMode = _this._blendMode;
 				if (_blendMode === null) {
 					_blendMode = _this.getBlendMode();
 					_this._blendMode = _blendMode;
@@ -20190,15 +20234,15 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.getController = function()
 		{
-			var _this = this;
-			var frame = 0;
-			var depth = _this.getLevel();
-			var stage = _this.getParentStage();
+			let _this = this;
+			let frame = 0;
+			let depth = _this.getLevel();
+			let stage = _this.getParentStage();
 			if (!stage) {
 				return new PlaceObject();
 			}
 
-			var parent = _this.getParentSprite();
+			let parent = _this.getParentSprite();
 			if (!parent) {
 				parent = _this.getParent();
 			}
@@ -20209,7 +20253,7 @@ if (!("swf2js" in window)) {
 			if (parent instanceof MovieClip) {
 				frame = parent.getCurrentFrame();
 			}
-			var placeObject = stage.getPlaceObject(parent.instanceId, depth, frame);
+			let placeObject = stage.getPlaceObject(parent.instanceId, depth, frame);
 			if (!placeObject) {
 				stage = _this.getLoadStage();
 				if (stage) {
@@ -20225,7 +20269,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.reset = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.active = false;
 			_this.isMask = false;
 			_this._matrix = null;
@@ -20238,14 +20282,14 @@ if (!("swf2js" in window)) {
 			_this.setButtonStatus("up");
 
 			if (_this instanceof TextField) {
-				var input = _this.input;
+				let input = _this.input;
 				if (_this.inputActive) {
 					_this.inputActive = false;
 					input.onchange = null;
-					var stage = _this.getStage();
-					var div = _document.getElementById(stage.getName());
+					let stage = _this.getStage();
+					let div = _document.getElementById(stage.getName());
 					if (div) {
-						var el = _document.getElementById(_this.getTagName());
+						let el = _document.getElementById(_this.getTagName());
 						if (el) {
 							try {
 								div.removeChild(el);
@@ -20264,9 +20308,9 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObject.prototype.trace = function()
 		{
-			var params = ["[trace]"];
-			var length = arguments.length;
-			for (var i = 0; i < length; i++) {
+			let params = ["[trace]"];
+			let length = arguments.length;
+			for (let i = 0; i < length; i++) {
 				params[params.length] = arguments[i];
 			}
 			console.log.apply(window, params);
@@ -20275,9 +20319,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var InteractiveObject = function()
+		let InteractiveObject = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this._mouseEnabled = true;
 			DisplayObject.call(_this);
 		};
@@ -20323,7 +20367,7 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var TextSnapshot = function()
+		let TextSnapshot = function()
 		{
 			this.charCount = 0;
 		};
@@ -20400,9 +20444,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var DisplayObjectContainer = function()
+		let DisplayObjectContainer = function()
 		{
-			var _this = this;
+			let _this = this;
 			InteractiveObject.call(_this);
 
 			_this._mouseChildren = true;
@@ -20414,8 +20458,8 @@ if (!("swf2js" in window)) {
 			_this.startSounds = [];
 			_this.container = [];
 			if (_this instanceof MovieClip) {
-				var totalFrames = _this.getTotalFrames() + 1;
-				var frame = 1;
+				let totalFrames = _this.getTotalFrames() + 1;
+				let frame = 1;
 				while (frame < totalFrames) {
 					_this.container[frame++] = [];
 				}
@@ -20537,8 +20581,8 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObjectContainer.prototype.setInstance = function(instance)
 		{
-			var instances = this.instances;
-			var instanceId = instance.instanceId;
+			let instances = this.instances;
+			let instanceId = instance.instanceId;
 			if (!(instanceId in instances)) {
 				instances[instanceId] = 1;
 			}
@@ -20560,23 +20604,23 @@ if (!("swf2js" in window)) {
 		DisplayObjectContainer.prototype.addChild = function(child, depth)
 		{
 			if (child instanceof DisplayObject) {
-				var _this = this;
+				let _this = this;
 
 				if (depth === undefined) {
 					depth = _this._numChildren;
 				}
 
-				var stage = _this.getStage();
+				let stage = _this.getStage();
 				child.setParent(_this);
 				child.setStage(stage);
 				child.setLevel(depth);
 
-				var container = _this.getContainer();
-				var frame = 1;
-				var placeObject = new PlaceObject();
-				var instanceId = _this.instanceId;
+				let container = _this.getContainer();
+				let frame = 1;
+				let placeObject = new PlaceObject();
+				let instanceId = _this.instanceId;
 				if (_this instanceof MovieClip) {
-					var totalFrames = _this.getTotalFrames() + 1;
+					let totalFrames = _this.getTotalFrames() + 1;
 					for (; frame < totalFrames; frame++) {
 						if (!(frame in container)) {
 							container[frame] = [];
@@ -20611,16 +20655,16 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObjectContainer.prototype.getChildAt = function(depth)
 		{
-			var _this = this;
-			var container = _this.getContainer();
-			var children = container;
+			let _this = this;
+			let container = _this.getContainer();
+			let children = container;
 
 			if (16384 > depth) {
 				depth += 16384;
 			}
 
 			if (_this instanceof MovieClip) {
-				var frame = _this.getCurrentFrame();
+				let frame = _this.getCurrentFrame();
 				children = container[frame];
 			}
 			return children[depth];
@@ -20632,21 +20676,21 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObjectContainer.prototype.getChildByName = function(name)
 		{
-			var _this = this;
-			var container = _this.getContainer();
-			var children = container;
+			let _this = this;
+			let container = _this.getContainer();
+			let children = container;
 			if (_this instanceof MovieClip) {
-				var frame = _this.getCurrentFrame();
+				let frame = _this.getCurrentFrame();
 				children = container[frame];
 			}
 
-			var obj;
-			for (var depth in children) {
+			let obj;
+			for (let depth in children) {
 				if (!children.hasOwnProperty(depth)) {
 					continue;
 				}
 
-				var child = children[depth];
+				let child = children[depth];
 				if (child.getName() !== name) {
 					continue;
 				}
@@ -20662,7 +20706,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObjectContainer.prototype.getChildIndex = function(child)
 		{
-			var index;
+			let index;
 			if (child instanceof DisplayObject) {
 				index = child.getLevel() - 16384;
 			}
@@ -20675,21 +20719,21 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObjectContainer.prototype.removeChild = function(child)
 		{
-			var _this = this;
-			var container = _this.getContainer();
-			var depth, obj;
+			let _this = this;
+			let container = _this.getContainer();
+			let depth, obj;
 			if (_this instanceof MovieClip) {
-				var totalFrames = _this.getTotalFrames() + 1;
-				for (var frame = 1; frame < totalFrames; frame++) {
+				let totalFrames = _this.getTotalFrames() + 1;
+				for (let frame = 1; frame < totalFrames; frame++) {
 					if (!(frame in container)) {
 						continue;
 					}
-					var children = container[frame];
+					let children = container[frame];
 					for (depth in children) {
 						if (!children.hasOwnProperty(depth)) {
 							continue;
 						}
-						var instanceId = children[depth];
+						let instanceId = children[depth];
 						if (instanceId !== child.instanceId) {
 							continue;
 						}
@@ -20725,18 +20769,18 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObjectContainer.prototype.removeChildAt = function(depth)
 		{
-			var _this = this;
-			var container = _this.getContainer();
-			var children = container;
+			let _this = this;
+			let container = _this.getContainer();
+			let children = container;
 
 			if (16384 > depth) {
 				depth += 16384;
 			}
 
-			var child;
+			let child;
 			if (_this instanceof MovieClip) {
-				var totalFrames = _this.getTotalFrames();
-				for (var frame = 1; frame < totalFrames; frame++) {
+				let totalFrames = _this.getTotalFrames();
+				for (let frame = 1; frame < totalFrames; frame++) {
 					if (!(frame in container)) {
 						continue;
 					}
@@ -20767,7 +20811,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObjectContainer.prototype.addTag = function(depth, obj)
 		{
-			var _this = this;
+			let _this = this;
 			_this.container[depth] = obj.instanceId;
 			_this._numChildren++;
 		};
@@ -20777,10 +20821,10 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObjectContainer.prototype.startSound = function()
 		{
-			var _this = this;
-			var soundId = _this.SoundId;
+			let _this = this;
+			let soundId = _this.SoundId;
 			if (_this.SoundId) {
-				var stage = _this.getStage();
+				let stage = _this.getStage();
 				if (stage.sounds[soundId]) stage.startSound({ SoundID: _this.SoundId, SoundInfo: _this.SoundInfo});
 			}
 		};
@@ -20790,18 +20834,18 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObjectContainer.prototype.reset = function()
 		{
-			var _this = this;
-			var container = _this.container;
-			var length = container.length;
+			let _this = this;
+			let container = _this.container;
+			let length = container.length;
 			if (length) {
-				var stage = _this.getStage();
-				for (var depth in container) {
+				let stage = _this.getStage();
+				for (let depth in container) {
 					if (!container.hasOwnProperty(depth)) {
 						continue;
 					}
 
-					var instanceId = container[depth];
-					var obj = stage.getInstance(instanceId);
+					let instanceId = container[depth];
+					let obj = stage.getInstance(instanceId);
 					obj.reset();
 				}
 			}
@@ -20823,12 +20867,12 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObjectContainer.prototype.setHitRange = function(matrix, stage, visible, mask)
 		{
-			var _this = this;
-			var isVisible = _min(_this.getVisible(), visible);
+			let _this = this;
+			let isVisible = _min(_this.getVisible(), visible);
 			if (_this.getEnabled() && isVisible) {
-				var buttonHits = stage.buttonHits;
-				var variables = _this.variables;
-				var events = _this.events;
+				let buttonHits = stage.buttonHits;
+				let variables = _this.variables;
+				let events = _this.events;
 				if (events.press !== undefined ||
 					events.release !== undefined ||
 					events.releaseOutside !== undefined ||
@@ -20844,8 +20888,8 @@ if (!("swf2js" in window)) {
 					variables.onDragOver !== undefined ||
 					variables.onDragOut !== undefined
 				) {
-					var rMatrix = _this.multiplicationMatrix(matrix, _this.getMatrix());
-					var bounds = _this.getBounds(rMatrix);
+					let rMatrix = _this.multiplicationMatrix(matrix, _this.getMatrix());
+					let bounds = _this.getBounds(rMatrix);
 					buttonHits[buttonHits.length] = {
 						xMax: bounds.xMax,
 						xMin: bounds.xMin,
@@ -20866,7 +20910,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObjectContainer.prototype.createMovieClip = function(name, depth)
 		{
-			var movieClip = new MovieClip();
+			let movieClip = new MovieClip();
 			movieClip = this.addChild(movieClip, depth);
 			if (name) {
 				movieClip.setName(name);
@@ -20881,7 +20925,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObjectContainer.prototype.createSprite = function(name, depth)
 		{
-			var sprite = new Sprite();
+			let sprite = new Sprite();
 			sprite = this.addChild(sprite, depth);
 			if (name) {
 				sprite.setName(name);
@@ -20896,7 +20940,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObjectContainer.prototype.createButton = function(name, depth)
 		{
-			var button = new SimpleButton();
+			let button = new SimpleButton();
 			button = this.addChild(button, depth);
 			if (name) {
 				button.setName(name);
@@ -20913,7 +20957,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObjectContainer.prototype.createText = function(name, width, height, depth)
 		{
-			var textField = new TextField(name, depth, width, height);
+			let textField = new TextField(name, depth, width, height);
 			textField = this.addChild(textField, depth);
 			textField.setInitParams();
 			if (name) {
@@ -20928,7 +20972,7 @@ if (!("swf2js" in window)) {
 		 */
 		DisplayObjectContainer.prototype.createShape = function(depth)
 		{
-			var shape = new Shape();
+			let shape = new Shape();
 			this.addChild(shape, depth);
 			return shape;
 		};
@@ -20936,9 +20980,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var Sprite = function()
+		let Sprite = function()
 		{
-			var _this = this;
+			let _this = this;
 			DisplayObjectContainer.call(_this);
 
 			_this.touchPointID = 0;
@@ -21073,18 +21117,18 @@ if (!("swf2js" in window)) {
 		 */
 		Sprite.prototype.startDrag = function()
 		{
-			var args = arguments;
-			var lock = args[0];
-			var left = args[1];
-			var top = args[2];
-			var right = args[3];
-			var bottom = args[4];
+			let args = arguments;
+			let lock = args[0];
+			let left = args[1];
+			let top = args[2];
+			let right = args[3];
+			let bottom = args[4];
 
-			var _this = this;
-			var _root = _this.getDisplayObject("_root");
-			var stage = _root.getStage();
-			var startX = 0;
-			var startY = 0;
+			let _this = this;
+			let _root = _this.getDisplayObject("_root");
+			let stage = _root.getStage();
+			let startX = 0;
+			let startY = 0;
 			if (!lock) {
 				startX = _this.getXMouse();
 				startY = _this.getYMouse();
@@ -21108,9 +21152,9 @@ if (!("swf2js" in window)) {
 		 */
 		Sprite.prototype.stopDrag = function()
 		{
-			var _this = this;
-			var _root = _this.getDisplayObject("_root");
-			var stage = _root.getStage();
+			let _this = this;
+			let _root = _this.getDisplayObject("_root");
+			let stage = _root.getStage();
 			stage.dragMc = null;
 			stage.dragRules = null;
 			_this.setDropTarget();
@@ -21121,26 +21165,26 @@ if (!("swf2js" in window)) {
 		 */
 		Sprite.prototype.executeDrag = function()
 		{
-			var _this = this;
-			var _root = _this.getDisplayObject("_root");
-			var stage = _root.getStage();
-			var dragRules = stage.dragRules;
-			var startX = dragRules.startX;
-			var startY = dragRules.startY;
-			var left = dragRules.left;
-			var top = dragRules.top;
-			var right = dragRules.right;
-			var bottom = dragRules.bottom;
-			var x = _this.getX();
-			var y = _this.getY();
-			var xmouse = _this.getXMouse();
-			var ymouse = _this.getYMouse();
+			let _this = this;
+			let _root = _this.getDisplayObject("_root");
+			let stage = _root.getStage();
+			let dragRules = stage.dragRules;
+			let startX = dragRules.startX;
+			let startY = dragRules.startY;
+			let left = dragRules.left;
+			let top = dragRules.top;
+			let right = dragRules.right;
+			let bottom = dragRules.bottom;
+			let x = _this.getX();
+			let y = _this.getY();
+			let xmouse = _this.getXMouse();
+			let ymouse = _this.getYMouse();
 
 			xmouse -= startX;
 			ymouse -= startY;
 
-			var moveX = x + xmouse;
-			var moveY = y + ymouse;
+			let moveX = x + xmouse;
+			let moveY = y + ymouse;
 
 			if (left === null || left === undefined) {
 				_this.setX(moveX);
@@ -21185,35 +21229,35 @@ if (!("swf2js" in window)) {
 		 */
 		Sprite.prototype.setDropTarget = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this._droptarget = null;
-			var _root = _this.getDisplayObject("_root");
-			var stage = _root.getStage();
-			var parent = _this.getParent();
+			let _root = _this.getDisplayObject("_root");
+			let stage = _root.getStage();
+			let parent = _this.getParent();
 			if (!parent) {
 				parent = stage.getParent();
 			}
 
-			var x = _root.getXMouse();
-			var y = _root.getYMouse();
+			let x = _root.getXMouse();
+			let y = _root.getYMouse();
 
-			var tags = parent.getTags();
-			for (var depth in tags) {
+			let tags = parent.getTags();
+			for (let depth in tags) {
 				if (!tags.hasOwnProperty(depth)) {
 					continue;
 				}
 
-				var id = tags[depth];
+				let id = tags[depth];
 				if (id === _this.instanceId) {
 					continue;
 				}
 
-				var instance = stage.getInstance(id);
+				let instance = stage.getInstance(id);
 				if (!(instance instanceof MovieClip)) {
 					continue;
 				}
 
-				var hit = instance.hitTest(x, y);
+				let hit = instance.hitTest(x, y);
 				if (hit) {
 					_this._droptarget = instance;
 					break;
@@ -21238,7 +21282,7 @@ if (!("swf2js" in window)) {
 		 */
 		Sprite.prototype.render = function(ctx, matrix, colorTransform, stage, visible)
 		{
-			var _this = this;
+			let _this = this;
 			if (_this.removeFlag) {
 				return "";
 			}
@@ -21248,55 +21292,55 @@ if (!("swf2js" in window)) {
 
 			// sound
 			if (_this instanceof MovieClip && !_this.soundStopFlag) {
-				var startSounds = _this.getSounds();
+				let startSounds = _this.getSounds();
 				if (startSounds !== undefined) {
-					var sLen = startSounds.length;
-					for (var idx = 0; idx < sLen; idx++) {
+					let sLen = startSounds.length;
+					for (let idx = 0; idx < sLen; idx++) {
 						if (!(idx in startSounds)) {
 							continue;
 						}
-						var startSound = startSounds[idx];
+						let startSound = startSounds[idx];
 						_this.startSound(startSound);
 					}
 				}
 			}
 
 			// matrix & colorTransform
-			var _multiplicationMatrix = _this.multiplicationMatrix;
-			var rMatrix = _multiplicationMatrix(matrix, _this.getMatrix());
-			var _multiplicationColor = _this.multiplicationColor;
-			var rColorTransform = _multiplicationColor(colorTransform, _this.getColorTransform());
-			var isVisible = _min(_this.getVisible(), visible);
+			let _multiplicationMatrix = _this.multiplicationMatrix;
+			let rMatrix = _multiplicationMatrix(matrix, _this.getMatrix());
+			let _multiplicationColor = _this.multiplicationColor;
+			let rColorTransform = _multiplicationColor(colorTransform, _this.getColorTransform());
+			let isVisible = _min(_this.getVisible(), visible);
 
 			// pre render
-			var obj = _this.preRender(ctx, rMatrix, rColorTransform, stage, visible);
-			var cacheKey = obj.cacheKey;
-			var preCtx = obj.preCtx;
-			var preMatrix = obj.preMatrix;
+			let obj = _this.preRender(ctx, rMatrix, rColorTransform, stage, visible);
+			let cacheKey = obj.cacheKey;
+			let preCtx = obj.preCtx;
+			let preMatrix = obj.preMatrix;
 
 			// render
-			var clips = [];
-			var container = _this.getTags();
-			var length = container.length;
-			var maskObj = _this.getMask();
+			let clips = [];
+			let container = _this.getTags();
+			let length = container.length;
+			let maskObj = _this.getMask();
 
 			if (length) {
-				var myStage = _this.getStage();
-				for (var depth in container) {
+				let myStage = _this.getStage();
+				for (let depth in container) {
 					if (!container.hasOwnProperty(depth)) {
 						continue;
 					}
 
-					var instanceId = container[depth];
-					var instance = myStage.getInstance(instanceId);
+					let instanceId = container[depth];
+					let instance = myStage.getInstance(instanceId);
 					if (!instance) {
 						continue;
 					}
 
 					// mask end
-					var cLen = clips.length;
-					for (var cIdx = 0; cIdx < cLen; cIdx++) {
-						var cDepth = clips[cIdx];
+					let cLen = clips.length;
+					for (let cIdx = 0; cIdx < cLen; cIdx++) {
+						let cDepth = clips[cIdx];
 						if (depth > cDepth) {
 							clips.splice(cIdx, 1);
 							ctx.restore();
@@ -21376,7 +21420,7 @@ if (!("swf2js" in window)) {
 		 */
 		Sprite.prototype.putFrame = function(stage, clipEvent)
 		{
-			var _this = this;
+			let _this = this;
 			_this.active = true;
 			_this.dispatchEvent(clipEvent, stage);
 		};
@@ -21386,17 +21430,17 @@ if (!("swf2js" in window)) {
 		 */
 		Sprite.prototype.addActions = function(stage)
 		{
-			var _this = this;
-			var myStage = _this.getStage();
-			var tags = _this.getTags();
-			var length = tags.length;
+			let _this = this;
+			let myStage = _this.getStage();
+			let tags = _this.getTags();
+			let length = tags.length;
 			if (length) {
-				for (var depth in tags) {
+				for (let depth in tags) {
 					if (!tags.hasOwnProperty(depth)) {
 						continue;
 					}
-					var instanceId = tags[depth];
-					var instance = myStage.getInstance(instanceId);
+					let instanceId = tags[depth];
+					let instance = myStage.getInstance(instanceId);
 					if (!instance) {
 						continue;
 					}
@@ -21415,21 +21459,21 @@ if (!("swf2js" in window)) {
 		 */
 		Sprite.prototype.renderHitTest = function(ctx, matrix, stage, x, y)
 		{
-			var _this = this;
-			var loadStage = _this.getStage();
-			var tags = _this.getTags();
-			var length = tags.length;
-			var hit = false;
-			var rMatrix = _this.multiplicationMatrix(matrix, _this.getMatrix());
+			let _this = this;
+			let loadStage = _this.getStage();
+			let tags = _this.getTags();
+			let length = tags.length;
+			let hit = false;
+			let rMatrix = _this.multiplicationMatrix(matrix, _this.getMatrix());
 
 			if (length) {
-				for (var depth in tags) {
+				for (let depth in tags) {
 					if (!tags.hasOwnProperty(depth)) {
 						continue;
 					}
 
-					var instanceId = tags[depth];
-					var obj = loadStage.getInstance(instanceId);
+					let instanceId = tags[depth];
+					let obj = loadStage.getInstance(instanceId);
 					hit = obj.renderHitTest(ctx, rMatrix, stage, x, y);
 					if (hit) {
 						return hit;
@@ -21437,7 +21481,7 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var graphics = _this.graphics;
+			let graphics = _this.graphics;
 			if (graphics.isDraw) {
 				return graphics.renderHitTest(ctx, rMatrix, stage, x, y);
 			}
@@ -21451,19 +21495,19 @@ if (!("swf2js" in window)) {
 		 */
 		Sprite.prototype.getRect = function(mc)
 		{
-			var _this = this;
+			let _this = this;
 			if (!mc) {
 				mc = _this;
 			}
-			var bounds = mc.getBounds(mc.getOriginMatrix());
-			var graphics = _this.graphics;
-			var twips = 20;
-			var maxWidth = graphics.maxWidth / twips;
-			var halfWidth = maxWidth / 2;
-			var xMin = bounds.xMin + halfWidth;
-			var xMax = bounds.xMax - halfWidth;
-			var yMin = bounds.yMin + halfWidth;
-			var yMax = bounds.yMax - halfWidth;
+			let bounds = mc.getBounds(mc.getOriginMatrix());
+			let graphics = _this.graphics;
+			let twips = 20;
+			let maxWidth = graphics.maxWidth / twips;
+			let halfWidth = maxWidth / 2;
+			let xMin = bounds.xMin + halfWidth;
+			let xMax = bounds.xMax - halfWidth;
+			let yMin = bounds.yMin + halfWidth;
+			let yMax = bounds.yMax - halfWidth;
 			return {xMin: xMin, xMax: xMax, yMin: yMin, yMax: yMax};
 		};
 
@@ -21477,49 +21521,49 @@ if (!("swf2js" in window)) {
 				return matrix.getBounds(matrix.getOriginMatrix());
 			}
 
-			var _this = this;
-			var tags = _this.getTags();
-			var xMax = 0;
-			var yMax = 0;
-			var xMin = 0;
-			var yMin = 0;
-			var graphics = _this.graphics;
-			var isDraw = graphics.isDraw;
+			let _this = this;
+			let tags = _this.getTags();
+			let xMax = 0;
+			let yMax = 0;
+			let xMin = 0;
+			let yMin = 0;
+			let graphics = _this.graphics;
+			let isDraw = graphics.isDraw;
 			if (isDraw) {
-				var maxWidth = graphics.maxWidth;
-				var halfWidth = maxWidth / 2;
-				var gBounds = _this.boundsMatrix(graphics.bounds, matrix);
-				var twips = (matrix) ? 20 : 1;
+				let maxWidth = graphics.maxWidth;
+				let halfWidth = maxWidth / 2;
+				let gBounds = _this.boundsMatrix(graphics.bounds, matrix);
+				let twips = (matrix) ? 20 : 1;
 				xMin = (gBounds.xMin - halfWidth) / twips;
 				xMax = (gBounds.xMax + halfWidth) / twips;
 				yMin = (gBounds.yMin - halfWidth) / twips;
 				yMax = (gBounds.yMax + halfWidth) / twips;
 			}
 
-			var length = tags.length;
-			var stage = _this.getStage();
+			let length = tags.length;
+			let stage = _this.getStage();
 			if (length) {
 				if (!isDraw) {
-					var no = _Number.MAX_VALUE;
+					let no = _Number.MAX_VALUE;
 					xMax = -no;
 					yMax = -no;
 					xMin = no;
 					yMin = no;
 				}
 
-				var _multiplicationMatrix = _this.multiplicationMatrix;
-				for (var depth in tags) {
+				let _multiplicationMatrix = _this.multiplicationMatrix;
+				for (let depth in tags) {
 					if (!tags.hasOwnProperty(depth)) {
 						continue;
 					}
-					var instanceId = tags[depth];
-					var tag = stage.getInstance(instanceId);
+					let instanceId = tags[depth];
+					let tag = stage.getInstance(instanceId);
 					if (!tag || tag.isClipDepth) {
 						continue;
 					}
 
-					var matrix2 = (matrix) ? _multiplicationMatrix(matrix, tag.getMatrix()) : tag.getMatrix();
-					var bounds = tag.getBounds(matrix2);
+					let matrix2 = (matrix) ? _multiplicationMatrix(matrix, tag.getMatrix()) : tag.getMatrix();
+					let bounds = tag.getBounds(matrix2);
 					if (!bounds) {
 						continue;
 					}
@@ -21544,7 +21588,7 @@ if (!("swf2js" in window)) {
 		 */
 		Sprite.prototype.hitCheck = function(ctx, matrix, stage, x, y)
 		{
-			var _this = this;
+			let _this = this;
 			if (!_this.getEnabled() ||
 				!_this.getVisible() ||
 				!_this.getMouseEnabled()
@@ -21552,21 +21596,21 @@ if (!("swf2js" in window)) {
 				return false;
 			}
 
-			var hitObj;
-			var hit = false;
-			var tags = _this.getTags();
-			var length = tags.length;
-			var matrix2 = _this.multiplicationMatrix(matrix, _this.getMatrix());
+			let hitObj;
+			let hit = false;
+			let tags = _this.getTags();
+			let length = tags.length;
+			let matrix2 = _this.multiplicationMatrix(matrix, _this.getMatrix());
 			if (length) {
-				var loadStage = _this.getStage();
+				let loadStage = _this.getStage();
 				tags.reverse();
-				for (var depth in tags) {
+				for (let depth in tags) {
 					if (!tags.hasOwnProperty(depth)) {
 						continue;
 					}
 
-					var tagId = tags[depth];
-					var instance = loadStage.getInstance(tagId);
+					let tagId = tags[depth];
+					let instance = loadStage.getInstance(tagId);
 					if (instance instanceof Shape ||
 						instance instanceof StaticText ||
 						instance instanceof TextField
@@ -21579,7 +21623,7 @@ if (!("swf2js" in window)) {
 					if (hit) {
 						hitObj = hit;
 						if (typeof hit !== "object") {
-							var events = _this.events;
+							let events = _this.events;
 							if (events.press !== undefined ||
 								events.release !== undefined ||
 								events.releaseOutside !== undefined ||
@@ -21600,7 +21644,7 @@ if (!("swf2js" in window)) {
 				tags.reverse();
 			}
 
-			var graphics = _this.graphics;
+			let graphics = _this.graphics;
 			if (graphics.isDraw) {
 				hit = graphics.renderHitTest(ctx, matrix2, stage, x, y);
 				if (hit) {
@@ -21614,15 +21658,15 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var Shape = function()
+		let Shape = function()
 		{
-			var _this = this;
+			let _this = this;
 			DisplayObject.call(_this);
 
 			_this.data = null;
 			_this._graphics = new Graphics();
 
-			var no = _Number.MAX_VALUE;
+			let no = _Number.MAX_VALUE;
 			_this.setBounds({xMin: no, xMax: -no, yMin: no, yMax: -no});
 		};
 
@@ -21659,7 +21703,7 @@ if (!("swf2js" in window)) {
 		 */
 		Shape.prototype.putFrame = function(stage, clipEvent)
 		{
-			var _this = this;
+			let _this = this;
 			_this.active = true;
 			_this.dispatchEvent(clipEvent, stage);
 		};
@@ -21693,10 +21737,10 @@ if (!("swf2js" in window)) {
 		 */
 		Shape.prototype.getBounds = function(matrix)
 		{
-			var _this = this;
-			var bounds, gBounds;
-			var graphics = _this.graphics;
-			var isDraw = graphics.isDraw;
+			let _this = this;
+			let bounds, gBounds;
+			let graphics = _this.graphics;
+			let isDraw = graphics.isDraw;
 
 			if (matrix) {
 				bounds = _this.boundsMatrix(_this.bounds, matrix);
@@ -21708,7 +21752,7 @@ if (!("swf2js" in window)) {
 					bounds.yMax = _max(gBounds.yMax, bounds.yMax);
 				}
 
-				for (var name in bounds) {
+				for (let name in bounds) {
 					if (!bounds.hasOwnProperty(name)) {
 						continue;
 					}
@@ -21741,7 +21785,7 @@ if (!("swf2js" in window)) {
 		 */
 		Shape.prototype.isMorphing = function()
 		{
-			var tagType = this.getTagType();
+			let tagType = this.getTagType();
 			return (tagType === 46 || tagType === 84);
 		};
 
@@ -21755,31 +21799,31 @@ if (!("swf2js" in window)) {
 		 */
 		Shape.prototype.render = function(ctx, matrix, colorTransform, stage, visible)
 		{
-			var _this = this;
+			let _this = this;
 			stage.doneTags.unshift(_this);
 
 			// colorTransform
-			var _multiplicationColor = _this.multiplicationColor;
-			var rColorTransform = _multiplicationColor(colorTransform, _this.getColorTransform());
-			var isVisible = _min(_this.getVisible(), visible);
-			var alpha = rColorTransform[3] + (rColorTransform[7] / 255);
-			var stageClip = stage.clipMc || stage.isClipDepth;
+			let _multiplicationColor = _this.multiplicationColor;
+			let rColorTransform = _multiplicationColor(colorTransform, _this.getColorTransform());
+			let isVisible = _min(_this.getVisible(), visible);
+			let alpha = rColorTransform[3] + (rColorTransform[7] / 255);
+			let stageClip = stage.clipMc || stage.isClipDepth;
 			if (!stageClip && (!alpha || !isVisible)) {
 				return "";
 			}
 
 			// matrix
-			var _multiplicationMatrix = _this.multiplicationMatrix;
-			var m2 = _multiplicationMatrix(matrix, _this.getMatrix());
+			let _multiplicationMatrix = _this.multiplicationMatrix;
+			let m2 = _multiplicationMatrix(matrix, _this.getMatrix());
 
 			// pre render
-			var obj = _this.preRender(ctx, m2, rColorTransform, stage, isVisible);
-			var cacheKey = obj.cacheKey;
-			var cache = null;
+			let obj = _this.preRender(ctx, m2, rColorTransform, stage, isVisible);
+			let cacheKey = obj.cacheKey;
+			let cache = null;
 
 			// render
-			var m3 = _multiplicationMatrix(stage.getMatrix(), obj.preMatrix);
-			var isClipDepth = _this.isClipDepth || stageClip;
+			let m3 = _multiplicationMatrix(stage.getMatrix(), obj.preMatrix);
+			let isClipDepth = _this.isClipDepth || stageClip;
 			if (isClipDepth) {
 				if (m3[0] === 0) {
 					m3[0] = 0.00000000000001;
@@ -21790,26 +21834,26 @@ if (!("swf2js" in window)) {
 				ctx.setTransform(m3[0], m3[1], m3[2], m3[3], m3[4], m3[5]);
 				_this.executeRender(ctx, _min(m3[0], m3[3]), rColorTransform, isClipDepth, stage);
 			} else {
-				var xScale = _sqrt(m3[0] * m3[0] + m3[1] * m3[1]);
-				var yScale = _sqrt(m3[2] * m3[2] + m3[3] * m3[3]);
+				let xScale = _sqrt(m3[0] * m3[0] + m3[1] * m3[1]);
+				let yScale = _sqrt(m3[2] * m3[2] + m3[3] * m3[3]);
 				xScale = _pow(_SQRT2, _ceil(_log(xScale) / _LN2_2 - _LOG1P));
 				yScale = _pow(_SQRT2, _ceil(_log(yScale) / _LN2_2 - _LOG1P));
 
-				var bounds = _this.getBounds();
-				var xMax = bounds.xMax;
-				var xMin = bounds.xMin;
-				var yMax = bounds.yMax;
-				var yMin = bounds.yMin;
+				let bounds = _this.getBounds();
+				let xMax = bounds.xMax;
+				let xMin = bounds.xMin;
+				let yMax = bounds.yMax;
+				let yMin = bounds.yMin;
 
-				var W = _abs(_ceil((xMax - xMin) * xScale));
-				var H = _abs(_ceil((yMax - yMin) * yScale));
+				let W = _abs(_ceil((xMax - xMin) * xScale));
+				let H = _abs(_ceil((yMax - yMin) * yScale));
 				if (W <= 0 || H <= 0) {
 					return cacheKey;
 				}
 
-				var canvas;
-				var loadStage = _this.getStage();
-				var cacheId = _this.getCharacterId() + "_" + loadStage.getId();
+				let canvas;
+				let loadStage = _this.getStage();
+				let cacheId = _this.getCharacterId() + "_" + loadStage.getId();
 				if (_this.isMorphing()) {
 					cacheId += "_" + _this.getRatio();
 				}
@@ -21825,7 +21869,7 @@ if (!("swf2js" in window)) {
 					canvas.width = W;
 					canvas.height = H;
 					cache = canvas.getContext("2d");
-					var cMatrix = [xScale, 0, 0, yScale, -xMin * xScale, -yMin * yScale];
+					let cMatrix = [xScale, 0, 0, yScale, -xMin * xScale, -yMin * yScale];
 					cache.setTransform(cMatrix[0], cMatrix[1], cMatrix[2], cMatrix[3], cMatrix[4], cMatrix[5]);
 					cache = _this.executeRender(
 						cache, _min(xScale, yScale), rColorTransform, isClipDepth, stage
@@ -21833,11 +21877,11 @@ if (!("swf2js" in window)) {
 					cacheStore.setCache(cacheKey, cache);
 				}
 
-				var preCtx = obj.preCtx;
+				let preCtx = obj.preCtx;
 				if (cache) {
 					canvas = cache.canvas;
-					var sMatrix = [1 / xScale, 0, 0, 1 / yScale, xMin, yMin];
-					var m4 = _multiplicationMatrix(m3, sMatrix);
+					let sMatrix = [1 / xScale, 0, 0, 1 / yScale, xMin, yMin];
+					let m4 = _multiplicationMatrix(m3, sMatrix);
 					preCtx.setTransform(m4[0], m4[1], m4[2], m4[3], m4[4], m4[5]);
 					if (isAndroid4x && !isChrome) {
 						preCtx.fillStyle = stage.context.createPattern(cache.canvas, "no-repeat");
@@ -21871,11 +21915,11 @@ if (!("swf2js" in window)) {
 		 */
 		Shape.prototype.renderHitTest = function(ctx, matrix, stage, x, y)
 		{
-			var _this = this;
-			var _multiplicationMatrix = _this.multiplicationMatrix;
-			var m2 = _multiplicationMatrix(matrix, _this.getMatrix());
+			let _this = this;
+			let _multiplicationMatrix = _this.multiplicationMatrix;
+			let m2 = _multiplicationMatrix(matrix, _this.getMatrix());
 
-			var graphics = _this.graphics;
+			let graphics = _this.graphics;
 			if (graphics.isDraw) {
 				return graphics.renderHitTest(ctx, m2, stage, x, y);
 			}
@@ -21884,20 +21928,20 @@ if (!("swf2js" in window)) {
 				return false;
 			}
 
-			var m3 = _multiplicationMatrix(stage.getMatrix(), m2);
+			let m3 = _multiplicationMatrix(stage.getMatrix(), m2);
 			ctx.setTransform(m3[0], m3[1], m3[2], m3[3], m3[4], m3[5]);
 
-			var minScale = _min(m3[0], m3[3]);
-			var shapes = _this.getData();
-			var length = shapes.length;
-			var hit = false;
-			for (var idx = 0; idx < length; idx++) {
-				var data = shapes[idx];
-				var obj = data.obj;
-				var isStroke = (obj.Width !== undefined);
+			let minScale = _min(m3[0], m3[3]);
+			let shapes = _this.getData();
+			let length = shapes.length;
+			let hit = false;
+			for (let idx = 0; idx < length; idx++) {
+				let data = shapes[idx];
+				let obj = data.obj;
+				let isStroke = (obj.Width !== undefined);
 
 				ctx.beginPath();
-				var cmd = data.cmd;
+				let cmd = data.cmd;
 				cmd(ctx);
 
 				if (isStroke) {
@@ -21932,24 +21976,24 @@ if (!("swf2js" in window)) {
 		 */
 		Shape.prototype.executeRender = function(ctx, minScale, colorTransform, isClipDepth, stage)
 		{
-			var _this = this;
-			var shapes = _this.getData();
+			let _this = this;
+			let shapes = _this.getData();
 			if (!shapes) {
 				return ctx;
 			}
 
-			var stageClip = stage.clipMc || stage.isClipDepth;
-			var length = shapes.length;
-			var color;
-			var css;
-			var canvas;
-			for (var idx = 0; idx < length; idx++) {
-				var data = shapes[idx];
+			let stageClip = stage.clipMc || stage.isClipDepth;
+			let length = shapes.length;
+			let color;
+			let css;
+			let canvas;
+			for (let idx = 0; idx < length; idx++) {
+				let data = shapes[idx];
 				if (!data.obj) continue;
-				var obj = data.obj;
-				var styleObj = (!obj.HasFillFlag) ? obj : obj.FillType;
-				var cmd = data.cmd;
-				var isStroke = (obj.Width !== undefined);
+				let obj = data.obj;
+				let styleObj = (!obj.HasFillFlag) ? obj : obj.FillType;
+				let cmd = data.cmd;
+				let isStroke = (obj.Width !== undefined);
 
 				if (isClipDepth) {
 					if (isStroke) {
@@ -21962,7 +22006,7 @@ if (!("swf2js" in window)) {
 				ctx.beginPath();
 				cmd(ctx);
 
-				var styleType = styleObj.fillStyleType;
+				let styleType = styleObj.fillStyleType;
 				switch (styleType) {
 					case 0x00:
 						color = styleObj.Color;
@@ -21972,7 +22016,7 @@ if (!("swf2js" in window)) {
 							ctx.strokeStyle = css;
 							ctx.lineWidth = _max(obj.Width, 1 / minScale);
 							ctx.lineCap = obj.StartCapStyle == 1?"butt":(obj.StartCapStyle ==2?"square":"round");
-							ctx.lineJoin = obj.JoinStyle == 1?"bevel":(obj.JoinStyle == 2?"square":"round");
+							ctx.lineJoin = obj.JoinStyle == 1?"bevel":(obj.JoinStyle == 2?"miter":"round");
 							if (obj.JoinStyle == 2 && obj.MiterLimitFactor != 0.0) ctx.miterLimit = obj.MiterLimitFactor*obj.Width;
 							ctx.stroke();
 						} else {
@@ -21986,20 +22030,20 @@ if (!("swf2js" in window)) {
 					case 0x10:
 					case 0x12:
 					case 0x13:
-						var m = styleObj.gradientMatrix;
-						var type = styleObj.fillStyleType;
+						let m = styleObj.gradientMatrix;
+						let type = styleObj.fillStyleType;
 						if (type !== 16) {
 							ctx.save();
 							ctx.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
-							var focalPoint = styleObj.gradient.FocalPoint?styleObj.gradient.FocalPoint:0;
+							let focalPoint = styleObj.gradient.FocalPoint?styleObj.gradient.FocalPoint:0;
 							if (styleObj.gradient.SpreadMode == 1) focalPoint = focalPoint*2;
 							else if (styleObj.gradient.SpreadMode == 2) focalPoint = focalPoint*5.6;
-							var r = 16384;
+							let r = 16384;
 							if (styleObj.gradient.SpreadMode && !isStroke) r = 65536;
 							css = ctx.createRadialGradient(focalPoint*r, 0, 0, 0, 0, r);
 						} else {
-							var xy = _this.linearGradientXY(m);
-							var xyn;
+							let xy = _this.linearGradientXY(m);
+							let xyn;
 
 							if (styleObj.gradient.SpreadMode && isStroke) {
 								xyn = new Array(4);
@@ -22022,20 +22066,20 @@ if (!("swf2js" in window)) {
 							css = ctx.createLinearGradient(xy[0], xy[1], xy[2], xy[3]);
 						}
 
-						var records = styleObj.gradient.GradientRecords;
-						var rLength = records.length;
-						for (var rIdx = 0; rIdx < rLength; rIdx++) {
-							var record = records[rIdx];
+						let records = styleObj.gradient.GradientRecords;
+						let rLength = records.length;
+						for (let rIdx = 0; rIdx < rLength; rIdx++) {
+							let record = records[rIdx];
 							color = record.Color;
 							color = _this.generateColorTransform(color, colorTransform);
-							var rgba = "rgba(" + color.R + "," + color.G + "," + color.B + "," + color.A + ")";
+							let rgba = "rgba(" + color.R + "," + color.G + "," + color.B + "," + color.A + ")";
 							css.addColorStop(record.Ratio, rgba);
 						}
 
 						if (isStroke) {
 							ctx.lineWidth = _max(obj.Width, 1 / minScale);
 							ctx.lineCap = obj.StartCapStyle == 1?"butt":(obj.StartCapStyle ==2?"square":"round");
-							ctx.lineJoin = obj.JoinStyle == 1?"bevel":(obj.JoinStyle == 2?"square":"round");
+							ctx.lineJoin = obj.JoinStyle == 1?"bevel":(obj.JoinStyle == 2?"miter":"round");
 							if (obj.JoinStyle == 2 && obj.MiterLimitFactor != 0.0) ctx.miterLimit = obj.MiterLimitFactor*obj.Width;
 							ctx.strokeStyle = css;
 							ctx.stroke();
@@ -22055,20 +22099,20 @@ if (!("swf2js" in window)) {
 					case 0x41: // clipped bitmap fill
 					case 0x42: // non-smoothed repeating bitmap
 					case 0x43: // non-smoothed clipped bitmap
-						var width;
-						var height;
-						var loadStage = _this.getStage();
-						var bitmapId = styleObj.bitmapId;
-						var bMatrix = styleObj.bitmapMatrix;
-						var repeat = (styleType === 0x40 || styleType === 0x42) ? "repeat" : "no-repeat";
-						var bitmapCacheKey = cacheStore.generateKey(
+						let width;
+						let height;
+						let loadStage = _this.getStage();
+						let bitmapId = styleObj.bitmapId;
+						let bMatrix = styleObj.bitmapMatrix;
+						let repeat = (styleType === 0x40 || styleType === 0x42) ? "repeat" : "no-repeat";
+						let bitmapCacheKey = cacheStore.generateKey(
 							"Bitmap",
 							bitmapId + "_" + loadStage.getId() + "_" + repeat,
 							undefined,
 							colorTransform
 						);
 
-						var image = cacheStore.getCache(bitmapCacheKey);
+						let image = cacheStore.getCache(bitmapCacheKey);
 						if (image === undefined) {
 							image = loadStage.getCharacter(bitmapId);
 							if (!image) {
@@ -22082,14 +22126,14 @@ if (!("swf2js" in window)) {
 								colorTransform[5] ||
 								colorTransform[6]
 							) {
-								var imgCanvas = image.canvas;
+								let imgCanvas = image.canvas;
 								width = imgCanvas.width;
 								height = imgCanvas.height;
 								if (width > 0 && height > 0) {
 									canvas = cacheStore.getCanvas();
 									canvas.width = width;
 									canvas.height = height;
-									var imageContext = canvas.getContext("2d");
+									let imageContext = canvas.getContext("2d");
 									imageContext.drawImage(image.canvas, 0, 0, width, height);
 									image = _this.generateImageTransform.call(_this, imageContext, colorTransform);
 									cacheStore.setCache(bitmapCacheKey, image);
@@ -22113,7 +22157,7 @@ if (!("swf2js" in window)) {
 									if (isStroke) {
 										ctx.lineWidth = _max(obj.Width, 1 / minScale);
 										ctx.lineCap = obj.StartCapStyle == 1?"butt":(obj.StartCapStyle ==2?"square":"round");
-										ctx.lineJoin = obj.JoinStyle == 1?"bevel":(obj.JoinStyle == 2?"square":"round");
+										ctx.lineJoin = obj.JoinStyle == 1?"bevel":(obj.JoinStyle == 2?"miter":"round");
 										ctx.strokeStyle = stage.context.createPattern(canvas, repeat);
 										// ctx.transform(bMatrix[0], bMatrix[1], bMatrix[2], bMatrix[3], bMatrix[4], bMatrix[5]);
 										ctx.stroke();
@@ -22138,10 +22182,10 @@ if (!("swf2js" in window)) {
 						canvas = ctx.canvas;
 					}
 
-					var cWidth = canvas.width;
-					var cHeight = canvas.height;
+					let cWidth = canvas.width;
+					let cHeight = canvas.height;
 
-					var tmpCanvas = tmpContext.canvas;
+					let tmpCanvas = tmpContext.canvas;
 					canvas = ctx.canvas;
 					tmpCanvas.width = cWidth;
 					tmpCanvas.height = cHeight;
@@ -22159,7 +22203,7 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var resetCss = "rgba(0,0,0,1)";
+			let resetCss = "rgba(0,0,0,1)";
 			ctx.strokeStyle = resetCss;
 			ctx.fillStyle = resetCss;
 			ctx.globalAlpha = 1;
@@ -22174,27 +22218,27 @@ if (!("swf2js" in window)) {
 		 */
 		Shape.prototype.generateImageTransform = function(ctx, color)
 		{
-			var canvas = ctx.canvas;
-			var width = canvas.width;
-			var height = canvas.height;
-			var imgData = ctx.getImageData(0, 0, width, height);
-			var pxData = imgData.data;
-			var idx = 0;
-			var RedMultiTerm = color[0];
-			var GreenMultiTerm = color[1];
-			var BlueMultiTerm = color[2];
-			var AlphaMultiTerm = color[3];
-			var RedAddTerm = color[4];
-			var GreenAddTerm = color[5];
-			var BlueAddTerm = color[6];
-			var AlphaAddTerm = color[7];
-			var length = width * height;
+			let canvas = ctx.canvas;
+			let width = canvas.width;
+			let height = canvas.height;
+			let imgData = ctx.getImageData(0, 0, width, height);
+			let pxData = imgData.data;
+			let idx = 0;
+			let RedMultiTerm = color[0];
+			let GreenMultiTerm = color[1];
+			let BlueMultiTerm = color[2];
+			let AlphaMultiTerm = color[3];
+			let RedAddTerm = color[4];
+			let GreenAddTerm = color[5];
+			let BlueAddTerm = color[6];
+			let AlphaAddTerm = color[7];
+			let length = width * height;
 			if (length > 0) {
 				while (length--) {
-					var R = pxData[idx++];
-					var G = pxData[idx++];
-					var B = pxData[idx++];
-					var A = pxData[idx++];
+					let R = pxData[idx++];
+					let G = pxData[idx++];
+					let B = pxData[idx++];
+					let A = pxData[idx++];
 					pxData[idx - 4] = _max(0, _min((R * RedMultiTerm) + RedAddTerm, 255)) | 0;
 					pxData[idx - 3] = _max(0, _min((G * GreenMultiTerm) + GreenAddTerm, 255)) | 0;
 					pxData[idx - 2] = _max(0, _min((B * BlueMultiTerm) + BlueAddTerm, 255)) | 0;
@@ -22211,27 +22255,27 @@ if (!("swf2js" in window)) {
 		 */
 		Shape.prototype.linearGradientXY = function(m)
 		{
-			var x0 = -16384 * m[0] - 16384 * m[2] + m[4];
-			var x1 = 16384 * m[0] - 16384 * m[2] + m[4];
-			var x2 = -16384 * m[0] + 16384 * m[2] + m[4];
-			var y0 = -16384 * m[1] - 16384 * m[3] + m[5];
-			var y1 = 16384 * m[1] - 16384 * m[3] + m[5];
-			var y2 = -16384 * m[1] + 16384 * m[3] + m[5];
-			var vx2 = x2 - x0;
-			var vy2 = y2 - y0;
-			var r1 = _sqrt(vx2 * vx2 + vy2 * vy2);
+			let x0 = -16384 * m[0] - 16384 * m[2] + m[4];
+			let x1 = 16384 * m[0] - 16384 * m[2] + m[4];
+			let x2 = -16384 * m[0] + 16384 * m[2] + m[4];
+			let y0 = -16384 * m[1] - 16384 * m[3] + m[5];
+			let y1 = 16384 * m[1] - 16384 * m[3] + m[5];
+			let y2 = -16384 * m[1] + 16384 * m[3] + m[5];
+			let vx2 = x2 - x0;
+			let vy2 = y2 - y0;
+			let r1 = _sqrt(vx2 * vx2 + vy2 * vy2);
 			vx2 /= r1;
 			vy2 /= r1;
-			var r2 = (x1 - x0) * vx2 + (y1 - y0) * vy2;
+			let r2 = (x1 - x0) * vx2 + (y1 - y0) * vy2;
 			return [x0 + r2 * vx2, y0 + r2 * vy2, x1, y1];
 		};
 
 		/**
 		 * @constructor
 		 */
-		var TextRecord = function()
+		let TextRecord = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.color = null;
 			_this.matrix = null;
 		};
@@ -22287,9 +22331,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var StaticText = function()
+		let StaticText = function()
 		{
-			var _this = this;
+			let _this = this;
 			DisplayObject.call(_this);
 
 			_this.data = null;
@@ -22314,10 +22358,10 @@ if (!("swf2js" in window)) {
 		 */
 		StaticText.prototype.getBounds = function(matrix)
 		{
-			var _this = this;
+			let _this = this;
 			if (matrix) {
-				var bounds = _this.boundsMatrix(_this.bounds, matrix);
-				for (var name in bounds) {
+				let bounds = _this.boundsMatrix(_this.bounds, matrix);
+				for (let name in bounds) {
 					if (!bounds.hasOwnProperty(name)) {
 						continue;
 					}
@@ -22350,7 +22394,7 @@ if (!("swf2js" in window)) {
 		 */
 		StaticText.prototype.addRecord = function(record)
 		{
-			var records = this.getRecords();
+			let records = this.getRecords();
 			records[records.length] = record;
 		};
 
@@ -22364,51 +22408,51 @@ if (!("swf2js" in window)) {
 		 */
 		StaticText.prototype.render = function(ctx, matrix, colorTransform, stage, visible)
 		{
-			var _this = this;
+			let _this = this;
 
 			// colorTransform
-			var _multiplicationColor = _this.multiplicationColor;
-			var rColorTransform = _multiplicationColor(colorTransform, _this.getColorTransform());
-			var isVisible = _min(_this.getVisible(), visible);
-			var alpha = rColorTransform[3] + (rColorTransform[7] / 255);
-			var stageClip = stage.clipMc || stage.isClipDepth;
+			let _multiplicationColor = _this.multiplicationColor;
+			let rColorTransform = _multiplicationColor(colorTransform, _this.getColorTransform());
+			let isVisible = _min(_this.getVisible(), visible);
+			let alpha = rColorTransform[3] + (rColorTransform[7] / 255);
+			let stageClip = stage.clipMc || stage.isClipDepth;
 			if (!stageClip && (!alpha || !isVisible)) {
 				return 0;
 			}
 
 			// matrix
-			var _multiplicationMatrix = _this.multiplicationMatrix;
-			var m2 = _multiplicationMatrix(matrix, _this.getMatrix());
+			let _multiplicationMatrix = _this.multiplicationMatrix;
+			let m2 = _multiplicationMatrix(matrix, _this.getMatrix());
 
 			// pre render
-			var obj = _this.preRender(ctx, m2, rColorTransform, stage, visible);
-			var m3 = _multiplicationMatrix(stage.getMatrix(), obj.preMatrix);
-			var xScale = _sqrt(m3[0] * m3[0] + m3[1] * m3[1]);
-			var yScale = _sqrt(m3[2] * m3[2] + m3[3] * m3[3]);
+			let obj = _this.preRender(ctx, m2, rColorTransform, stage, visible);
+			let m3 = _multiplicationMatrix(stage.getMatrix(), obj.preMatrix);
+			let xScale = _sqrt(m3[0] * m3[0] + m3[1] * m3[1]);
+			let yScale = _sqrt(m3[2] * m3[2] + m3[3] * m3[3]);
 			xScale = _pow(_SQRT2, _ceil(_log(xScale) / _LN2_2 - _LOG1P));
 			yScale = _pow(_SQRT2, _ceil(_log(yScale) / _LN2_2 - _LOG1P));
 
 			// render
-			var bounds = _this.getBounds();
-			var xMax = bounds.xMax;
-			var xMin = bounds.xMin;
-			var yMax = bounds.yMax;
-			var yMin = bounds.yMin;
-			var W = _abs(_ceil((xMax - xMin) * xScale));
-			var H = _abs(_ceil((yMax - yMin) * yScale));
-			var isClipDepth = _this.isClipDepth || stageClip;
+			let bounds = _this.getBounds();
+			let xMax = bounds.xMax;
+			let xMin = bounds.xMin;
+			let yMax = bounds.yMax;
+			let yMin = bounds.yMin;
+			let W = _abs(_ceil((xMax - xMin) * xScale));
+			let H = _abs(_ceil((yMax - yMin) * yScale));
+			let isClipDepth = _this.isClipDepth || stageClip;
 			if (W > 0 && H > 0) {
-				var cacheId = _this.getCharacterId() + "_" + _this.getStage().getId();
-				var cacheKey = cacheStore.generateKey("Text", cacheId, [xScale, yScale], rColorTransform);
-				var cache = cacheStore.getCache(cacheKey);
-				var canvas;
+				let cacheId = _this.getCharacterId() + "_" + _this.getStage().getId();
+				let cacheKey = cacheStore.generateKey("Text", cacheId, [xScale, yScale], rColorTransform);
+				let cache = cacheStore.getCache(cacheKey);
+				let canvas;
 				if (!cache && !isClipDepth) {
 					if (stage.getWidth() > W && stage.getHeight() > H && cacheStore.size > W * H) {
 						canvas = cacheStore.getCanvas();
 						canvas.width = W;
 						canvas.height = H;
 						cache = canvas.getContext("2d");
-						var cMatrix = [xScale, 0, 0, yScale, -xMin * xScale, -yMin * yScale];
+						let cMatrix = [xScale, 0, 0, yScale, -xMin * xScale, -yMin * yScale];
 						cache.setTransform(cMatrix[0], cMatrix[1], cMatrix[2], cMatrix[3], cMatrix[4], cMatrix[5]);
 						cache = _this.executeRender(cache, cMatrix, rColorTransform, false, false);
 						cacheStore.setCache(cacheKey, cache);
@@ -22416,7 +22460,7 @@ if (!("swf2js" in window)) {
 				}
 				if (cache) {
 					canvas = cache.canvas;
-					var m4 = _multiplicationMatrix(m3, [1 / xScale, 0, 0, 1 / yScale, xMin, yMin]);
+					let m4 = _multiplicationMatrix(m3, [1 / xScale, 0, 0, 1 / yScale, xMin, yMin]);
 					ctx.setTransform(m4[0], m4[1], m4[2], m4[3], m4[4], m4[5]);
 					if (isAndroid4x && !isChrome) {
 						ctx.fillStyle = stage.context.createPattern(cache.canvas, "no-repeat");
@@ -22451,31 +22495,31 @@ if (!("swf2js" in window)) {
 		 */
 		StaticText.prototype.executeRender = function(ctx, matrix, colorTransform, isClipDepth, stageClip)
 		{
-			var _this = this;
-			var records = _this.getRecords();
-			var length = records.length;
+			let _this = this;
+			let records = _this.getRecords();
+			let length = records.length;
 			if (!length) {
 				return ctx;
 			}
 
-			var _multiplicationMatrix = _this.multiplicationMatrix;
-			var _generateColorTransform = _this.generateColorTransform;
-			for (var i = 0; i < length; i++) {
-				var record = records[i];
-				var shapes = record.getData();
-				var shapeLength = shapes.length;
+			let _multiplicationMatrix = _this.multiplicationMatrix;
+			let _generateColorTransform = _this.generateColorTransform;
+			for (let i = 0; i < length; i++) {
+				let record = records[i];
+				let shapes = record.getData();
+				let shapeLength = shapes.length;
 				if (!shapeLength) {
 					continue;
 				}
 
-				var m2 = _multiplicationMatrix(matrix, record.getMatrix());
+				let m2 = _multiplicationMatrix(matrix, record.getMatrix());
 				ctx.setTransform(m2[0], m2[1], m2[2], m2[3], m2[4], m2[5]);
-				var color = record.getColor();
+				let color = record.getColor();
 				color = _generateColorTransform(color, colorTransform);
 				ctx.fillStyle = "rgba(" + color.R + "," + color.G + "," + color.B + "," + color.A + ")";
-				for (var idx = 0; idx < shapeLength; idx++) {
-					var styleObj = shapes[idx];
-					var cmd = styleObj.cmd;
+				for (let idx = 0; idx < shapeLength; idx++) {
+					let styleObj = shapes[idx];
+					let cmd = styleObj.cmd;
 					if (!isClipDepth) {
 						ctx.beginPath();
 						cmd(ctx);
@@ -22504,30 +22548,30 @@ if (!("swf2js" in window)) {
 		 */
 		StaticText.prototype.renderHitTest = function(ctx, matrix, stage, x, y)
 		{
-			var _this = this;
-			var records = _this.getRecords();
-			var length = records.length;
+			let _this = this;
+			let records = _this.getRecords();
+			let length = records.length;
 			if (!length) {
 				return false;
 			}
 
-			var hit = false;
-			var _multiplicationMatrix = _this.multiplicationMatrix;
-			var m2 = _multiplicationMatrix(matrix, _this.getMatrix());
-			var m3 = _multiplicationMatrix(stage.getMatrix(), m2);
-			for (var i = 0; i < length; i++) {
-				var record = records[i];
-				var shapes = record.getData();
-				var shapeLength = shapes.length;
+			let hit = false;
+			let _multiplicationMatrix = _this.multiplicationMatrix;
+			let m2 = _multiplicationMatrix(matrix, _this.getMatrix());
+			let m3 = _multiplicationMatrix(stage.getMatrix(), m2);
+			for (let i = 0; i < length; i++) {
+				let record = records[i];
+				let shapes = record.getData();
+				let shapeLength = shapes.length;
 				if (!shapeLength) {
 					continue;
 				}
 
-				var m4 = _multiplicationMatrix(m3, record.getMatrix());
+				let m4 = _multiplicationMatrix(m3, record.getMatrix());
 				ctx.setTransform(m4[0], m4[1], m4[2], m4[3], m4[4], m4[5]);
-				for (var idx = 0; idx < shapeLength; idx++) {
-					var styleObj = shapes[idx];
-					var cmd = styleObj.cmd;
+				for (let idx = 0; idx < shapeLength; idx++) {
+					let styleObj = shapes[idx];
+					let cmd = styleObj.cmd;
 					ctx.beginPath();
 					cmd(ctx);
 
@@ -22544,9 +22588,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var TextFormat = function()
+		let TextFormat = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.align = "left";
 			_this.font = "'HiraKakuProN-W3', 'sans-serif'";
 			_this.size = 8;
@@ -22574,9 +22618,9 @@ if (!("swf2js" in window)) {
 		 * @param height
 		 * @constructor
 		 */
-		var TextField = function(name, depth, width, height)
+		let TextField = function(name, depth, width, height)
 		{
-			var _this = this;
+			let _this = this;
 			InteractiveObject.call(_this);
 
 			if (name) {
@@ -22784,10 +22828,10 @@ if (!("swf2js" in window)) {
 		 */
 		TextField.prototype.colorStringToInt = function(str)
 		{
-			var canvas = cacheStore.getCanvas();
-			var ctx = canvas.getContext("2d");
+			let canvas = cacheStore.getCanvas();
+			let ctx = canvas.getContext("2d");
 			ctx.fillStyle = str;
-			var color = "0x" + ctx.fillStyle.substr(1);
+			let color = "0x" + ctx.fillStyle.substr(1);
 			cacheStore.destroy(ctx);
 			return color;
 		};
@@ -22797,8 +22841,8 @@ if (!("swf2js" in window)) {
 		 */
 		TextField.prototype.setInitParams = function()
 		{
-			var _this = this;
-			var obj = {};
+			let _this = this;
+			let obj = {};
 			obj.antiAliasType = null;
 			obj.autoSize = "none";
 			obj.background = 0;
@@ -22820,7 +22864,7 @@ if (!("swf2js" in window)) {
 			obj.type = "dynamic";
 			obj.wordWrap = 0;
 			obj.text = "";
-			for (var key in obj) {
+			for (let key in obj) {
 				if (!obj.hasOwnProperty(key)) {
 					continue;
 				}
@@ -22842,8 +22886,8 @@ if (!("swf2js" in window)) {
 		 */
 		TextField.prototype.setTextFormat = function(format)
 		{
-			var _this = this;
-			for (var name in format) {
+			let _this = this;
+			for (let name in format) {
 				if (!format.hasOwnProperty(name)) {
 					continue;
 				}
@@ -22856,10 +22900,10 @@ if (!("swf2js" in window)) {
 		 */
 		TextField.prototype.getBounds = function(matrix)
 		{
-			var _this = this;
+			let _this = this;
 			if (matrix) {
-				var bounds = _this.boundsMatrix(_this.bounds, matrix);
-				for (var name in bounds) {
+				let bounds = _this.boundsMatrix(_this.bounds, matrix);
+				for (let name in bounds) {
 					if (!bounds.hasOwnProperty(name)) {
 						continue;
 					}
@@ -22884,14 +22928,14 @@ if (!("swf2js" in window)) {
 		 */
 		TextField.prototype.setInputElement = function()
 		{
-			var _this = this;
-			var variables = _this.variables;
-			var _root = _this.getDisplayObject("_root");
-			var stage = _root.getParentStage();
-			var element = _document.createElement("textarea");
-			var multiline = variables.multiline;
-			var align = variables.align;
-			var text = _this.initialText;
+			let _this = this;
+			let variables = _this.variables;
+			let _root = _this.getDisplayObject("_root");
+			let stage = _root.getParentStage();
+			let element = _document.createElement("textarea");
+			let multiline = variables.multiline;
+			let align = variables.align;
+			let text = _this.initialText;
 			if (!text) {
 				text = variables.text;
 			}
@@ -22920,10 +22964,10 @@ if (!("swf2js" in window)) {
 
 			element.value = text;
 			if (typeof text !== "string") {
-				var str = "";
-				var length = text.length;
-				for (var i = 0; i < length; i++) {
-					var txt = text[i];
+				let str = "";
+				let length = text.length;
+				for (let i = 0; i < length; i++) {
+					let txt = text[i];
 					str += txt.innerText;
 					if ((i + 1) !== length) {
 						str += "\n";
@@ -22933,14 +22977,14 @@ if (!("swf2js" in window)) {
 			}
 
 			element.id = _this.getTagName();
-			var onBlur = function(stage, textField, el)
+			let onBlur = function(stage, textField, el)
 			{
 				return function() {
 					textField.setProperty("text", el.value);
 					textField.inputActive = false;
-					var div = _document.getElementById(stage.getName());
+					let div = _document.getElementById(stage.getName());
 					if (div) {
-						var element = _document.getElementById(textField.getTagName());
+						let element = _document.getElementById(textField.getTagName());
 						if (element) {
 							try {
 								div.removeChild(element);
@@ -22962,13 +23006,13 @@ if (!("swf2js" in window)) {
 		 */
 		TextField.prototype.setHitRange = function(matrix, stage, visible, mask)
 		{
-			var _this = this;
-			var type = _this.variables.type;
-			var isVisible = _min(_this.getVisible(), visible);
+			let _this = this;
+			let type = _this.variables.type;
+			let isVisible = _min(_this.getVisible(), visible);
 			if (type === "input" && isVisible) {
-				var buttonHits = stage.buttonHits;
-				var m2 = _this.multiplicationMatrix(matrix, _this.getMatrix());
-				var bounds = _this.getBounds(m2);
+				let buttonHits = stage.buttonHits;
+				let m2 = _this.multiplicationMatrix(matrix, _this.getMatrix());
+				let bounds = _this.getBounds(m2);
 				buttonHits[buttonHits.length] = {
 					xMax: bounds.xMax,
 					xMin: bounds.xMin,
@@ -22988,36 +23032,36 @@ if (!("swf2js" in window)) {
 		 */
 		TextField.prototype.render = function(ctx, matrix, colorTransform, stage, visible)
 		{
-			var _this = this;
+			let _this = this;
 			stage.doneTags.unshift(_this);
 
 			// colorTransform
-			var _multiplicationColor = _this.multiplicationColor;
-			var rColorTransform = _multiplicationColor(colorTransform, _this.getColorTransform());
-			var isVisible = _min(_this.getVisible(), visible);
-			var stageClip = stage.clipMc || stage.isClipDepth;
-			var alpha = rColorTransform[3] + (rColorTransform[7] / 255);
+			let _multiplicationColor = _this.multiplicationColor;
+			let rColorTransform = _multiplicationColor(colorTransform, _this.getColorTransform());
+			let isVisible = _min(_this.getVisible(), visible);
+			let stageClip = stage.clipMc || stage.isClipDepth;
+			let alpha = rColorTransform[3] + (rColorTransform[7] / 255);
 			if (!stageClip && (!alpha || !isVisible)) {
 				return 0;
 			}
 
 			// matrix
-			var _multiplicationMatrix = _this.multiplicationMatrix;
-			var m2 = _multiplicationMatrix(matrix, _this.getMatrix());
+			let _multiplicationMatrix = _this.multiplicationMatrix;
+			let m2 = _multiplicationMatrix(matrix, _this.getMatrix());
 
 			// pre render
-			var obj = _this.preRender(ctx, m2, rColorTransform, stage, visible);
-			var preCtx = obj.preCtx;
-			var preMatrix = obj.preMatrix;
-			var m3 = _multiplicationMatrix(stage.getMatrix(), preMatrix);
+			let obj = _this.preRender(ctx, m2, rColorTransform, stage, visible);
+			let preCtx = obj.preCtx;
+			let preMatrix = obj.preMatrix;
+			let m3 = _multiplicationMatrix(stage.getMatrix(), preMatrix);
 			preCtx.setTransform(m3[0], m3[1], m3[2], m3[3], m3[4], m3[5]);
 
-			var textCacheKey = ["TextField"];
-			var variables = _this.variables;
-			var text = variables.text;
-			var variable = variables.variable;
+			let textCacheKey = ["TextField"];
+			let variables = _this.variables;
+			let text = variables.text;
+			let variable = variables.variable;
 			if (variable) {
-				var parent = _this.getParent();
+				let parent = _this.getParent();
 				text = parent.getProperty(variable);
 				if (text === undefined) {
 					text = variables.text;
@@ -23028,7 +23072,7 @@ if (!("swf2js" in window)) {
 				text += "";
 			}
 
-			var html = variables.html;
+			let html = variables.html;
 			if (html && typeof text === "string") {
 				if (text.indexOf("<sbr />") !== -1) {
 					text = text.replace(new RegExp("<sbr />", "gi"), "\n");
@@ -23038,14 +23082,14 @@ if (!("swf2js" in window)) {
 					text = text.replace(new RegExp("</b>", "gi"), "");
 				}
 
-				var span = _document.createElement("span");
+				let span = _document.createElement("span");
 				span.innerHTML = text;
 
-				var tags = span.getElementsByTagName("p");
-				var domLength = tags.length;
+				let tags = span.getElementsByTagName("p");
+				let domLength = tags.length;
 				if (domLength) {
-					var tagData = [];
-					for (var d = 0; d < domLength; d++) {
+					let tagData = [];
+					for (let d = 0; d < domLength; d++) {
 						tagData[d] = tags[d];
 					}
 					text = tagData;
@@ -23058,25 +23102,25 @@ if (!("swf2js" in window)) {
 				text = "";
 			}
 
-			var bounds = _this.getBounds();
-			var xMax = bounds.xMax;
-			var xMin = bounds.xMin;
-			var yMax = bounds.yMax;
-			var yMin = bounds.yMin;
-			var W = _abs(_ceil(xMax - xMin));
-			var H = _abs(_ceil(yMax - yMin));
+			let bounds = _this.getBounds();
+			let xMax = bounds.xMax;
+			let xMin = bounds.xMin;
+			let yMax = bounds.yMax;
+			let yMin = bounds.yMin;
+			let W = _abs(_ceil(xMax - xMin));
+			let H = _abs(_ceil(yMax - yMin));
 
 			// auto size
-			var scale = stage.getScale();
-			var autoSize = variables.autoSize;
-			var wordWrap = variables.wordWrap;
-			var splitData = (typeof text === "string") ? text.split("\n") : text;
-			var length = splitData.length;
-			var i, txtObj, measureText;
-			var txtTotalWidth = 0;
-			var txtTotalHeight = 0;
-			var isAutoSize = false;
-			var autoMode = (typeof autoSize === "string") ? autoSize.toLowerCase() : autoSize;
+			let scale = stage.getScale();
+			let autoSize = variables.autoSize;
+			let wordWrap = variables.wordWrap;
+			let splitData = (typeof text === "string") ? text.split("\n") : text;
+			let length = splitData.length;
+			let i, txtObj, measureText;
+			let txtTotalWidth = 0;
+			let txtTotalHeight = 0;
+			let isAutoSize = false;
+			let autoMode = (typeof autoSize === "string") ? autoSize.toLowerCase() : autoSize;
 			switch (autoMode) {
 				default:
 				case "none":
@@ -23094,23 +23138,23 @@ if (!("swf2js" in window)) {
 					break;
 			}
 
-			var fontData = _this.getStage().getCharacter(_this.fontId);
+			let fontData = _this.getStage().getCharacter(_this.fontId);
 			if (isAutoSize) {
 				if (variables.embedFonts) {
-					var CodeTable = fontData.CodeTable;
-					var FontAdvanceTable = fontData.FontAdvanceTable;
-					var fontScale = _this.fontScale;
+					let CodeTable = fontData.CodeTable;
+					let FontAdvanceTable = fontData.FontAdvanceTable;
+					let fontScale = _this.fontScale;
 					txtTotalWidth = 0;
 					txtTotalHeight = (fontData.FontAscent * fontScale) + variables.leading;
 					for (i = 0; i < length; i++) {
 						txtObj = splitData[i];
 						if (typeof txtObj !== "string") {
-							var firstChild = txtObj.firstChild;
+							let firstChild = txtObj.firstChild;
 							txtTotalWidth = _this.getDomWidth(firstChild, CodeTable, FontAdvanceTable);
 						} else {
-							var txtLength = txtObj.length;
-							for (var idx = 0; idx < txtLength; idx++) {
-								var index = CodeTable.indexOf(txtObj[idx].charCodeAt(0));
+							let txtLength = txtObj.length;
+							for (let idx = 0; idx < txtLength; idx++) {
+								let index = CodeTable.indexOf(txtObj[idx].charCodeAt(0));
 								if (index === -1) {
 									continue;
 								}
@@ -23119,7 +23163,7 @@ if (!("swf2js" in window)) {
 						}
 					}
 				} else {
-					var addH = (variables.size * 20) + variables.leading;
+					let addH = (variables.size * 20) + variables.leading;
 					txtTotalHeight = (bounds.yMin + 80);
 					if (wordWrap) {
 						txtTotalWidth = W;
@@ -23127,7 +23171,7 @@ if (!("swf2js" in window)) {
 							txtObj = splitData[i];
 							if (typeof txtObj === "string") {
 								measureText = preCtx.measureText(txtObj);
-								var checkW = _ceil(measureText.width * 20);
+								let checkW = _ceil(measureText.width * 20);
 								if (checkW > W) {
 									txtTotalHeight += _ceil(_ceil(checkW / W) * addH);
 								}
@@ -23147,7 +23191,7 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var offsetX = 40;
+			let offsetX = 40;
 			switch (autoMode) {
 				case "center":
 					offsetX = _ceil((_max(txtTotalWidth, W) - _min(txtTotalWidth, W)) / 2);
@@ -23161,21 +23205,21 @@ if (!("swf2js" in window)) {
 			H = txtTotalHeight;
 
 			if (W > 0 && H > 0) {
-				var isClipDepth = _this.isClipDepth || stageClip;
-				var color;
-				var rx = xMin;
-				var ry = yMin;
-				var m = _this._matrix;
+				let isClipDepth = _this.isClipDepth || stageClip;
+				let color;
+				let rx = xMin;
+				let ry = yMin;
+				let m = _this._matrix;
 				if (m) {
 					rx = -xMin;
 					ry = -yMin;
-					var m4 = _multiplicationMatrix(preMatrix, [1, 0, 0, 1, xMin, yMin]);
+					let m4 = _multiplicationMatrix(preMatrix, [1, 0, 0, 1, xMin, yMin]);
 					m3 = _multiplicationMatrix(stage.getMatrix(), m4);
 					preCtx.setTransform(m3[0], m3[1], m3[2], m3[3], m3[4], m3[5]);
 				}
 
 				// border
-				var border = variables.border;
+				let border = variables.border;
 				if (border && !isClipDepth) {
 					preCtx.beginPath();
 					preCtx.rect(rx - offsetX, ry, W, H);
@@ -23194,19 +23238,19 @@ if (!("swf2js" in window)) {
 					preCtx.stroke();
 				}
 
-				var textColor = variables.textColor;
-				var objRGBA = textColor;
+				let textColor = variables.textColor;
+				let objRGBA = textColor;
 				if (typeof textColor === "number") {
 					objRGBA = _this.intToRGBA(textColor, 100);
 				}
 
 				color = _this.generateColorTransform(objRGBA, rColorTransform);
-				var fillStyle = "rgba(" + color.R + "," + color.G + "," + color.B + "," + color.A + ")";
+				let fillStyle = "rgba(" + color.R + "," + color.G + "," + color.B + "," + color.A + ")";
 				textCacheKey[textCacheKey.length] = fillStyle;
 				preCtx.fillStyle = fillStyle;
 
 				// font type
-				var fontType = "";
+				let fontType = "";
 				if (variables.italic) {
 					fontType += "italic ";
 				}
@@ -23214,18 +23258,18 @@ if (!("swf2js" in window)) {
 					fontType += "bold ";
 				}
 
-				var fontStyle = fontType + variables.size + "px " + variables.font;
+				let fontStyle = fontType + variables.size + "px " + variables.font;
 				textCacheKey[textCacheKey.length] = fontStyle;
 				preCtx.font = fontStyle;
 
 				if (_this.input !== null) {
-					var input = _this.input;
-					var fontSize = _ceil(variables.size * scale * _min(preMatrix[0], preMatrix[3]));
+					let input = _this.input;
+					let fontSize = _ceil(variables.size * scale * _min(preMatrix[0], preMatrix[3]));
 					input.style.font = fontType + fontSize + "px " + variables.font;
 					input.style.color = "rgba(" + color.R + "," + color.G + "," + color.B + "," + color.A + ")";
-					var as = variables.onChanged;
+					let as = variables.onChanged;
 					if (as && !input.onchange) {
-						var onChanged = function(stage, origin, clip, el)
+						let onChanged = function(stage, origin, clip, el)
 						{
 							return function()
 							{
@@ -23259,7 +23303,7 @@ if (!("swf2js" in window)) {
 				}
 
 				textCacheKey[textCacheKey.length] = text;
-				var cacheKey = cacheStore.generateKey(
+				let cacheKey = cacheStore.generateKey(
 					textCacheKey.join("_"), _this.getCharacterId(), m3, rColorTransform);
 				obj.cacheKey = cacheKey;
 				if (obj.isFilter || obj.isBlend) {
@@ -23282,34 +23326,34 @@ if (!("swf2js" in window)) {
 		 */
 		TextField.prototype.renderOutLine = function(ctx, fontData, splitData, matrix, offset, width, fillStyle)
 		{
-			var _this = this;
-			var variables = _this.variables;
-			var fontScale = _this.fontScale;
-			var leading = (fontData.FontAscent + fontData.FontDescent) * fontScale;
-			var rightMargin = variables.rightMargin * fontScale;
-			var leftMargin = variables.leftMargin * fontScale;
-			var indent = variables.indent * fontScale;
-			var align = variables.align;
-			var txt = "";
-			var CodeTable = fontData.CodeTable;
-			var GlyphShapeTable = fontData.GlyphShapeTable;
-			var FontAdvanceTable = fontData.FontAdvanceTable;
-			var YOffset = (fontData.FontAscent * fontScale);
-			var cacheYOffset = YOffset;
-			var wordWrap = variables.wordWrap;
-			var multiline = variables.multiline;
-			var bounds = _this.getBounds();
-			var areaWidth = (_ceil((bounds.xMax) - (bounds.xMin)) - leftMargin - rightMargin);
-			var idx;
-			var index;
-			var length = splitData.length;
-			var _multiplicationMatrix = _this.multiplicationMatrix;
-			for (var i = 0; i < length; i++) {
-				var XOffset = offset;
-				var textWidth = 0;
-				var txtLength = 0;
-				var obj = splitData[i];
-				var firstChild;
+			let _this = this;
+			let variables = _this.variables;
+			let fontScale = _this.fontScale;
+			let leading = (fontData.FontAscent + fontData.FontDescent) * fontScale;
+			let rightMargin = variables.rightMargin * fontScale;
+			let leftMargin = variables.leftMargin * fontScale;
+			let indent = variables.indent * fontScale;
+			let align = variables.align;
+			let txt = "";
+			let CodeTable = fontData.CodeTable;
+			let GlyphShapeTable = fontData.GlyphShapeTable;
+			let FontAdvanceTable = fontData.FontAdvanceTable;
+			let YOffset = (fontData.FontAscent * fontScale);
+			let cacheYOffset = YOffset;
+			let wordWrap = variables.wordWrap;
+			let multiline = variables.multiline;
+			let bounds = _this.getBounds();
+			let areaWidth = (_ceil((bounds.xMax) - (bounds.xMin)) - leftMargin - rightMargin);
+			let idx;
+			let index;
+			let length = splitData.length;
+			let _multiplicationMatrix = _this.multiplicationMatrix;
+			for (let i = 0; i < length; i++) {
+				let XOffset = offset;
+				let textWidth = 0;
+				let txtLength = 0;
+				let obj = splitData[i];
+				let firstChild;
 				if (typeof obj !== "string") {
 					firstChild = obj.firstChild;
 					if (!firstChild) {
@@ -23341,10 +23385,10 @@ if (!("swf2js" in window)) {
 					XOffset += indent + leftMargin + 40;
 				}
 
-				var cacheXOffset = XOffset;
-				var wordWidth = 0;
+				let cacheXOffset = XOffset;
+				let wordWidth = 0;
 				if (typeof obj !== "string") {
-					var gridData = {
+					let gridData = {
 						XOffset: XOffset,
 						YOffset: YOffset,
 						cacheXOffset: cacheXOffset,
@@ -23367,7 +23411,7 @@ if (!("swf2js" in window)) {
 							continue;
 						}
 
-						var addXOffset = FontAdvanceTable[index] * fontScale;
+						let addXOffset = FontAdvanceTable[index] * fontScale;
 						if (wordWrap && multiline) {
 							if (wordWidth + addXOffset > areaWidth) {
 								XOffset = cacheXOffset;
@@ -23376,7 +23420,7 @@ if (!("swf2js" in window)) {
 							}
 						}
 
-						var m2 = _multiplicationMatrix(matrix, [fontScale, 0, 0, fontScale, XOffset, YOffset]);
+						let m2 = _multiplicationMatrix(matrix, [fontScale, 0, 0, fontScale, XOffset, YOffset]);
 						ctx.setTransform(m2[0], m2[1], m2[2], m2[3], m2[4], m2[5]);
 						_this.renderGlyph(GlyphShapeTable[index], ctx);
 						XOffset += addXOffset;
@@ -23401,19 +23445,19 @@ if (!("swf2js" in window)) {
 			ctx, child, gridData, fillStyle,
 			CodeTable, FontAdvanceTable, GlyphShapeTable
 		) {
-			var _this = this;
-			var variables = _this.variables;
-			var wordWrap = variables.wordWrap;
-			var multiline = variables.multiline;
-			var _multiplicationMatrix = _this.multiplicationMatrix;
-			var stage = _this.getStage();
-			var fonts = stage.fonts;
-			var face = child.face;
-			var fontData = fonts[face];
-			var codeTable = CodeTable;
-			var faTable = FontAdvanceTable;
-			var shapeTable = GlyphShapeTable;
-			var color = fillStyle;
+			let _this = this;
+			let variables = _this.variables;
+			let wordWrap = variables.wordWrap;
+			let multiline = variables.multiline;
+			let _multiplicationMatrix = _this.multiplicationMatrix;
+			let stage = _this.getStage();
+			let fonts = stage.fonts;
+			let face = child.face;
+			let fontData = fonts[face];
+			let codeTable = CodeTable;
+			let faTable = FontAdvanceTable;
+			let shapeTable = GlyphShapeTable;
+			let color = fillStyle;
 			if (fontData) {
 				codeTable = fontData.CodeTable;
 				faTable = fontData.FontAdvanceTable;
@@ -23428,27 +23472,27 @@ if (!("swf2js" in window)) {
 				gridData.size = child.size;
 			}
 
-			var childNodes = child.childNodes;
-			var length = childNodes.length;
-			for (var i = 0; i < length; i++) {
-				var node = childNodes[i];
+			let childNodes = child.childNodes;
+			let length = childNodes.length;
+			for (let i = 0; i < length; i++) {
+				let node = childNodes[i];
 				if (node instanceof HTMLFontElement) {
 					_this.renderDomOutLine(
 						ctx, node, gridData, color,
 						codeTable, faTable, shapeTable
 					);
 				} else {
-					var size = gridData.size;
-					var fontScale = size / 1024;
-					var sTable;
-					var values = node.nodeValue;
+					let size = gridData.size;
+					let fontScale = size / 1024;
+					let sTable;
+					let values = node.nodeValue;
 					if (!values) {
 						continue;
 					}
-					var vLength = values.length;
-					for (var idx = 0; idx < vLength; idx++) {
-						var txt = values[idx];
-						var index = codeTable.indexOf(txt.charCodeAt(0));
+					let vLength = values.length;
+					for (let idx = 0; idx < vLength; idx++) {
+						let txt = values[idx];
+						let index = codeTable.indexOf(txt.charCodeAt(0));
 						if (index === -1) {
 							index = CodeTable.indexOf(txt.charCodeAt(0));
 							if (index === -1) {
@@ -23470,8 +23514,8 @@ if (!("swf2js" in window)) {
 							}
 						}
 
-						var m2 = [fontScale, 0, 0, fontScale, gridData.XOffset, gridData.YOffset];
-						var m3 = _multiplicationMatrix(gridData.matrix, m2);
+						let m2 = [fontScale, 0, 0, fontScale, gridData.XOffset, gridData.YOffset];
+						let m3 = _multiplicationMatrix(gridData.matrix, m2);
 						ctx.setTransform(m3[0], m3[1], m3[2], m3[3], m3[4], m3[5]);
 						ctx.fillStyle = color;
 						_this.renderGlyph(sTable[index], ctx);
@@ -23490,35 +23534,35 @@ if (!("swf2js" in window)) {
 		 */
 		TextField.prototype.getDomWidth = function(child, CodeTable, FontAdvanceTable)
 		{
-			var _this = this;
-			var fontScale = _this.fontScale;
-			var stage = _this.getStage();
-			var fonts = stage.fonts;
-			var width = 0;
-			var face = child.face;
-			var fontData = fonts[face];
-			var codeTable = CodeTable;
-			var faTable = FontAdvanceTable;
+			let _this = this;
+			let fontScale = _this.fontScale;
+			let stage = _this.getStage();
+			let fonts = stage.fonts;
+			let width = 0;
+			let face = child.face;
+			let fontData = fonts[face];
+			let codeTable = CodeTable;
+			let faTable = FontAdvanceTable;
 			if (fontData) {
 				codeTable = fontData.CodeTable;
 				faTable = fontData.FontAdvanceTable;
 			}
 
-			var childNodes = child.childNodes;
-			var length = childNodes.length;
-			for (var i = 0; i < length; i++) {
-				var node = childNodes[i];
+			let childNodes = child.childNodes;
+			let length = childNodes.length;
+			for (let i = 0; i < length; i++) {
+				let node = childNodes[i];
 				if (node instanceof HTMLFontElement) {
 					width += _this.getDomWidth(node, codeTable, faTable);
 				} else {
-					var values = node.nodeValue;
+					let values = node.nodeValue;
 					if (!values) {
 						continue;
 					}
-					var vLength = values.length;
-					for (var idx = 0; idx < vLength; idx++) {
-						var txt = values[idx];
-						var index = codeTable.indexOf(txt.charCodeAt(0));
+					let vLength = values.length;
+					for (let idx = 0; idx < vLength; idx++) {
+						let txt = values[idx];
+						let index = codeTable.indexOf(txt.charCodeAt(0));
 						if (index === -1) {
 							index = CodeTable.indexOf(txt.charCodeAt(0));
 							if (index === -1) {
@@ -23544,11 +23588,11 @@ if (!("swf2js" in window)) {
 				records.data = vtc.convert(records);
 			}
 
-			var shapes = records.data;
-			var shapeLength = shapes.length;
-			for (var idx = 0; idx < shapeLength; idx++) {
-				var styleObj = shapes[idx];
-				var cmd = styleObj.cmd;
+			let shapes = records.data;
+			let shapeLength = shapes.length;
+			for (let idx = 0; idx < shapeLength; idx++) {
+				let styleObj = shapes[idx];
+				let cmd = styleObj.cmd;
 				ctx.beginPath();
 				cmd(ctx);
 				ctx.fill();
@@ -23564,28 +23608,28 @@ if (!("swf2js" in window)) {
 		 */
 		TextField.prototype.renderText = function(ctx, splitData, matrix, fontType, fillStyle, _x)
 		{
-			var _this = this;
-			var variables = _this.variables;
-			var wordWrap = variables.wordWrap;
-			var multiline = variables.multiline;
-			var leading = variables.leading / 20;
-			var rightMargin = variables.rightMargin / 20;
-			var leftMargin = variables.leftMargin / 20;
-			var indent = variables.indent / 20;
-			var align = variables.align;
-			var bounds = _this.getBounds();
-			var xMax = bounds.xMax / 20;
-			var xMin = bounds.xMin / 20;
-			var width = _ceil(xMax - xMin);
+			let _this = this;
+			let variables = _this.variables;
+			let wordWrap = variables.wordWrap;
+			let multiline = variables.multiline;
+			let leading = variables.leading / 20;
+			let rightMargin = variables.rightMargin / 20;
+			let leftMargin = variables.leftMargin / 20;
+			let indent = variables.indent / 20;
+			let align = variables.align;
+			let bounds = _this.getBounds();
+			let xMax = bounds.xMax / 20;
+			let xMin = bounds.xMin / 20;
+			let width = _ceil(xMax - xMin);
 
-			var m2 = [matrix[0] * 20, matrix[1] * 20, matrix[2] * 20, matrix[3] * 20, matrix[4], matrix[5]];
-			var xScale = _sqrt(m2[0] * m2[0] + m2[1] * m2[1]);
-			var yScale = _sqrt(m2[2] * m2[2] + m2[3] * m2[3]);
-			var scale = _max(xScale, yScale);
+			let m2 = [matrix[0] * 20, matrix[1] * 20, matrix[2] * 20, matrix[3] * 20, matrix[4], matrix[5]];
+			let xScale = _sqrt(m2[0] * m2[0] + m2[1] * m2[1]);
+			let yScale = _sqrt(m2[2] * m2[2] + m2[3] * m2[3]);
+			let scale = _max(xScale, yScale);
 			ctx.setTransform(scale, m2[1], m2[2], scale, m2[4], m2[5]);
 
-			var dx = xMin;
-			var dy = (bounds.yMin / 20) + 2;
+			let dx = xMin;
+			let dy = (bounds.yMin / 20) + 2;
 			if (align === "right") {
 				ctx.textAlign = "end";
 				dx += width - rightMargin - 2;
@@ -23597,14 +23641,14 @@ if (!("swf2js" in window)) {
 			}
 
 			bounds = _this.getBounds(m2);
-			var areaWidth = (bounds.xMax - bounds.xMin) - ((leftMargin - rightMargin) * xScale);
+			let areaWidth = (bounds.xMax - bounds.xMin) - ((leftMargin - rightMargin) * xScale);
 			areaWidth /= scale;
 
-			var size = variables.size;
-			var length = splitData.length;
-			for (var i = 0; i < length; i++) {
-				var txt = "";
-				var obj = splitData[i];
+			let size = variables.size;
+			let length = splitData.length;
+			for (let i = 0; i < length; i++) {
+				let txt = "";
+				let obj = splitData[i];
 				if (typeof obj !== "string") {
 					txt = obj.innerText;
 				} else {
@@ -23616,20 +23660,20 @@ if (!("swf2js" in window)) {
 					continue;
 				}
 
-				var measureText = ctx.measureText(txt);
-				var txtTotalWidth = measureText.width;
+				let measureText = ctx.measureText(txt);
+				let txtTotalWidth = measureText.width;
 				if (typeof obj === "string") {
 					if (wordWrap || multiline) {
 						if (txtTotalWidth > areaWidth) {
-							var txtLength = txt.length;
-							var joinTxt = "";
-							var joinWidth = 2 * scale;
-							for (var t = 0; t < txtLength; t++) {
-								var txtOne = txt[t];
-								var textOne = ctx.measureText(txtOne);
+							let txtLength = txt.length;
+							let joinTxt = "";
+							let joinWidth = 2 * scale;
+							for (let t = 0; t < txtLength; t++) {
+								let txtOne = txt[t];
+								let textOne = ctx.measureText(txtOne);
 								joinWidth += textOne.width;
 								joinTxt += txtOne;
-								var nextOne = txt[t + 1];
+								let nextOne = txt[t + 1];
 								if (nextOne) {
 									textOne = ctx.measureText(nextOne);
 									joinWidth += textOne.width;
@@ -23652,8 +23696,8 @@ if (!("swf2js" in window)) {
 						dy += leading + size;
 					}
 				} else {
-					var firstChild = obj.firstChild;
-					var gridData = {
+					let firstChild = obj.firstChild;
+					let gridData = {
 						startDx: dx,
 						dx: dx,
 						cloneDy: dy,
@@ -23685,7 +23729,7 @@ if (!("swf2js" in window)) {
 					gridData.joinTxt = "";
 					gridData.offset = 0;
 					if (gridData.offsetArray.length > 0) {
-						var offsetY = gridData.offsetArray[0];
+						let offsetY = gridData.offsetArray[0];
 						if (offsetY) {
 							gridData.dy += offsetY;
 							gridData.cloneDy = gridData.dy;
@@ -23706,26 +23750,26 @@ if (!("swf2js" in window)) {
 		 */
 		TextField.prototype.offsetDomText = function(ctx, child, gridData)
 		{
-			var _this = this;
-			var variables = _this.variables;
-			var wordWrap = variables.wordWrap;
-			var multiline = variables.multiline;
-			var leading = variables.leading / 20;
+			let _this = this;
+			let variables = _this.variables;
+			let wordWrap = variables.wordWrap;
+			let multiline = variables.multiline;
+			let leading = variables.leading / 20;
 			if (child.face) {
 				gridData.face = child.face;
 			}
 
 			if (child.size) {
-				var size = child.size | 0;
-				var changeSize = gridData.originSize - size;
+				let size = child.size | 0;
+				let changeSize = gridData.originSize - size;
 				if (changeSize) {
 					gridData.dy += changeSize;
 					if (changeSize > 0) {
 						gridData.dy -= 4;
 					} else {
-						var offsetArray = gridData.offsetArray;
-						var offset = gridData.offset;
-						var offsetSize = offsetArray[offset];
+						let offsetArray = gridData.offsetArray;
+						let offset = gridData.offset;
+						let offsetSize = offsetArray[offset];
 						if (offsetSize) {
 							offsetArray[offset] = _max(offsetSize, ~changeSize);
 						} else {
@@ -23737,22 +23781,22 @@ if (!("swf2js" in window)) {
 				gridData.size = size;
 			}
 
-			var childNodes = child.childNodes;
-			var length = childNodes.length;
-			for (var i = 0; i < length; i++) {
-				var node = childNodes[i];
+			let childNodes = child.childNodes;
+			let length = childNodes.length;
+			for (let i = 0; i < length; i++) {
+				let node = childNodes[i];
 				if (node instanceof HTMLFontElement) {
 					_this.offsetDomText(ctx, node, gridData);
 				} else {
-					var txt = node.nodeValue;
+					let txt = node.nodeValue;
 					if (wordWrap && multiline) {
 						if (gridData.txtTotalWidth > gridData.areaWidth) {
-							var txtLength = txt.length;
-							for (var t = 0; t < txtLength; t++) {
-								var textOne = ctx.measureText(txt[t]);
+							let txtLength = txt.length;
+							for (let t = 0; t < txtLength; t++) {
+								let textOne = ctx.measureText(txt[t]);
 								gridData.joinWidth += textOne.width;
 								gridData.joinTxt += txt[t];
-								var isOver = (gridData.joinWidth > gridData.areaWidth);
+								let isOver = (gridData.joinWidth > gridData.areaWidth);
 								if (isOver || (t + 1) === txtLength) {
 									if ((gridData.dx + textOne.width) > gridData.areaWidth) {
 										gridData.dx = gridData.startDx;
@@ -23784,7 +23828,7 @@ if (!("swf2js" in window)) {
 						gridData.offset++;
 					}
 
-					var mText = ctx.measureText(txt);
+					let mText = ctx.measureText(txt);
 					gridData.dx += mText.width;
 					gridData.size = gridData.originSize;
 					gridData.dy = gridData.cloneDy;
@@ -23799,11 +23843,11 @@ if (!("swf2js" in window)) {
 		 */
 		TextField.prototype.renderDomText = function(ctx, child, gridData)
 		{
-			var _this = this;
-			var variables = _this.variables;
-			var wordWrap = variables.wordWrap;
-			var multiline = variables.multiline;
-			var leading = variables.leading / 20;
+			let _this = this;
+			let variables = _this.variables;
+			let wordWrap = variables.wordWrap;
+			let multiline = variables.multiline;
+			let leading = variables.leading / 20;
 
 			if (child.face) {
 				gridData.face = child.face;
@@ -23814,8 +23858,8 @@ if (!("swf2js" in window)) {
 			}
 
 			if (child.size) {
-				var size = child.size | 0;
-				var changeSize = gridData.originSize - size;
+				let size = child.size | 0;
+				let changeSize = gridData.originSize - size;
 				if (changeSize) {
 					gridData.dy += changeSize;
 					if (changeSize > 0) {
@@ -23827,32 +23871,32 @@ if (!("swf2js" in window)) {
 				gridData.size = size;
 			}
 
-			var offsetY;
-			var childNodes = child.childNodes;
-			var length = childNodes.length;
-			for (var i = 0; i < length; i++) {
-				var node = childNodes[i];
+			let offsetY;
+			let childNodes = child.childNodes;
+			let length = childNodes.length;
+			for (let i = 0; i < length; i++) {
+				let node = childNodes[i];
 				if (node instanceof HTMLFontElement) {
 					_this.renderDomText(ctx, node, gridData);
 				} else {
 					ctx.fillStyle = gridData.color;
 					ctx.font = gridData.fontType + gridData.size + "px " + gridData.face;
 
-					var text = node.nodeValue;
-					var splits = text.split("\n");
-					var sLen = splits.length;
-					for (var idx = 0; idx < sLen; idx++) {
+					let text = node.nodeValue;
+					let splits = text.split("\n");
+					let sLen = splits.length;
+					for (let idx = 0; idx < sLen; idx++) {
 						gridData.dx = gridData.startDx;
-						var txt = splits[idx];
+						let txt = splits[idx];
 
 						if (wordWrap && multiline) {
 							if (gridData.txtTotalWidth > gridData.areaWidth) {
-								var txtLength = txt.length;
-								for (var t = 0; t < txtLength; t++) {
-									var textOne = ctx.measureText(txt[t]);
+								let txtLength = txt.length;
+								for (let t = 0; t < txtLength; t++) {
+									let textOne = ctx.measureText(txt[t]);
 									gridData.joinWidth += textOne.width;
 									gridData.joinTxt += txt[t];
-									var isOver = (gridData.joinWidth > gridData.areaWidth);
+									let isOver = (gridData.joinWidth > gridData.areaWidth);
 									if (isOver || (t + 1) === txtLength) {
 										if ((gridData.dx + textOne.width) > gridData.areaWidth) {
 											isOver = 0;
@@ -23911,7 +23955,7 @@ if (!("swf2js" in window)) {
 							gridData.cloneDy = gridData.dy;
 						}
 
-						var mText = ctx.measureText(txt);
+						let mText = ctx.measureText(txt);
 						gridData.dx += mText.width;
 						gridData.color = gridData.fillStyle;
 						gridData.size = gridData.originSize;
@@ -23927,7 +23971,7 @@ if (!("swf2js" in window)) {
 		 */
 		TextField.prototype.putFrame = function(stage, clipEvent)
 		{
-			var _this = this;
+			let _this = this;
 			_this.active = true;
 			if (_this.inputActive === false) {
 				_this.dispatchEvent(clipEvent, stage);
@@ -23944,26 +23988,26 @@ if (!("swf2js" in window)) {
 		 */
 		TextField.prototype.renderHitTest = function(ctx, matrix, stage, x, y)
 		{
-			var _this = this;
-			var bounds = _this.getBounds();
-			var xMax = bounds.xMax;
-			var xMin = bounds.xMin;
-			var yMax = bounds.yMax;
-			var yMin = bounds.yMin;
-			var width = _ceil(xMax - xMin);
-			var height = _ceil(yMax - yMin);
+			let _this = this;
+			let bounds = _this.getBounds();
+			let xMax = bounds.xMax;
+			let xMin = bounds.xMin;
+			let yMax = bounds.yMax;
+			let yMin = bounds.yMin;
+			let width = _ceil(xMax - xMin);
+			let height = _ceil(yMax - yMin);
 
-			var _multiplicationMatrix = _this.multiplicationMatrix;
-			var m2 = _multiplicationMatrix(matrix, _this.getMatrix());
-			var m3 = _multiplicationMatrix(stage.getMatrix(), m2);
+			let _multiplicationMatrix = _this.multiplicationMatrix;
+			let m2 = _multiplicationMatrix(matrix, _this.getMatrix());
+			let m3 = _multiplicationMatrix(stage.getMatrix(), m2);
 			ctx.setTransform(m3[0], m3[1], m3[2], m3[3], m3[4], m3[5]);
 
-			var m = _this._matrix;
+			let m = _this._matrix;
 			if (m) {
 				xMin = -xMin;
 				yMin = -yMin;
-				var m4 = _multiplicationMatrix(m2, [1, 0, 0, 1, xMin, yMin]);
-				var m5 = _multiplicationMatrix(stage.getMatrix(), m4);
+				let m4 = _multiplicationMatrix(m2, [1, 0, 0, 1, xMin, yMin]);
+				let m5 = _multiplicationMatrix(stage.getMatrix(), m4);
 				ctx.setTransform(m5[0], m5[1], m5[2], m5[3], m5[4], m5[5]);
 			}
 
@@ -23980,9 +24024,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var SimpleButton = function()
+		let SimpleButton = function()
 		{
-			var _this = this;
+			let _this = this;
 			InteractiveObject.call(_this);
 
 			_this.actions = [];
@@ -24060,7 +24104,7 @@ if (!("swf2js" in window)) {
 		 */
 		SimpleButton.prototype.setButtonStatus = function(status)
 		{
-			var _this = this;
+			let _this = this;
 			if (_this.getButtonStatus() !== status) {
 				_this.buttonReset(status);
 			}
@@ -24073,7 +24117,7 @@ if (!("swf2js" in window)) {
 		 */
 		SimpleButton.prototype.getSprite = function(status)
 		{
-			var _this = this;
+			let _this = this;
 			if (!status) {
 				status = _this.buttonStatus;
 			}
@@ -24087,8 +24131,8 @@ if (!("swf2js" in window)) {
 		 */
 		SimpleButton.prototype.setSprite = function(status, sprite)
 		{
-			var _this = this;
-			var stage = _this.getStage();
+			let _this = this;
+			let stage = _this.getStage();
 
 			// DefineButtonSound
 			// 0 OverUpToIdle     : Roll Out     up
@@ -24096,7 +24140,7 @@ if (!("swf2js" in window)) {
 			// 2 OverUpToOverDown : Press        down
 			// 3 OverDownToOverUp : Release      hit
 
-			var level = 0;
+			let level = 0;
 			switch (status) {
 				case "down":
 					level = 1;
@@ -24116,14 +24160,14 @@ if (!("swf2js" in window)) {
 			sprite.setParent(_this);
 			sprite.setLevel(level);
 			sprite.setStage(stage);
-			var container = sprite.getContainer();
-			for (var depth in container) {
+			let container = sprite.getContainer();
+			for (let depth in container) {
 				if (!container.hasOwnProperty(depth)) {
 					continue;
 				}
 
-				var instanceId = container[depth];
-				var obj = stage.getInstance(instanceId);
+				let instanceId = container[depth];
+				let obj = stage.getInstance(instanceId);
 				obj.setParentSprite(sprite);
 			}
 
@@ -24138,37 +24182,37 @@ if (!("swf2js" in window)) {
 		 */
 		SimpleButton.prototype.getBounds = function(matrix, status)
 		{
-			var _this = this;
-			var xMax = 0;
-			var yMax = 0;
-			var xMin = 0;
-			var yMin = 0;
+			let _this = this;
+			let xMax = 0;
+			let yMax = 0;
+			let xMin = 0;
+			let yMin = 0;
 
-			var sprite = _this.getSprite(status);
-			var tags = sprite.getContainer();
-			var length = tags.length;
+			let sprite = _this.getSprite(status);
+			let tags = sprite.getContainer();
+			let length = tags.length;
 			if (length) {
-				var stage = _this.getStage();
-				var no = _Number.MAX_VALUE;
+				let stage = _this.getStage();
+				let no = _Number.MAX_VALUE;
 				xMax = -no;
 				yMax = -no;
 				xMin = no;
 				yMin = no;
 
-				var _multiplicationMatrix = _this.multiplicationMatrix;
-				for (var depth in tags) {
+				let _multiplicationMatrix = _this.multiplicationMatrix;
+				for (let depth in tags) {
 					if (!tags.hasOwnProperty(depth)) {
 						continue;
 					}
 
-					var instanceId = tags[depth];
-					var tag = stage.getInstance(instanceId);
+					let instanceId = tags[depth];
+					let tag = stage.getInstance(instanceId);
 					if (!tag || tag.isClipDepth) {
 						continue;
 					}
 
-					var matrix2 = (matrix) ? _multiplicationMatrix(matrix, tag.getMatrix()) : tag.getMatrix();
-					var bounds = tag.getBounds(matrix2, status);
+					let matrix2 = (matrix) ? _multiplicationMatrix(matrix, tag.getMatrix()) : tag.getMatrix();
+					let bounds = tag.getBounds(matrix2, status);
 					if (!bounds) {
 						continue;
 					}
@@ -24186,21 +24230,21 @@ if (!("swf2js" in window)) {
 		 */
 		SimpleButton.prototype.buttonReset = function(status)
 		{
-			var _this = this;
-			var sprite = _this.getSprite();
-			var container = sprite.getContainer();
-			var nextSprite = _this.getSprite(status);
-			var nextContainer = nextSprite.getContainer();
-			var stage = _this.getStage();
-			for (var depth in container) {
+			let _this = this;
+			let sprite = _this.getSprite();
+			let container = sprite.getContainer();
+			let nextSprite = _this.getSprite(status);
+			let nextContainer = nextSprite.getContainer();
+			let stage = _this.getStage();
+			for (let depth in container) {
 				if (!container.hasOwnProperty(depth)) {
 					continue;
 				}
-				var instanceId = container[depth];
+				let instanceId = container[depth];
 				if (depth in nextContainer && instanceId === nextContainer[depth]) {
 					continue;
 				}
-				var instance = stage.getInstance(instanceId);
+				let instance = stage.getInstance(instanceId);
 				if (!instance) {
 					continue;
 				}
@@ -24216,18 +24260,18 @@ if (!("swf2js" in window)) {
 		 */
 		SimpleButton.prototype.setHitRange = function(matrix, stage, visible, mask)
 		{
-			var _this = this;
-			var isVisible = _min(_this.getVisible(), visible);
+			let _this = this;
+			let isVisible = _min(_this.getVisible(), visible);
 			if (_this.getEnabled() && isVisible) {
-				var buttonHits = stage.buttonHits;
+				let buttonHits = stage.buttonHits;
 
 				// enter
 				if (_isTouchEvent) {
-					var actions = _this.getActions();
-					var aLen = actions.length;
+					let actions = _this.getActions();
+					let aLen = actions.length;
 					if (aLen) {
-						for (var idx = 0; idx < aLen; idx++) {
-							var cond = actions[idx];
+						for (let idx = 0; idx < aLen; idx++) {
+							let cond = actions[idx];
 							if (cond.CondKeyPress === 13) {
 								buttonHits[buttonHits.length] = {
 									button: _this,
@@ -24243,9 +24287,9 @@ if (!("swf2js" in window)) {
 					}
 				}
 
-				var status = "hit";
-				var hitTest = _this.getSprite(status);
-				var hitTags = hitTest.getContainer();
+				let status = "hit";
+				let hitTest = _this.getSprite(status);
+				let hitTags = hitTest.getContainer();
 				if (!hitTags.length) {
 					status = "up";
 					hitTest = _this.getSprite(status);
@@ -24253,8 +24297,8 @@ if (!("swf2js" in window)) {
 				}
 
 				if (hitTags.length) {
-					var m2 = _this.multiplicationMatrix(matrix, _this.getMatrix());
-					var bounds = _this.getBounds(m2, status);
+					let m2 = _this.multiplicationMatrix(matrix, _this.getMatrix());
+					let bounds = _this.getBounds(m2, status);
 					if (bounds) {
 						buttonHits[buttonHits.length] = {
 							button: _this,
@@ -24280,26 +24324,26 @@ if (!("swf2js" in window)) {
 		 */
 		SimpleButton.prototype.render = function(ctx, matrix, colorTransform, stage, visible)
 		{
-			var _this = this;
+			let _this = this;
 
 			// colorTransform
-			var _multiplicationColor = _this.multiplicationColor;
-			var rColorTransform = _multiplicationColor(colorTransform, _this.getColorTransform());
+			let _multiplicationColor = _this.multiplicationColor;
+			let rColorTransform = _multiplicationColor(colorTransform, _this.getColorTransform());
 
 			// matrix
-			var _multiplicationMatrix = _this.multiplicationMatrix;
-			var m2 = _multiplicationMatrix(matrix, _this.getMatrix());
+			let _multiplicationMatrix = _this.multiplicationMatrix;
+			let m2 = _multiplicationMatrix(matrix, _this.getMatrix());
 
 			// pre render
-			var isVisible = _min(_this.getVisible(), visible);
-			var obj = _this.preRender(ctx, m2, rColorTransform, stage, isVisible);
+			let isVisible = _min(_this.getVisible(), visible);
+			let obj = _this.preRender(ctx, m2, rColorTransform, stage, isVisible);
 
 			// render
-			var sprite = _this.getSprite();
-			var rMatrix = _multiplicationMatrix(obj.preMatrix, sprite.getMatrix());
-			var rColorTransform2 = _multiplicationColor(rColorTransform, sprite.getColorTransform());
+			let sprite = _this.getSprite();
+			let rMatrix = _multiplicationMatrix(obj.preMatrix, sprite.getMatrix());
+			let rColorTransform2 = _multiplicationColor(rColorTransform, sprite.getColorTransform());
 			isVisible = _min(sprite.getVisible(), visible);
-			var cacheKey = obj.cacheKey;
+			let cacheKey = obj.cacheKey;
 			cacheKey += sprite.render(obj.preCtx, rMatrix, rColorTransform2, stage, isVisible);
 
 			// post render
@@ -24320,33 +24364,33 @@ if (!("swf2js" in window)) {
 		 */
 		SimpleButton.prototype.renderHitTest = function(ctx, matrix, stage, x, y)
 		{
-			var _this = this;
+			let _this = this;
 
-			var sprite = _this.getSprite("hit");
-			var tags = sprite.getContainer();
-			var length = tags.length;
+			let sprite = _this.getSprite("hit");
+			let tags = sprite.getContainer();
+			let length = tags.length;
 			if (!length) {
 				return false;
 			}
 
-			var _multiplicationMatrix = _this.multiplicationMatrix;
-			var m2 = _multiplicationMatrix(matrix, _this.getMatrix());
-			var m3 = _multiplicationMatrix(m2, sprite.getMatrix());
+			let _multiplicationMatrix = _this.multiplicationMatrix;
+			let m2 = _multiplicationMatrix(matrix, _this.getMatrix());
+			let m3 = _multiplicationMatrix(m2, sprite.getMatrix());
 
 			if (length) {
-				var loadStage = _this.getStage();
-				for (var depth in tags) {
+				let loadStage = _this.getStage();
+				for (let depth in tags) {
 					if (!tags.hasOwnProperty(depth)) {
 						continue;
 					}
 
-					var instanceId = tags[depth];
-					var tag = loadStage.getInstance(instanceId);
+					let instanceId = tags[depth];
+					let tag = loadStage.getInstance(instanceId);
 					if (!tag) {
 						continue;
 					}
 
-					var hit = tag.renderHitTest(ctx, m3, stage, x, y);
+					let hit = tag.renderHitTest(ctx, m3, stage, x, y);
 					if (hit) {
 						return hit;
 					}
@@ -24366,31 +24410,31 @@ if (!("swf2js" in window)) {
 		 */
 		SimpleButton.prototype.hitCheck = function(ctx, matrix, stage, x, y)
 		{
-			var _this = this;
+			let _this = this;
 
-			var sprite = _this.getSprite("hit");
-			var tags = sprite.getContainer();
-			var length = tags.length;
+			let sprite = _this.getSprite("hit");
+			let tags = sprite.getContainer();
+			let length = tags.length;
 			if (!length) {
 				return false;
 			}
 
-			var _multiplicationMatrix = _this.multiplicationMatrix;
-			var m2 = _multiplicationMatrix(matrix, _this.getMatrix());
-			var m3 = _multiplicationMatrix(m2, sprite.getMatrix());
+			let _multiplicationMatrix = _this.multiplicationMatrix;
+			let m2 = _multiplicationMatrix(matrix, _this.getMatrix());
+			let m3 = _multiplicationMatrix(m2, sprite.getMatrix());
 
-			var hitObj = false;
-			var hit = false;
+			let hitObj = false;
+			let hit = false;
 			if (length) {
-				var loadStage = _this.getStage();
+				let loadStage = _this.getStage();
 				tags.reverse();
-				for (var depth in tags) {
+				for (let depth in tags) {
 					if (!tags.hasOwnProperty(depth)) {
 						continue;
 					}
 
-					var tagId = tags[depth];
-					var instance = loadStage.getInstance(tagId);
+					let tagId = tags[depth];
+					let instance = loadStage.getInstance(tagId);
 					if (instance instanceof Shape ||
 						instance instanceof StaticText ||
 						instance instanceof TextField
@@ -24403,7 +24447,7 @@ if (!("swf2js" in window)) {
 					if (hit) {
 						hitObj = hit;
 						if (typeof hit !== "object") {
-							var events = _this.events;
+							let events = _this.events;
 							if (events.press !== undefined ||
 								events.release !== undefined ||
 								events.releaseOutside !== undefined ||
@@ -24435,18 +24479,18 @@ if (!("swf2js" in window)) {
 		 */
 		SimpleButton.prototype.addActions = function(stage)
 		{
-			var _this = this;
-			var sprite = _this.getSprite();
-			var tags = sprite.getContainer();
-			var length = tags.length;
+			let _this = this;
+			let sprite = _this.getSprite();
+			let tags = sprite.getContainer();
+			let length = tags.length;
 			if (length) {
-				var myStage = _this.getStage();
-				for (var depth in tags) {
+				let myStage = _this.getStage();
+				for (let depth in tags) {
 					if (!tags.hasOwnProperty(depth)) {
 						continue;
 					}
-					var instanceId = tags[depth];
-					var tag = myStage.getInstance(instanceId);
+					let instanceId = tags[depth];
+					let tag = myStage.getInstance(instanceId);
 					if (!tag) {
 						continue;
 					}
@@ -24465,9 +24509,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var MovieClip = function()
+		let MovieClip = function()
 		{
-			var _this = this;
+			let _this = this;
 			Sprite.call(_this);
 
 			_this._currentframe = 1;
@@ -24502,8 +24546,8 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.dispatchOnEvent = function(name, stage)
 		{
-			var _this = this;
-			var as = _this.variables[name];
+			let _this = this;
+			let as = _this.variables[name];
 			if (as) {
 				_this.setActionQueue(as, stage);
 			} else {
@@ -24521,14 +24565,14 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.createEmptyMovieClip = function(name, depth)
 		{
-			var _this = this;
-			var stage = _this.getStage();
+			let _this = this;
+			let stage = _this.getStage();
 
 			if (name === undefined) {
 				return undefined;
 			}
 
-			var mc = _this.getDisplayObject(name);
+			let mc = _this.getDisplayObject(name);
 			if (!mc) {
 				mc = new MovieClip();
 			}
@@ -24540,11 +24584,11 @@ if (!("swf2js" in window)) {
 			mc.setParent(_this);
 			mc.setStage(stage);
 
-			var container = _this.getContainer();
-			var totalFrames = _this.getTotalFrames() + 1;
-			var placeObject = new PlaceObject();
-			var instanceId = _this.instanceId;
-			for (var frame = 1; frame < totalFrames; frame++) {
+			let container = _this.getContainer();
+			let totalFrames = _this.getTotalFrames() + 1;
+			let placeObject = new PlaceObject();
+			let instanceId = _this.instanceId;
+			for (let frame = 1; frame < totalFrames; frame++) {
 				if (!(frame in container)) {
 					container[frame] = [];
 				}
@@ -24568,15 +24612,15 @@ if (!("swf2js" in window)) {
 			if (16384 > depth) {
 				depth += 16384;
 			}
-			var _this = this;
-			var textField = new TextField(name, depth, width, height);
+			let _this = this;
+			let textField = new TextField(name, depth, width, height);
 			textField.setX(x);
 			textField.setY(y);
 			textField.setParent(_this);
 			textField.setStage(_this.getStage());
 			textField.setInitParams();
-			var container = _this.getContainer();
-			for (var frame in container) {
+			let container = _this.getContainer();
+			for (let frame in container) {
 				if (!container.hasOwnProperty(frame)) {
 					continue;
 				}
@@ -24592,8 +24636,8 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.setBackgroundColor = function(r, g, b)
 		{
-			var _this = this;
-			var stage = _this.getStage();
+			let _this = this;
+			let stage = _this.getStage();
 			stage.setBackgroundColor(r, g, b);
 		};
 
@@ -24602,7 +24646,7 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.play = function()
 		{
-			var _this = this;
+			let _this = this;
 			this.stopFlag = false;
 			_this.startStopSoundStreams(_this.stopFlag, _this._currentframe, _this.characterId);
 		};
@@ -24612,7 +24656,7 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.stop = function()
 		{
-			var _this = this;
+			let _this = this;
 			this.stopFlag = true;
 			_this.startStopSoundStreams(_this.stopFlag, _this._currentframe, _this.characterId);
 		};
@@ -24622,8 +24666,8 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.gotoAndPlay = function(frame)
 		{
-			var _this = this;
-			var stage = _this.getStage();
+			let _this = this;
+			let stage = _this.getStage();
 			if (!_isNaN(frame)) {
 				frame = +frame;
 			} else if (typeof frame === "string") {
@@ -24644,8 +24688,8 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.gotoAndStop = function(frame)
 		{
-			var _this = this;
-			var stage = _this.getStage();
+			let _this = this;
+			let stage = _this.getStage();
 			if (typeof frame === "string") {
 				frame = _this.getLabel(frame);
 			}
@@ -24667,7 +24711,7 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.stopAllSounds = function ()
 		{
-			var stage = this.getStage();
+			let stage = this.getStage();
 			stage.stopAllSounds();
 		};
 
@@ -24680,9 +24724,9 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.loadMovie = function(url, target, SendVarsMethod)
 		{
-			var _this = this;
-			var stage = _this.getStage();
-			var targetMc = null;
+			let _this = this;
+			let stage = _this.getStage();
+			let targetMc = null;
 
 			if (!target) {
 				target = _this.getName();
@@ -24691,17 +24735,17 @@ if (!("swf2js" in window)) {
 
 			if (!targetMc) {
 				if (typeof target === "string") {
-					var _level = target.substr(0, 6);
+					let _level = target.substr(0, 6);
 					if (_level === "_level") {
 						target = +target.substr(6);
 					}
 				}
 				if (typeof target === "number") {
-					var parent = stage.getParent();
+					let parent = stage.getParent();
 					if (!parent) {
 						parent = stage.getParent();
 					}
-					var tags = parent.getTags();
+					let tags = parent.getTags();
 					targetMc = tags[target];
 				} else {
 					targetMc = _this.getDisplayObject(target);
@@ -24711,11 +24755,11 @@ if (!("swf2js" in window)) {
 			if (targetMc) {
 				_this.unloadMovie(targetMc);
 
-				var xmlHttpRequest = new XMLHttpRequest();
-				var targetUrl = url;
-				var body = null;
+				let xmlHttpRequest = new XMLHttpRequest();
+				let targetUrl = url;
+				let body = null;
 				if (SendVarsMethod === 2) {
-					var urls = url.split("?");
+					let urls = url.split("?");
 					if (urls[1] !== undefined) {
 						body = urls[1];
 					}
@@ -24734,16 +24778,16 @@ if (!("swf2js" in window)) {
 
 				xmlHttpRequest.onreadystatechange = function()
 				{
-					var readyState = xmlHttpRequest.readyState;
-					var status = xmlHttpRequest.status;
+					let readyState = xmlHttpRequest.readyState;
+					let status = xmlHttpRequest.status;
 					if (readyState === 4) {
 						switch (status) {
 							case 200:
 							case 304:
-								var _root = _this.getDisplayObject("_root");
-								var rootStage = _root.getStage();
-								var data = isXHR2 ? xmlHttpRequest.response : xmlHttpRequest.responseText;
-								var loadStage = new Stage();
+								let _root = _this.getDisplayObject("_root");
+								let rootStage = _root.getStage();
+								let data = isXHR2 ? xmlHttpRequest.response : xmlHttpRequest.responseText;
+								let loadStage = new Stage();
 								loadStages[loadStage.getId()] = loadStage;
 								targetMc._url = url;
 								targetMc.reset();
@@ -24765,7 +24809,7 @@ if (!("swf2js" in window)) {
 									stage = null;
 								}
 
-								var onData = targetMc.variables.onData;
+								let onData = targetMc.variables.onData;
 								if (typeof onData === "function") {
 									loadStage.executeEventAction(onData, targetMc);
 								}
@@ -24788,8 +24832,8 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.unloadMovie = function(target)
 		{
-			var _this = this;
-			var targetMc = null;
+			let _this = this;
+			let targetMc = null;
 			if (target instanceof MovieClip) {
 				targetMc = target;
 			} else {
@@ -24813,7 +24857,7 @@ if (!("swf2js" in window)) {
 			targetMc._url = null;
 			targetMc._lockroot = undefined;
 
-			var loadStage = targetMc.getStage();
+			let loadStage = targetMc.getStage();
 			delete loadStages[loadStage.getId()];
 		};
 
@@ -24825,19 +24869,19 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.getURL = function(url, target, method)
 		{
-			var _this = this;
+			let _this = this;
 			if (typeof url === "string") {
-				var cmd = url.substr(0, 9);
+				let cmd = url.substr(0, 9);
 				if (cmd === "FSCommand") {
-					var values = url.split(":");
+					let values = url.split(":");
 					cmd = values.pop();
-					var str = arguments[1];
+					let str = arguments[1];
 					if (str === undefined) {
 						str = "";
 					}
 
-					var stage = _this.getStage();
-					var FSCommand = stage.abc.flash.system.fscommand;
+					let stage = _this.getStage();
+					let FSCommand = stage.abc.flash.system.fscommand;
 					return FSCommand.apply(stage, [cmd, str]);
 				}
 			}
@@ -24868,21 +24912,21 @@ if (!("swf2js" in window)) {
 
 			// form
 			if (method === "POST") {
-				var form = _document.createElement("form");
+				let form = _document.createElement("form");
 				form.action = url;
 				form.method = method;
 				if (target) {
 					form.target = target;
 				}
 
-				var urls = url.split("?");
+				let urls = url.split("?");
 				if (urls.length > 1) {
-					var pears = urls[1].split("&");
-					var pLen = pears.length;
-					var _encodeURI = encodeURI;
-					for (var pIdx = 0; pIdx < pLen; pIdx++) {
-						var pear = pears[pIdx].split("=");
-						var input = _document.createElement("input");
+					let pears = urls[1].split("&");
+					let pLen = pears.length;
+					let _encodeURI = encodeURI;
+					for (let pIdx = 0; pIdx < pLen; pIdx++) {
+						let pear = pears[pIdx].split("=");
+						let input = _document.createElement("input");
 						input.type = "hidden";
 						input.name = pear[0];
 						input.value = _encodeURI(pear[1] || "");
@@ -24892,7 +24936,7 @@ if (!("swf2js" in window)) {
 				_document.body.appendChild(form);
 				form.submit();
 			} else {
-				var a = _document.createElement("a");
+				let a = _document.createElement("a");
 				a.href = url;
 				a.target = target;
 				a.click();
@@ -24906,17 +24950,17 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.loadVariables = function(url, target, method)
 		{
-			var _this = this;
-			var targetMc = _this;
+			let _this = this;
+			let targetMc = _this;
 			if (target) {
 				targetMc = _this.getDisplayObject(target);
 			}
 
 			if (targetMc) {
-				var xmlHttpRequest = new XMLHttpRequest();
-				var body = null;
+				let xmlHttpRequest = new XMLHttpRequest();
+				let body = null;
 				if (method === "POST") {
-					var urls = url.split("?");
+					let urls = url.split("?");
 					if (urls[1] !== undefined) {
 						body = urls[1];
 					}
@@ -24928,25 +24972,25 @@ if (!("swf2js" in window)) {
 
 				xmlHttpRequest.onreadystatechange = function()
 				{
-					var readyState = xmlHttpRequest.readyState;
+					let readyState = xmlHttpRequest.readyState;
 					if (readyState === 4) {
-						var status = xmlHttpRequest.status;
+						let status = xmlHttpRequest.status;
 						switch (status) {
 							case 200:
 							case 304:
-								var responseText = decodeURIComponent(xmlHttpRequest.responseText);
-								var pairs = responseText.split("&");
-								var length = pairs.length;
-								for (var idx = 0; idx < length; idx++) {
-									var pair = pairs[idx];
-									var values = pair.split("=");
+								let responseText = decodeURIComponent(xmlHttpRequest.responseText);
+								let pairs = responseText.split("&");
+								let length = pairs.length;
+								for (let idx = 0; idx < length; idx++) {
+									let pair = pairs[idx];
+									let values = pair.split("=");
 									targetMc.setVariable(values[0], values[1]);
 								}
 
-								var _root = _this.getDisplayObject();
-								var rootStage = _root.getStage();
-								var stage = _this.getStage();
-								var onData = targetMc.variables.onData;
+								let _root = _this.getDisplayObject();
+								let rootStage = _root.getStage();
+								let stage = _this.getStage();
+								let onData = targetMc.variables.onData;
 								if (typeof onData === "function") {
 									stage.executeEventAction(onData, targetMc);
 								}
@@ -24967,11 +25011,11 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.hitTest = function()
 		{
-			var _this = this;
-			var targetMc = arguments[0];
-			var x = 0;
-			var y = 0;
-			var bool = false;
+			let _this = this;
+			let targetMc = arguments[0];
+			let x = 0;
+			let y = 0;
+			let bool = false;
 			if (!(targetMc instanceof MovieClip)) {
 				x = arguments[0];
 				y = arguments[1];
@@ -24981,37 +25025,37 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var bounds = _this.getHitBounds();
-			var xMax = bounds.xMax;
-			var xMin = bounds.xMin;
-			var yMax = bounds.yMax;
-			var yMin = bounds.yMin;
+			let bounds = _this.getHitBounds();
+			let xMax = bounds.xMax;
+			let xMin = bounds.xMin;
+			let yMax = bounds.yMax;
+			let yMin = bounds.yMin;
 
 			if (targetMc instanceof MovieClip) {
-				var targetBounds = targetMc.getHitBounds();
-				var txMax = targetBounds.xMax;
-				var txMin = targetBounds.xMin;
-				var tyMax = targetBounds.yMax;
-				var tyMin = targetBounds.yMin;
+				let targetBounds = targetMc.getHitBounds();
+				let txMax = targetBounds.xMax;
+				let txMin = targetBounds.xMin;
+				let tyMax = targetBounds.yMax;
+				let tyMin = targetBounds.yMin;
 				return (txMax > xMin && tyMax > yMin && xMax > txMin && yMax > tyMin);
 			} else {
 				if (x >= xMin && x <= xMax && y >= yMin && y <= yMax) {
 					if (bool) {
-						var matrix = [1, 0, 0, 1, 0, 0];
-						var mc = _this;
-						var _multiplicationMatrix = _this.multiplicationMatrix;
+						let matrix = [1, 0, 0, 1, 0, 0];
+						let mc = _this;
+						let _multiplicationMatrix = _this.multiplicationMatrix;
 						while (true) {
-							var parent = mc.getParent();
+							let parent = mc.getParent();
 							if (!parent.getParent()) {
 								break;
 							}
 							matrix = _multiplicationMatrix(parent.getMatrix(), matrix);
 							mc = parent;
 						}
-						var _root = _this.getDisplayObject("_root");
-						var stage = _root.getStage();
-						var ctx = stage.hitContext;
-						var scale = stage.getScale();
+						let _root = _this.getDisplayObject("_root");
+						let stage = _root.getStage();
+						let ctx = stage.hitContext;
+						let scale = stage.getScale();
 						x *= scale;
 						y *= scale;
 						y *= _devicePixelRatio;
@@ -25032,12 +25076,12 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.getHitBounds = function()
 		{
-			var _this = this;
-			var mc = _this;
-			var matrix = _this.getMatrix();
-			var _multiplicationMatrix = _this.multiplicationMatrix;
+			let _this = this;
+			let mc = _this;
+			let matrix = _this.getMatrix();
+			let _multiplicationMatrix = _this.multiplicationMatrix;
 			while (true) {
-				var parent = mc.getParent();
+				let parent = mc.getParent();
 				if (!parent.getParent()) {
 					break;
 				}
@@ -25053,12 +25097,12 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.getInstanceAtDepth = function(depth)
 		{
-			var _this = this;
-			var parent = _this.getParent();
+			let _this = this;
+			let parent = _this.getParent();
 			if (!parent) {
 				parent = _this.getDisplayObject("_root");
 			}
-			var tags = parent.getTags();
+			let tags = parent.getTags();
 			depth += 16384;
 			return tags[depth];
 		};
@@ -25068,16 +25112,16 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.swapDepths = function()
 		{
-			var _this = this;
-			var mc = arguments[0];
-			var depth = 0;
-			var parent = _this.getParent();
+			let _this = this;
+			let mc = arguments[0];
+			let depth = 0;
+			let parent = _this.getParent();
 			if (parent) {
-				var tags = parent.getTags();
+				let tags = parent.getTags();
 				if (mc instanceof MovieClip) {
 					if (parent === mc.getParent()) {
 						depth = _this.getDepth() + 16384;
-						var swapDepth = mc.getDepth() + 16384;
+						let swapDepth = mc.getDepth() + 16384;
 						_this.setDepth(depth, swapDepth, mc);
 					}
 				} else {
@@ -25089,10 +25133,10 @@ if (!("swf2js" in window)) {
 						depth += 16384;
 					}
 					if (depth in tags) {
-						var id = tags[depth];
+						let id = tags[depth];
 						if (id !== _this.instanceId) {
-							var stage = _this.getStage();
-							var instance = stage.getInstance(id);
+							let stage = _this.getStage();
+							let instance = stage.getInstance(id);
 							_this.swapDepths(instance);
 						}
 					} else {
@@ -25111,8 +25155,8 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.attachMovie = function(id, name, depth, object)
 		{
-			var movieClip = null;
-			var _this = this;
+			let movieClip = null;
+			let _this = this;
 			if (_isNaN(depth)) {
 				depth = _this.getNextHighestDepth();
 			}
@@ -25120,16 +25164,16 @@ if (!("swf2js" in window)) {
 				depth += 16384;
 			}
 
-			var mc = _this.getDisplayObject(name);
+			let mc = _this.getDisplayObject(name);
 			if (mc) {
 				mc.removeMovieClip();
 			}
 
-			var stage = _this.getStage();
-			var exportAssets = stage.exportAssets;
+			let stage = _this.getStage();
+			let exportAssets = stage.exportAssets;
 			if (id in exportAssets) {
-				var characterId = exportAssets[id];
-				var tag = stage.getCharacter(characterId);
+				let characterId = exportAssets[id];
+				let tag = stage.getCharacter(characterId);
 				if (tag) {
 					movieClip = new MovieClip();
 					movieClip.setStage(stage);
@@ -25140,7 +25184,7 @@ if (!("swf2js" in window)) {
 					movieClip.setTarget(_this.getTarget() + "/" + name);
 
 					// init action
-					var initAction = stage.initActions[characterId];
+					let initAction = stage.initActions[characterId];
 					if (typeof initAction === "function") {
 						movieClip.active = true;
 						initAction.apply(movieClip);
@@ -25148,19 +25192,19 @@ if (!("swf2js" in window)) {
 					}
 
 					// registerClass
-					var RegClass = stage.registerClass[characterId];
+					let RegClass = stage.registerClass[characterId];
 					if (RegClass) {
 						movieClip.variables.registerClass = new RegClass();
 					}
 
-					var swfTag = new SwfTag(stage, null);
+					let swfTag = new SwfTag(stage, null);
 					swfTag.build(tag, movieClip);
 
-					var placeObject = new PlaceObject();
-					var instanceId = _this.instanceId;
-					var totalFrame = _this.getTotalFrames() + 1;
-					var container = _this.getContainer();
-					for (var frame = 1; frame < totalFrame; frame++) {
+					let placeObject = new PlaceObject();
+					let instanceId = _this.instanceId;
+					let totalFrame = _this.getTotalFrames() + 1;
+					let container = _this.getContainer();
+					for (let frame = 1; frame < totalFrame; frame++) {
 						if (!(frame in container)) {
 							container[frame] = [];
 						}
@@ -25169,7 +25213,7 @@ if (!("swf2js" in window)) {
 					}
 
 					if (object) {
-						for (var prop in object) {
+						for (let prop in object) {
 							if (!object.hasOwnProperty(prop)) {
 								continue;
 							}
@@ -25177,8 +25221,8 @@ if (!("swf2js" in window)) {
 						}
 					}
 
-					var _root = _this.getDisplayObject("_root");
-					var rootStage = _root.getStage();
+					let _root = _this.getDisplayObject("_root");
+					let rootStage = _root.getStage();
 					movieClip.addActions(rootStage);
 				}
 			}
@@ -25187,12 +25231,12 @@ if (!("swf2js" in window)) {
 
 		MovieClip.prototype.attachBitmap = function()
 		{
-			var _this = this;
-			var _root = _this.getDisplayObject("_root");
-			var stage = _root.getStage();
-			var target = arguments[0];
-			var name = arguments[1];
-			var depth = arguments[2];
+			let _this = this;
+			let _root = _this.getDisplayObject("_root");
+			let stage = _root.getStage();
+			let target = arguments[0];
+			let name = arguments[1];
+			let depth = arguments[2];
 		};
 
 		/**
@@ -25200,14 +25244,14 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.getNextHighestDepth = function()
 		{
-			var depth = 0;
-			var _this = this;
-			var container = _this.getContainer();
-			for (var idx in container) {
+			let depth = 0;
+			let _this = this;
+			let container = _this.getContainer();
+			for (let idx in container) {
 				if (!container.hasOwnProperty(idx)) {
 					continue;
 				}
-				var children = container[idx];
+				let children = container[idx];
 				depth = _max(depth, children.length);
 			}
 			if (16384 > depth) {
@@ -25221,9 +25265,9 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.getBytesLoaded = function()
 		{
-			var _this = this;
-			var stage = _this.getStage();
-			var bitio = stage.bitio;
+			let _this = this;
+			let stage = _this.getStage();
+			let bitio = stage.bitio;
 			return (!bitio) ? stage.fileSize : bitio.byte_offset;
 		};
 
@@ -25232,8 +25276,8 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.getBytesTotal = function()
 		{
-			var _this = this;
-			var stage = _this.getStage();
+			let _this = this;
+			let stage = _this.getStage();
 			return stage.fileSize;
 		};
 
@@ -25242,9 +25286,9 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.updateAfterEvent = function()
 		{
-			var _this = this;
-			var _root = _this.getDisplayObject("_root");
-			var stage = _root.getStage();
+			let _this = this;
+			let _root = _this.getDisplayObject("_root");
+			let stage = _root.getStage();
 			stage.touchRender();
 		};
 
@@ -25253,16 +25297,16 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.duplicateMovieClip = function()
 		{
-			var _this = this;
-			var _root = _this.getDisplayObject("_root");
-			var stage = _root.getStage();
-			var target = arguments[0];
-			var name = arguments[1];
-			var depth = arguments[2];
+			let _this = this;
+			let _root = _this.getDisplayObject("_root");
+			let stage = _root.getStage();
+			let target = arguments[0];
+			let name = arguments[1];
+			let depth = arguments[2];
 
-			var targetMc = _this.getDisplayObject(name);
-			var parent;
-			var object;
+			let targetMc = _this.getDisplayObject(name);
+			let parent;
+			let object;
 			if (!targetMc && stage.getVersion() > 4) {
 				target = arguments[0];
 				depth = arguments[1];
@@ -25281,7 +25325,7 @@ if (!("swf2js" in window)) {
 				depth += 16384;
 			}
 
-			var cloneMc;
+			let cloneMc;
 			if (targetMc !== undefined && targetMc.getCharacterId() !== 0) {
 				stage = targetMc.getStage();
 				parent = targetMc.getParent();
@@ -25289,8 +25333,8 @@ if (!("swf2js" in window)) {
 					parent = stage.getParent();
 				}
 
-				var char = stage.getCharacter(targetMc.characterId);
-				var swftag = new SwfTag(stage);
+				let char = stage.getCharacter(targetMc.characterId);
+				let swftag = new SwfTag(stage);
 				if (char instanceof Array) {
 					cloneMc = new MovieClip();
 					cloneMc.setStage(stage);
@@ -25300,7 +25344,7 @@ if (!("swf2js" in window)) {
 					cloneMc.setCharacterId(targetMc.characterId);
 					swftag.build(char, cloneMc);
 				} else {
-					var tag = {
+					let tag = {
 						CharacterId: targetMc.characterId,
 						Ratio: 0,
 						Depth: depth
@@ -25316,19 +25360,19 @@ if (!("swf2js" in window)) {
 					cloneMc._colorTransform = _this.cloneArray(targetMc._colorTransform);
 				}
 
-				var totalFrame = parent.getTotalFrames() + 1;
-				var container = parent.getContainer();
-				var instanceId = parent.instanceId;
-				var placeObjects = stage.placeObjects[instanceId];
-				var level = targetMc.getLevel();
-				for (var frame = 1; frame < totalFrame; frame++) {
+				let totalFrame = parent.getTotalFrames() + 1;
+				let container = parent.getContainer();
+				let instanceId = parent.instanceId;
+				let placeObjects = stage.placeObjects[instanceId];
+				let level = targetMc.getLevel();
+				for (let frame = 1; frame < totalFrame; frame++) {
 					if (!(frame in container)) {
 						container[frame] = [];
 					}
 					container[frame][depth] = cloneMc.instanceId;
 
 					if (frame in placeObjects) {
-						var placeObject = placeObjects[frame][level];
+						let placeObject = placeObjects[frame][level];
 						if (placeObject) {
 							if (!(frame in placeObjects)) {
 								placeObjects[frame] = [];
@@ -25339,7 +25383,7 @@ if (!("swf2js" in window)) {
 				}
 
 				if (object) {
-					for (var prop in object) {
+					for (let prop in object) {
 						if (!object.hasOwnProperty(prop)) {
 							continue;
 						}
@@ -25358,30 +25402,30 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.removeMovieClip = function(name)
 		{
-			var _this = this;
-			var targetMc = _this;
+			let _this = this;
+			let targetMc = _this;
 			if (typeof name === "string") {
-				var target = _this.getDisplayObject(name);
+				let target = _this.getDisplayObject(name);
 				if (target) {
 					targetMc = target;
 				}
 			}
 
-			var depth = targetMc.getDepth() + 16384;
-			var level = targetMc.getLevel();
+			let depth = targetMc.getDepth() + 16384;
+			let level = targetMc.getLevel();
 			if (targetMc instanceof MovieClip && depth >= 16384) {
 				targetMc.reset();
 				targetMc.removeFlag = true;
-				var parent = targetMc.getParent();
-				var container = parent.getContainer();
-				var instanceId = targetMc.instanceId;
-				var tagId;
-				for (var frame = parent.getTotalFrames() + 1; --frame;) {
+				let parent = targetMc.getParent();
+				let container = parent.getContainer();
+				let instanceId = targetMc.instanceId;
+				let tagId;
+				for (let frame = parent.getTotalFrames() + 1; --frame;) {
 					if (!(frame in container)) {
 						continue;
 					}
 
-					var tags = container[frame];
+					let tags = container[frame];
 					if (depth in tags) {
 						tagId = tags[depth];
 						if (tagId === instanceId) {
@@ -25403,21 +25447,21 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.initFrame = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.active = true;
 
-			var stage = _this.getStage();
-			var tags = _this.getTags();
-			var length = tags.length;
+			let stage = _this.getStage();
+			let tags = _this.getTags();
+			let length = tags.length;
 			if (length) {
 				tags.reverse();
-				for (var depth in tags) {
+				for (let depth in tags) {
 					if (!tags.hasOwnProperty(depth)) {
 						continue;
 					}
 
-					var instanceId = tags[depth];
-					var instance = stage.getInstance(instanceId);
+					let instanceId = tags[depth];
+					let instance = stage.getInstance(instanceId);
 					if (!instance) {
 						continue;
 					}
@@ -25426,7 +25470,7 @@ if (!("swf2js" in window)) {
 				tags.reverse();
 			}
 
-			var initAction = stage.initActions[_this.getCharacterId()];
+			let initAction = stage.initActions[_this.getCharacterId()];
 			if (typeof initAction === "function") {
 				initAction.apply(_this);
 			}
@@ -25438,22 +25482,21 @@ if (!("swf2js" in window)) {
 		 * @param soundStreamId
 		 */
 		MovieClip.prototype.startStopSoundStreams = function(stopFlag, frame, soundStreamId) {
-			var stage = this.getStage();
-			var previousframe = this._previousframe;
+			let stage = this.getStage();
+			let previousframe = this._previousframe;
 			if (soundStreamId == 0) {
 				previousframe = stage.getParent()._previousframe;
 			}
-
-			for (var i=0; i<stage.soundStreams.length; i++) {
+			for (let i=0; i<stage.soundStreams.length; i++) {
 				if (stage.soundStreams[i].SoundStreamId != soundStreamId) continue;
 
-				var s = stage.soundStreams[i];
-				for (var f=0; f<s.FrameRanges.length; f++) {
-					var frameRange = s.FrameRanges[f];
+				let s = stage.soundStreams[i];
+				for (let f=0; f<s.FrameRanges.length; f++) {
+					let frameRange = s.FrameRanges[f];
 					if (stopFlag || frame == previousframe) {
 						if (frameRange.Audio.isPlaying) {
-							var ct = frameRange.Audio.seek();
-							var wt = frameRange.startAudio+(frame-frameRange.startFrame+1) * this.getStage().getFrameRate()/1000-ct;
+							let ct = frameRange.Audio.seek();
+							let wt = frameRange.startAudio+(frame-frameRange.startFrame+1) * this.getStage().getFrameRate()/1000-ct;
 							if (wt > 0) {
 								setTimeout(function() {
 									if (frameRange.Audio.isPlaying) {
@@ -25476,7 +25519,7 @@ if (!("swf2js" in window)) {
 						}
 					} else if ((frameRange.startFrame <= frame) && (frame <= frameRange.endFrame)) {
 						if (!frameRange.Audio.isPlaying) {
-							var audioStart = frameRange.startAudio + (frame - frameRange.startFrame) * this.getStage().getFrameRate()/1000;
+							let audioStart = frameRange.startAudio + (frame - frameRange.startFrame) * this.getStage().getFrameRate()/1000;
 							frameRange.Audio.seek(audioStart);
 							frameRange.Audio.play();
 							stage.lastAudioCurrentTime = 0;
@@ -25496,7 +25539,7 @@ if (!("swf2js" in window)) {
 							}
 						} else if (frame != previousframe + 1) {
 							if (frameRange.Audio.isPlaying) {
-								var tn = frameRange.startAudio + (frame - frameRange.startFrame) * this.getStage().getFrameRate()/1000;
+								let tn = frameRange.startAudio + (frame - frameRange.startFrame) * this.getStage().getFrameRate()/1000;
 								frameRange.Audio.seek(tn);
 							}
 						}
@@ -25520,13 +25563,13 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.putFrame = function(stage, clipEvent)
 		{
-			var _this = this;
-			var myStage = _this.getStage();
-			var prevTags;
-			var stopFlag = _this.stopFlag;
+			let _this = this;
+			let myStage = _this.getStage();
+			let prevTags;
+			let stopFlag = _this.stopFlag;
 			if (!stopFlag && _this.active) {
-				var frame = _this.getCurrentFrame();
-				var totalFrames = _this.getTotalFrames();
+				let frame = _this.getCurrentFrame();
+				let totalFrames = _this.getTotalFrames();
 				if (totalFrames > 1) {
 					if (_this.isLoad) {
 						prevTags = _this.getTags();
@@ -25534,7 +25577,7 @@ if (!("swf2js" in window)) {
 					}
 					if (frame > totalFrames) {
 						frame = totalFrames;
-						//frame = 1;
+						frame = 1;
 						_this.resetCheck();
 					}
 					if (frame != _this.getPreviousFrame()) _this.soundStopFlag = false;
@@ -25557,20 +25600,20 @@ if (!("swf2js" in window)) {
 					_this.resetSwap();
 				}
 
-				var tags = _this.getTags();
-				var length = tags.length;
+				let tags = _this.getTags();
+				let length = tags.length;
 				if (length && tags.toString() !== prevTags.toString()) {
-					for (var depth in tags) {
+					for (let depth in tags) {
 						if (!tags.hasOwnProperty(depth)) {
 							continue;
 						}
 
-						var instanceId = tags[depth];
+						let instanceId = tags[depth];
 						if (depth in prevTags && instanceId === prevTags[depth]) {
 							continue;
 						}
 
-						var instance = myStage.getInstance(instanceId);
+						let instance = myStage.getInstance(instanceId);
 						if (instance && instance instanceof MovieClip) {
 							stage.newTags.unshift(instance);
 						}
@@ -25585,15 +25628,16 @@ if (!("swf2js" in window)) {
 				_this.addTouchEvent(stage);
 				if (_this.isAction) {
 					_this.isAction = false;
-					var as = _this.getActions(_this.getCurrentFrame());
+					let as = _this.getActions(_this.getCurrentFrame());
 					if (as) {
+						// _this.setActionQueue(as, stage);
 						_this.setActionQueue(as, stage, _this);
 					}
 				}
 
 			} else {
 				// init action
-				var initAction = myStage.initActions[_this.getCharacterId()];
+				let initAction = myStage.initActions[_this.getCharacterId()];
 				if (typeof initAction === "function") {
 					initAction.apply(_this);
 				}
@@ -25605,9 +25649,9 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.nextFrame = function()
 		{
-			var _this = this;
-			var stage = _this.getStage();
-			var frame = _this.getCurrentFrame();
+			let _this = this;
+			let stage = _this.getStage();
+			let frame = _this.getCurrentFrame();
 			_this.setPreviousFrame(frame);
 			frame++;
 			if (frame != _this.getPreviousFrame()) {
@@ -25623,9 +25667,9 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.prevFrame = function()
 		{
-			var _this = this;
-			var stage = _this.getStage();
-			var frame = _this.getCurrentFrame();
+			let _this = this;
+			let stage = _this.getStage();
+			let frame = _this.getCurrentFrame();
 			_this.setPreviousFrame(frame);
 			frame--;
 			frame = frame>0? frame:1;
@@ -25633,7 +25677,6 @@ if (!("swf2js" in window)) {
 				// stage.stopAllSounds();
 				_this.soundStopFlag = false;
 			}
-			_this.setCurrentFrame(frame);
 			_this.setNextFrame(frame);
 			_this.stop();
 		};
@@ -25675,7 +25718,7 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.setNextFrame = function(frame)
 		{
-			var _this = this;
+			let _this = this;
 			if (frame > 0 && _this.getCurrentFrame() !== frame) {
 				_this.isAction = true;
 
@@ -25684,15 +25727,15 @@ if (!("swf2js" in window)) {
 					_this.isAction = false;
 				}
 
-				var maxFrame = _max(frame, _this.getCurrentFrame()) + 1;
-				var minFrame = _min(frame, _this.getCurrentFrame());
+				let maxFrame = _max(frame, _this.getCurrentFrame()) + 1;
+				let minFrame = _min(frame, _this.getCurrentFrame());
 
-				var stage = _this.getStage();
-				var tags = _this.getTags();
-				var checked = [];
-				var nextTags = _this.getTags(frame);
-				var tag, tagId, depth, nextTag, nextTagId;
-				var length = _max(tags.length, nextTags.length);
+				let stage = _this.getStage();
+				let tags = _this.getTags();
+				let checked = [];
+				let nextTags = _this.getTags(frame);
+				let tag, tagId, depth, nextTag, nextTagId;
+				let length = _max(tags.length, nextTags.length);
 				if (length) {
 					for (depth = 0; depth < length; depth++) {
 						if (!(depth in tags) && !(depth in nextTags)) {
@@ -25728,8 +25771,8 @@ if (!("swf2js" in window)) {
 				}
 
 				if (checked.length) {
-					for (var chkFrame = minFrame; chkFrame < maxFrame; chkFrame++) {
-						var container = _this.getTags(chkFrame);
+					for (let chkFrame = minFrame; chkFrame < maxFrame; chkFrame++) {
+						let container = _this.getTags(chkFrame);
 						if (!container.length) {
 							continue;
 						}
@@ -25753,8 +25796,8 @@ if (!("swf2js" in window)) {
 				_this.setCurrentFrame(frame);
 				_this.soundStopFlag = false;
 
-				var _root = _this.getDisplayObject("_root");
-				var rootStage = _root.getStage();
+				let _root = _this.getDisplayObject("_root");
+				let rootStage = _root.getStage();
 				_this.addActions(rootStage);
 			}
 		};
@@ -25807,7 +25850,7 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.addSound = function(frame, obj)
 		{
-			var _this = this;
+			let _this = this;
 			if (!(frame in _this.startSounds)) {
 				_this.startSounds[frame] = [];
 			}
@@ -25819,7 +25862,7 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.getSounds = function()
 		{
-			var _this = this;
+			let _this = this;
 			return _this.startSounds[_this.getCurrentFrame()];
 		};
 
@@ -25828,8 +25871,8 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.startSound = function(soundStart)
 		{
-			var _this = this;
-			var stage = _this.getStage();
+			let _this = this;
+			let stage = _this.getStage();
 			stage.startSound(soundStart);
 			_this.soundStopFlag = true;
 		};
@@ -25840,8 +25883,8 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.getTags = function(frame)
 		{
-			var _this = this;
-			var key = frame || _this.getCurrentFrame();
+			let _this = this;
+			let key = frame || _this.getCurrentFrame();
 			return _this.container[key] || [];
 		};
 
@@ -25851,11 +25894,11 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.setRemoveTag = function(frame, tags)
 		{
-			var rTags = this.removeTags;
+			let rTags = this.removeTags;
 			rTags[frame] = [];
-			var length = tags.length;
-			for (var i = 0; i < length; i++) {
-				var tag = tags[i];
+			let length = tags.length;
+			for (let i = 0; i < length; i++) {
+				let tag = tags[i];
 				rTags[frame][tag.Depth] = 1;
 			}
 		};
@@ -25874,28 +25917,29 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.remove = function(stage)
 		{
-			var _this = this;
-			var removeTags = _this.getRemoveTags(_this.getCurrentFrame());
+			let _this = this;
+			let removeTags = _this.getRemoveTags(_this.getCurrentFrame());
 			if (removeTags) {
-				var myStage = _this.getStage();
-				var frame = _this.getCurrentFrame() - 1;
-				var tags = _this.getTags(frame);
-				for (var idx in tags) {
+				let myStage = _this.getStage();
+				let frame = _this.getCurrentFrame() - 1;
+				let tags = _this.getTags(frame);
+				for (let idx in tags) {
 					if (!tags.hasOwnProperty(idx)) {
 						continue;
 					}
 
-					var instanceId = tags[idx];
-					var tag = myStage.getInstance(instanceId);
+					let instanceId = tags[idx];
+					let tag = myStage.getInstance(instanceId);
 					if (!tag) {
 						continue;
 					}
 
 					if (tag instanceof MovieClip) {
-						var depth = tag.getDepth() + 16384;
+						let depth = tag.getDepth() + 16384;
 						if (!(depth in removeTags)) {
 							continue;
 						}
+						console.log('remove '+JSON.stringify(tag));
 
 						clipEvent.type = "unload";
 						_this.dispatchEvent(clipEvent, stage);
@@ -25915,15 +25959,15 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.resetCheck = function()
 		{
-			var _this = this;
-			var instances = _this.getInstances();
-			var stage = _this.getStage();
-			for (var id in instances) {
+			let _this = this;
+			let instances = _this.getInstances();
+			let stage = _this.getStage();
+			for (let id in instances) {
 				if (!instances.hasOwnProperty(id)) {
 					continue;
 				}
 
-				var instance = stage.getInstance(id);
+				let instance = stage.getInstance(id);
 				if (!instance || (!instance.getRatio() && !instance.removeFlag)) {
 					continue;
 				}
@@ -25936,23 +25980,23 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.resetSwap = function()
 		{
-			var _this = this;
-			var stage = _this.getStage();
-			var currentTags = _this.getTags();
-			var totalFrames = _this.getTotalFrames() + 1;
-			for (var frame = 1; frame < totalFrames; frame++) {
-				var tags = _this.getTags(frame);
-				var length = tags.length;
+			let _this = this;
+			let stage = _this.getStage();
+			let currentTags = _this.getTags();
+			let totalFrames = _this.getTotalFrames() + 1;
+			for (let frame = 1; frame < totalFrames; frame++) {
+				let tags = _this.getTags(frame);
+				let length = tags.length;
 				if (length) {
-					var resetTags = [];
-					for (var depth in tags) {
+					let resetTags = [];
+					for (let depth in tags) {
 						if (!tags.hasOwnProperty(depth)) {
 							continue;
 						}
 
 						depth |= 0;
-						var tagId = tags[depth];
-						var instance = stage.getInstance(tagId);
+						let tagId = tags[depth];
+						let instance = stage.getInstance(tagId);
 						if (!instance) {
 							delete tags[depth];
 							continue;
@@ -25973,7 +26017,7 @@ if (!("swf2js" in window)) {
 
 					length = resetTags.length;
 					if (length) {
-						for (var level in resetTags) {
+						for (let level in resetTags) {
 							if (!resetTags.hasOwnProperty(level)) {
 								continue;
 							}
@@ -25990,14 +26034,14 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.reset = function()
 		{
-			var _this = this;
-			var stage = _this.getStage();
-			var instances = _this.getInstances();
-			for (var id in instances) {
+			let _this = this;
+			let stage = _this.getStage();
+			let instances = _this.getInstances();
+			for (let id in instances) {
 				if (!instances.hasOwnProperty(id)) {
 					continue;
 				}
-				var instance = stage.getInstance(id);
+				let instance = stage.getInstance(id);
 				if (instance instanceof MovieClip && instance.getDepth() >= 0) {
 					instance.removeMovieClip();
 					if (instance.getDepth() < 0) {
@@ -26008,7 +26052,7 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var parent = _this.getParent();
+			let parent = _this.getParent();
 			if (parent && _this.getLevel() !== _this.getDepth() + 16384) {
 				parent.isSwap = true;
 			}
@@ -26026,7 +26070,7 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.initParams = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.active = false;
 			_this.removeFlag = false;
 			_this.isLoad = false;
@@ -26051,17 +26095,17 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.addTouchEvent = function(stage)
 		{
-			var _this = this;
-			var events = _this.events;
-			var moveEventHits = stage.moveEventHits;
-			var downEventHits = stage.downEventHits;
-			var upEventHits = stage.upEventHits;
-			var keyDownEventHits = stage.keyDownEventHits;
-			for (var name in events) {
+			let _this = this;
+			let events = _this.events;
+			let moveEventHits = stage.moveEventHits;
+			let downEventHits = stage.downEventHits;
+			let upEventHits = stage.upEventHits;
+			let keyDownEventHits = stage.keyDownEventHits;
+			for (let name in events) {
 				if (!events.hasOwnProperty(name)) {
 					continue;
 				}
-				var as = events[name];
+				let as = events[name];
 				switch (name) {
 					case "mouseDown":
 						downEventHits[downEventHits.length] = { as: as, mc: _this};
@@ -26091,16 +26135,16 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var variables = _this.variables;
-			var onMouseDown = variables.onMouseDown;
+			let variables = _this.variables;
+			let onMouseDown = variables.onMouseDown;
 			if (onMouseDown) {
 				downEventHits[downEventHits.length] = {mc: _this};
 			}
-			var onMouseMove = variables.onMouseMove;
+			let onMouseMove = variables.onMouseMove;
 			if (onMouseMove) {
 				moveEventHits[moveEventHits.length] = {mc: _this};
 			}
-			var onMouseUp = variables.onMouseUp;
+			let onMouseUp = variables.onMouseUp;
 			if (onMouseUp) {
 				upEventHits[upEventHits.length] = {mc: _this};
 			}
@@ -26114,7 +26158,7 @@ if (!("swf2js" in window)) {
 		{
 			return (function(clip, origin)
 			{
-				var as = new ActionScript([], origin.constantPool, origin.register, origin.initAction);
+				let as = new ActionScript([], origin.constantPool, origin.register, origin.initAction);
 				as.cache = origin.cache;
 				as.scope = clip;
 				return function() {
@@ -26133,9 +26177,9 @@ if (!("swf2js" in window)) {
 		{
 			return (function(clip, origin, chain)
 			{
-				return function(clip)
+				return function()
 				{
-					var as = new ActionScript([], origin.constantPool, origin.register, origin.initAction);
+					let as = new ActionScript([], origin.constantPool, origin.register, origin.initAction);
 					as.parentId = origin.id; // todo
 					as.cache = origin.cache;
 					as.scope = clip;
@@ -26144,7 +26188,6 @@ if (!("swf2js" in window)) {
 						as.initVariable(arguments);
 					}
 					as.variables["this"] = this;
-					const execute = as.execute;
 					return as.execute(clip);
 				};
 			})(this, script, parent);
@@ -26155,12 +26198,12 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.addFrameScript = function()
 		{
-			var _this = this;
-			var args = arguments;
-			var length = args.length;
-			for (var i = 0; i < length; i++) {
-				var frame = args[i++];
-				var script = args[i];
+			let _this = this;
+			let args = arguments;
+			let length = args.length;
+			for (let i = 0; i < length; i++) {
+				let frame = args[i++];
+				let script = args[i];
 				if (typeof frame === "string") {
 					frame = _this.getLabel(frame);
 				} else {
@@ -26169,7 +26212,7 @@ if (!("swf2js" in window)) {
 
 				frame = frame | 0;
 				if (frame > 0 && _this.getTotalFrames() >= frame) {
-					var actions = _this.actions;
+					let actions = _this.actions;
 					if (!(frame in actions)) {
 						actions[frame] = [];
 					}
@@ -26177,7 +26220,7 @@ if (!("swf2js" in window)) {
 					if (script === null) {
 						actions[frame] = [];
 					} else {
-						var aLen = actions[frame].length;
+						let aLen = actions[frame].length;
 						actions[frame][aLen] = script;
 					}
 				}
@@ -26189,9 +26232,9 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.addActions = function(stage)
 		{
-			var _this = this;
+			let _this = this;
 			_this.active = true;
-			var myStage = _this.getStage();
+			let myStage = _this.getStage();
 
 			if (_this.isAction) {
 				_this.isAction = false;
@@ -26200,7 +26243,7 @@ if (!("swf2js" in window)) {
 					_this.buildAVM2();
 
 					// registerClass
-					var RegClass = myStage.registerClass[_this.getCharacterId()];
+					let RegClass = myStage.registerClass[_this.getCharacterId()];
 					if (typeof RegClass === "function") {
 						_this.variables.registerClass = new RegClass();
 					}
@@ -26213,28 +26256,28 @@ if (!("swf2js" in window)) {
 					clipEvent.type = "load";
 					_this.dispatchEvent(clipEvent, stage);
 
-					var onLoad = _this.variables.onLoad;
+					let onLoad = _this.variables.onLoad;
 					if (typeof onLoad === "function") {
 						_this.setActionQueue(onLoad, stage);
 					}
 					_this.addTouchEvent(stage);
 				}
 
-				var action = _this.getActions(_this.getCurrentFrame());
+				let action = _this.getActions(_this.getCurrentFrame());
 				if (action) {
 					_this.setActionQueue(action, stage);
 				}
 			}
 
-			var tags = _this.getTags();
-			var length = tags.length;
+			let tags = _this.getTags();
+			let length = tags.length;
 			if (length) {
-				for (var depth in tags) {
+				for (let depth in tags) {
 					if (!tags.hasOwnProperty(depth)) {
 						continue;
 					}
-					var instanceId = tags[depth];
-					var instance = myStage.getInstance(instanceId);
+					let instanceId = tags[depth];
+					let instance = myStage.getInstance(instanceId);
 					if (!instance) {
 						continue;
 					}
@@ -26258,12 +26301,12 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.setActions = function(frame, actionScript)
 		{
-			var _this = this;
-			var actions = _this.actions;
+			let _this = this;
+			let actions = _this.actions;
 			if (!(frame in actions)) {
 				actions[frame] = [];
 			}
-			var length = actions[frame].length;
+			let length = actions[frame].length;
 			actions[frame][length] = _this.createActionScript(actionScript);
 		};
 
@@ -26273,7 +26316,7 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.overWriteAction = function(frame, action)
 		{
-			var _this = this;
+			let _this = this;
 			if (typeof frame === "string") {
 				frame = _this.getLabel(frame);
 			}
@@ -26289,17 +26332,17 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.addAction = function(frame, action)
 		{
-			var _this = this;
+			let _this = this;
 			if (typeof frame === "string") {
 				frame = _this.getLabel(frame);
 			}
 			frame = frame | 0;
 			if (frame > 0 && _this.getTotalFrames() >= frame) {
-				var actions = _this.actions;
+				let actions = _this.actions;
 				if (!(frame in actions)) {
 					actions[frame] = [];
 				}
-				var length = actions[frame].length;
+				let length = actions[frame].length;
 				actions[frame][length] = action;
 			}
 		};
@@ -26309,11 +26352,11 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.executeActions = function(frame)
 		{
-			var _this = this;
-			var actions = _this.getActions(frame);
+			let _this = this;
+			let actions = _this.getActions(frame);
 			if (actions !== undefined) {
-				var length = actions.length;
-				for (var i = 0; i < length; i++) {
+				let length = actions.length;
+				for (let i = 0; i < length; i++) {
 					actions[i].apply(_this);
 				}
 			}
@@ -26333,7 +26376,7 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.beginFill = function(rgb, alpha)
 		{
-			var graphics = this.getGraphics();
+			let graphics = this.getGraphics();
 			graphics.beginFill(rgb, alpha);
 		};
 
@@ -26349,7 +26392,7 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.lineStyle = function(width, rgb, alpha, pixelHinting, noScale, capsStyle, jointStyle, miterLimit)
 		{
-			var graphics = this.getGraphics();
+			let graphics = this.getGraphics();
 			graphics.lineStyle(width, rgb, alpha, pixelHinting, noScale, capsStyle, jointStyle, miterLimit);
 		};
 
@@ -26359,7 +26402,7 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.moveTo = function(dx, dy)
 		{
-			var graphics = this.getGraphics();
+			let graphics = this.getGraphics();
 			graphics.moveTo(dx, dy);
 		};
 
@@ -26369,7 +26412,7 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.lineTo = function(dx, dy)
 		{
-			var graphics = this.getGraphics();
+			let graphics = this.getGraphics();
 			graphics.lineTo(dx, dy);
 		};
 
@@ -26381,7 +26424,7 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.curveTo = function(cx, cy, dx, dy)
 		{
-			var graphics = this.getGraphics();
+			let graphics = this.getGraphics();
 			graphics.curveTo(cx, cy, dx, dy);
 		};
 
@@ -26390,7 +26433,7 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.clear = function()
 		{
-			var graphics = this.getGraphics();
+			let graphics = this.getGraphics();
 			graphics.clear();
 		};
 
@@ -26399,7 +26442,7 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.endFill = function()
 		{
-			var graphics = this.getGraphics();
+			let graphics = this.getGraphics();
 			graphics.endFill();
 		};
 
@@ -26408,27 +26451,27 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClip.prototype.buildAVM2 = function()
 		{
-			var _this = this;
-			var stage = _this.getStage();
-			var symbol = stage.symbols[_this.getCharacterId()];
+			let _this = this;
+			let stage = _this.getStage();
+			let symbol = stage.symbols[_this.getCharacterId()];
 			if (symbol) {
-				var symbols = symbol.split(".");
-				var classMethod = symbols.pop();
-				var length = symbols.length;
-				var classObj = stage.avm2;
-				var abcObj = stage.abc;
-				for (var i = 0; i < length; i++) {
+				let symbols = symbol.split(".");
+				let classMethod = symbols.pop();
+				let length = symbols.length;
+				let classObj = stage.avm2;
+				let abcObj = stage.abc;
+				for (let i = 0; i < length; i++) {
 					classObj = classObj[symbols[i]];
 					abcObj = abcObj[symbols[i]];
 				}
 
 				// build abc
-				var DoABC = abcObj[classMethod];
-				var ABCObj = new DoABC(_this);
+				let DoABC = abcObj[classMethod];
+				let ABCObj = new DoABC(_this);
 				classObj[classMethod] = ABCObj;
 				_this.avm2 = ABCObj;
 				// AVM2 init
-				var AVM2 = ABCObj[classMethod];
+				let AVM2 = ABCObj[classMethod];
 				if (typeof AVM2 === "function") {
 					_this.actions = [];
 					AVM2.apply(_this);
@@ -26439,9 +26482,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var MovieClipLoader = function()
+		let MovieClipLoader = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.events =
 		{
 				onLoadStart: undefined,
@@ -26463,10 +26506,10 @@ if (!("swf2js" in window)) {
 				return false;
 			}
 
-			var _this = this;
-			var events = _this.events;
+			let _this = this;
+			let events = _this.events;
 
-			var xmlHttpRequest = new XMLHttpRequest();
+			let xmlHttpRequest = new XMLHttpRequest();
 			xmlHttpRequest.open("GET", url, true);
 
 			if (isXHR2) {
@@ -26475,7 +26518,7 @@ if (!("swf2js" in window)) {
 				xmlHttpRequest.overrideMimeType("text/plain; charset=x-user-defined");
 			}
 
-			var onLoadProgress = events.onLoadProgress;
+			let onLoadProgress = events.onLoadProgress;
 			if (!onLoadProgress) {
 				onLoadProgress = _this.onLoadProgress;
 			}
@@ -26485,13 +26528,13 @@ if (!("swf2js" in window)) {
 				};
 			}
 
-			var onLoadComplete = events.onLoadComplete;
+			let onLoadComplete = events.onLoadComplete;
 			if (!onLoadComplete) {
 				onLoadComplete = _this.onLoadComplete;
 			}
 			if (typeof onLoadComplete === "function") {
 				xmlHttpRequest.onloadend = function(e) {
-					var eventStatus = e.currentTarget.status;
+					let eventStatus = e.currentTarget.status;
 					if (eventStatus === 200) {
 						onLoadComplete.apply(_this, [target, eventStatus]);
 					}
@@ -26500,11 +26543,11 @@ if (!("swf2js" in window)) {
 
 			xmlHttpRequest.onreadystatechange = function()
 			{
-				var readyState = xmlHttpRequest.readyState;
+				let readyState = xmlHttpRequest.readyState;
 				if (readyState === 4) {
-					var status = xmlHttpRequest.status;
+					let status = xmlHttpRequest.status;
 
-					var onLoadStart = events.onLoadStart;
+					let onLoadStart = events.onLoadStart;
 					if (!onLoadStart) {
 						onLoadStart = _this.onLoadStart;
 					}
@@ -26518,11 +26561,11 @@ if (!("swf2js" in window)) {
 					switch (status) {
 						case 200:
 						case 304:
-							var _root = target.getDisplayObject("_root");
-							var rootStage = _root.getStage();
-							var data = isXHR2 ? xmlHttpRequest.response : xmlHttpRequest.responseText;
+							let _root = target.getDisplayObject("_root");
+							let rootStage = _root.getStage();
+							let data = isXHR2 ? xmlHttpRequest.response : xmlHttpRequest.responseText;
 
-							var loadStage = new Stage();
+							let loadStage = new Stage();
 							loadStages[loadStage.getId()] = loadStage;
 							target._url = url;
 							target.reset();
@@ -26533,12 +26576,12 @@ if (!("swf2js" in window)) {
 							loadStage.stop();
 
 							// onLoadInit
-							var onLoadInit = events.onLoadInit;
+							let onLoadInit = events.onLoadInit;
 							if (!onLoadInit) {
 								onLoadInit = _this.onLoadInit;
 							}
 							if (typeof onLoadInit === "function") {
-								var queue = (function(as, loader, mc) {
+								let queue = (function(as, loader, mc) {
 									return function() {
 										return as.apply(loader, [mc]);
 									};
@@ -26550,7 +26593,7 @@ if (!("swf2js" in window)) {
 
 							break;
 						default:
-							var onLoadError = events.onLoadError;
+							let onLoadError = events.onLoadError;
 							if (!onLoadError) {
 								onLoadError = _this.onLoadError;
 							}
@@ -26572,12 +26615,12 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClipLoader.prototype.addListener = function(listener)
 		{
-			var _this = this;
+			let _this = this;
 			if (listener && typeof listener === "object") {
-				var events = ["onLoadStart", "onLoadProgress", "onLoadComplete", "onLoadInit", "onLoadError"];
-				var variables = listener.variables;
-				for (var i = 0; i < 5; i++) {
-					var event = events[i];
+				let events = ["onLoadStart", "onLoadProgress", "onLoadComplete", "onLoadInit", "onLoadError"];
+				let variables = listener.variables;
+				for (let i = 0; i < 5; i++) {
+					let event = events[i];
 					if (typeof listener[event] === "function") {
 						_this.events[event] = listener[event];
 					} else if (variables && typeof variables[event] === "function") {
@@ -26594,12 +26637,12 @@ if (!("swf2js" in window)) {
 		 */
 		MovieClipLoader.prototype.removeListener = function(listener)
 		{
-			var _this = this;
+			let _this = this;
 			if (listener && typeof listener === "object") {
-				var events = ["onLoadStart", "onLoadProgress", "onLoadComplete", "onLoadInit", "onLoadError"];
-				for (var i = 0; i < 5; i++) {
-					var event = events[i];
-					var variables = listener.variables;
+				let events = ["onLoadStart", "onLoadProgress", "onLoadComplete", "onLoadInit", "onLoadError"];
+				for (let i = 0; i < 5; i++) {
+					let event = events[i];
+					let variables = listener.variables;
 					if (typeof listener[event] === "function" ||
 						(variables && typeof variables[event] === "function")
 					) {
@@ -26625,9 +26668,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var LoadVars = function()
+		let LoadVars = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.xmlHttpRequest = new XMLHttpRequest();
 			_this.variables = {};
 			_this.target = _this;
@@ -26684,22 +26727,22 @@ if (!("swf2js" in window)) {
 		 */
 		LoadVars.prototype.load = function(url)
 		{
-			var _this = this;
-			var xmlHttpRequest = _this.xmlHttpRequest;
+			let _this = this;
+			let xmlHttpRequest = _this.xmlHttpRequest;
 			xmlHttpRequest.open("GET", url, true);
 			xmlHttpRequest.onreadystatechange = function()
 			{
-				var readyState = xmlHttpRequest.readyState;
+				let readyState = xmlHttpRequest.readyState;
 				if (readyState === 4) {
-					var src = decodeURIComponent(xmlHttpRequest.responseText);
+					let src = decodeURIComponent(xmlHttpRequest.responseText);
 					_this.decode(src);
-					var onData = _this.onData;
+					let onData = _this.onData;
 					if (typeof onData === "function") {
 						onData.apply(src, [src]);
 					}
 
-					var onLoad;
-					var status = xmlHttpRequest.status;
+					let onLoad;
+					let status = xmlHttpRequest.status;
 					switch (status) {
 						case 200:
 						case 304:
@@ -26728,9 +26771,9 @@ if (!("swf2js" in window)) {
 		 */
 		LoadVars.prototype.send = function(url, target, method)
 		{
-			var _this = this;
-			var xmlHttpRequest = _this.xmlHttpRequest;
-			var sendMethod = method ? method.toUpperCase() : "GET";
+			let _this = this;
+			let xmlHttpRequest = _this.xmlHttpRequest;
+			let sendMethod = method ? method.toUpperCase() : "GET";
 			xmlHttpRequest.open(sendMethod, url, true);
 			if (sendMethod === "POST") {
 				xmlHttpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -26750,7 +26793,7 @@ if (!("swf2js" in window)) {
 		 */
 		LoadVars.prototype.sendAndLoad = function(url, target, method)
 		{
-			var _this = this;
+			let _this = this;
 			_this.send(url, target, method);
 			return _this.load(url);
 		};
@@ -26761,10 +26804,10 @@ if (!("swf2js" in window)) {
 		 */
 		LoadVars.prototype.addRequestHeader = function(header, headerValue)
 		{
-			var xmlHttpRequest = this.xmlHttpRequest;
+			let xmlHttpRequest = this.xmlHttpRequest;
 			if (header instanceof Array) {
-				var length = header.length;
-				for (var i = 0; i < length;) {
+				let length = header.length;
+				for (let i = 0; i < length;) {
 					xmlHttpRequest.setRequestHeader(header[i++], headerValue[i++]);
 				}
 			} else {
@@ -26777,12 +26820,12 @@ if (!("swf2js" in window)) {
 		 */
 		LoadVars.prototype.decode = function(queryString)
 		{
-			var variables = this.variables;
-			var array = queryString.split("&");
-			var length = array.length;
-			for (var i = 0; i < length; i++) {
-				var values = array[i];
-				var splitData = values.split("=");
+			let variables = this.variables;
+			let array = queryString.split("&");
+			let length = array.length;
+			for (let i = 0; i < length; i++) {
+				let values = array[i];
+				let splitData = values.split("=");
 				if (splitData.length < 1) {
 					continue;
 				}
@@ -26811,9 +26854,9 @@ if (!("swf2js" in window)) {
 		 */
 		LoadVars.prototype.toString = function()
 		{
-			var variables = this.variables;
-			var array = [];
-			for (var prop in variables) {
+			let variables = this.variables;
+			let array = [];
+			for (let prop in variables) {
 				if (!variables.hasOwnProperty(prop)) {
 					continue;
 				}
@@ -26825,9 +26868,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var Xml = function()
+		let Xml = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.ignoreWhite = false;
 			_this.loaded = false;
 			_this.status = 0;
@@ -26881,21 +26924,21 @@ if (!("swf2js" in window)) {
 		 */
 		Xml.prototype.load = function(url)
 		{
-			var _this = this;
+			let _this = this;
 			url = "" + url;
-			var xmlHttpRequest = new XMLHttpRequest();
+			let xmlHttpRequest = new XMLHttpRequest();
 			xmlHttpRequest.open("GET", url, true);
 			xmlHttpRequest.onreadystatechange = function() {
-				var readyState = xmlHttpRequest.readyState;
+				let readyState = xmlHttpRequest.readyState;
 				if (readyState === 4) {
-					var src = xmlHttpRequest.responseXML;
-					var onData = _this.onData;
+					let src = xmlHttpRequest.responseXML;
+					let onData = _this.onData;
 					if (typeof onData === "function") {
 						onData.apply(src, [src]);
 					}
 
-					var onLoad;
-					var status = xmlHttpRequest.status;
+					let onLoad;
+					let status = xmlHttpRequest.status;
 					switch (status) {
 						case 200:
 						case 304:
@@ -26923,11 +26966,11 @@ if (!("swf2js" in window)) {
 		 */
 		Xml.prototype.send = function(url, target, method)
 		{
-			var sendMethod = method ? method.toUpperCase() : "GET";
+			let sendMethod = method ? method.toUpperCase() : "GET";
 			if (target) {
 				console.log(target);
 			}
-			var xmlHttpRequest = new XMLHttpRequest();
+			let xmlHttpRequest = new XMLHttpRequest();
 			xmlHttpRequest.open(sendMethod, url, true);
 			xmlHttpRequest.send(null);
 			return true;
@@ -26939,7 +26982,7 @@ if (!("swf2js" in window)) {
 		 */
 		Xml.prototype.sendAndLoad = function(url, resultXML)
 		{
-			var _this = this;
+			let _this = this;
 			_this.send(url);
 			return _this.load(resultXML);
 		};
@@ -26948,9 +26991,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var Sound = function(target)
+		let Sound = function(target)
 		{
-			var _this = this;
+			let _this = this;
 			_this.target = target;
 			_this.variables = { };
 			_this.sounds = [];
@@ -27008,32 +27051,32 @@ if (!("swf2js" in window)) {
 		 */
 		Sound.prototype.start = function(currentTime, loopCount)
 		{
-			var _this = this;
-			var stage = _this.target.getStage();
-			var sounds = _this.sounds;
+			let _this = this;
+			let stage = _this.target.getStage();
+			let sounds = _this.sounds;
 
 			if (loopCount == 0) loopCount = 1;
 
-			var end = function (audio, sound)
+			let end = function (audio, sound)
 			{
 				return function ()
 				{
-					var volume = sound.volume;
+					let volume = sound.volume;
 					audio.loopCount--;
 					if (audio.loopCount > 0) {
 						audio.volume = volume / 100;
 						audio.currentTime = 0;
 						audio.play();
 					}
-					var onSoundComplete = sound.onSoundComplete;
+					let onSoundComplete = sound.onSoundComplete;
 					if (onSoundComplete) {
 						sound.actions(onSoundComplete);
 					}
 				};
 			};
 
-			var audio;
-			for (var id in sounds) {
+			let audio;
+			for (let id in sounds) {
 				if (!sounds.hasOwnProperty(id)) {
 					continue;
 				}
@@ -27060,9 +27103,9 @@ if (!("swf2js" in window)) {
 
 		Sound.prototype.actions = function(aScript)
 		{
-			var mc = this.target;
+			let mc = this.target;
 			if (aScript) {
-				var as = aScript.ActionScript;
+				let as = aScript.ActionScript;
 				as.execute(mc);
 			}
 		};
@@ -27072,12 +27115,11 @@ if (!("swf2js" in window)) {
 		 */
 		Sound.prototype.stop = function(id)
 		{
-			console.log('Sound.prototype.stop');
-			var _this = this;
-			var stage = _this.target.getStage();
+			let _this = this;
+			let stage = _this.target.getStage();
 
-			var sounds = this.sounds;
-			var audio;
+			let sounds = this.sounds;
+			let audio;
 			if (id) {
 				audio = sounds[id];
 				if (audio) {
@@ -27086,7 +27128,7 @@ if (!("swf2js" in window)) {
 					stage.otherSoundsStopped.push({"Sound": _this, "audio": audio});
 				}
 			} else {
-				for (var key in sounds) {
+				for (let key in sounds) {
 					if (!sounds.hasOwnProperty(key)) {
 						continue;
 					}
@@ -27103,17 +27145,15 @@ if (!("swf2js" in window)) {
 		 */
 		Sound.prototype.getPosition = function(id)
 		{
-			var _this = this;
-
-			var sounds = this.sounds;
-			var audio;
+			let sounds = this.sounds;
+			let audio;
 			if (id) {
 				audio = sounds[id];
 				if (audio) {
 					return audio.currentTime*1000;
 				} else return 0;
 			} else {
-				for (var key in sounds) {
+				for (let key in sounds) {
 					if (!sounds.hasOwnProperty(key)) {
 						continue;
 					}
@@ -27131,11 +27171,9 @@ if (!("swf2js" in window)) {
 		 */
 		Sound.prototype.setPosition = function(value)
 		{
-			var _this = this;
-
-			var sounds = this.sounds;
-			var audio;
-			for (var key in sounds) {
+			let sounds = this.sounds;
+			let audio;
+			for (let key in sounds) {
 				if (!sounds.hasOwnProperty(key)) {
 					continue;
 				}
@@ -27152,13 +27190,13 @@ if (!("swf2js" in window)) {
 		 */
 		Sound.prototype.checkOnLoad = function(onLoad)
 		{
-			var sounds = this.sounds;
-			var found = false;
-			for (var key in sounds) {
+			let sounds = this.sounds;
+			let found = false;
+			for (let key in sounds) {
 				if (!sounds.hasOwnProperty(key)) {
 					continue;
 				}
-				var sound = sounds[key];
+				let sound = sounds[key];
 				if (sound.canPlayThrough) {
 					if (onLoad) {
 						found = true;
@@ -27178,16 +27216,16 @@ if (!("swf2js" in window)) {
 		 */
 		Sound.prototype.loadSound = function(url, isStreaming)
 		{
-			var _this = this;
-			var stage = _this.target.getStage();
+			let _this = this;
+			let stage = _this.target.getStage();
 			_this.isStreaming = isStreaming;
 
-			var sounds = _this.sounds;
-			var audio = _document.createElement("audio");
+			let sounds = _this.sounds;
+			let audio = _document.createElement("audio");
 			audio.src = url;
 			sounds[0] = audio;
 
-			var checkLoad = (function (audio, sound)
+			let checkLoad = (function (audio, sound)
 			{
 				return function() {
 					audio.preload = "auto";
@@ -27198,11 +27236,11 @@ if (!("swf2js" in window)) {
 			})(audio, _this);
 			audio.addEventListener("canplaythrough", checkLoad);
 
-			var onError = (function (audio, sound)
+			let onError = (function (audio, sound)
 			{
 				return function() {
 				console.log('Error code: '+this.error.code+' '+this.error.message);
-					var onLoad = sound.onLoad;
+					let onLoad = sound.onLoad;
 					if (typeof onLoad === "function") {
 						onLoad.apply(sound, [false]);
 					}
@@ -27221,23 +27259,23 @@ if (!("swf2js" in window)) {
 		 */
 		Sound.prototype.attachSound = function(id)
 		{
-			var _this = this;
-			var sounds = [];
-			var movieClip = _this.movieClip;
-			var stage = movieClip.getStage();
-			var exportAssets = stage.exportAssets;
+			let _this = this;
+			let sounds = [];
+			let movieClip = _this.movieClip;
+			let stage = movieClip.getStage();
+			let exportAssets = stage.exportAssets;
 			if (id in exportAssets) {
-				var characterId = exportAssets[id];
-				var tag = stage.sounds[characterId];
+				let characterId = exportAssets[id];
+				let tag = stage.sounds[characterId];
 				if (tag) {
-					var audio = _document.createElement("audio");
+					let audio = _document.createElement("audio");
 					audio.onload = function ()
 					{
 						this.preload = "auto";
 						this.autoplay = false;
 						this.loop = false;
 					};
-					var swfTag = new SwfTag();
+					let swfTag = new SwfTag();
 					audio.src = "data:audio/" + tag.Audio.mimeType + ";base64," +swfTag.base64encode(tag.Audio.data);
 					sounds[id] = audio;
 					stage.otherSoundCount++;
@@ -27253,7 +27291,6 @@ if (!("swf2js" in window)) {
 		 */
 		Sound.prototype.getVolume = function()
 		{
-			console.log('Sound.prototype.getVolume '+this.volume);
 			return this.volume;
 		};
 
@@ -27263,14 +27300,14 @@ if (!("swf2js" in window)) {
 		 */
 		Sound.prototype.setVolume = function(volume)
 		{
-			var _this = this;
-			var sounds = _this.sounds;
+			let _this = this;
+			let sounds = _this.sounds;
 			_this.volume = volume;
-			for (var id in sounds) {
+			for (let id in sounds) {
 				if (!sounds.hasOwnProperty(id)) {
 					continue;
 				}
-				var audio = sounds[id];
+				let audio = sounds[id];
 				audio.volume = _max(0, _min(1, volume / 100));
 			}
 		};
@@ -27288,14 +27325,14 @@ if (!("swf2js" in window)) {
 		 */
 		Sound.prototype.setPan = function(pan)
 		{
-			var _this = this;
-			var sounds = _this.sounds;
+			let _this = this;
+			let sounds = _this.sounds;
 			_this.pan = pan;
-			for (var id in sounds) {
+			for (let id in sounds) {
 				if (!sounds.hasOwnProperty(id)) {
 					continue;
 				}
-				var audio = sounds[id];
+				let audio = sounds[id];
 				audio.pan = pan;
 			}
 		};
@@ -27305,8 +27342,8 @@ if (!("swf2js" in window)) {
 		 */
 		Sound.prototype.setTransform = function(object)
 		{
-			var transform = this.transform;
-			for (var name in object) {
+			let transform = this.transform;
+			for (let name in object) {
 				if (!object.hasOwnProperty(name)) {
 					continue;
 				}
@@ -27348,9 +27385,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var SharedObject = function()
+		let SharedObject = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.data = null;
 			_this.name = null;
 		};
@@ -27361,9 +27398,9 @@ if (!("swf2js" in window)) {
 		 */
 		SharedObject.prototype.getLocal = function(name)
 		{
-			var _this = this;
+			let _this = this;
 			_this.name = name;
-			var data = window.localStorage.getItem(name);
+			let data = window.localStorage.getItem(name);
 			if (!data) {
 				data = {};
 			} else {
@@ -27378,7 +27415,7 @@ if (!("swf2js" in window)) {
 		 */
 		SharedObject.prototype.flush = function()
 		{
-			var _this = this;
+			let _this = this;
 			window.localStorage.setItem(_this.name, JSON.stringify(_this.data));
 			return true;
 		};
@@ -27387,9 +27424,9 @@ if (!("swf2js" in window)) {
 		 * @param mc
 		 * @constructor
 		 */
-		var Color = function(mc)
+		let Color = function(mc)
 		{
-			var _this = this;
+			let _this = this;
 			_this.movieClip = mc;
 			_this.variables = {};
 		};
@@ -27434,16 +27471,16 @@ if (!("swf2js" in window)) {
 		 */
 		Color.prototype.setRGB = function(offset)
 		{
-			var _this = this;
-			var mc = _this.movieClip;
+			let _this = this;
+			let mc = _this.movieClip;
 			if (mc instanceof MovieClip) {
 				offset |= 0;
-				var obj = _this.intToRGBA(offset);
-				var colorTransform = mc.getOriginColorTransform();
+				let obj = _this.intToRGBA(offset);
+				let colorTransform = mc.getOriginColorTransform();
 				if (colorTransform) {
-					var transform = [obj.R, obj.G, obj.B, obj.A * 255, 0, 0, 0, 0];
-					var multiColor = mc.cloneArray(transform);
-					var color = mc.multiplicationColor(colorTransform, multiColor);
+					let transform = [obj.R, obj.G, obj.B, obj.A * 255, 0, 0, 0, 0];
+					let multiColor = mc.cloneArray(transform);
+					let color = mc.multiplicationColor(colorTransform, multiColor);
 					mc.setColorTransform(color);
 				}
 			}
@@ -27454,8 +27491,8 @@ if (!("swf2js" in window)) {
 		 */
 		Color.prototype.getTransform = function()
 		{
-			var _this = this;
-			var mc = _this.movieClip;
+			let _this = this;
+			let mc = _this.movieClip;
 			if (mc instanceof MovieClip) {
 				return mc.getColorTransform();
 			}
@@ -27467,16 +27504,16 @@ if (!("swf2js" in window)) {
 		 */
 		Color.prototype.setTransform = function(obj)
 		{
-			var _this = this;
-			var mc = _this.movieClip;
+			let _this = this;
+			let mc = _this.movieClip;
 			if (mc instanceof MovieClip) {
-				var colorTransform = mc.getOriginColorTransform();
-				var transform = [
+				let colorTransform = mc.getOriginColorTransform();
+				let transform = [
 					obj.rb, obj.gb, obj.bb, obj.ab,
 					obj.ra, obj.ga, obj.ba, obj.aa
 				];
-				var multiColor = mc.cloneArray(transform);
-				var color = mc.multiplicationColor(colorTransform, multiColor);
+				let multiColor = mc.cloneArray(transform);
+				let color = mc.multiplicationColor(colorTransform, multiColor);
 				mc.setColorTransform(color);
 			}
 		};
@@ -27484,7 +27521,7 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var Mouse = function()
+		let Mouse = function()
 		{
 			this.events = {};
 		};
@@ -27510,12 +27547,12 @@ if (!("swf2js" in window)) {
 		 */
 		Mouse.prototype.addListener = function(listener)
 		{
-			var _this = this;
+			let _this = this;
 			if (listener && typeof listener === "object") {
-				var events = ["onMouseDown", "onMouseMove", "onMouseUp"];
-				var variables = listener.variables;
-				for (var i = 0; i < 5; i++) {
-					var event = events[i];
+				let events = ["onMouseDown", "onMouseMove", "onMouseUp"];
+				let variables = listener.variables;
+				for (let i = 0; i < 5; i++) {
+					let event = events[i];
 					if (typeof listener[event] === "function") {
 						_this.events[event] = listener[event];
 					} else if (variables && typeof variables[event] === "function") {
@@ -27531,12 +27568,12 @@ if (!("swf2js" in window)) {
 		 */
 		Mouse.prototype.removeListener = function(listener)
 		{
-			var _this = this;
+			let _this = this;
 			if (listener && typeof listener === "object") {
-				var events = ["onMouseDown", "onMouseMove", "onMouseUp"];
-				for (var i = 0; i < 5; i++) {
-					var event = events[i];
-					var variables = listener.variables;
+				let events = ["onMouseDown", "onMouseMove", "onMouseUp"];
+				for (let i = 0; i < 5; i++) {
+					let event = events[i];
+					let variables = listener.variables;
 					if (typeof listener[event] === "function" ||
 						(variables && typeof variables[event] === "function")
 					) {
@@ -27550,9 +27587,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var Key = function()
+		let Key = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.variables = {};
 			_this.codes = [];
 			_this._listeners = [];
@@ -27630,12 +27667,12 @@ if (!("swf2js" in window)) {
 		 */
 		Key.prototype.addListener = function(listener)
 		{
-			var _this = this;
-			var onKeyDown = listener.onKeyDown;
+			let _this = this;
+			let onKeyDown = listener.onKeyDown;
 			if (onKeyDown) {
 				_this.onKeyDown = onKeyDown;
 			}
-			var onKeyUp = listener.onKeyUp;
+			let onKeyUp = listener.onKeyUp;
 			if (onKeyUp) {
 				_this.onKeyUp = onKeyUp;
 			}
@@ -27648,9 +27685,9 @@ if (!("swf2js" in window)) {
 		 */
 		Key.prototype.isDown = function(code)
 		{
-			var _this = this;
-			var codes = keyClass.codes;
-			for (var idx = 0; idx < codes.length; ++idx) {
+			let _this = this;
+			let codes = keyClass.codes;
+			for (let idx = 0; idx < codes.length; ++idx) {
 				if (_this.codes[idx] !== code) {
 					continue;
 				}
@@ -27666,9 +27703,9 @@ if (!("swf2js" in window)) {
 		 */
 		Key.prototype.getCode = function()
 		{
-			var keyCode = (_keyEvent) ? _keyEvent.keyCode : null;
+			let keyCode = (_keyEvent) ? _keyEvent.keyCode : null;
 			if (96 <= keyCode && keyCode <= 105) {
-				var n = keyCode - 96;
+				let n = keyCode - 96;
 				switch (n) {
 					case 0:
 						keyCode = 48;
@@ -27704,7 +27741,7 @@ if (!("swf2js" in window)) {
 			}
 			return keyCode;
 		};
-		var keyClass = new Key();
+		let keyClass = new Key();
 
 		/**
 		 * @param event
@@ -27712,13 +27749,13 @@ if (!("swf2js" in window)) {
 		function keyUpAction(event)
 		{
 			_keyEvent = event;
-			var onKeyUp = keyClass.onKeyUp;
+			let onKeyUp = keyClass.onKeyUp;
 			if (typeof onKeyUp === "function") {
 				onKeyUp.apply(keyClass, [event]);
 			}
 
-			var keyCode = keyClass.getCode();
-			var index = keyClass.codes.indexOf(keyCode);
+			let keyCode = keyClass.getCode();
+			let index = keyClass.codes.indexOf(keyCode);
 			if (index > -1) {
 				keyClass.codes.splice(index, 1);
 			}
@@ -27730,31 +27767,31 @@ if (!("swf2js" in window)) {
 		function keyDownAction(event)
 		{
 			_keyEvent = event;
-			var keyCode = keyClass.getCode();
+			let keyCode = keyClass.getCode();
 			if (keyClass.codes.indexOf(keyCode) === -1) {
 				keyClass.codes.push(keyCode);
 			}
 
-			var keyHit = false;
-			var i;
-			var length;
-			var obj;
-			var onKeyDown = keyClass.onKeyDown;
+			let keyHit = false;
+			let i;
+			let length;
+			let obj;
+			let onKeyDown = keyClass.onKeyDown;
 			if (typeof onKeyDown === "function") {
 				keyHit = true;
 				onKeyDown.apply(keyClass, [event]);
 			}
 
-			var idx;
+			let idx;
 			length = stages.length;
-			for (var pIdx = 0; pIdx < length; pIdx++) {
+			for (let pIdx = 0; pIdx < length; pIdx++) {
 				if (!(pIdx in stages)) {
 					continue;
 				}
 
-				var stage = stages[pIdx];
-				var keyDownEventHits = stage.keyDownEventHits;
-				var kLen = keyDownEventHits.length;
+				let stage = stages[pIdx];
+				let keyDownEventHits = stage.keyDownEventHits;
+				let kLen = keyDownEventHits.length;
 				if (kLen) {
 					keyHit = true;
 					for (idx = 0; idx < kLen; idx++) {
@@ -27763,37 +27800,37 @@ if (!("swf2js" in window)) {
 					}
 				}
 
-				var buttonHits = stage.buttonHits;
-				var len = buttonHits.length;
-				var isEnd = false;
+				let buttonHits = stage.buttonHits;
+				let len = buttonHits.length;
+				let isEnd = false;
 				for (i = len; i--;) {
 					if (!(i in buttonHits)) {
 						continue;
 					}
 
-					var hitObj = buttonHits[i];
+					let hitObj = buttonHits[i];
 					if (!hitObj) {
 						continue;
 					}
 
-					var button = hitObj.button;
+					let button = hitObj.button;
 					if (!button) {
 						continue;
 					}
 
-					var actions = button.getActions();
+					let actions = button.getActions();
 					if (!actions) {
 						continue;
 					}
 
-					var aLen = actions.length;
+					let aLen = actions.length;
 					for (idx = 0; idx < aLen; idx++) {
 						if (!(idx in actions)) {
 							continue;
 						}
 
-						var cond = actions[idx];
-						var CondKeyPress = cond.CondKeyPress;
+						let cond = actions[idx];
+						let CondKeyPress = cond.CondKeyPress;
 						switch (CondKeyPress) {
 							case 1: // left arrow
 								CondKeyPress = 37;
@@ -27860,7 +27897,7 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var Global = function()
+		let Global = function()
 		{
 			this.variables = {};
 		};
@@ -27907,7 +27944,7 @@ if (!("swf2js" in window)) {
 		 * @constructor
 		 * @param stage
 		 */
-		var packages = function(stage)
+		let packages = function(stage)
 		{
 			this.stage = stage;
 
@@ -27941,8 +27978,8 @@ if (!("swf2js" in window)) {
 				"system": {
 					"fscommand": function ()
 					{
-						var command = arguments[0];
-						var args = arguments[1];
+						let command = arguments[0];
+						let args = arguments[1];
 						if (args === undefined) {
 							args = "";
 						}
@@ -27957,10 +27994,10 @@ if (!("swf2js" in window)) {
 								break;
 							default:
 								if (command) {
-									var _this = this;
-									var method = (_this.tagId) ? _this.tagId : _this.getName();
-									var body = method + "_DoFSCommand(command, args);";
-									var fscommand = new Func("command", "args", body);
+									let _this = this;
+									let method = (_this.tagId) ? _this.tagId : _this.getName();
+									let body = method + "_DoFSCommand(command, args);";
+									let fscommand = new Func("command", "args", body);
 									fscommand(command, args);
 								}
 								break;
@@ -27975,9 +28012,9 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var Stage = function()
+		let Stage = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.frame = 0;
 			_this.id = stageId++;
 			_this.bounds = null;
@@ -28096,7 +28133,7 @@ if (!("swf2js" in window)) {
 			_this.newTags = [];
 
 			// init
-			var mc = new MovieClip();
+			let mc = new MovieClip();
 			mc.setStage(_this);
 			_this.setParent(mc);
 			// used during parsing
@@ -28133,7 +28170,7 @@ if (!("swf2js" in window)) {
 		};
 
 		Stage.prototype.showProgressSteps = function() {
-			for (var p = 0; p < this.progressSteps.length; p++)
+			for (let p = 0; p < this.progressSteps.length; p++)
 				console.log(this.progressSteps[p][0] + " in " +
 					Math.ceil(this.progressSteps[p][2] - this.progressSteps[p][1]) / 1000 +
 					" secs [" + Math.ceil(this.progressSteps[p][1]) + "," + Math.ceil(this.progressSteps[p][2]) + "]");
@@ -28251,19 +28288,19 @@ if (!("swf2js" in window)) {
 		};
 		Stage.prototype.prepareStartStopAnimation = function()
 		{
-			var _this = this;
-			var control;
+			let _this = this;
+			let control;
 			if (!_this.autoPlayAllowed || !_this.autoStart || _this.otherSoundCount> 0) {
 				control = document.createElement("input");
 				control.type = "button";
 				control.id = "control";
 				control.alt = "Play";
 				control.value = "Play";
-				var svg='data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTYiIGhlaWdodD0iMjU2IiB2aWV3Qm94PSItMTI4IC0xMjggMjU2IDI1NiI+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMi45NTU0MDM0LDAsMCwyLjk2ODA1MzUsLTEuMjM3MTg1OSwwLjY5NDU5OTMpIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOjAuMDMzNzY0MTQ7c3Ryb2tlLW1pdGVybGltaXQ6NDtzdHJva2UtZGFzaGFycmF5Om5vbmUiPjxwYXRoIHN0eWxlPSJvcGFjaXR5OjE7ZmlsbDojNjU2NTY1O2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTojNjU2NTY1O3N0cm9rZS13aWR0aDowLjAzMzc2NDE0O3N0cm9rZS1saW5lY2FwOmJ1dHQ7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjQ7c3Ryb2tlLWRhc2hhcnJheTpub25lO3N0cm9rZS1kYXNob2Zmc2V0OjAiIHZlY3Rvci1lZmZlY3Q9Im5vbi1zY2FsaW5nLXN0cm9rZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTUwLC01MCkiIGQ9Ik0gNTAsOTIuODc1IEMgMjYuMzU4LDkyLjg3NSA3LjEyNSw3My42NDIgNy4xMjUsNTAgNy4xMjUsMjYuMzU4IDI2LjM1OCw3LjEyNSA1MCw3LjEyNSA3My42NDIsNy4xMjUgOTIuODc1LDI2LjM1OCA5Mi44NzUsNTAgOTIuODc1LDczLjY0MiA3My42NDIsOTIuODc1IDUwLDkyLjg3NSBaIE0gNTAsOS4xMjUgQyAyNy40NjEsOS4xMjUgOS4xMjUsMjcuNDYxIDkuMTI1LDUwIDkuMTI1LDcyLjUzOCAyNy40NjEsOTAuODc1IDUwLDkwLjg3NSA3Mi41MzgsOTAuODc1IDkwLjg3NSw3Mi41MzggOTAuODc1LDUwIDkwLjg3NSwyNy40NjEgNzIuNTM4LDkuMTI1IDUwLDkuMTI1IFoiIC8+PC9nPjxnIHRyYW5zZm9ybT0ibWF0cml4KDMuNDg5OTk5NiwwLDAsMy40ODk5OTk1LC0wLjc0OTk5NjU1LDAuNzUwMDAwMDUpIiBpZD0iODdlNjc4ZjEtOWQzYi00NjRiLTlmZmUtNDYzYTNkMjcwMGFlIiBzdHlsZT0iZmlsbDojOTY5Njk2O2ZpbGwtb3BhY2l0eToxIj48Y2lyY2xlIHN0eWxlPSJvcGFjaXR5OjE7ZmlsbDojOTY5Njk2O2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTojMDAwMDAwO3N0cm9rZS13aWR0aDowO3N0cm9rZS1saW5lY2FwOmJ1dHQ7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjQ7c3Ryb2tlLWRhc2hhcnJheTpub25lO3N0cm9rZS1kYXNob2Zmc2V0OjA7c3Ryb2tlLW9wYWNpdHk6MSIgdmVjdG9yLWVmZmVjdD0ibm9uLXNjYWxpbmctc3Ryb2tlIiBjeD0iMCIgY3k9IjAiIHI9IjM1IiAvPjwvZz48ZyB0cmFuc2Zvcm09Im1hdHJpeCgwLDEuODI4MzIxLC0xLjgyMDUyODUsMCwyNC4yMjc0OTEsLTIuMDEyNTY0MykiIGlkPSJmNWI3NTcyMy03ZDdhLTQzOWYtOTlhNC1lNTQ2MmU5YjZjOWIiPjxwb2x5Z29uIHN0eWxlPSJvcGFjaXR5OjE7ZmlsbDojNjU2NTY1O2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTojMDAwMDAwO3N0cm9rZS13aWR0aDowO3N0cm9rZS1saW5lY2FwOmJ1dHQ7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjQ7c3Ryb2tlLWRhc2hhcnJheTpub25lO3N0cm9rZS1kYXNob2Zmc2V0OjAiIHZlY3Rvci1lZmZlY3Q9Im5vbi1zY2FsaW5nLXN0cm9rZSIgcG9pbnRzPSIzNy40MywzMi40MSAtMzcuNDMsMzIuNDEgMCwtMzIuNDEiLz48L2c+PC9zdmc+';
-				var d = document.getElementById(_this.name);
-				var s = window.getComputedStyle(d);
-				var w = Math.floor(parseFloat(s.height)/3);
-				var top = Math.floor((parseFloat(s.height)-w)/2), left = Math.floor((parseFloat(s.width)-w)/2);
+				let svg='data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTYiIGhlaWdodD0iMjU2IiB2aWV3Qm94PSItMTI4IC0xMjggMjU2IDI1NiI+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMi45NTU0MDM0LDAsMCwyLjk2ODA1MzUsLTEuMjM3MTg1OSwwLjY5NDU5OTMpIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOjAuMDMzNzY0MTQ7c3Ryb2tlLW1pdGVybGltaXQ6NDtzdHJva2UtZGFzaGFycmF5Om5vbmUiPjxwYXRoIHN0eWxlPSJvcGFjaXR5OjE7ZmlsbDojNjU2NTY1O2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTojNjU2NTY1O3N0cm9rZS13aWR0aDowLjAzMzc2NDE0O3N0cm9rZS1saW5lY2FwOmJ1dHQ7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjQ7c3Ryb2tlLWRhc2hhcnJheTpub25lO3N0cm9rZS1kYXNob2Zmc2V0OjAiIHZlY3Rvci1lZmZlY3Q9Im5vbi1zY2FsaW5nLXN0cm9rZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTUwLC01MCkiIGQ9Ik0gNTAsOTIuODc1IEMgMjYuMzU4LDkyLjg3NSA3LjEyNSw3My42NDIgNy4xMjUsNTAgNy4xMjUsMjYuMzU4IDI2LjM1OCw3LjEyNSA1MCw3LjEyNSA3My42NDIsNy4xMjUgOTIuODc1LDI2LjM1OCA5Mi44NzUsNTAgOTIuODc1LDczLjY0MiA3My42NDIsOTIuODc1IDUwLDkyLjg3NSBaIE0gNTAsOS4xMjUgQyAyNy40NjEsOS4xMjUgOS4xMjUsMjcuNDYxIDkuMTI1LDUwIDkuMTI1LDcyLjUzOCAyNy40NjEsOTAuODc1IDUwLDkwLjg3NSA3Mi41MzgsOTAuODc1IDkwLjg3NSw3Mi41MzggOTAuODc1LDUwIDkwLjg3NSwyNy40NjEgNzIuNTM4LDkuMTI1IDUwLDkuMTI1IFoiIC8+PC9nPjxnIHRyYW5zZm9ybT0ibWF0cml4KDMuNDg5OTk5NiwwLDAsMy40ODk5OTk1LC0wLjc0OTk5NjU1LDAuNzUwMDAwMDUpIiBpZD0iODdlNjc4ZjEtOWQzYi00NjRiLTlmZmUtNDYzYTNkMjcwMGFlIiBzdHlsZT0iZmlsbDojOTY5Njk2O2ZpbGwtb3BhY2l0eToxIj48Y2lyY2xlIHN0eWxlPSJvcGFjaXR5OjE7ZmlsbDojOTY5Njk2O2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTojMDAwMDAwO3N0cm9rZS13aWR0aDowO3N0cm9rZS1saW5lY2FwOmJ1dHQ7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjQ7c3Ryb2tlLWRhc2hhcnJheTpub25lO3N0cm9rZS1kYXNob2Zmc2V0OjA7c3Ryb2tlLW9wYWNpdHk6MSIgdmVjdG9yLWVmZmVjdD0ibm9uLXNjYWxpbmctc3Ryb2tlIiBjeD0iMCIgY3k9IjAiIHI9IjM1IiAvPjwvZz48ZyB0cmFuc2Zvcm09Im1hdHJpeCgwLDEuODI4MzIxLC0xLjgyMDUyODUsMCwyNC4yMjc0OTEsLTIuMDEyNTY0MykiIGlkPSJmNWI3NTcyMy03ZDdhLTQzOWYtOTlhNC1lNTQ2MmU5YjZjOWIiPjxwb2x5Z29uIHN0eWxlPSJvcGFjaXR5OjE7ZmlsbDojNjU2NTY1O2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTojMDAwMDAwO3N0cm9rZS13aWR0aDowO3N0cm9rZS1saW5lY2FwOmJ1dHQ7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjQ7c3Ryb2tlLWRhc2hhcnJheTpub25lO3N0cm9rZS1kYXNob2Zmc2V0OjAiIHZlY3Rvci1lZmZlY3Q9Im5vbi1zY2FsaW5nLXN0cm9rZSIgcG9pbnRzPSIzNy40MywzMi40MSAtMzcuNDMsMzIuNDEgMCwtMzIuNDEiLz48L2c+PC9zdmc+';
+				let d = document.getElementById(_this.name);
+				let s = window.getComputedStyle(d);
+				let w = Math.floor(parseFloat(s.height)/3);
+				let top = Math.floor((parseFloat(s.height)-w)/2), left = Math.floor((parseFloat(s.width)-w)/2);
 				control.style="position: absolute; top: "+top+"px; left: "+left+"px; background-image: url("+svg+"); background-size: "+w+"px; background-repeat: no-repeat; background-position: left;"+
 					"padding-left: "+w+"px; height: "+w+"px; border: none; background-color: transparent; color:transparent; z-index: 255;";
 				d.appendChild(control);
@@ -28271,8 +28308,8 @@ if (!("swf2js" in window)) {
 					control.parentNode.removeChild(control);
 					_this.play();
 				};
-				var elemEventHandler = function(event) {
-					var control = document.getElementById('control');
+				let elemEventHandler = function(event) {
+					let control = document.getElementById('control');
 					if (control) {
 						control.parentNode.removeChild(control);
 						_this.play();
@@ -28289,12 +28326,12 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.startSound = function (soundStart)
 		{
-			var _this = this;
-			var sound = _this.sounds[soundStart.SoundId];
-			var audio = sound.Audio;
+			let _this = this;
+			let sound = _this.sounds[soundStart.SoundId];
+			let audio = sound.Audio;
 
 			if (!this.autoPlayAudioUnlocked) {
-				if (soundStart.soundInfo && !soundStart.soundInfo.SyncStop) {
+				if (soundStart.soundInfo && !soundStart.SoundInfo.SyncStop) {
 					this.soundsStopped.push(soundStart);
 				} else {
 					this.soundsNotStarted.push(soundStart);
@@ -28311,8 +28348,7 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.stopAllSounds = function()
 		{
-			var _this = this;
-			console.log('Stage.prototype.stopAllSounds');
+			let _this = this;
 			_this.stopSounds(true); //nowait
 		};
 
@@ -28323,7 +28359,7 @@ if (!("swf2js" in window)) {
 		{
 			if (this.soundStreams.length == 0) return;
 
-			var i, f , b;
+			let i, f , b;
 			// clean up empty soundstreams
 			for (i=0; i<this.soundStreams.length; i++) {
 				for ( f=0; f<this.soundStreams[i].FrameRanges.length; f++) {
@@ -28336,23 +28372,23 @@ if (!("swf2js" in window)) {
 
 			// build up SoundStream and convert if necessary
 			for (i=0; i<this.soundStreams.length; i++) {
-				var s = this.soundStreams[i];
+				let s = this.soundStreams[i];
 				for (f=0; f<s.FrameRanges.length; f++) {
-					var frameRange = s.FrameRanges[f];
+					let frameRange = s.FrameRanges[f];
 
-					var totalLength = 0;
+					let totalLength = 0;
 					for (b=0; b<frameRange.Data.length; b++) {
 						totalLength += frameRange.Data[b].length;
 					}
-					var result = new Uint8Array(totalLength);
-					var offset = 0;
+					let result = new Uint8Array(totalLength);
+					let offset = 0;
 					for (b = 0; b < frameRange.Data.length; b++) {
 						result.set(frameRange.Data[b], offset);
 						offset += frameRange.Data[b].length;
 					}
 
 					//result = Array.from(this.data);
-					var mimeType = "";
+					let mimeType = "";
 					switch (s.SoundStreamCompression) {
 						case 0: // Uncompressed native-endian
 						case 3: // Uncompressed little-endian
@@ -28376,18 +28412,18 @@ if (!("swf2js" in window)) {
 							mimeType = "x-aiff";
 							break;
 					}
-					var data;
+					let data;
 					frameRange.endAudio = (frameRange.endFrame+1-frameRange.startFrame)*this.getFrameRate()/1000;
 					// SoundStreamHead StreamSoundSize The sample size of the streaming sound data. Always 1 (16 bit).
 
 					if (s.SoundStreamCompression == 0 || s.SoundStreamCompression == 3) {
-						var pcmOutput = new PcmOutput(s.SoundStreamType, s.SoundStreamSize, s.SoundStreamRate, result);
+						let pcmOutput = new PcmOutput(s.SoundStreamType, s.SoundStreamSize, s.SoundStreamRate, result);
 						data = pcmOutput.createWave();
 					} else if (s.SoundStreamCompression == 1) {
-						var adpcmOutput = new AdpcmOutput();
+						let adpcmOutput = new AdpcmOutput();
 						data = adpcmOutput.convertADPCMtoWave(true, s.SoundStreamType, s.SoundStreamSize, s.SoundStreamRate, frameRange.Data);
 					} else if (s.SoundStreamCompression == 4 || s.SoundStreamCompression == 5 || s.SoundStreamCompression == 6) {
-						var nellyMoserDecoder = new NellyMoserDecoder(s.SoundStreamType, s.SoundStreamSize, s.SoundStreamRate, frameRange.Data);
+						let nellyMoserDecoder = new NellyMoserDecoder(s.SoundStreamType, s.SoundStreamSize, s.SoundStreamRate, frameRange.Data);
 						data = nellyMoserDecoder.toWave();
 						mimeType = "wave";
 					} else if (s.SoundStreamCompression == 2) {
@@ -28396,7 +28432,7 @@ if (!("swf2js" in window)) {
 						console.log('Soundstream compression '+s.SoundStreamCompression+' ('+soundFormats[s.SoundStreamCompression]+') not supported');
 					}
 
-					var audio = new AudioInstance({
+					let audio = new AudioInstance({
 						"mimeType": mimeType,
 						"data": data,
 						"id": s.SoundStreamId
@@ -28413,14 +28449,14 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.unlockSounds = function()
 		{
-			var i, a, oldVolume;
+			let i, a, oldVolume;
 			if (!this.autoPlayAllowed) {
 				if (this.firstSound) {
 					if (this.soundStreams.length > 0) {
 						for (i=0; i<this.soundStreams.length; i++) {
 							if (!this.soundStreams[i]) continue;
-							for (var f=0 ; f<this.soundStreams[i].FrameRanges.length; f++) {
-								var frameRange = this.soundStreams[i].FrameRanges[f];
+							for (let f=0 ; f<this.soundStreams[i].FrameRanges.length; f++) {
+								let frameRange = this.soundStreams[i].FrameRanges[f];
 								a = frameRange.Audio;
 								oldVolume = a.volume();
 								a.volume(0);
@@ -28453,13 +28489,10 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.restartSounds = function()
 		{
-			var _this = this;
-			var i, sound;
-
 			this.autoPlayAudioUnlocked = true;
 			this.autoPlayAllowed = true;
 
-			for (i=0; i<this.soundsNotStarted.length; i++) {
+			for (let i=0; i<this.soundsNotStarted.length; i++) {
 				this.startSound(this.soundsNotStarted[i]);
 				this.soundsStarted.push({
 					"SoundId": this.soundsNotStarted[i].SoundId,
@@ -28468,7 +28501,7 @@ if (!("swf2js" in window)) {
 			}
 			this.soundsNotStarted = [];
 
-			for (i=0; i<this.soundsStopped.length; i++) {
+			for (let i=0; i<this.soundsStopped.length; i++) {
 				this.startSound(this.soundsStopped[i]);
 				this.soundsStarted.push({
 					"SoundId": this.soundsStopped[i].SoundId,
@@ -28477,7 +28510,7 @@ if (!("swf2js" in window)) {
 			}
 			this.soundsStopped = [];
 
-			for (i=0; i<this.otherSoundsNotStarted.length; i++) {
+			for (let i=0; i<this.otherSoundsNotStarted.length; i++) {
 				if (this.otherSoundsNotStarted[i]) {
 					this.otherSoundsNotStarted[i].Sound.start(
 						this.otherSoundsNotStarted[i].currentTime,
@@ -28488,7 +28521,7 @@ if (!("swf2js" in window)) {
 			}
 			this.otherSoundsNotStarted = [];
 
-			for (i=0; i<this.otherSoundsStopped.length; i++) {
+			for (let i=0; i<this.otherSoundsStopped.length; i++) {
 				if (this.otherSoundsStopped[i]) {
 					this.otherSoundsStopped[i].audio.play();
 					this.otherSoundsStarted.push(this.otherSoundsStopped[i]);
@@ -28500,16 +28533,16 @@ if (!("swf2js" in window)) {
 		/**
 		 * stopSounds
 		 */
-		Stage.prototype.stopSounds = function(nowait)
+		Stage.prototype.stopSounds = function(nowait, markAsStopped)
 		{
-			var _this = this;
-			var i;
+			let _this = this;
+			let i;
 			if (nowait) {
 				for (i=0; i<this.soundsStarted.length; i++) {
-					var sound = this.sounds[this.soundsStarted[i].SoundId];
+					let sound = this.sounds[this.soundsStarted[i].SoundId];
 					if (sound.Audio.isPlaying) {
 						sound.Audio.pause();
-						this.soundsStopped.push({
+						if (markAsStopped) this.soundsStopped.push({
 							"SoundId": this.soundsStarted[i].SoundId,
 							"SoundInfo": this.soundsStarted[i].SoundInfo
 						});
@@ -28518,8 +28551,8 @@ if (!("swf2js" in window)) {
 				this.soundsStarted = [];
 
 				for (i=0; i<this.soundStreams.length; i++) {
-					for (var f=0; f<this.soundStreams[i].FrameRanges.length; f++) {
-						var frameRange = this.soundStreams[i].FrameRanges[f];
+					for (let f=0; f<this.soundStreams[i].FrameRanges.length; f++) {
+						let frameRange = this.soundStreams[i].FrameRanges[f];
 						if (this.soundStreams[i].FrameRanges[f].Audio.isPlaying) {
 							frameRange.Audio.pause();
 						}
@@ -28528,13 +28561,13 @@ if (!("swf2js" in window)) {
 
 				for (i=0; i<this.otherSoundsStarted.length; i++) {
 					if (this.otherSoundsStarted[i]) this.otherSoundsStarted[i].Sound.stop();
-					this.otherSoundsStopped.push(this.otherSoundsStarted[i]);
+					if (markAsStopped) this.otherSoundsStopped.push(this.otherSoundsStarted[i]);
 				}
 				this.otherSoundsStarted = [];
 			} else {
-				var wt = this.nextTime - getTimeStamp();
+				let wt = this.nextTime - getTimeStamp();
 				setTimeout(function() {
-					_this.stopSounds(true);
+					_this.stopSounds(true, markAsStopped);
 				}, wt);
 			}
 		};
@@ -28545,9 +28578,9 @@ if (!("swf2js" in window)) {
 		Stage.prototype.syncWithSoundStream = function()
 		{
 			if (this.soundStreamIsPlaying) {
-				var fr = this.soundStreams[this.soundStreamPlaying].FrameRanges[this.soundStreamFrameRange];
-				var f = this.getParent()._currentframe;
-				var cat = fr.Audio.seek();
+				let fr = this.soundStreams[this.soundStreamPlaying].FrameRanges[this.soundStreamFrameRange];
+				let f = this.getParent()._currentframe;
+				let cat = fr.Audio.seek();
 				if ((fr.startFrame <= f) && (f <= fr.endFrame) && (cat > this.lastAudioCurrentTime)) {
 					this.nextTime = getTimeStamp() + (fr.startAudio + (f - fr.startFrame + 1) * this.getFrameRate() / 1000 - this.soundStreams[this.soundStreamPlaying].soundStreamOutputLatency - cat) * 1000;
 					this.lastAudioCurrentTime = cat;
@@ -28559,8 +28592,7 @@ if (!("swf2js" in window)) {
 		 * animation
 		 */
 		Stage.prototype.animate = function() {
-			var _this = this;
-			var mc = _this.getParent();
+			let _this = this;
 
 			if (this.soundStreamIsPlaying) this.syncWithSoundStream(_this);
 
@@ -28584,10 +28616,10 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.play = function()
 		{
-			var _this = this;
+			let _this = this;
 			this.stopFlag = false;
 
-			var control = document.getElementById("control");
+			let control = document.getElementById("control");
 			if (control) {
 				control.parentNode.removeChild(control);
 				control = null;
@@ -28605,9 +28637,8 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.step = function()
 		{
-			var _this = this;
-			var mc = _this.getParent();
-			var control = document.getElementById("control");
+			let _this = this;
+			let control = document.getElementById("control");
 			if (control) {
 				control.parentNode.removeChild(control);
 				control = null;
@@ -28617,7 +28648,7 @@ if (!("swf2js" in window)) {
 			_this.restartSounds();
 			_this.nextFrame();
 			_this.stopFlag = true;
-			_this.stopSounds();
+			_this.stopSounds(false, true);
 		};
 
 		/**
@@ -28625,7 +28656,7 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.togglePlay = function()
 		{
-			var control = document.getElementById("control");
+			let control = document.getElementById("control");
 			if (control) {
 				control.parentNode.removeChild(control);
 				control = null;
@@ -28642,11 +28673,11 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.stop = function()
 		{
-			var _this = this;
+			let _this = this;
 
 			_this.stopFlag = true;
 			cancelAnimationFrame(_this.requestAnimationFrameId);
-			_this.stopSounds();
+			_this.stopSounds(false, true);
 		};
 
 		/**
@@ -28671,7 +28702,7 @@ if (!("swf2js" in window)) {
 		Stage.prototype.setOptions = function(options)
 		{
 			if (options !== undefined) {
-				var _this = this;
+				let _this = this;
 				_this.options = options;
 				_this.optionWidth = options.width || _this.optionWidth;
 				_this.optionHeight = options.height || _this.optionHeight;
@@ -28862,15 +28893,15 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.getPlaceObject = function(instanceId, depth, frame)
 		{
-			var placeObjects = this.placeObjects;
+			let placeObjects = this.placeObjects;
 			if (!(instanceId in placeObjects)) {
 				return null;
 			}
-			var placeObject = placeObjects[instanceId];
+			let placeObject = placeObjects[instanceId];
 			if (!(frame in placeObject)) {
 				return null;
 			}
-			var tags = placeObject[frame];
+			let tags = placeObject[frame];
 			if (!(depth in tags)) {
 				return null;
 			}
@@ -28885,8 +28916,8 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.setPlaceObject = function(placeObject, instanceId, depth, frame)
 		{
-			var _this = this;
-			var placeObjects = _this.placeObjects;
+			let _this = this;
+			let placeObjects = _this.placeObjects;
 			if (!(instanceId in placeObjects)) {
 				placeObjects[instanceId] = [];
 			}
@@ -28903,8 +28934,8 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.copyPlaceObject = function(instanceId, depth, frame)
 		{
-			var _this = this;
-			var placeObject = _this.getPlaceObject(instanceId, depth, frame - 1);
+			let _this = this;
+			let placeObject = _this.getPlaceObject(instanceId, depth, frame - 1);
 			_this.setPlaceObject(placeObject, instanceId, depth, frame);
 		};
 
@@ -28936,10 +28967,10 @@ if (!("swf2js" in window)) {
 		 * loadStatus CountUp
 		 */
 		Stage.prototype.checkLoadSounds = function() {
-			var _this = this;
+			let _this = this;
 			if (this.sndUnloadCount > 0) {
-				for (var i=0; i<this.sounds.length; i++ ) {
-					var sound = this.sounds[i];
+				for (let i=0; i<this.sounds.length; i++ ) {
+					let sound = this.sounds[i];
 					if (!sound) continue;
 					if (!sound.Loaded) {
 						if (sound.Audio.loadState == "loaded") {
@@ -28960,10 +28991,10 @@ if (!("swf2js" in window)) {
 		 * loadStatus CountUp
 		 */
 		Stage.prototype.checkLoadSoundStreams = function() {
-			var _this = this;
+			let _this = this;
 			if (this.sndStreamUnloadCount > 0) {
-				for (var i=0; i<this.soundStreams.length; i++) {
-					for (var f=0; f<this.soundStreams[i].FrameRanges.length; f++) {
+				for (let i=0; i<this.soundStreams.length; i++) {
+					for (let f=0; f<this.soundStreams[i].FrameRanges.length; f++) {
 						if (this.soundStreams[i].FrameRanges[f].Audio.loadState == "loaded") {
 							this.soundStreams[i].FrameRanges[f].Loaded = true;
 							this.sndStreamUnloadCount--;
@@ -28983,18 +29014,18 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.showDebug = function()
 		{
-			var parent = _document.getElementsByTagName("body")[0];
-			var div_debug = _document.createElement("div");
-			var s = "";
+			let parent = _document.getElementsByTagName("body")[0];
+			let div_debug = _document.createElement("div");
+			let s = "";
 			if (this.debug) {
-				for (var i=0; i<this.debug_lines.length; i++) {
+				for (let i=0; i<this.debug_lines.length; i++) {
 					s+=this.debug_lines[i]+"\n";
 				}
 			} else s="No debug info, reload with option debug: true";
 			div_debug.innerHTML ='<pre style="opacity:1">'+s+'</pre>';
-			var button = _document.createElement("button");
+			let button = _document.createElement("button");
 			button.innerHTML = 'Close';
-			button.setAttribute('onclick', 'var s=document.getElementById("showDebug"); s.parentElement.removeChild(s);');
+			button.setAttribute('onclick', 'let s=document.getElementById("showDebug"); s.parentElement.removeChild(s);');
 			div_debug.style = 'position: absolute; top: 20px; left: 20px; z-index: 256; background-color: #FFFFFF;';
 			div_debug.id = 'showDebug';
 			div_debug.prepend(button);
@@ -29006,9 +29037,9 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.showInfo = function()
 		{
-			var div = _document.getElementById(this.getName());
-			var parent = _document.getElementsByTagName('body')[0];
-			var div_info = _document.createElement("div");
+			let div = _document.getElementById(this.getName());
+			let parent = _document.getElementsByTagName('body')[0];
+			let div_info = _document.createElement("div");
 			div_info.innerHTML = '<table style="background: #FFFFFF;">\n' +
 				'<tr><td>SWF-file</td><td>'+ this.url + '</td</tr>\n' +
 				'<tr><td>Signature</td><td>'+ this.signature + '</td</tr>\n' +
@@ -29052,9 +29083,9 @@ if (!("swf2js" in window)) {
 				div_info.innerHTML += '</table>';
 			div_info.style = 'position: absolute; top: 20px; left: 20px; z-index: 256;';
 			div_info.id = 'showInfo_'+this.id;
-			var button = _document.createElement("button");
+			let button = _document.createElement("button");
 			button.innerHTML = 'Close';
-			button.setAttribute('onclick', 'var s=document.getElementById("showInfo_"+'+this.id+'); s.parentElement.removeChild(s);');
+			button.setAttribute('onclick', 'let s=document.getElementById("showInfo_"+'+this.id+'); s.parentElement.removeChild(s);');
 			div_info.prepend(button);
 			parent.appendChild(div_info);
 		};
@@ -29064,7 +29095,7 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.loadEvent = function(ref)
 		{
-			var _this = this;
+			let _this = this;
 			switch (_this.loadStatus) {
 				case 2:
 					this.resize();
@@ -29110,7 +29141,7 @@ if (!("swf2js" in window)) {
 					this.prepareStartStopAnimation();
 					this.progressStepEnd(true);
 					this.showProgressTotalTime();
-					var div = _document.getElementById(this.getName());
+					let div = _document.getElementById(this.getName());
 					console.log("SWF-file '" + this.url + "\n" +
 						"Signature " + this.signature + "\n" +
 						 "Version " + this.version + "\n" +
@@ -29155,10 +29186,10 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.parse = function(data, url)
 		{
-			var _this = this;
+			let _this = this;
 			_this.isLoad = false;
-			var bitio = new BitIO();
-			var swftag = new SwfTag(_this, bitio);
+			let bitio = new BitIO();
+			let swftag = new SwfTag(_this, bitio);
 
 			if (isXHR2) {
 				bitio.setData(new Uint8Array(data));
@@ -29167,16 +29198,16 @@ if (!("swf2js" in window)) {
 			}
 
 			if (_this.setSwfHeader(bitio, swftag)) {
-				var mc = _this.getParent();
+				let mc = _this.getParent();
 				mc._url = location.href;
 
 				// parse
-				var tags = swftag.parse(mc);
+				let tags = swftag.parse(mc);
 
 				// mc reset
 				mc.container = [];
-				var frame = 1;
-				var totalFrames = mc.getTotalFrames() + 1;
+				let frame = 1;
+				let totalFrames = mc.getTotalFrames() + 1;
 				while (frame < totalFrames) {
 					mc.container[frame++] = [];
 				}
@@ -29185,13 +29216,13 @@ if (!("swf2js" in window)) {
 				// build
 				swftag.build(tags, mc);
 
-				var query = url.split("?")[1];
+				let query = url.split("?")[1];
 				if (query) {
-					var values = query.split("&");
-					var length = values.length;
+					let values = query.split("&");
+					let length = values.length;
 					while (length--) {
-						var value = values[length];
-						var pair = value.split("=");
+						let value = values[length];
+						let pair = value.split("=");
 						if (pair.length > 1) {
 							mc.setVariable(pair[0], pair[1]);
 						}
@@ -29199,8 +29230,8 @@ if (!("swf2js" in window)) {
 				}
 
 				// FlashVars
-				var vars = _this.FlashVars;
-				for (var key in vars) {
+				let vars = _this.FlashVars;
+				for (let key in vars) {
 					if (!vars.hasOwnProperty(key)) {
 						continue;
 					}
@@ -29218,26 +29249,26 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.setSwfHeader = function(bitio, swftag)
 		{
-			var _this = this;
+			let _this = this;
 
-			var data = bitio.data;
+			let data = bitio.data;
 			if (data[0] === 0xff && data[1] === 0xd8) {
 				_this.parseJPEG(data, swftag);
 				return false;
 			}
 
 			// signature
-			var signature = bitio.getHeaderSignature();
+			let signature = bitio.getHeaderSignature();
 			_this.setSignature(signature);
 			if (_this.debug) _this.debug_lines.push('[HEADER]        File signature: '+signature);
 
 			// version
-			var version = bitio.getVersion();
+			let version = bitio.getVersion();
 			_this.setVersion(version);
 			if (_this.debug) _this.debug_lines.push('[HEADER]        File version: '+version);
 
 			// file size
-			var fileLength = bitio.getUI32();
+			let fileLength = bitio.getUI32();
 			_this.fileSize = fileLength;
 			if (_this.debug) _this.debug_lines.push('[HEADER]        File size: '+fileLength);
 
@@ -29276,11 +29307,11 @@ if (!("swf2js" in window)) {
 					return false;
 			}
 			// frameSize RECT
-			var bounds = swftag.rect();
+			let bounds = swftag.rect();
 			_this.bounds = bounds;
-			var frameRate = bitio.getUI16() / 0x100;
+			let frameRate = bitio.getUI16() / 0x100;
 			if (_this.debug) _this.debug_lines.push('[HEADER]        Frame rate: '+frameRate);
-			var frameCount = bitio.getUI16(); // frameCount
+			let frameCount = bitio.getUI16(); // frameCount
 			if (_this.debug) _this.debug_lines.push('[HEADER]        Frame count: '+frameCount);
 			this.setFrameCount(frameCount);
 
@@ -29301,26 +29332,26 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.parseJPEG = function(data, swftag)
 		{
-			var _this = this;
-			var image = _document.createElement("img");
+			let _this = this;
+			let image = _document.createElement("img");
 			image.addEventListener("load", function() {
-				var width = this.width;
-				var height = this.height;
+				let width = this.width;
+				let height = this.height;
 
-				var canvas = cacheStore.getCanvas();
+				let canvas = cacheStore.getCanvas();
 				canvas.width = width;
 				canvas.height = height;
-				var imageContext = canvas.getContext("2d");
+				let imageContext = canvas.getContext("2d");
 				imageContext.drawImage(this, 0, 0, width, height);
 				_this.setCharacter(1, imageContext);
 
-				var shapeWidth = width * 20;
-				var shapeHeight = height * 20;
+				let shapeWidth = width * 20;
+				let shapeHeight = height * 20;
 
 				_this.setBaseWidth(width);
 				_this.setBaseHeight(height);
 
-				var shape = {
+				let shape = {
 					ShapeRecords: [{
 							FillStyle1: 1,
 							StateFillStyle0: 0,
@@ -29378,13 +29409,13 @@ if (!("swf2js" in window)) {
 					}
 				};
 
-				var bounds = {
+				let bounds = {
 					xMin: 0,
 					xMax: shapeWidth,
 					yMin: 0,
 					yMax: shapeHeight
 				};
-				var data = vtc.convert(shape);
+				let data = vtc.convert(shape);
 
 				_this.setCharacter(2, {
 					tagType: 22,
@@ -29392,8 +29423,8 @@ if (!("swf2js" in window)) {
 					bounds: bounds
 				});
 
-				var parent = _this.getParent();
-				var obj = new Shape();
+				let parent = _this.getParent();
+				let obj = new Shape();
 				obj.setParent(parent);
 				obj.setStage(_this);
 				obj.setData(data);
@@ -29405,20 +29436,20 @@ if (!("swf2js" in window)) {
 				parent.container[1] = [];
 				parent.container[1][1] = obj.instanceId;
 
-				var placeObject = new PlaceObject();
+				let placeObject = new PlaceObject();
 				_this.setPlaceObject(placeObject, obj.instanceId, 1, 1);
 
 				_this.init();
 			});
 
 
-			var length = data.length;
-			var src = "";
-			for (var i = 0; i < length; i++) {
+			let length = data.length;
+			let src = "";
+			for (let i = 0; i < length; i++) {
 				src += _fromCharCode(data[i]);
 			}
 
-			var jpegData = swftag.parseJpegData(data);
+			let jpegData = swftag.parseJpegData(data);
 			image.src = "data:image/jpeg;base64," + swftag.base64encode(jpegData);
 
 		};
@@ -29428,37 +29459,37 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.resize = function()
 		{
-			var _this = this;
-			var div = _document.getElementById(_this.getName());
+			let _this = this;
+			let div = _document.getElementById(_this.getName());
 			if (!div) {
 				return 0;
 			}
 
-			var oWidth = _this.optionWidth;
-			var oHeight = _this.optionHeight;
+			let oWidth = _this.optionWidth;
+			let oHeight = _this.optionHeight;
 
-			var element = _document.documentElement;
-			var innerWidth = _max(element.clientWidth, window.innerWidth || 0);
-			var innerHeight = _max(element.clientHeight, window.innerHeight || 0);
+			let element = _document.documentElement;
+			let innerWidth = _max(element.clientWidth, window.innerWidth || 0);
+			let innerHeight = _max(element.clientHeight, window.innerHeight || 0);
 
-			var parent = div.parentNode;
+			let parent = div.parentNode;
 			if (parent.tagName !== "BODY") {
 				innerWidth = parent.offsetWidth;
 				innerHeight = parent.offsetHeight;
 			}
-			var screenWidth = (oWidth > 0) ? oWidth : innerWidth;
-			var screenHeight = (oHeight > 0) ? oHeight : innerHeight;
+			let screenWidth = (oWidth > 0) ? oWidth : innerWidth;
+			let screenHeight = (oHeight > 0) ? oHeight : innerHeight;
 
-			var baseWidth = _this.getBaseWidth();
-			var baseHeight = _this.getBaseHeight();
-			var scale = _min((screenWidth / baseWidth), (screenHeight / baseHeight));
+			let baseWidth = _this.getBaseWidth();
+			let baseHeight = _this.getBaseHeight();
+			let scale = _min((screenWidth / baseWidth), (screenHeight / baseHeight));
 			if (_this.noScaling) scale = 1;
-			var width = baseWidth * scale;
-			var height = baseHeight * scale;
+			let width = baseWidth * scale;
+			let height = baseHeight * scale;
 
 			if (width !== _this.getWidth() || height !== _this.getHeight()) {
 				// div
-				var style = div.style;
+				let style = div.style;
 				style.width = width + "px";
 				style.height = height + "px";
 				style.top = "0px";
@@ -29472,28 +29503,28 @@ if (!("swf2js" in window)) {
 				_this.setHeight(height);
 
 				// main
-				var canvas = _this.context.canvas;
+				let canvas = _this.context.canvas;
 				canvas.width = width;
 				canvas.height = height;
 
 				// pre
-				var preCanvas = _this.preContext.canvas;
+				let preCanvas = _this.preContext.canvas;
 				preCanvas.width = width;
 				preCanvas.height = height;
 
-				var hitCanvas = _this.hitContext.canvas;
+				let hitCanvas = _this.hitContext.canvas;
 				hitCanvas.width = width;
 				hitCanvas.height = height;
 
 				// tmp
 				if (isAndroid && isChrome) {
-					var tmpCanvas = tmpContext.canvas;
+					let tmpCanvas = tmpContext.canvas;
 					tmpCanvas.width = width;
 					tmpCanvas.height = height;
 				}
 
-				var mc = _this.getParent();
-				var mScale = scale * _devicePixelRatio / 20;
+				let mc = _this.getParent();
+				let mScale = scale * _devicePixelRatio / 20;
 				_this.setMatrix(mc.cloneArray([mScale, 0, 0, mScale, 0, 0]));
 			}
 		};
@@ -29502,7 +29533,7 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.clear = function()
 		{
-			var _this = this;
+			let _this = this;
 
 			_this.stop();
 
@@ -29558,7 +29589,7 @@ if (!("swf2js" in window)) {
 				//_this.touchEnd(event);
 			});
 
-			var div = _this.canvas.parentNode;
+			let div = _this.canvas.parentNode;
 			div.removeChild(_this.canvas);
 			div.parentNode.removeChild(div);
 			_this = null;
@@ -29571,7 +29602,7 @@ if (!("swf2js" in window)) {
 		Stage.prototype.loaded = function()
 		{
 			// reset
-			var _this = this;
+			let _this = this;
 			_this.buttonHits = [];
 			_this.downEventHits = [];
 			_this.moveEventHits = [];
@@ -29582,15 +29613,15 @@ if (!("swf2js" in window)) {
 
 			// DOM
 			_this.deleteNode();
-			var div = _document.getElementById(_this.getName());
+			let div = _document.getElementById(_this.getName());
 			if (div) {
-				var mc = _this.getParent();
+				let mc = _this.getParent();
 				mc.initFrame();
 				mc.addActions(_this);
 				_this.executeAction();
 
 				// callback
-				var callback = _this.callback;
+				let callback = _this.callback;
 				if (typeof callback === "function") {
 					callback.call(window, mc);
 				}
@@ -29598,8 +29629,8 @@ if (!("swf2js" in window)) {
 				_this.render();
 				_this.renderMain();
 
-				var ctx = _this.context;
-				var canvas = ctx.canvas;
+				let ctx = _this.context;
+				let canvas = ctx.canvas;
 
 				canvas.addEventListener("mousedown", function(event) {
 					_event = event;
@@ -29652,10 +29683,10 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.deleteNode = function(tagId)
 		{
-			var div = _document.getElementById(tagId ? tagId : this.getName());
+			let div = _document.getElementById(tagId ? tagId : this.getName());
 			if (div) {
-				var childNodes = div.childNodes;
-				var length = childNodes.length;
+				let childNodes = div.childNodes;
+				let length = childNodes.length;
 				if (length) {
 					while (length--) {
 						div.removeChild(childNodes[length]);
@@ -29669,7 +29700,7 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.nextFrame = function()
 		{
-			var _this = this;
+			let _this = this;
 
 			_this.downEventHits = [];
 			_this.moveEventHits = [];
@@ -29678,18 +29709,18 @@ if (!("swf2js" in window)) {
 			_this.keyUpEventHits = [];
 
 			// mouse event
-			var parent = _this.getParent();
-			var mouse = _this.mouse;
-			var mouseEvents = mouse.events;
-			var onMouseDown = mouseEvents.onMouseDown;
+			let parent = _this.getParent();
+			let mouse = _this.mouse;
+			let mouseEvents = mouse.events;
+			let onMouseDown = mouseEvents.onMouseDown;
 			if (onMouseDown) {
 				_this.downEventHits[_this.downEventHits.length] = {as: onMouseDown, mc: parent};
 			}
-			var onMouseMove = mouseEvents.onMouseMove;
+			let onMouseMove = mouseEvents.onMouseMove;
 			if (onMouseMove) {
 				_this.moveEventHits[_this.moveEventHits.length] = {as: onMouseMove, mc: parent};
 			}
-			var onMouseUp = mouseEvents.onMouseUp;
+			let onMouseUp = mouseEvents.onMouseUp;
 			if (onMouseUp) {
 				_this.upEventHits[_this.upEventHits.length] = {as: onMouseUp, mc: parent};
 			}
@@ -29708,15 +29739,15 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.putFrame = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.newTags = [];
-			var doneTags = _this.doneTags;
-			var length = doneTags.length;
+			let doneTags = _this.doneTags;
+			let length = doneTags.length;
 			if (length) {
 				clipEvent.type = "enterFrame";
-				var i = 0;
+				let i = 0;
 				while (i < length) {
-					var tag = doneTags[i];
+					let tag = doneTags[i];
 					tag.putFrame(_this, clipEvent);
 					i++;
 				}
@@ -29728,13 +29759,13 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.addActions = function()
 		{
-			var _this = this;
-			var newTags = _this.newTags;
-			var length = newTags.length;
+			let _this = this;
+			let newTags = _this.newTags;
+			let length = newTags.length;
 			if (length) {
-				var i = 0;
+				let i = 0;
 				while (i < length) {
-					var tag = newTags[i];
+					let tag = newTags[i];
 					tag.addActions(_this);
 					i++;
 				}
@@ -29746,27 +29777,27 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.render = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.buttonHits = [];
 			_this.doneTags = [];
 
-			var ctx = _this.preContext;
+			let ctx = _this.preContext;
 			ctx.globalCompositeOperation = "source-over";
 			ctx.setTransform(1, 0, 0, 1, 0, 0);
-			var backgroundColor = _this.getBackgroundColor();
+			let backgroundColor = _this.getBackgroundColor();
 			if (!backgroundColor || backgroundColor === "transparent") {
 				// pre clear
-				var canvas = ctx.canvas;
+				let canvas = ctx.canvas;
 				ctx.clearRect(0, 0, canvas.width + 1, canvas.height + 1);
 				// main clear
-				var mainCtx = _this.context;
+				let mainCtx = _this.context;
 				mainCtx.clearRect(0, 0, canvas.width + 1, canvas.height + 1);
 			} else {
 				ctx.fillStyle = backgroundColor;
 				ctx.fillRect(0, 0, _this.getWidth() + 1, _this.getHeight() + 1);
 			}
 
-			var mc = _this.getParent();
+			let mc = _this.getParent();
 			mc.render(ctx, _this._matrix, _this._colorTransform, _this, true);
 		};
 
@@ -29775,33 +29806,33 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.executeAction = function()
 		{
-			var _this = this;
+			let _this = this;
 			if (_this.isAction && _this.actions.length) {
 				_this.isAction = false;
-				var i = 0;
+				let i = 0;
 				while (i < _this.actions.length) {
-					var obj = _this.actions[i];
+					let obj = _this.actions[i];
 					i++;
-					var mc = obj.mc;
-					var args = obj.args || [];
+					let mc = obj.mc;
+					let args = obj.args || [];
 					if (!mc.active) {
 						continue;
 					}
 
-					var actions = obj.as;
+					let actions = obj.as;
 					if (typeof actions === "function") {
 						actions.apply(mc, args);
 					} else {
-						var length = actions.length;
+						let length = actions.length;
 						if (!length) {
 							continue;
 						}
-						var idx = 0;
+						let idx = 0;
 						while (idx < length) {
 							if (!(idx in actions)) {
 								continue;
 							}
-							var action = actions[idx];
+							let action = actions[idx];
 							if (typeof action === "function") {
 								action.apply(mc, args);
 							}
@@ -29820,7 +29851,7 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.buttonAction = function(mc, as)
 		{
-			var _this = this;
+			let _this = this;
 			_this.downEventHits = [];
 			_this.moveEventHits = [];
 			_this.upEventHits = [];
@@ -29835,13 +29866,13 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.renderMain = function()
 		{
-			var _this = this;
-			var preContext = _this.preContext;
-			var preCanvas = preContext.canvas;
-			var width = preCanvas.width;
-			var height = preCanvas.height;
+			let _this = this;
+			let preContext = _this.preContext;
+			let preCanvas = preContext.canvas;
+			let width = preCanvas.width;
+			let height = preCanvas.height;
 			if (width > 0 && height > 0) {
-				var ctx = _this.context;
+				let ctx = _this.context;
 				ctx.setTransform(1, 0, 0, 1, 0, 0);
 				ctx.drawImage(preCanvas, 0, 0, width, height);
 			}
@@ -29852,9 +29883,9 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.reset = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.instanceId = 0;
-			var mc = new MovieClip();
+			let mc = new MovieClip();
 			mc.reset();
 			mc.setStage(_this);
 			_this.parent = mc;
@@ -29873,7 +29904,7 @@ if (!("swf2js" in window)) {
 			_this.soundStreamPlaying = -1;
 			_this.lastAudioCurrentTime = -1;
 
-			for (var i=0; i<_this.sounds.lenght; i++) {
+			for (let i=0; i<_this.sounds.lenght; i++) {
 				if (_this.sounds[i]) _this.sounds[i].Paused = null;
 			}
 		};
@@ -29883,14 +29914,14 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.init = function()
 		{
-			var _this = this;
-			var tagId = _this.tagId;
-			var div;
+			let _this = this;
+			let tagId = _this.tagId;
+			let div;
 
 			if (_this.getId() in stages) {
 				if (tagId) {
 					if (_document.readyState === "loading") {
-						var reTry = function ()
+						let reTry = function ()
 						{
 							window.removeEventListener("DOMContentLoaded", reTry);
 							_this.init();
@@ -29899,7 +29930,7 @@ if (!("swf2js" in window)) {
 						return 0;
 					}
 
-					var container = _document.getElementById(tagId);
+					let container = _document.getElementById(tagId);
 					if (!container) {
 						window.alert("Not Found Tag ID:" + tagId);
 						return 0;
@@ -29936,8 +29967,8 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.initStyle = function(div)
 		{
-			var style;
-			var _this = this;
+			let style;
+			let _this = this;
 
 			style = div.style;
 			style.position = "relative";
@@ -29947,11 +29978,11 @@ if (!("swf2js" in window)) {
 			style.overflow = "hidden";
 			style["-webkit-backface-visibility"] = "hidden";
 
-			var parent = div.parentNode;
-			var oWidth = _this.optionWidth;
-			var oHeight = _this.optionHeight;
-			var width;
-			var height;
+			let parent = div.parentNode;
+			let oWidth = _this.optionWidth;
+			let oHeight = _this.optionHeight;
+			let width;
+			let height;
 			if (parent.tagName === "BODY") {
 				width = (oWidth > 0) ? oWidth : window.innerWidth;
 				height = (oHeight > 0) ? oHeight : window.innerHeight;
@@ -29970,9 +30001,9 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.initCanvas = function()
 		{
-			var _this = this;
-			var style;
-			var canvas = _document.createElement("canvas");
+			let _this = this;
+			let style;
+			let canvas = _document.createElement("canvas");
 			canvas.width = 1;
 			canvas.height = 1;
 
@@ -30002,12 +30033,12 @@ if (!("swf2js" in window)) {
 			_this.context = canvas.getContext("2d");
 			_this.canvas = canvas;
 
-			var preCanvas = _document.createElement("canvas");
+			let preCanvas = _document.createElement("canvas");
 			preCanvas.width = 1;
 			preCanvas.height = 1;
 			_this.preContext = preCanvas.getContext("2d");
 
-			var hitCanvas = _document.createElement("canvas");
+			let hitCanvas = _document.createElement("canvas");
 			hitCanvas.width = 1;
 			hitCanvas.height = 1;
 			_this.hitContext = hitCanvas.getContext("2d");
@@ -30018,10 +30049,10 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.loading = function()
 		{
-			var _this = this;
-			var div = _document.getElementById(_this.getName());
-			var loadingId = _this.getName() + "_loading";
-			var css = "<style>";
+			let _this = this;
+			let div = _document.getElementById(_this.getName());
+			let loadingId = _this.getName() + "_loading";
+			let css = "<style>";
 			css += "#" + loadingId + " {\n";
 			// css += "z-index: 999;\n";
 			css += "position: absolute;\n";
@@ -30047,7 +30078,7 @@ if (!("swf2js" in window)) {
 			css += "} \n";
 			css += "</style>";
 			div.innerHTML = css;
-			var loadingDiv = _document.createElement("div");
+			let loadingDiv = _document.createElement("div");
 			loadingDiv.id = loadingId;
 			div.appendChild(loadingDiv);
 		};
@@ -30058,7 +30089,7 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.reload = function(url, options)
 		{
-			var _this = this;
+			let _this = this;
 
 			_this.soundStreamIsPlaying = false;
 			_this.soundStreamPlaying = -1;
@@ -30073,7 +30104,7 @@ if (!("swf2js" in window)) {
 			_this.isLoad = false;
 			_this.reset();
 
-			var swf2js = window.swf2js;
+			let swf2js = window.swf2js;
 			return swf2js.load(url, {
 				optionWidth: options.optionWidth || _this.optionWidth,
 				optionHeight: options.optionHeight || _this.optionHeight,
@@ -30095,7 +30126,7 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.output = function(url, frame, width, height)
 		{
-			var _this = this;
+			let _this = this;
 			if (!_this.isLoad || _this.stopFlag) {
 				setTimeout(function() {
 					_this.output(url, frame, width, height);
@@ -30109,7 +30140,7 @@ if (!("swf2js" in window)) {
 			height = height || _this.getHeight();
 
 			// resize
-			var mc = _this.getParent();
+			let mc = _this.getParent();
 			mc.reset();
 			mc.gotoAndStop(frame);
 			if (width !== _this.getWidth() || height !== _this.getHeight()) {
@@ -30122,21 +30153,21 @@ if (!("swf2js" in window)) {
 			mc.addActions();
 
 			// backgroundColor
-			var canvas = _this.preContext.canvas;
-			var style = canvas.style;
+			let canvas = _this.preContext.canvas;
+			let style = canvas.style;
 			style.backgroundColor = _this.backgroundColor;
 
 			// render
 			_this.render();
 
 			// output
-			var xmlHttpRequest = new XMLHttpRequest();
+			let xmlHttpRequest = new XMLHttpRequest();
 			xmlHttpRequest.open("POST", url, true);
 			xmlHttpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			xmlHttpRequest.onreadystatechange = function() {
-				var readyState = xmlHttpRequest.readyState;
+				let readyState = xmlHttpRequest.readyState;
 				if (readyState === 4) {
-					var status = xmlHttpRequest.status;
+					let status = xmlHttpRequest.status;
 					switch (status) {
 						case 200:
 						case 304:
@@ -30148,7 +30179,7 @@ if (!("swf2js" in window)) {
 					}
 				}
 			};
-			var base64 = canvas.toDataURL();
+			let base64 = canvas.toDataURL();
 			xmlHttpRequest.send("data=" + encodeURIComponent(base64));
 		};
 
@@ -30157,26 +30188,26 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.hitCheck = function(event)
 		{
-			var _this = this;
+			let _this = this;
 			_this.isHit = false;
-			var buttonHits = _this.buttonHits;
-			var length = buttonHits.length;
+			let buttonHits = _this.buttonHits;
+			let length = buttonHits.length;
 			if (!length) {
 				return 0;
 			}
 
-			var div = _document.getElementById(_this.getName());
+			let div = _document.getElementById(_this.getName());
 			if (!div) {
 				return;
 			}
-			var bounds = div.getBoundingClientRect();
-			var x = window.pageXOffset + bounds.left;
-			var y = window.pageYOffset + bounds.top;
-			var touchX = 0;
-			var touchY = 0;
+			let bounds = div.getBoundingClientRect();
+			let x = window.pageXOffset + bounds.left;
+			let y = window.pageYOffset + bounds.top;
+			let touchX = 0;
+			let touchY = 0;
 
 			if (_isTouchEvent) {
-				var changedTouche = event.changedTouches[0];
+				let changedTouche = event.changedTouches[0];
 				touchX = changedTouche.pageX;
 				touchY = changedTouche.pageY;
 			} else {
@@ -30186,44 +30217,44 @@ if (!("swf2js" in window)) {
 
 			touchX -= x;
 			touchY -= y;
-			var scale = _this.getScale();
+			let scale = _this.getScale();
 
 			touchX /= scale;
 			touchY /= scale;
 
-			var ctx = _this.hitContext;
-			var hitCanvas = ctx.canvas;
-			var hitWidth = hitCanvas.width;
-			var hitHeight = hitCanvas.height;
-			var chkX = touchX * scale * _devicePixelRatio;
-			var chkY = touchY * scale * _devicePixelRatio;
+			let ctx = _this.hitContext;
+			let hitCanvas = ctx.canvas;
+			let hitWidth = hitCanvas.width;
+			let hitHeight = hitCanvas.height;
+			let chkX = touchX * scale * _devicePixelRatio;
+			let chkY = touchY * scale * _devicePixelRatio;
 
 			if (_this.abcFlag) {
-				var parent = _this.getParent();
+				let parent = _this.getParent();
 				ctx.setTransform(1, 0, 0, 1, 0, 0);
 				ctx.clearRect(0, 0, hitWidth, hitHeight);
-				var ret = parent.hitCheck(ctx, [1, 0, 0, 1, 0, 0], _this, chkX, chkY);
+				let ret = parent.hitCheck(ctx, [1, 0, 0, 1, 0, 0], _this, chkX, chkY);
 				return (typeof ret === "object") ? ret : false;
 			}
 
-			for (var i = length; i--;) {
+			for (let i = length; i--;) {
 				if (!(i in buttonHits)) {
 					continue;
 				}
 
-				var hitObj = buttonHits[i];
+				let hitObj = buttonHits[i];
 				if (hitObj === undefined) {
 					continue;
 				}
 
-				var hit = false;
+				let hit = false;
 				if (touchX >= hitObj.xMin && touchX <= hitObj.xMax &&
 					touchY >= hitObj.yMin && touchY <= hitObj.yMax
 				) {
-					var matrix = hitObj.matrix;
+					let matrix = hitObj.matrix;
 					if (matrix) {
-						var mc = hitObj.parent;
-						var button = hitObj.button;
+						let mc = hitObj.parent;
+						let button = hitObj.button;
 
 						ctx.setTransform(1, 0, 0, 1, 0, 0);
 						ctx.clearRect(0, 0, hitWidth, hitHeight);
@@ -30254,16 +30285,16 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.executeEventAction = function(actions, caller, event)
 		{
-			var args = event || [];
+			let args = event || [];
 			if (actions) {
 				if (typeof actions === "function") {
 					actions.apply(caller, args);
 				} else {
-					var length = actions.length;
+					let length = actions.length;
 					if (length) {
-						var i = 0;
+						let i = 0;
 						while (i < length) {
-							var action = actions[i];
+							let action = actions[i];
 							if (typeof action === "function") {
 								action.apply(caller, args);
 							}
@@ -30280,19 +30311,19 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.touchStart = function(event)
 		{
-			var _this = this;
+			let _this = this;
 			if (_this.touchStatus === "up") {
 				_this.touchStatus = "down";
 				_this.isHit = false;
 				_this.gotTouchEvent = true;
 				_this.touchEndAction = null;
-				var downEventHits = _this.downEventHits;
-				var length = downEventHits.length;
-				var mc, as;
+				let downEventHits = _this.downEventHits;
+				let length = downEventHits.length;
+				let mc, as;
 				if (length) {
 					event.preventDefault();
-					for (var i = 0; i < length; i++) {
-						var obj = downEventHits[i];
+					for (let i = 0; i < length; i++) {
+						let obj = downEventHits[i];
 						mc = obj.mc;
 						as = obj.as;
 						if (!as) {
@@ -30303,7 +30334,7 @@ if (!("swf2js" in window)) {
 					_this.downEventHits = [];
 				}
 
-				var hitObj = _this.hitCheck(event);
+				let hitObj = _this.hitCheck(event);
 				if (_this.isHit) {
 					mc = hitObj.parent;
 					if (mc.active) {
@@ -30327,14 +30358,14 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.executePress = function(mc, hitObj)
 		{
-			var _this = this;
-			var isRender = false;
-			var events;
-			var press;
-			var onPress;
-			var rollOver;
-			var onRollOver;
-			var cEvent = new ClipEvent();
+			let _this = this;
+			let isRender = false;
+			let events;
+			let press;
+			let onPress;
+			let rollOver;
+			let onRollOver;
+			let cEvent = new ClipEvent();
 
 			events = mc.events;
 			if (_isTouchEvent) {
@@ -30367,7 +30398,7 @@ if (!("swf2js" in window)) {
 				isRender = true;
 			}
 
-			var button = hitObj.button;
+			let button = hitObj.button;
 			if (button) {
 				events = button.events;
 
@@ -30390,23 +30421,23 @@ if (!("swf2js" in window)) {
 					_this.executeButtonAction(button, mc, "CondIdleToOverUp");
 				}
 
-				var actions = button.getActions();
-				var length = actions.length;
+				let actions = button.getActions();
+				let length = actions.length;
 				if (length) {
-					var touchObj = _this.touchObj;
-					for (var idx = 0; idx < length; idx++) {
+					let touchObj = _this.touchObj;
+					for (let idx = 0; idx < length; idx++) {
 						if (!(idx in actions)) {
 							continue;
 						}
 
-						var cond = actions[idx];
+						let cond = actions[idx];
 						if (cond.CondOverDownToOverUp && touchObj === null) {
 							_this.touchEndAction = cond.ActionScript;
 							continue;
 						}
 
 						// enter
-						var keyPress = cond.CondKeyPress;
+						let keyPress = cond.CondKeyPress;
 						if (hitObj.CondKeyPress === 13 && hitObj.CondKeyPress !== keyPress) {
 							continue;
 						}
@@ -30442,7 +30473,7 @@ if (!("swf2js" in window)) {
 				_this.executeAction();
 
 				if (button._downState) {
-					var sprite = button.getSprite("down");
+					let sprite = button.getSprite("down");
 					sprite.startSound(); // button OverUpToOverDown, Press, down
 				}
 
@@ -30461,15 +30492,15 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.appendTextArea = function(textField, hitObj)
 		{
-			var _this = this;
+			let _this = this;
 			textField.inputActive = true;
-			var element = _document.getElementById(textField.getTagName());
+			let element = _document.getElementById(textField.getTagName());
 			if (!element) {
 				element = textField.input;
-				var variable = textField.getProperty("variable");
-				var text;
+				let variable = textField.getProperty("variable");
+				let text;
 				if (variable) {
-					var mc = textField.getParent();
+					let mc = textField.getParent();
 					text = mc.getProperty(variable);
 					if (text === undefined) {
 						text = textField.getVariable("text");
@@ -30479,22 +30510,22 @@ if (!("swf2js" in window)) {
 					element.value = text;
 				}
 
-				var maxLength = textField.getVariable("maxChars");
+				let maxLength = textField.getVariable("maxChars");
 				if (maxLength) {
 					element.maxLength = maxLength;
 				}
-				var border = textField.getVariable("border");
+				let border = textField.getVariable("border");
 				if (border) {
 					element.style.border = "1px solid black";
-					var color = textField.getVariable("backgroundColor");
+					let color = textField.getVariable("backgroundColor");
 					element.style.backgroundColor = "rgba(" + color.R + "," + color.G + "," + color.B + "," + color.A + ")";
 				}
 
-				var scale = _this.getScale();
-				var left = hitObj.xMin;
-				var top = hitObj.yMin;
-				var width = hitObj.xMax - left;
-				var height = hitObj.yMax - top;
+				let scale = _this.getScale();
+				let left = hitObj.xMin;
+				let top = hitObj.yMin;
+				let width = hitObj.xMax - left;
+				let height = hitObj.yMax - top;
 				element.style.left = _ceil((left + 4) * scale) + "px";
 				element.style.top = _ceil((top) * scale) + "px";
 				element.style.width = _ceil((width + 6) * scale) + "px";
@@ -30503,11 +30534,11 @@ if (!("swf2js" in window)) {
 				element.style["::selection"] = "invert(100%)";
 
 				element.style.cursor = "text";
-				var div = _document.getElementById(_this.getName());
+				let div = _document.getElementById(_this.getName());
 				if (div) {
 					div.appendChild(element);
 					element.focus();
-					var focus = function(el) {
+					let focus = function(el) {
 						return function() {
 							el.focus();
 						};
@@ -30522,19 +30553,19 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.touchMove = function(event)
 		{
-			var _this = this;
-			var overObj = _this.overObj;
-			var moveEventHits = _this.moveEventHits;
-			var length = moveEventHits.length;
-			var mc, as, button, events;
-			var dragOver, onDragOver, dragOut, onDragOut, rollOver, onRollOver, rollOut, onRollOut;
-			var cEvent = new ClipEvent();
-			var sprite;
+			let _this = this;
+			let overObj = _this.overObj;
+			let moveEventHits = _this.moveEventHits;
+			let length = moveEventHits.length;
+			let mc, as, button, events;
+			let dragOver, onDragOver, dragOut, onDragOut, rollOver, onRollOver, rollOut, onRollOut;
+			let cEvent = new ClipEvent();
+			let sprite;
 
 			if (length) {
 				event.preventDefault();
-				for (var i = 0; i < length; i++) {
-					var obj = moveEventHits[i];
+				for (let i = 0; i < length; i++) {
+					let obj = moveEventHits[i];
 					mc = obj.mc;
 					as = obj.as;
 					if (!as) {
@@ -30546,15 +30577,15 @@ if (!("swf2js" in window)) {
 			}
 
 			if (!_isTouchEvent || (_isTouchEvent && _this.gotTouchEvent)) {
-				var hitObj = null;
-				var touchObj = _this.touchObj;
+				let hitObj = null;
+				let touchObj = _this.touchObj;
 				if (touchObj || _this.touchStatus === "up") {
 					hitObj = _this.hitCheck(event);
 				}
 
-				var isRender = false;
+				let isRender = false;
 				if (!_isTouchEvent) {
-					var canvas = _this.canvas;
+					let canvas = _this.canvas;
 					if (_this.isHit || touchObj) {
 						if (hitObj) {
 							if (hitObj.parent.tagType == 37) {
@@ -30789,7 +30820,7 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var dragMc = _this.dragMc;
+			let dragMc = _this.dragMc;
 			if (dragMc) {
 				event.preventDefault();
 				dragMc.executeDrag();
@@ -30802,10 +30833,10 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.touchEnd = function(event)
 		{
-			var _this = this;
-			var cEvent = new ClipEvent();
-			var button, mc, as, events, release, onRelease, releaseOutside, onReleaseOutside;
-			var touchObj = _this.touchObj;
+			let _this = this;
+			let cEvent = new ClipEvent();
+			let button, mc, as, events, release, onRelease, releaseOutside, onReleaseOutside;
+			let touchObj = _this.touchObj;
 
 			if (touchObj) {
 				button = touchObj.button;
@@ -30814,12 +30845,12 @@ if (!("swf2js" in window)) {
 				}
 			}
 
-			var upEventHits = _this.upEventHits;
-			var length = upEventHits.length;
+			let upEventHits = _this.upEventHits;
+			let length = upEventHits.length;
 			if (length) {
 				event.preventDefault();
-				for (var i = 0; i < length; i++) {
-					var obj = upEventHits[i];
+				for (let i = 0; i < length; i++) {
+					let obj = upEventHits[i];
 					mc = obj.mc;
 					as = obj.as;
 					if (!as) {
@@ -30830,21 +30861,21 @@ if (!("swf2js" in window)) {
 				_this.upEventHits = [];
 			}
 
-			var hitObj = _this.hitCheck(event);
-			var dragMc = _this.dragMc;
+			let hitObj = _this.hitCheck(event);
+			let dragMc = _this.dragMc;
 			if (dragMc) {
 				hitObj = touchObj;
 				_this.isHit = true;
 			}
 
-			var isRender = false;
+			let isRender = false;
 			if (touchObj) {
 				mc = touchObj.parent;
 				mc.setButtonStatus("up");
 				button = touchObj.button;
 
 				if (_this.isHit) {
-					var touchEndAction = _this.touchEndAction;
+					let touchEndAction = _this.touchEndAction;
 					if (mc.active) {
 						if (mc === hitObj.parent) {
 							if (touchEndAction !== null) {
@@ -30883,7 +30914,7 @@ if (!("swf2js" in window)) {
 								}
 							}
 
-							var status = "up";
+							let status = "up";
 							if (!_isTouchEvent) {
 								if (hitObj && hitObj.button === button) {
 									status = "over";
@@ -30896,7 +30927,7 @@ if (!("swf2js" in window)) {
 							_this.executeAction();
 
 							if (button._hitState) {
-								var sprite = button.getSprite("hit");
+								let sprite = button.getSprite("hit");
 								sprite.startSound(); // button OverDownToOverUp, Release, hit
 							}
 
@@ -30950,7 +30981,7 @@ if (!("swf2js" in window)) {
 
 			if (!_isTouchEvent) {
 				_this.hitCheck(event);
-				var canvas = _this.canvas;
+				let canvas = _this.canvas;
 				if (_this.isHit) {
 					canvas.style.cursor = "pointer";
 				} else {
@@ -30959,7 +30990,7 @@ if (!("swf2js" in window)) {
 			}
 
 			if (hitObj) {
-				var rollOver, onRollOver;
+				let rollOver, onRollOver;
 				mc = hitObj.parent;
 				if (!touchObj || mc !== touchObj.parent) {
 					events = mc.events;
@@ -31014,16 +31045,16 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.executeButtonAction = function(button, mc, status)
 		{
-			var _this = this;
-			var actions = button.getActions();
-			var length = actions.length;
+			let _this = this;
+			let actions = button.getActions();
+			let length = actions.length;
 			if (length) {
-				for (var idx = 0; idx < length; idx++) {
+				for (let idx = 0; idx < length; idx++) {
 					if (!(idx in actions)) {
 						continue;
 					}
 
-					var cond = actions[idx];
+					let cond = actions[idx];
 					if (!cond[status]) {
 						continue;
 					}
@@ -31038,7 +31069,7 @@ if (!("swf2js" in window)) {
 		 */
 		Stage.prototype.touchRender = function()
 		{
-			var _this = this;
+			let _this = this;
 			_this.render();
 			_this.renderMain();
 		};
@@ -31046,7 +31077,7 @@ if (!("swf2js" in window)) {
 		/**
 		 * @constructor
 		 */
-		var Swf2js = function() {};
+		let Swf2js = function() {};
 
 		/**
 		 * @type {DropShadowFilter}
@@ -31104,10 +31135,10 @@ if (!("swf2js" in window)) {
 		 */
 		Swf2js.prototype.load = function(url, options)
 		{
-			var _this = this;
+			let _this = this;
 
 			if (url) {
-				var stage = (options && options.stage instanceof Stage) ? options.stage : new Stage();
+				let stage = (options && options.stage instanceof Stage) ? options.stage : new Stage();
 				stage._swfTag = _this;
 				stage.setOptions(options);
 				stages[stage.getId()] = stage;
@@ -31120,7 +31151,7 @@ if (!("swf2js" in window)) {
 					_this.fileSize = size;
 				});
 
-				var xmlHttpRequest = new XMLHttpRequest();
+				let xmlHttpRequest = new XMLHttpRequest();
 				xmlHttpRequest.open("GET", url, true);
 				if (isXHR2) {
 					xmlHttpRequest.responseType = "arraybuffer";
@@ -31129,13 +31160,13 @@ if (!("swf2js" in window)) {
 				}
 
 				xmlHttpRequest.onreadystatechange = function() {
-					var readyState = xmlHttpRequest.readyState;
+					let readyState = xmlHttpRequest.readyState;
 					if (readyState === 4) {
-						var status = xmlHttpRequest.status;
+						let status = xmlHttpRequest.status;
 						switch (status) {
 							case 200:
 							case 304:
-								var data = (isXHR2) ? xmlHttpRequest.response : xmlHttpRequest.responseText;
+								let data = (isXHR2) ? xmlHttpRequest.response : xmlHttpRequest.responseText;
 								stage.progressStepEnd(true);
 
 								stage.addProgressStep("Parse");
@@ -31165,7 +31196,7 @@ if (!("swf2js" in window)) {
 		 */
 		Swf2js.prototype.getFileSize = function(url, callback)
 		{
-			var xhr = new XMLHttpRequest();
+			let xhr = new XMLHttpRequest();
 			xhr.open("HEAD", url, true);
 			xhr.onreadystatechange = function() {
 				if (this.readyState == this.DONE) {
@@ -31185,12 +31216,12 @@ if (!("swf2js" in window)) {
 			if (!stageId) {
 				return this.load(url, options);
 			}
-			var stage = stages[0];
-			for (var i in stages) {
+			let stage = stages[0];
+			for (let i in stages) {
 				if (!stages.hasOwnProperty(i)) {
 					continue;
 				}
-				var target = stages[i];
+				let target = stages[i];
 				target.stop();
 				if (i) {
 					target.deleteNode(target.tagId);
@@ -31214,7 +31245,7 @@ if (!("swf2js" in window)) {
 		 */
 		Swf2js.prototype.createRootMovieClip = function(width, height, fps, options)
 		{
-			var stage = new Stage();
+			let stage = new Stage();
 			width = width || 240;
 			height = height || 240;
 			fps = fps || 60;
@@ -31228,7 +31259,7 @@ if (!("swf2js" in window)) {
 			stage.isLoad = true;
 
 			if (_document.readyState === "loading") {
-				var reLoad = function() {
+				let reLoad = function() {
 					window.removeEventListener("DOMContentLoaded", reLoad, false);
 					stage.resize();
 					stage.loaded();
